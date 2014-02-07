@@ -1,0 +1,48 @@
+li.degree {
+    list-style-type: none;
+    margin-left: -28px;
+}
+
+li.degree input.tree {
+    opacity: 0;
+}
+
+li.degree input.tree + ul {
+    margin-top: -19px;
+    padding-top: 16px;
+}
+
+li.degree input.tree + ul > li {
+    display: none;
+    margin-left: -14px !important;
+    background: url('images/dots.png') repeat-y;
+    padding-left: 15px;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+li.degree input.tree + ul > li:last-child {
+    background: url('images/dots-end.png') no-repeat;
+}
+
+
+li.degree input.tree:checked + ul > li {
+    display: block;
+}
+
+li.degree label {
+    display: inline;
+    padding-left: 20px;
+}
+
+li.degree a img {
+    margin-bottom: -3px;
+}
+
+li.profession input {
+    opacity: 100;
+}
+
+a.all, a.none {
+    cursor: pointer;
+}
