@@ -1,28 +1,41 @@
 <?php
 
+/**
+ * GarudaModel.php
+ * 
+ * Model class for the Garuda mailing plugin.
+ * 
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
+ * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
+ * @category    Stud.IP
+ */
+
 class GarudaModel {
     
-    public static function getConfiguration($instituteId) {
+    public static function getConfiguration($instituteIds) {
+        $config = array();
         $db = DBManager::get();
-        $stmt = $db->prepare("SELECT * FROM `garuda_config` WHERE `institute_id`=:id LIMIT 1");
-        $stmt->bindParam('id', $instituteId);
-        $stmt->execute();
-        if ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $config = array(
-                'min_perm' => $data['min_perm'],
+        $data = $db->fetchAll("SELECT * FROM `garuda_config` WHERE `institute_id` IN (?)", array($instituteIds));
+        foreach ($data as $entry) {
+            $config[$entry['institute_id']] = array(
+                'min_perm' => $entry['min_perm'],
                 'studycourses' => array()
             );
             $stmt = $db->prepare("SELECT * FROM `garuda_inst_stg` WHERE `institute_id`=:id");
-            $stmt->bindParam('id', $instituteId);
-            $stmt->execute();
+            $stmt->execute(array('id' => $entry['institute_id']));
             while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $config['studycourses'][$current['abschluss_id']][$current['studiengang_id']] = true;
+                $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['studiengang_id']] = true;
             }
-        } else {
-            $config = array(
-                'min_perm' => 'admin',
-                'studycourses' => array()
-            );
+        }
+        foreach ($instituteIds as $id) {
+            if (!$config[$id]) {
+                $config[$id] = array('min_perm' => 'admin', 'studycourses' => array());
+            }
         }
         return $config;
     }

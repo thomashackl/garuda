@@ -46,3 +46,9 @@ li.profession input {
 a.all, a.none {
     cursor: pointer;
 }
+
+#filters {
+    margin-left: 30px;
+    margin-top: 10px;
+    font-style: italic;
+}

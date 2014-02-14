@@ -26,6 +26,6 @@ if ($flash['error']) {
 </form>
 <script type="text/javascript">
 //<!--
-    STUDIP.Garuda.init();
+    STUDIP.Garuda.configInit();
 //-->
 </script>

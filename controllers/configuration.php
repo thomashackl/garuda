@@ -13,6 +13,7 @@ class ConfigurationController extends AuthenticatedController {
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
+        PageLayout::addScript($this->dispatcher->current_plugin->getPluginURL().'/assets/garuda.js');
         Navigation::activateItem('/messaging/garuda/configuration');
     }
 
@@ -50,7 +51,8 @@ class ConfigurationController extends AuthenticatedController {
 
     public function get_action($instituteId) {
         //CSRFProtection::verifyUnsafeRequest();
-        $this->config = GarudaModel::getConfiguration($instituteId);
+        $config = GarudaModel::getConfiguration(array($instituteId));
+        $this->config = $config[$instituteId];
         $this->degrees = StudycourseModel::getStudyDegrees();
     }
 

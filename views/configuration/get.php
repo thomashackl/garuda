@@ -48,6 +48,6 @@ use Studip\Button;
     </div>
     <script type="text/javascript">
     //<!--
-        STUDIP.Garuda.openSelected();
+        STUDIP.Garuda.configOpenSelected();
     //-->
     </script>
