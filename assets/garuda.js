@@ -2,7 +2,7 @@ STUDIP.Garuda = {
 
     configInit: function() {
         if ($('#institute').val() != '') {
-            STUDIP.Garuda.getConfig();
+            this.getConfig();
         }
     },
 
@@ -30,8 +30,22 @@ STUDIP.Garuda = {
     },
 
     init: function() {
-        $('input[name="sendto"]').change(function() {
-            $('#filters').load($(this).data('update-url'));
+        $('input[name="sendto"]').click(function() {
+            if ($('input[name="sendto"]:checked').val() != 'all') {
+                $('button[name="add_filter"]').removeClass('hidden-js');
+            } else {
+                $('button[name="add_filter"]').addClass('hidden-js');
+            }
+        });
+        $('.userfilter_actions a.delete').click(function(event) {
+            event.preventDefault();
+            var father = $(this).parents('.userfilter');
+            var container = father.parent();
+            father.remove();
+            if (container.children('.userfilter').length == 0) {
+                var textfield = container.children('.filtertext');
+                textfield.load(textfield.data('text-src')+'/sendto_all');
+            }
         });
     },
 
@@ -43,18 +57,10 @@ STUDIP.Garuda = {
             newField.children('select').val('');
             $('#filterfields').append(newField);
         });
-        $('button[name="accept"]').click(function(event) {
-            event.preventDefault();
-            var targetElement = $('#filter');
-            if ($('#filters').children('.nofilter').length > 0) {
-                $('#filters').children('.nofilter').remove();
-                $('#filters').load($('#filterform').attr('action'));
-            } else {
-            }
-        });
     },
 
     getFilterConfig: function(element) {
         $(element).siblings('.fieldconfig').load($(element).data('config-url')+'/'+$(element).val());
     }
+
 };

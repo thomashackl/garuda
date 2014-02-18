@@ -22,7 +22,7 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         parent::__construct();
         $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
         $navigation->addSubNavigation('message', new Navigation(_('Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
-        $navigation->addSubNavigation('my_recipients', new Navigation(_('An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'my_recipients')));
+        $navigation->addSubNavigation('recipients', new Navigation(_('An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
         PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
         PageLayout::addScript($this->getPluginURL().'/assets/garuda.js');
         if ($GLOBALS['perm']->have_perm('root')) {

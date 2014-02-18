@@ -13,7 +13,6 @@ class ConfigurationController extends AuthenticatedController {
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        PageLayout::addScript($this->dispatcher->current_plugin->getPluginURL().'/assets/garuda.js');
         Navigation::activateItem('/messaging/garuda/configuration');
     }
 

@@ -52,3 +52,11 @@ a.all, a.none {
     margin-top: 10px;
     font-style: italic;
 }
+
+.filter .actions {
+    display: none;
+}
+
+.filter:hover .actions {
+    display: inline;
+}

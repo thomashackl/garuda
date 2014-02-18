@@ -8,34 +8,31 @@ if ($flash['error']) {
 }
 ?>
 <h1><?= _('Nachricht schreiben') ?></h1>
-<form class="studip_form" action="<?= $controller->url_for('message/send') ?>" method="post">
+<form class="studip_form" action="<?= $controller->url_for('message') ?>" method="post">
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= _('Empfängerkreis') ?></legend>
         <label class="caption" for="sendto"><?= _('An wen soll die Nachricht gesendet werden?') ?></label>
-        <input type="radio" name="sendto" value="all" data-update-url="<?= $controller->url_for('message/all') ?>"<?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/> <?= _('alle') ?>
+        <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/> <?= _('alle') ?>
         <br/>
-        <input type="radio" name="sendto" value="students" data-update-url="<?= $controller->url_for('message/students') ?>"<?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/> <?= _('Studierende') ?>
+        <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/> <?= _('Studierende') ?>
         <br/>
-        <input type="radio" name="sendto" value="employees" data-update-url="<?= $controller->url_for('message/employees') ?>"<?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/> <?= _('Beschäftigte') ?>
+        <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/> <?= _('Beschäftigte') ?>
         <br/>
         <div id="filters">
-            <?php if (!$flash['filters']) { ?>
-            <span class="nofilter">
-                <?php if ($i_am_root) { ?>
-                <?= _('Alle Studierenden und Beschäftigten erhalten diese Nachricht.') ?>
-                <?php } else { ?>
-                <?= _('Alle Studierenden und Beschäftigten innerhalb der für Sie freigegebenen Studiengänge und Einrichtungen erhalten diese Nachricht.') ?>
-                <?php } ?>
-            </span>
+            <span class="filtertext" data-text-src="<?= $controller->url_for('message') ?>">
+            <?php if (!$filters) { ?>
+                <?= $this->render_partial('message/sendto_all') ?>
             <?php } else { ?>
-                <?php foreach ($flash['filters'] as $filter) { ?>
-                <div class="filter">
-                    <?= $filter->toString() ?>
-                </div>
-                <?php } ?>
+            <?= $this->render_partial('message/sendto_filtered') ?>
+            <?php } ?>
+            </span>
+            <?php foreach ($filters as $filter) { ?>
+                <?= $this->render_partial('userfilter/_show', array('filter' => $filter)) ?>
             <?php } ?>
         </div>
+        <br/>
+        <?= Button::create(_('Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox', 'class' => ((!$flash['sendto'] || $flash['sendto'] == 'all') ? 'hidden-js' : ''))); ?>
     </fieldset>
     <fieldset>
         <legend><?= _('Nachrichteninhalt') ?></legend>
