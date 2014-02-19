@@ -53,10 +53,16 @@ a.all, a.none {
     font-style: italic;
 }
 
-.filter .actions {
+.userfilter {
+    margin-left: 15px;
+    display: list-item;
+    list-style-type: disc;
+}
+
+.userfilter .actions {
     display: none;
 }
 
-.filter:hover .actions {
+.userfilter:hover .actions {
     display: inline;
 }
