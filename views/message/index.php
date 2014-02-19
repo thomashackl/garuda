@@ -24,7 +24,11 @@ if ($flash['error']) {
             <?php if (!$filters) { ?>
                 <?= $this->render_partial('message/sendto_all') ?>
             <?php } else { ?>
+                <?php if (sizeof($filters) == 1) { ?>
+            <?= $this->render_partial('message/sendto_filtered', array('one' => true)) ?>
+                <?php } else { ?>
             <?= $this->render_partial('message/sendto_filtered') ?>
+                <?php } ?>
             <?php } ?>
             </span>
             <?php foreach ($filters as $filter) { ?>
