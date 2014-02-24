@@ -1,0 +1,283 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-24 16:03+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: controllers/configuration.php:42 controllers/message.php:70
+#: controllers/recipients.php:24
+msgid "Informationen:"
+msgstr ""
+
+#: controllers/configuration.php:65
+msgid "Die Änderungen wurden gespeichert."
+msgstr ""
+
+#: controllers/configuration.php:67
+msgid "Die Änderungen konnten nicht gespeichert werden."
+msgstr ""
+
+#: controllers/message.php:28
+msgid "Studiengang"
+msgstr ""
+
+#: controllers/message.php:54
+msgid ""
+"Schreiben Sie hier Nachrichten an ausgewählte Empfängerkreise in Stud.IP."
+msgstr ""
+
+#: controllers/message.php:58
+msgid ""
+"Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
+"Einrichtungen angehören, auf die Sie Zugriff haben."
+msgstr ""
+
+#: controllers/message.php:64
+#, php-format
+msgid "Verwenden Sie im Nachrichteninhalt %sTextformatierungen%s."
+msgstr ""
+
+#: controllers/message.php:68
+msgid "Stud.IP-Hilfe zu Textformatierungen"
+msgstr ""
+
+#: controllers/recipients.php:21
+msgid ""
+"Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."
+msgstr ""
+
+#: controllers/userfilter.php:20 controllers/userfilter.php:36
+msgid "Personen filtern"
+msgstr ""
+
+#: filterfields/RestrictedCourseOfStudyFilter.php:29
+#: filterfields/RestrictedCourseOfStudyFilter.php:33
+#: filterfields/RestrictedCourseOfStudyFilter.php:39
+msgid "gleich"
+msgstr ""
+
+#: filterfields/RestrictedCourseOfStudyFilter.php:30
+#: filterfields/RestrictedCourseOfStudyFilter.php:34
+#: filterfields/RestrictedCourseOfStudyFilter.php:40
+msgid "ungleich"
+msgstr ""
+
+#: filterfields/RestrictedCourseOfStudyFilter.php:37
+msgid "mindestens"
+msgstr ""
+
+#: filterfields/RestrictedCourseOfStudyFilter.php:38
+msgid "höchstens"
+msgstr ""
+
+#: filterfields/RestrictedCourseOfStudyFilter.php:81
+msgid "Abschluss, Studiengang und Fachsemester"
+msgstr ""
+
+#: GarudaPlugin.class.php:24 views/message/index.php:10
+msgid "Nachricht schreiben"
+msgstr ""
+
+#: GarudaPlugin.class.php:25
+msgid "An wen darf ich schreiben?"
+msgstr ""
+
+#: GarudaPlugin.class.php:29 views/configuration/index.php:9
+msgid "Konfiguration"
+msgstr ""
+
+#: GarudaPlugin.class.php:35
+msgid "Nachrichten an Zielgruppen"
+msgstr ""
+
+#: views/configuration/get.php:5
+msgid ""
+"Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den "
+"Nachrichtenversand nutzen zu dürfen?"
+msgstr ""
+
+#: views/configuration/get.php:8
+msgid "admin"
+msgstr ""
+
+#: views/configuration/get.php:9
+msgid "dozent"
+msgstr ""
+
+#: views/configuration/get.php:13
+msgid ""
+"An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
+"dürfen?"
+msgstr ""
+
+#: views/configuration/get.php:25
+msgid "markieren:"
+msgstr ""
+
+#: views/configuration/get.php:26 views/message/index.php:16
+#: views/userfilter/restricted_degrees.php:7
+#: views/userfilter/restricted_subjects.php:7
+#: views/userfilter/restrictedstudy.php:27
+msgid "alle"
+msgstr ""
+
+#: views/configuration/get.php:28
+msgid "keine"
+msgstr ""
+
+#: views/configuration/get.php:47
+msgid "Einstellungen für die aktuell gewählte Einrichtung speichern"
+msgstr ""
+
+#: views/configuration/index.php:13
+msgid "Einrichtung wählen, für die Einstellungen gesetzt werden sollen:"
+msgstr ""
+
+#: views/configuration/index.php:16 views/userfilter/add.php:7
+msgid "bitte auswählen"
+msgstr ""
+
+#: views/message/index.php:14
+msgid "Empfängerkreis"
+msgstr ""
+
+#: views/message/index.php:15
+msgid "An wen soll die Nachricht gesendet werden?"
+msgstr ""
+
+#: views/message/index.php:18
+msgid "Studierende"
+msgstr ""
+
+#: views/message/index.php:20
+msgid "Beschäftigte"
+msgstr ""
+
+#: views/message/index.php:39
+msgid "Filter hinzufügen"
+msgstr ""
+
+#: views/message/index.php:42
+msgid "Nachrichteninhalt"
+msgstr ""
+
+#: views/message/index.php:43
+msgid "Betreff"
+msgstr ""
+
+#: views/message/index.php:44
+msgid "Geben Sie hier den Betreff Ihrer Nachricht ein."
+msgstr ""
+
+#: views/message/index.php:45
+msgid "Nachrichtentext"
+msgstr ""
+
+#: views/message/index.php:46
+msgid "Geben Sie hier den Inhalt Ihrer Nachricht ein."
+msgstr ""
+
+#: views/message/index.php:50
+msgid "Nachricht verschicken"
+msgstr ""
+
+#: views/message/sendto_all.php:2
+msgid "Alle oben gewählten Personen erhalten diese Nachricht."
+msgstr ""
+
+#: views/message/sendto_all.php:4
+msgid ""
+"Alle oben gewählten Personen innerhalb der für Sie freigegebenen "
+"Studiengänge und Einrichtungen erhalten diese Nachricht."
+msgstr ""
+
+#: views/message/sendto_filtered.php:3
+msgid ""
+"Diese Nachricht wird an Personen gesendet, die die folgende Bedingung "
+"erfüllen:"
+msgstr ""
+
+#: views/message/sendto_filtered.php:5
+msgid ""
+"Diese Nachricht wird an Personen gesendet, die einer der folgenden "
+"Bedingungen erfüllen:"
+msgstr ""
+
+#: views/message/sendto_filtered.php:9
+msgid ""
+"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
+"Studiengänge gesendet, die die folgende Bedingung erfüllen:"
+msgstr ""
+
+#: views/message/sendto_filtered.php:11
+msgid ""
+"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
+"Studiengänge gesendet, die einer der folgenden Bedingungen erfüllen:"
+msgstr ""
+
+#: views/recipients/index.php:1
+msgid "An welche Empfängerkreise darf ich schreiben?"
+msgstr ""
+
+#: views/recipients/index.php:3
+msgid "Mit Ihren Root-Rechten dürfen Sie an alle schreiben!"
+msgstr ""
+
+#: views/recipients/index.php:5
+msgid "Studiengänge"
+msgstr ""
+
+#: views/recipients/index.php:30
+msgid ""
+"Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben."
+msgstr ""
+
+#: views/recipients/index.php:32
+msgid "Einrichtungen"
+msgstr ""
+
+#: views/recipients/index.php:57
+msgid ""
+"Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben."
+msgstr ""
+
+#: views/userfilter/_show.php:5
+msgid "löschen"
+msgstr ""
+
+#: views/userfilter/add.php:3
+msgid "Welche Personen sollen erfasst werden?"
+msgstr ""
+
+#: views/userfilter/add.php:17
+msgid "Bedingung hinzufügen"
+msgstr ""
+
+#: views/userfilter/add.php:31 views/userfilter/restrictedstudy.php:45
+msgid "Filter übernehmen"
+msgstr ""
+
+#: views/userfilter/restrictedstudy.php:4
+msgid "Abschluss"
+msgstr ""
+
+#: views/userfilter/restrictedstudy.php:11
+msgid "Studienfach"
+msgstr ""
+
+#: views/userfilter/restrictedstudy.php:18
+msgid "Fachsemester"
+msgstr ""
