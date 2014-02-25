@@ -66,3 +66,11 @@ a.all, a.none {
 .userfilter:hover .actions {
     display: inline;
 }
+
+.filterfield {
+    margin-bottom: 10px;
+}
+
+.studip_form select {
+    display: inline;
+}

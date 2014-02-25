@@ -26,7 +26,12 @@ class GarudaModel {
                 'min_perm' => $entry['min_perm'],
                 'studycourses' => array()
             );
-            $stmt = $db->prepare("SELECT * FROM `garuda_inst_stg` WHERE `institute_id`=:id");
+            $stmt = $db->prepare("SELECT gis.*
+                FROM `garuda_inst_stg` gis
+                    INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
+                    INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=s.`studiengang_id`)
+                WHERE gis.`institute_id`=:id
+                ORDER BY a.`name` ASC, s.`name` ASC");
             $stmt->execute(array('id' => $entry['institute_id']));
             while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['studiengang_id']] = true;
@@ -35,6 +40,18 @@ class GarudaModel {
         foreach ($instituteIds as $id) {
             if (!$config[$id]) {
                 $config[$id] = array('min_perm' => 'admin', 'studycourses' => array());
+            }
+        }
+        return $config;
+    }
+
+    public static function getConfigurationForUser($userId) {
+        $userInsts = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId));
+        $config = self::getConfiguration($userInsts);
+        $institutes = array();
+        foreach ($userInsts as $i) {
+            if (!$GLOBALS['perm']->have_studip_perm($config[$i]['min_perm'], $i, $userId)) {
+                unset($config[$i]);
             }
         }
         return $config;

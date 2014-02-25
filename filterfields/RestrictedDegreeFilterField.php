@@ -1,9 +1,9 @@
 <?php
 
 /**
- * RestrictedDegreeFilter.php
+ * RestrictedDegreeFilterField.class.php
  * 
- * Study degrees belonging to the given institutes.
+ * All conditions concerning the study degree in Stud.IP can be specified here.
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -15,31 +15,30 @@
  * @category    Stud.IP
  */
 
-require_once('lib/classes/admission/UserFilterField.class.php');
-
-class RestrictedDegreeFilter extends UserFilterField
+class RestrictedDegreeFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
 
-    $this->allowedInstituteIds = array();
 
     /**
      * Standard constructor.
      */
-    public function __construct($fieldId='') {
+    public function __construct($fieldId='', $subjectRestriction='') {
         $this->validCompareOperators = array(
             '=' => _('gleich'),
             '!=' => _('ungleich')
         );
-        // Get all available and allowed degrees from database.
-        $stmt = DBManager::get()->fetchAll("SELECT DISTINCT a.`abschluss_id`, a.`name` AS degree
-            FROM `garuda_inst_stg` gis
-                INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
-            WHERE gis.`institute_id` IN (:ids)  
-                AND a.`name` != ''  
-            ORDER BY degree ASC", array('ids' => $this->allowedInstituteIds));
-        while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->validValues[$current['abschluss_id']] = $current['name'];
+        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        $this->validValues['all'] = _('alle');
+        foreach($this->config as $inst) {
+            if ($inst['studycourses']) {
+                foreach ($inst['studycourses'] as $degree => $subjects) {
+                    if (!$subjectRestriction || in_array($subjectRestriction, array_keys($subjects))) {
+                        $d = new Degree($degree);
+                        $this->validValues[$degree] = $d->name;
+                    }
+                }
+            }
         }
         if ($fieldId) {
             $this->id = $fieldId;
@@ -106,6 +105,6 @@ class RestrictedDegreeFilter extends UserFilterField
         return $result;
     }
 
-} /* end of class DegreeCondition */
+} /* end of class RestrictedDegreeFilterField */
 
 ?>

@@ -23,6 +23,10 @@ class MessageController extends AuthenticatedController {
         if ($GLOBALS['perm']->have_perm('root')) {
             $this->i_am_root = true;
             $this->filterfields = UserFilterField::getAvailableFilterFields();
+        } else {
+            $this->filterfields = array(
+                'RestrictedCourseOfStudyFilter' => _('Studiengang')
+            );
         }
     }
 
@@ -38,7 +42,11 @@ class MessageController extends AuthenticatedController {
             if (Request::get('message')) {
                 $this->flash['message'] = Request::get('message');
             }
-            $this->redirect($this->url_for('userfilter/add'));
+            if ($this->i_am_root) {
+                $this->redirect($this->url_for('userfilter/add'));
+            } else {
+                $this->redirect($this->url_for('userfilter/addrestricted'));
+            }
         } else {
             $info = array();
             $info[] = array(
@@ -67,14 +75,16 @@ class MessageController extends AuthenticatedController {
                 'content' => $infotext,
                 'picture' => 'infobox/messages.jpg'
             );
-            //echo 'Flash:<pre>'.print_r($this->flash, true).'</pre>';
+            UserFilterField::getAvailableFilterFields();
             $this->filters = array();
-            foreach ($this->flash['filters'] as $filter) {
-                if (preg_match('!!u', $filter)) {
-                    $filter = studip_utf8decode($filter);
+            if ($this->flash['filters']) {
+                foreach ($this->flash['filters'] as $filter) {
+                    if (preg_match('!!u', $filter)) {
+                        $filter = studip_utf8decode($filter);
+                    }
+                    $current = unserialize($filter);
+                    $this->filters[] = $current;
                 }
-                $current = unserialize($filter);
-                $this->filters[] = $current;
             }
         }
     }

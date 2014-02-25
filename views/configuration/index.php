@@ -21,7 +21,7 @@ if ($flash['error']) {
             <?php } ?>
         <?php } ?>
     </select>
-    <br/>
+    <br/><br/>
     <div id="config"></div>
 </form>
 <script type="text/javascript">

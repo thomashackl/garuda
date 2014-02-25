@@ -1,9 +1,9 @@
 <?php
 
 /**
- * RestrictedProfessionFilter.php
+ * RestrictedSubjectFilterField.class.php
  * 
- * Study degrees belonging to the given institutes.
+ * All conditions concerning the subject of study in Stud.IP can be specified here.
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -15,31 +15,32 @@
  * @category    Stud.IP
  */
 
-require_once('lib/classes/admission/UserFilterField.class.php');
-
-class RestrictedProfessionFilter extends UserFilterField
+class RestrictedSubjectFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
 
-    $this->allowedInstituteIds = array();
 
     /**
      * Standard constructor.
      */
-    public function __construct($fieldId='') {
+    public function __construct($fieldId='', $degreeRestriction='') {
         $this->validCompareOperators = array(
             '=' => _('gleich'),
             '!=' => _('ungleich')
         );
-        // Get all available and allowed professions from database.
-        $stmt = DBManager::get()->fetchAll("SELECT DISTINCT s.`studiengang_id`, a.`name`
-            FROM `garuda_inst_stg` gis
-                INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=a.`studiengang_id`)
-            WHERE gis.`institute_id` IN (:ids)  
-                AND s.`name` != ''  
-            ORDER BY `name` ASC", array('ids' => $this->allowedInstituteIds));
-        while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->validValues[$current['studiengang_id']] = $current['name'];
+        $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        $this->validValues['all'] = _('alle');
+        foreach($config as $inst) {
+            if ($inst['studycourses']) {
+                foreach ($inst['studycourses'] as $degree => $subjects) {
+                    if (!$degreeRestriction || $degree == $degreeRestriction) {
+                        foreach ($subjects as $subject => $assigned) {
+                            $s = new Studycourse($subject);
+                            $this->validValues[$subject] = $s->name;
+                        }
+                    }
+                }
+            }
         }
         if ($fieldId) {
             $this->id = $fieldId;
@@ -101,11 +102,11 @@ class RestrictedProfessionFilter extends UserFilterField
             "WHERE `user_id`=?");
         $stmt->execute(array($userId));
         while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = $current['studiengang_id'];
+            $result[] = $current['abschluss_id'];
         }
         return $result;
     }
 
-} /* end of class DegreeCondition */
+} /* end of class RestrictedSubjectFilterField */
 
 ?>

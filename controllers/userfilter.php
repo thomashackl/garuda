@@ -12,25 +12,36 @@ class UserfilterController extends AuthenticatedController {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             Navigation::activateItem('/messaging/garuda/message');
         }
-        $this->i_am_root = false;
-        if ($GLOBALS['perm']->have_perm('root')) {
-            $this->i_am_root = true;
-            $this->filterfields = UserFilterField::getAvailableFilterFields();
-        }
+        $this->filterfields = UserFilterField::getAvailableFilterFields();
     }
 
     public function add_action() {
+        $GLOBALS['perm']->check('root');
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _('Personen filtern'));
             $this->response->add_header('X-No-Buttons', 1);
         }
-        if (!$GLOBALS['perm']->have_perm('root')) {
-            $this->filterfields = array(
-                'RestrictedDegreeFilter' => _('Abschluss'),
-                'RestrictedSubjectFilter' => _('Studienfach'),
-                'SemesterOfStudyCondition' => _('Fachsemester')
-            );
+    }
+
+    public function addrestricted_action() {
+        if (Request::isXhr()) {
+            $this->response->add_header('X-Title', _('Personen filtern'));
+            $this->response->add_header('X-No-Buttons', 1);
         }
+        $this->filterfields = array(
+            'RestrictedDegreeFilterField' => array(
+                    'depends_on' => 'RestrictedSubjectFilterField',
+                    'instance' => new RestrictedDegreeFilterField(),
+                ),
+            'RestrictedSubjectFilterField' => array(
+                    'depends_on' => 'RestrictedDegreeFilterField',
+                    'instance' => new RestrictedSubjectFilterField()
+                ),
+            'SemesterofStudyCondition' => array(
+                    'depends_on' => '',
+                    'instance' => new SemesterofStudyCondition()
+                )
+        );
     }
 
     public function field_config_action($className) {
@@ -39,6 +50,15 @@ class UserfilterController extends AuthenticatedController {
         } else {
             $this->render_nothing();
         }
+    }
+
+    public function restricted_field_config_action($className, $restriction, $selectedCompareOp, $selectedValue) {
+        if ($restriction == 'all') {
+            $restriction = '';
+        }
+        $this->field = new $className('', $restriction);
+        $this->field->setCompareOperator($selectedCompareOp);
+        $this->field->setValue($selectedValue);
     }
 
     public function save_action() {

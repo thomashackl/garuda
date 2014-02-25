@@ -49,7 +49,7 @@ STUDIP.Garuda = {
         });
     },
 
-    filterInit: function() {
+    initFilter: function() {
         $('#add_field').click(function(event) {
             event.preventDefault();
             var newField = $('.filterfield').first().clone();
@@ -57,6 +57,16 @@ STUDIP.Garuda = {
             newField.children('select').val('');
             $('#filterfields').append(newField);
         });
+    },
+
+    getFieldConfig: function(element) {
+        var container = $(element).parent('.fieldconfig');
+        var dependent = container.data('depends-on');
+        var dependingElement = $('#'+dependent);
+        var current = $(element).val();
+        var otherCompare = dependingElement.children('select[name="compare_operator[]"]').val();
+        var otherValue = dependingElement.children('select[name="value[]"]').val();
+        dependingElement.load(container.data('update-url')+'/'+dependent+'/'+current+'/'+otherCompare+'/'+otherValue);
     },
 
     getFilterConfig: function(element) {

@@ -1,6 +1,6 @@
 <h1><?= _('An welche Empfängerkreise darf ich schreiben?') ?></h1>
 <?php if ($i_am_root) { ?>
-<?= formatReady(_('Mit Ihren Root-Rechten dürfen Sie an alle und jeden schreiben!').' :thumb:') ?>
+<?= formatReady(_('Mit Ihren Root-Rechten dürfen Sie an alle schreiben!').' :thumb:') ?>
 <?php } else { ?>
 <h2><?= _('Studiengänge') ?></h2>
     <?php if ($studycourses) { ?>

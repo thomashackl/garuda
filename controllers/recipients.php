@@ -7,13 +7,7 @@ class RecipientsController extends AuthenticatedController {
 
         $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         Navigation::activateItem('/messaging/garuda/recipients');
-        $institutes = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes());
-        $this->config = GarudaModel::getConfiguration($institutes);
-        foreach ($institutes as $i) {
-            if ($GLOBALS['perm']->have_studip_perm($this->config[$i]['min_perm'], $i)) {
-                $this->institutes[] = $i;
-            }
-        }
+        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         $this->i_am_root = false;
         if ($GLOBALS['perm']->have_perm('root')) {
             $this->i_am_root = true;
@@ -35,18 +29,22 @@ class RecipientsController extends AuthenticatedController {
             'content' => $infotext,
             'picture' => 'infobox/messages.jpg'
         );
-        $this->studycourses = array();
-        foreach ($this->institutes as $institute) {
-            if ($this->config[$institute]['studycourses']) {
-                foreach ($this->config[$institute]['studycourses'] as $degree => $professions) {
-                    $d = new Degree($degree);
-                    $this->studycourses[$degree] = array(
-                        'name' => $d->name,
-                        'professions' => array()
-                    );
-                    foreach ($professions as $profession => $assigned) {
-                        $p = new StudyCourse($profession);
-                        $this->studycourses[$degree]['professions'][$profession] = $p->name;
+        if (!$this->i_am_root) {
+            $this->studycourses = array();
+            foreach ($this->config as $id => $institute) {
+                if ($institute['studycourses']) {
+                    foreach ($institute['studycourses'] as $degree => $professions) {
+                        $d = new Degree($degree);
+                        if (!$this->studycourses[$degree]) {
+                            $this->studycourses[$degree] = array(
+                                'name' => $d->name,
+                                'professions' => array()
+                            );
+                        }
+                        foreach ($professions as $profession => $assigned) {
+                            $p = new StudyCourse($profession);
+                            $this->studycourses[$degree]['professions'][$profession] = $p->name;
+                        }
                     }
                 }
             }
