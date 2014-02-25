@@ -36,7 +36,7 @@ if ($flash['error']) {
             <?php } ?>
         </div>
         <br/>
-        <?= Button::create(_('Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox', 'class' => ((!$flash['sendto'] || $flash['sendto'] == 'all') ? 'hidden-js' : ''))); ?>
+        <?= Button::create(_('Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
     </fieldset>
     <fieldset>
         <legend><?= _('Nachrichteninhalt') ?></legend>

@@ -71,6 +71,21 @@ STUDIP.Garuda = {
 
     getFilterConfig: function(element) {
         $(element).siblings('.fieldconfig').load($(element).data('config-url')+'/'+$(element).val());
+    },
+
+    removeFilter: function(element) {
+        $(element).parents('.userfilter').remove();
+        var textfield = $('.filtertext');
+        var filters = $('.userfilter').length;
+        if (filters == 0) {
+            var url = textfield.data('text-src')+'/sendto_all';
+        } else if (filters == 1) {
+            var url = textfield.data('text-src')+'/sendto_filtered/true';
+        } else {
+            var url = textfield.data('text-src')+'/sendto_filtered';
+        }
+        textfield.load(url);
+        return false;
     }
 
 };

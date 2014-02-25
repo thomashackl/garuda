@@ -8,6 +8,6 @@
     <?php if ($one) { ?>
 <?= _('Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studiengänge gesendet, die die folgende Bedingung erfüllen:') ?>
     <?php } else { ?>
-<?= _('Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studiengänge gesendet, die einer der folgenden Bedingungen erfüllen:') ?>
+<?= _('Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studiengänge gesendet, die eine der folgenden Bedingungen erfüllen:') ?>
     <?php } ?>
 <?php } ?>

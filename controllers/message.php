@@ -92,7 +92,8 @@ class MessageController extends AuthenticatedController {
     public function sendto_all_action() {
     }
 
-    public function sendto_filtered_action() {
+    public function sendto_filtered_action($one=false) {
+        $this->one = $one;
     }
 
     // customized #url_for for plugins
