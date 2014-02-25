@@ -30,7 +30,12 @@ STUDIP.Garuda = {
     },
 
     init: function() {
+        if ($('input[name="sendto"]:checked').val() == 'all') {
+            $('button[name="add_filter"]').addClass('hidden-js');
+        }
         $('input[name="sendto"]').click(function() {
+                $('.filtertext').load($('.filtertext').data('text-src')+'/sendto_all');
+            $('.userfilter').remove();
             if ($('input[name="sendto"]:checked').val() != 'all') {
                 $('button[name="add_filter"]').removeClass('hidden-js');
             } else {
