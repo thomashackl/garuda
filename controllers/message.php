@@ -43,9 +43,9 @@ class MessageController extends AuthenticatedController {
                 $this->flash['message'] = Request::get('message');
             }
             if ($this->i_am_root) {
-                $this->redirect($this->url_for('userfilter/add'));
+                $this->redirect($this->url_for('userfilter/add', Request::option('sendto')));
             } else {
-                $this->redirect($this->url_for('userfilter/addrestricted'));
+                $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto')));
             }
         } else {
             $info = array();

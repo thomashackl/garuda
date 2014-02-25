@@ -15,33 +15,60 @@ class UserfilterController extends AuthenticatedController {
         $this->filterfields = UserFilterField::getAvailableFilterFields();
     }
 
-    public function add_action() {
+    public function add_action($type) {
         $GLOBALS['perm']->check('root');
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _('Personen filtern'));
             $this->response->add_header('X-No-Buttons', 1);
         }
+        switch($type) {
+            case 'employees':
+                $this->filterfields = array(
+                    'InstituteFilterField' => _('Einrichtungszugehörigkeit'),
+                    'StatusgroupFilterField' => _('Statusgruppe')
+                );
+                break;
+            case 'students':
+            default:
+                break;
+        }
     }
 
-    public function addrestricted_action() {
+    public function addrestricted_action($type) {
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _('Personen filtern'));
             $this->response->add_header('X-No-Buttons', 1);
         }
-        $this->filterfields = array(
-            'RestrictedDegreeFilterField' => array(
-                    'depends_on' => 'RestrictedSubjectFilterField',
-                    'instance' => new RestrictedDegreeFilterField(),
-                ),
-            'RestrictedSubjectFilterField' => array(
-                    'depends_on' => 'RestrictedDegreeFilterField',
-                    'instance' => new RestrictedSubjectFilterField()
-                ),
-            'SemesterofStudyCondition' => array(
-                    'depends_on' => '',
-                    'instance' => new SemesterofStudyCondition()
-                )
-        );
+        switch($type) {
+            case 'employees':
+                $this->filterfields = array(
+                    'InstituteFilterField' => array(
+                        'depends_on' => '',
+                        'instance' => new InstituteMemberFilterField()
+                    ),
+                    'StatusgroupFilterField' => array(
+                        'depends_on' => '',
+                        'instance' => new StatusgroupMemberFilterField()
+                    )
+                );
+                break;
+            case 'students':
+            default:
+            $this->filterfields = array(
+                'RestrictedDegreeFilterField' => array(
+                        'depends_on' => 'RestrictedSubjectFilterField',
+                        'instance' => new RestrictedDegreeFilterField(),
+                    ),
+                'RestrictedSubjectFilterField' => array(
+                        'depends_on' => 'RestrictedDegreeFilterField',
+                        'instance' => new RestrictedSubjectFilterField()
+                    ),
+                'SemesterofStudyCondition' => array(
+                        'depends_on' => '',
+                        'instance' => new SemesterofStudyCondition()
+                    )
+            );
+        }
     }
 
     public function field_config_action($className) {
