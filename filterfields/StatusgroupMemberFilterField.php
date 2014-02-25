@@ -15,7 +15,7 @@
  * @category    Stud.IP
  */
 
-class StatusgroupMemberFilterFieldCondition extends UserFilterField
+class StatusgroupMemberFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
 
@@ -48,7 +48,7 @@ class StatusgroupMemberFilterFieldCondition extends UserFilterField
      */
     public function getName()
     {
-        return _("Einrichtung");
+        return _("Statusgruppe");
     }
 
     /**

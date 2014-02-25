@@ -15,7 +15,7 @@
  * @category    Stud.IP
  */
 
-class RestrictedInstituteMemberFilterFieldCondition extends UserFilterField
+class RestrictedInstituteMemberFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
 
