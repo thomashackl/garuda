@@ -18,25 +18,20 @@
 class RestrictedStatusgroupMemberFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
-
+    public $valuesDbTable = 'statusgruppen';
+    public $valuesDbIdField = 'statusgruppe_id';
+    public $valuesDbNameField = 'name';
+    public $userDataDbTable = 'statusgruppe_user';
+    public $userDataDbField = 'statusgruppe_id';
 
     /**
      * Standard constructor.
      */
     public function __construct($fieldId='') {
-        $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
-        );
+        parent::__construct();
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         foreach (array_keys($this->config) as $institute) {
             $this->validValues[$institute->Institut_id] = $institute->name;
-        }
-        if ($fieldId) {
-            $this->id = $fieldId;
-            $this->load();
-        } else {
-            $this->id = $this->generateId();
         }
     }
 

@@ -18,22 +18,23 @@
 class RestrictedSubjectFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
-
+    public $valuesDbTable = 'studiengaenge';
+    public $valuesDbIdField = 'studiengang_id';
+    public $valuesDbNameField = 'name';
+    public $userDataDbTable = 'user_studiengang';
+    public $userDataDbField = 'studiengang_id';
 
     /**
      * Standard constructor.
      */
-    public function __construct($fieldId='', $degreeRestriction='') {
-        $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
-        );
+    public function __construct($fieldId='', $valueRestriction='') {
+        parent::__construct();
         $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         $this->validValues['all'] = _('alle');
         foreach($config as $inst) {
             if ($inst['studycourses']) {
                 foreach ($inst['studycourses'] as $degree => $subjects) {
-                    if (!$degreeRestriction || $degree == $degreeRestriction) {
+                    if (!$valueRestriction || $degree == $valueRestriction) {
                         foreach ($subjects as $subject => $assigned) {
                             $s = new Studycourse($subject);
                             $this->validValues[$subject] = $s->name;

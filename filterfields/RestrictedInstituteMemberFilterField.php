@@ -18,26 +18,21 @@
 class RestrictedInstituteMemberFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
-
+    public $valuesDbTable = 'Institute';
+    public $valuesDbIdField = 'Institut_id';
+    public $valuesDbNameField = 'Name';
+    public $userDataDbTable = 'user_inst';
+    public $userDataDbField = 'Institut_id';
 
     /**
-     * Standard constructor.
+     * @see UserFilterField::_construct
      */
-    public function __construct($fieldId='') {
-        $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
-        );
+    public function __construct($fieldId='', $valueRestriction='') {
+        parent::__construct();
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         $institutes = array_keys($this->config);
         foreach ($institutes as $institute) {
             $this->validValues[$institute->Institut_id] = $institute->name;
-        }
-        if ($fieldId) {
-            $this->id = $fieldId;
-            $this->load();
-        } else {
-            $this->id = $this->generateId();
         }
     }
 

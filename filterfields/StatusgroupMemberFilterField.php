@@ -18,20 +18,30 @@
 class StatusgroupMemberFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
-
+    public $valuesDbTable = 'statusgruppen';
+    public $valuesDbIdField = 'name';
+    public $valuesDbNameField = 'name';
+    public $userDataDbTable = 'statusgruppe_user';
+    public $userDataDbField = 'statusgruppe_id';
 
     /**
-     * Standard constructor.
+     * @see UserFilterField::__construct
      */
-    public function __construct($fieldId='') {
+    public function __construct($fieldId='', $valueRestriction='') {
         $this->validCompareOperators = array(
             '=' => _('gleich'),
             '!=' => _('ungleich')
         );
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $institutes = Institute::getInstitutes();
-        foreach ($institutes as $institute) {
-            $this->validValues[$institute->Institut_id] = $institute->name;
+        // Get all available values from database.
+        $stmt = DBManager::get()->query(
+            "SELECT DISTINCT a.`".$this->valuesDbNameField."` ".
+            "FROM `".$this->valuesDbTable."` a ".
+            "INNER JOIN `Institute` b ON (a.`range_id`=b.`Institut_id`) ".
+            "ORDER BY `".$this->valuesDbNameField."` ASC");
+        while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            if ($current[$this->valuesDbIdField]) {
+                $this->validValues[$current[$this->valuesDbIdField]] = $current[$this->valuesDbNameField];
+            }
         }
         if ($fieldId) {
             $this->id = $fieldId;

@@ -18,27 +18,11 @@
 class InstituteMemberFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
-
-
-    /**
-     * Standard constructor.
-     */
-    public function __construct($fieldId='') {
-        $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
-        );
-        $institutes = Institute::getInstitutes();
-        foreach ($institutes as $institute) {
-            $this->validValues[$institute->Institut_id] = $institute->name;
-        }
-        if ($fieldId) {
-            $this->id = $fieldId;
-            $this->load();
-        } else {
-            $this->id = $this->generateId();
-        }
-    }
+    public $valuesDbTable = 'Institute';
+    public $valuesDbIdField = 'Institut_id';
+    public $valuesDbNameField = 'Name';
+    public $userDataDbTable = 'user_inst';
+    public $userDataDbField = 'Institut_id';
 
     /**
      * Get this field's display name.

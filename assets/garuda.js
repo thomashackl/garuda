@@ -34,7 +34,12 @@ STUDIP.Garuda = {
             $('button[name="add_filter"]').addClass('hidden-js');
         }
         $('input[name="sendto"]').click(function() {
-                $('.filtertext').load($('.filtertext').data('text-src')+'/sendto_all');
+            var textSrc = $('.filtertext').data('text-src').split('?');
+            var url = textSrc[0]+'/sendto_all';
+            if (textSrc[1] != '') {
+                url += '?'+textSrc[1];
+            }
+            $('.filtertext').load(url);
             $('.userfilter').remove();
             if ($('input[name="sendto"]:checked').val() != 'all') {
                 $('button[name="add_filter"]').removeClass('hidden-js');
@@ -49,7 +54,12 @@ STUDIP.Garuda = {
             father.remove();
             if (container.children('.userfilter').length == 0) {
                 var textfield = container.children('.filtertext');
-                textfield.load(textfield.data('text-src')+'/sendto_all');
+                var textSrc = textfield.data('text-src').split('?');
+                var url = textSrc[0]+'/sendto_all';
+                if (textSrc[1] != '') {
+                    url += '?'+textSrc[1];
+                }
+                textfield.load(url);
             }
         });
     },
@@ -82,12 +92,22 @@ STUDIP.Garuda = {
         $(element).parents('.userfilter').remove();
         var textfield = $('.filtertext');
         var filters = $('.userfilter').length;
+        var textSrc = textfield.data('text-src').split('?');
         if (filters == 0) {
-            var url = textfield.data('text-src')+'/sendto_all';
+            var url = textSrc[0]+'/sendto_all';
+            if (textSrc[1] != '') {
+                url += '?'+textSrc[1];
+            }
         } else if (filters == 1) {
-            var url = textfield.data('text-src')+'/sendto_filtered/true';
+            var url = textSrc[0]+'/sendto_filtered/true';
+            if (textSrc[1] != '') {
+                url += '?'+textSrc[1];
+            }
         } else {
-            var url = textfield.data('text-src')+'/sendto_filtered';
+            var url = textSrc[0]+'/sendto_filtered'+textSrc[1];
+            if (textSrc[1] != '') {
+                url += '?'+textSrc[1];
+            }
         }
         textfield.load(url);
         return false;
