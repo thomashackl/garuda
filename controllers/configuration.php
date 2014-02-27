@@ -53,6 +53,7 @@ class ConfigurationController extends AuthenticatedController {
         $config = GarudaModel::getConfiguration(array($instituteId));
         $this->config = $config[$instituteId];
         $this->degrees = StudycourseModel::getStudyDegrees();
+        $this->institutes = Institute::getInstitutes();
     }
 
     public function save_action() {
@@ -61,7 +62,7 @@ class ConfigurationController extends AuthenticatedController {
                 $data = explode('|', $entry);
                 return array('degree' => $data[0], 'profession' => $data[1]);
             }, Request::getArray('studycourses'));
-        if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses)) {
+        if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
             $this->flash['success'] = _('Die Änderungen wurden gespeichert.');
         } else {
             $this->flash['error'] = _('Die Änderungen konnten nicht gespeichert werden.');

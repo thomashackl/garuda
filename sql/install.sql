@@ -12,5 +12,16 @@ CREATE TABLE IF NOT EXISTS `garuda_inst_stg` (
     `studiengang_id` VARCHAR(32) REFERENCES `studiengang`.`studiengang_id`,
     `mkdate` INT NOT NULL DEFAULT 0,
     PRIMARY KEY (`institute_id`, `abschluss_id`, `studiengang_id`),
-    INDEX `institute_id` (`institute_id`)
+    INDEX `institute_id` (`institute_id`),
+    INDEX `degree` (`abschluss_id`)
+    INDEX `subject` (`studiengang_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `garuda_inst_inst` (
+    `institute_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
+    `rec_inst_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
+    `mkdate` INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (`institute_id`, `rec_inst_id`),
+    INDEX `institute_id` (`institute_id`),
+    INDEX `recipients` (`rec_inst_id`)
 );

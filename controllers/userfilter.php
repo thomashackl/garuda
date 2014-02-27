@@ -24,8 +24,8 @@ class UserfilterController extends AuthenticatedController {
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
-                    'InstituteFilterField' => _('Einrichtungszugehörigkeit'),
-                    'StatusgroupFilterField' => _('Statusgruppe')
+                    'InstituteFilterField' => InstituteFilterField::getName(),
+                    'StatusgroupFilterField' => StatusgroupFilterField::getName()
                 );
                 break;
             case 'students':
@@ -44,11 +44,11 @@ class UserfilterController extends AuthenticatedController {
                 $this->filterfields = array(
                     'InstituteFilterField' => array(
                         'depends_on' => '',
-                        'instance' => new InstituteMemberFilterField()
+                        'instance' => new InstituteFilterField()
                     ),
                     'StatusgroupFilterField' => array(
                         'depends_on' => '',
-                        'instance' => new StatusgroupMemberFilterField()
+                        'instance' => new StatusgroupFilterField()
                     )
                 );
                 break;

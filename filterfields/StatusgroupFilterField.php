@@ -1,7 +1,7 @@
 <?php
 
 /**
- * StatusgroupMemberFilterField.class.php
+ * StatusgroupFilterField.class.php
  * 
  * People belonging to a given status group.
  * 
@@ -15,7 +15,7 @@
  * @category    Stud.IP
  */
 
-class StatusgroupMemberFilterField extends UserFilterField
+class StatusgroupFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
     public $valuesDbTable = 'statusgruppen';
@@ -27,21 +27,25 @@ class StatusgroupMemberFilterField extends UserFilterField
     /**
      * @see UserFilterField::__construct
      */
-    public function __construct($fieldId='', $valueRestriction='') {
+    public function __construct($fieldId='') {
+        $this->relations = array(
+            'InstituteFilterField' => array(
+                'local_field' => 'range_id',
+                'foreign_field' => 'Institut_id'
+            )
+        );
         $this->validCompareOperators = array(
             '=' => _('gleich'),
             '!=' => _('ungleich')
         );
-        // Get all available values from database.
+        // Get all available institute statusgroups from database.
         $stmt = DBManager::get()->query(
-            "SELECT DISTINCT a.`".$this->valuesDbNameField."` ".
-            "FROM `".$this->valuesDbTable."` a ".
-            "INNER JOIN `Institute` b ON (a.`range_id`=b.`Institut_id`) ".
-            "ORDER BY `".$this->valuesDbNameField."` ASC");
+            "SELECT DISTINCT s.`".$this->valuesDbIdField."` ".
+            "FROM `".$this->valuesDbTable."` s ".
+            "INNER JOIN `Institute` i ON (s.`range_id`=i.`Institut_id`) ".
+            "ORDER BY s.`".$this->valuesDbNameField."` ASC");
         while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            if ($current[$this->valuesDbIdField]) {
-                $this->validValues[$current[$this->valuesDbIdField]] = $current[$this->valuesDbNameField];
-            }
+            $this->validValues[$current[$this->valuesDbIdField]] = $current[$this->valuesDbNameField];
         }
         if ($fieldId) {
             $this->id = $fieldId;
@@ -67,10 +71,19 @@ class StatusgroupMemberFilterField extends UserFilterField
      * @return Array All users that are affected by the current condition 
      * field.
      */
-    public function getUsers() {
-        $users = array_map(function($u) {
-            return $u->user_id;
-        }, InstituteMember::findByInstitute($this->value));
+    public function getUsers($restrictions=array()) {
+        $sql = "`name`=?";
+        $parameters = array($this->value);
+        if ($restrictions['InstituteFilterField']) {
+            $sql .= " AND `range_id`=?";
+            $parameters[] = $restrictions['InstituteFilterField']['value'];
+        }
+        $groups = array_map(function($g) {
+                return $g->statusgruppe_id;
+            }, Statusgruppen::findBySQL($sql, $parameters));
+        $users = array_map(function($o) {
+                return $o->user->user_id;
+            }, StatusgruppeUser::findBySQL("`statusgruppe_id` IN (?)", array($groups)));
         return $users;
     }
 
@@ -90,6 +103,6 @@ class StatusgroupMemberFilterField extends UserFilterField
         return $result;
     }
 
-} /* end of class StatusgroupMemberFilterField */
+} /* end of class StatusgroupFilterField */
 
 ?>

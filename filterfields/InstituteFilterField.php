@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RestrictedInstituteMemberFilterField.class.php
+ * InstituteFilterField.class.php
  * 
  * People belonging to a given institute.
  * 
@@ -15,7 +15,7 @@
  * @category    Stud.IP
  */
 
-class RestrictedInstituteMemberFilterField extends UserFilterField
+class InstituteFilterField extends UserFilterField
 {
     // --- ATTRIBUTES ---
     public $valuesDbTable = 'Institute';
@@ -25,14 +25,29 @@ class RestrictedInstituteMemberFilterField extends UserFilterField
     public $userDataDbField = 'Institut_id';
 
     /**
-     * @see UserFilterField::_construct
+     * @see UserFilterField::__construct
      */
-    public function __construct($fieldId='', $valueRestriction='') {
-        parent::__construct();
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $institutes = array_keys($this->config);
-        foreach ($institutes as $institute) {
-            $this->validValues[$institute->Institut_id] = $institute->name;
+    public function __construct($fieldId='') {
+        $this->relations = array(
+            'StatusgroupFilterField' => array(
+                'local_field' => 'Institut_id',
+                'foreign_field' => 'range_id'
+            )
+        );
+        $this->validCompareOperators = array(
+            '=' => _('gleich'),
+            '!=' => _('ungleich')
+        );
+        // Get all available institutes from database, grouped by faculty.
+        $institutes = Institute::getInstitutes();
+        foreach ($institutes as $i) {
+            $this->validValues[$i[$this->valuesDbIdField]] = $i['is_fak'] ? $i[$this->valuesDbNameField] : '&nbsp;&nbsp;'.$i[$this->valuesDbNameField];
+        }
+        if ($fieldId) {
+            $this->id = $fieldId;
+            $this->load();
+        } else {
+            $this->id = $this->generateId();
         }
     }
 
@@ -75,6 +90,6 @@ class RestrictedInstituteMemberFilterField extends UserFilterField
         return $result;
     }
 
-} /* end of class RestrictedInstituteMemberFilterField */
+} /* end of class InstituteFilterField */
 
 ?>
