@@ -68,19 +68,6 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
     }
 
     /**
-     * Gets all users given to the currently selected institute.
-     * 
-     * @return Array All users that are affected by the current condition 
-     * field.
-     */
-    public function getUsers() {
-        $users = array_map(function($u) {
-            return $u->user_id;
-        }, InstituteMember::findByInstitute($this->value));
-        return $users;
-    }
-
-    /**
      * Gets all institute assignments for the given user.
      * 
      * @param  String $userId User to check.
