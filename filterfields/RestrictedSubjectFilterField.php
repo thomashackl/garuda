@@ -15,7 +15,9 @@
  * @category    Stud.IP
  */
 
-class RestrictedSubjectFilterField extends UserFilterField
+require_once('lib/classes/admission/userfilter/SubjectCondition.class.php');
+
+class RestrictedSubjectFilterField extends SubjectCondition
 {
     // --- ATTRIBUTES ---
     public $valuesDbTable = 'studiengaenge';

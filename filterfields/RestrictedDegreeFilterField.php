@@ -15,7 +15,9 @@
  * @category    Stud.IP
  */
 
-class RestrictedDegreeFilterField extends UserFilterField
+require_once('lib/classes/admission/userfilter/DegreeCondition.class.php');
+
+class RestrictedDegreeFilterField extends DegreeCondition
 {
     // --- ATTRIBUTES ---
     public $valuesDbTable = 'abschluss';
