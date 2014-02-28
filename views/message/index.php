@@ -45,10 +45,11 @@ if ($flash['error']) {
         <label class="caption" for="message"><?= _('Nachrichtentext') ?></label>
         <textarea name="message" placeholder="<?= _('Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
     </fieldset>
+    <div class="submit_wrapper">
+        <?= CSRFProtection::tokenTag() ?>
+        <?= Button::createAccept(_('Nachricht verschicken'), 'submit') ?>
+    </div>
 </form>
-<div class="submit_wrapper">
-    <?= Button::createAccept(_('Nachricht verschicken'), 'submit') ?>
-</div>
 <script type="text/javascript">
 //<!--
     STUDIP.Garuda.init();

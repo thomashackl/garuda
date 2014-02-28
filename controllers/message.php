@@ -32,6 +32,7 @@ class MessageController extends AuthenticatedController {
 
     public function index_action() {
         if (Request::submitted('add_filter')) {
+            CSRFProtection::verifyUnsafeRequest();
             $this->flash['sendto'] = Request::option('sendto');
             if (Request::getArray('filters')) {
                 $this->flash['filters'] = Request::getArray('filters');
@@ -47,6 +48,13 @@ class MessageController extends AuthenticatedController {
             } else {
                 $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto')));
             }
+        } else if (Request::submitted('submit')) {
+            CSRFProtection::verifyUnsafeRequest();
+            $this->flash['sendto'] = Request::option('sendto');
+            $this->flash['filters'] = Request::getArray('filters');
+            $this->flash['subject'] = Request::get('subject');
+            $this->flash['message'] = Request::get('message');
+            $this->redirect($this->url_for('message/send'));
         } else {
             $info = array();
             $info[] = array(
@@ -94,6 +102,28 @@ class MessageController extends AuthenticatedController {
 
     public function sendto_filtered_action($one=false) {
         $this->one = $one;
+    }
+
+    public function send_action() {
+        $recipients = array();
+        UserFilterField::getAvailableFilterFields();
+        $users = array();
+        foreach ($this->flash['filters'] as $filter) {
+            $f = unserialize($filter);
+            $users = array_merge($users, $f->getUsers());
+        }
+        $recipients = array_map(function($u) {
+            $user = new User($u);
+            return $user->username;
+        }, array_unique($users));
+        $m = new Messaging();
+        $numRec = $m->insert_message($this->flash['message'], $recipients, $GLOBALS['user']->id, mktime(), '', '', '', $this->flash['subject']);
+        if ($numRec) {
+            $this->flash['success'] = sprintf(_('Ihre Nachricht wurde an %s Personen gesendet.'), $numRec);
+        } else {
+            $this->flash['error'] = _('Ihre Nachricht konnte nicht gesendet werden.');
+        }
+        $this->redirect($this->url_for('message'));
     }
 
     // customized #url_for for plugins
