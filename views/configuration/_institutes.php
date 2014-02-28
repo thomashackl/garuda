@@ -14,9 +14,9 @@
         </li>
                 <?php } ?>
         <li class="faculty">
+            <input type="checkbox" name="institutes[]" class="faculty_select" value="<?= $i['Institut_id'] ?>"/>
             <label for="<?= $i['Institut_id'] ?>">
                 <?= Assets::img('icons/16/blue/institute.png') ?>
-                <input type="checkbox" name="institutes[]" class="faculty_select" value="<?= $i['Institut_id'] ?>"/>
                 <?= htmlReady($i['Name']) ?>
             </label>
             <span class="actions" id="actions_<?= $i['Institut_id'] ?>" style="display: none">

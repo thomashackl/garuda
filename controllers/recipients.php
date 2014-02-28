@@ -41,6 +41,7 @@ class RecipientsController extends AuthenticatedController {
                     );
                 }
             }
+            $this->institutes = $this->config['institutes'];
         }
     }
 

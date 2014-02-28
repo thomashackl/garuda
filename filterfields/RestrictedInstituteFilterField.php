@@ -35,9 +35,9 @@ class RestrictedInstituteFilterField extends InstituteFilterField
         // Get Garuda configuration...
         $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         foreach ($config['institutes'] as $i) {
-            $this->validValues[$i[$this->valuesDbIdField]] = $i[$this->valuesDbNameField];
-            if ($i['Institut_id'] == $i['fakultaets_id']) {
-                $this->validValues[$i[$this->valuesDbIdField].'_children'] = sprintf(_('%s und untergeordnete Einrichtungen'), $i[$this->valuesDbNameField]);
+            $this->validValues[$i['id']] = $i['name'];
+            foreach ($i['sub_institutes'] as $s) {
+                $this->validValues[$s['id']] = '&nbsp;&nbsp;'.$s['name'];
             }
         }
         if ($fieldId) {

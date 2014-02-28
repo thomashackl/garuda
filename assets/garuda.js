@@ -37,7 +37,15 @@ STUDIP.Garuda = {
         });
 
         $('li.faculty').find('input.faculty_select').click(function(event) {
-            $(this).parents('li.faculty').find('input.subtree').attr('checked') = $(this).parents('li.faculty').attr('checked');
+            var father = $(this).parents('li.faculty');
+            var inputs = father.find('input.subtree');
+            if ($(this).attr('checked')) {
+                inputs.attr('disabled', true);
+                inputs.attr('checked', true);
+            } else {
+                inputs.removeAttr('disabled');
+                inputs.removeAttr('checked');
+            }
         });
 
         $('li.faculty').find('input.subtree:checked').each(function() {
@@ -48,7 +56,7 @@ STUDIP.Garuda = {
     },
 
     getConfig: function() {
-        $('#config').load($('#institute').data('update-url') + '/' + $('#institute').val());
+        $('#config').load($('#institute').data('update-url') + '/' + encodeURIComponent($('#institute').val()));
     },
 
     init: function() {
@@ -96,18 +104,32 @@ STUDIP.Garuda = {
         });
     },
 
+    initRecipientView: function() {
+        $('li.faculty label').click(function(event) {
+            var img = $(this).children('img').first();
+            var tmp = img.data('toggle-icon');
+            img.data('toggle-icon', img.attr('src'));
+            img.attr('src', tmp);
+        });
+    },
+
     getFieldConfig: function(element) {
         var container = $(element).parent('.fieldconfig');
         var dependent = container.data('depends-on');
         var dependingElement = $('#'+dependent);
-        var current = $(element).val();
-        var otherCompare = dependingElement.children('select[name="compare_operator[]"]').val();
-        var otherValue = dependingElement.children('select[name="value[]"]').val();
-        dependingElement.load(container.data('update-url')+'/'+dependent+'/'+current+'/'+otherCompare+'/'+otherValue);
+        var current = encodeURIComponent($(element).val());
+        var otherCompare = encodeURIComponent(dependingElement.children('select[name="compare_operator[]"]').val());
+        var otherValue = encodeURIComponent(dependingElement.children('select[name="value[]"]').val());
+        var updateUrl = container.data('update-url').split('?');
+        var url = updateUrl[0]+'/'+encodeURIComponent(dependent)+'/'+current+'/'+otherCompare+'/'+otherValue;
+        if (updateUrl[1] != '') {
+            url += '?'+updateUrl[1];
+        }
+        dependingElement.load(url);
     },
 
     getFilterConfig: function(element) {
-        $(element).siblings('.fieldconfig').load($(element).data('config-url')+'/'+$(element).val());
+        $(element).siblings('.fieldconfig').load($(element).data('config-url')+'/'+encodeURIComponent($(element).val()));
     },
 
     removeFilter: function(element) {
@@ -134,5 +156,6 @@ STUDIP.Garuda = {
         textfield.load(url);
         return false;
     }
+
 
 };

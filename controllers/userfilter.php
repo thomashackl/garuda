@@ -42,13 +42,13 @@ class UserfilterController extends AuthenticatedController {
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
-                    'InstituteFilterField' => array(
-                        'depends_on' => '',
-                        'instance' => new InstituteFilterField()
+                    'RestrictedInstituteFilterField' => array(
+                        'depends_on' => 'RestrictedStatusgroupFilterField',
+                        'instance' => new RestrictedInstituteFilterField()
                     ),
-                    'StatusgroupFilterField' => array(
-                        'depends_on' => '',
-                        'instance' => new StatusgroupFilterField()
+                    'RestrictedStatusgroupFilterField' => array(
+                        'depends_on' => 'RestrictedInstituteFilterField',
+                        'instance' => new RestrictedStatusgroupFilterField()
                     )
                 );
                 break;

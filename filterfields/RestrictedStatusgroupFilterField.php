@@ -15,7 +15,7 @@
  * @category    Stud.IP
  */
 
-class RestrictedStatusgroupMemberFilterField extends StatusgroupFilterField
+class RestrictedStatusgroupFilterField extends StatusgroupFilterField
 {
     // --- ATTRIBUTES ---
     public $valuesDbTable = 'statusgruppen';
@@ -40,12 +40,15 @@ class RestrictedStatusgroupMemberFilterField extends StatusgroupFilterField
         );
         // Get Garuda configuration...
         $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $groups = DBManager::get()->fetchAll("SELECT DISTINCT `".$this->valuesDbIdField."` FROM `statusgruppen` WHERE `range_id` IN (?)", array_map(function($i) {
-            return $i['Institut_id'];
-        }, $config['institutes']));
+        $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_map(function($i) {
+                return $i['id'];
+            }, $config['institutes'])));
         foreach ($groups as $g) {
-            $this->validValues[$g[$this->valuesDbIdField]] = $g[$this->valuesDbNameField];
+            if ($g['name']) {
+                $this->validValues[$g['name']] = $g['name'];
+            }
         }
+        natcasesort($this->validValues);
         if ($fieldId) {
             $this->id = $fieldId;
             $this->load();

@@ -12,9 +12,18 @@ li.degree input.tree + ul, li.faculty input.tree + ul {
     padding-top: 16px;
 }
 
-li.degree input.tree + ul > li, li.faculty input.tree + ul > li {
+li.degree input.tree + ul > li {
     display: none;
     margin-left: -14px !important;
+    background: url('images/dots.png') repeat-y;
+    padding-left: 15px;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+li.faculty input.tree + ul > li {
+    display: none;
+    margin-left: -35px !important;
     background: url('images/dots.png') repeat-y;
     padding-left: 15px;
     padding-top: 2px;
@@ -30,13 +39,23 @@ li.degree input.tree:checked + ul > li, li.faculty input.tree:checked + ul > li 
     display: block;
 }
 
-li.degree label, li.faculty label {
+li.degree label {
     display: inline;
     padding-left: 20px;
 }
 
+li.faculty label {
+    display: inline;
+    padding-left: 0px;
+}
+
 li.degree a img, li.faculty a img {
     margin-bottom: -3px;
+}
+
+li.institute {
+    list-style-type: none;
+    margin-left: -28px;
 }
 
 li.subject input, li.institute input {

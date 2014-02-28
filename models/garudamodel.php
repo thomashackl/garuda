@@ -81,7 +81,7 @@ class GarudaModel {
             WHERE (gis.`institute_id` IN (:ids))
             ORDER BY degree ASC, subject ASC", array('ids' => $userInsts));
         // Get allowed institutes (user's own institutes are always allowed).
-        $userConfig['institutes'] = DBManager::get()->fetchAll("SELECT i.`Institut_id`, i.`Name`, i.`fakultaets_id`
+        $institutes = DBManager::get()->fetchAll("SELECT i.`Institut_id`
             FROM `Institute` i
                 INNER JOIN `Institute` f ON (i.`fakultaets_id`=f.`Institut_id`)
             WHERE (i.`Institut_id` IN (
@@ -91,6 +91,27 @@ class GarudaModel {
                 OR i.`Institut_id` IN (:ids))
                 AND i.`fakultaets_id` != ''
             ORDER BY f.`Name` ASC, i.`Name` ASC", array('ids' => $userInsts));
+        $allowed = array();
+        foreach ($institutes as $inst) {
+            $i = new Institute($inst['Institut_id']);
+            $userConfig['institutes'][$inst['Institut_id']] = array(
+                'id' => $i->Institut_id,
+                'name' => $i->Name,
+                'faculty' => $i->fakultaets_id,
+                'is_fak' => $i->is_fak,
+                'sub_institutes' => array()
+            );
+            if ($i->is_fak) {
+                foreach ($i->sub_institutes as $s) {
+                    $userConfig['institutes'][$inst['Institut_id']]['sub_institutes'][$s->Institut_id] = array(
+                        'id' => $s->Institut_id,
+                        'name' => $s->Name,
+                        'faculty' => $s->fakultaets_id,
+                        'is_fak' => $i->is_fak,
+                    );
+                }
+            }
+        }
         return $userConfig;
     }
 
@@ -120,6 +141,8 @@ class GarudaModel {
             $stmt = $db->prepare($query);
             $success = ($success && $stmt->execute($parameters));
         }
+        $stmt = $db->prepare("DELETE FROM `garuda_inst_inst` WHERE `institute_id`=:id");
+        $success = ($success && $stmt->execute(array('id' => $instituteId)));
         if ($assignedInstitutes) {
             $query = "INSERT INTO `garuda_inst_inst` (`institute_id`, `rec_inst_id`, `mkdate`) VALUES ";
             $i = 0;
