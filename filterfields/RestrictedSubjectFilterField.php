@@ -28,26 +28,15 @@ class RestrictedSubjectFilterField extends UserFilterField
      * Standard constructor.
      */
     public function __construct($fieldId='', $valueRestriction='') {
-        parent::__construct();
-        $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        parent::__construct($fieldId);
+        $this->validValues = array();
+        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         $this->validValues['all'] = _('alle');
-        foreach($config as $inst) {
-            if ($inst['studycourses']) {
-                foreach ($inst['studycourses'] as $degree => $subjects) {
-                    if (!$valueRestriction || $degree == $valueRestriction) {
-                        foreach ($subjects as $subject => $assigned) {
-                            $s = new Studycourse($subject);
-                            $this->validValues[$subject] = $s->name;
-                        }
-                    }
-                }
+        foreach($this->config['studycourses'] as $entry) {
+            if (!$valueRestriction || $entry['abschluss_id'] == $valueRestriction) {
+                $d = new Studycourse($entry['studiengang_id']);
+                $this->validValues[$entry['studiengang_id']] = $d->name;
             }
-        }
-        if ($fieldId) {
-            $this->id = $fieldId;
-            $this->load();
-        } else {
-            $this->id = $this->generateId();
         }
     }
 

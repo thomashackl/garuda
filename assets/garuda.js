@@ -12,11 +12,11 @@ STUDIP.Garuda = {
         });
 
         $('li.degree').find('a.all').click(function(event) {
-            $(this).parents('li.degree').find('li.profession input[type="checkbox"]').each(function() { $(this).attr('checked', true); });
+            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').each(function() { $(this).attr('checked', true); });
         });
 
         $('a.none').click(function(event) {
-            $(this).parents('li.degree').find('li.profession input[type="checkbox"]').each(function() { $(this).attr('checked', false); });
+            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').each(function() { $(this).attr('checked', false); });
         });
 
         $('li.degree').find('input.subtree:checked').each(function() {
@@ -34,6 +34,10 @@ STUDIP.Garuda = {
 
         $('li.faculty').find('a.none').click(function(event) {
             $(this).parents('li.faculty').find('li.institute input[type="checkbox"]').each(function() { $(this).attr('checked', false); });
+        });
+
+        $('li.faculty').find('input.faculty_select').click(function(event) {
+            $(this).parents('li.faculty').find('input.subtree').attr('checked') = $(this).parents('li.faculty').attr('checked');
         });
 
         $('li.faculty').find('input.subtree:checked').each(function() {

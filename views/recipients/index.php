@@ -13,10 +13,10 @@
             <?= htmlReady($data['name']) ?>
         </label>
         <input type="checkbox" class="tree" id="<?= $degree ?>"/>
-            <?php if ($data['professions']) { ?>
-        <ul id="professions_<?= $degree ?>">
-                <?php foreach ($data['professions'] as $profession => $pname) { ?>
-            <li class="profession">
+            <?php if ($data['subjects']) { ?>
+        <ul id="subjects_<?= $degree ?>">
+                <?php foreach ($data['subjects'] as $subject => $pname) { ?>
+            <li class="subject">
                 <?= htmlReady($pname) ?>
             </li>
                 <?php } ?>
@@ -40,10 +40,10 @@
             <?= htmlReady($data['name']) ?>
         </label>
         <input type="checkbox" class="tree" id="<?= $degree ?>"/>
-            <?php if ($data['professions']) { ?>
-        <ul id="professions_<?= $degree ?>">
-                <?php foreach ($data['professions'] as $profession => $pname) { ?>
-            <li class="profession">
+            <?php if ($data['subjects']) { ?>
+        <ul id="subjects_<?= $degree ?>">
+                <?php foreach ($data['subjects'] as $subject => $pname) { ?>
+            <li class="subject">
                 <?= htmlReady($pname) ?>
             </li>
                 <?php } ?>

@@ -19,11 +19,11 @@
             </span>
             <input type="checkbox" class="tree" id="<?= $degree['abschluss_id'] ?>"/>
                 <?php if ($degree['profession']) { ?>
-            <ul id="professions_<?= $degree['abschluss_id'] ?>">
-                    <?php foreach ($degree['profession'] as $profession) { ?>
-                <li class="profession">
-                    <input type="checkbox" class="subtree" name="studycourses[]" value="<?= $degree['abschluss_id'].'|'.$profession['studiengang_id'] ?>"<?= ($config['studycourses'][$degree['abschluss_id']][$profession['studiengang_id']]) ? ' checked="checked"' : '' ?> data-degree-id="<?= $degree['abschluss_id'] ?>"/>
-                    <?= htmlReady($profession['name']) ?>
+            <ul id="subjects_<?= $degree['abschluss_id'] ?>">
+                    <?php foreach ($degree['profession'] as $subject) { ?>
+                <li class="subject">
+                    <input type="checkbox" class="subtree" name="studycourses[]" value="<?= $degree['abschluss_id'].'|'.$subject['studiengang_id'] ?>"<?= ($config['studycourses'][$degree['abschluss_id']][$subject['studiengang_id']]) ? ' checked="checked"' : '' ?> data-degree-id="<?= $degree['abschluss_id'] ?>"/>
+                    <?= htmlReady($subject['name']) ?>
                 </li>
                     <?php } ?>
             </ul>

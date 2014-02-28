@@ -60,7 +60,7 @@ class ConfigurationController extends AuthenticatedController {
         CSRFProtection::verifyUnsafeRequest();
         $studycourses = array_map(function($entry) {
                 $data = explode('|', $entry);
-                return array('degree' => $data[0], 'profession' => $data[1]);
+                return array('degree' => $data[0], 'subject' => $data[1]);
             }, Request::getArray('studycourses'));
         if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
             $this->flash['success'] = _('Die Änderungen wurden gespeichert.');

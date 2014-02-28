@@ -55,16 +55,43 @@ class GarudaModel {
         return $config;
     }
 
+    /**
+     * Fetches the configuration settings for a given user.
+     * 
+     * @param String $userId user to check
+     * @return array The courses of study and institutes the user may set as recipients.
+     */
     public static function getConfigurationForUser($userId) {
+        $userConfig = array(
+            'studycourses' => array(),
+            'institutes' => array()
+        );
         $userInsts = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId));
         $config = self::getConfiguration($userInsts);
-        $institutes = array();
         foreach ($userInsts as $i) {
             if (!$GLOBALS['perm']->have_studip_perm($config[$i]['min_perm'], $i, $userId)) {
                 unset($config[$i]);
             }
         }
-        return $config;
+        // Get allowed study courses.
+        $userConfig['studycourses'] = DBManager::get()->fetchAll("SELECT a.`abschluss_id`, a.`name` AS degree, s.`studiengang_id`, s.`name` AS subject
+            FROM `garuda_inst_stg` gis
+                INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
+                INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=s.`studiengang_id`)
+            WHERE (gis.`institute_id` IN (:ids))
+            ORDER BY degree ASC, subject ASC", array('ids' => $userInsts));
+        // Get allowed institutes (user's own institutes are always allowed).
+        $userConfig['institutes'] = DBManager::get()->fetchAll("SELECT i.`Institut_id`, i.`Name`, i.`fakultaets_id`
+            FROM `Institute` i
+                INNER JOIN `Institute` f ON (i.`fakultaets_id`=f.`Institut_id`)
+            WHERE (i.`Institut_id` IN (
+                    SELECT `rec_inst_id` FROM `garuda_inst_inst`
+                    WHERE `institute_id` IN (:ids)
+                )
+                OR i.`Institut_id` IN (:ids))
+                AND i.`fakultaets_id` != ''
+            ORDER BY f.`Name` ASC, i.`Name` ASC", array('ids' => $userInsts));
+        return $userConfig;
     }
 
     public static function saveConfiguration($instituteId, $minPerm, $assignedStudycourses, $assignedInstitutes) {
@@ -86,7 +113,7 @@ class GarudaModel {
                 }
                 $query .= "(:id, :abschluss".$i.", :studiengang".$i.", UNIX_TIMESTAMP()) ";
                 $parameters['abschluss'.$i] = $entry['degree'];
-                $parameters['studiengang'.$i] = $entry['profession'];
+                $parameters['studiengang'.$i] = $entry['subject'];
                 $i++;
             }
             $query .= "ON DUPLICATE KEY UPDATE `mkdate`=VALUES(`mkdate`)";

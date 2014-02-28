@@ -28,17 +28,14 @@ class RestrictedDegreeFilterField extends UserFilterField
      * @see UserFilterField::_construct
      */
     public function __construct($fieldId='', $valueRestriction='') {
-        parent::__construct();
+        parent::__construct($fieldId);
+        $this->validValues = array();
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         $this->validValues['all'] = _('alle');
-        foreach($this->config as $inst) {
-            if ($inst['studycourses']) {
-                foreach ($inst['studycourses'] as $degree => $subjects) {
-                    if (!$valueRestriction || in_array($valueRestriction, array_keys($subjects))) {
-                        $d = new Degree($degree);
-                        $this->validValues[$degree] = $d->name;
-                    }
-                }
+        foreach($this->config['studycourses'] as $entry) {
+            if (!$valueRestriction || $entry['studiengang_id'] == $valueRestriction) {
+                $d = new Degree($entry['abschluss_id']);
+                $this->validValues[$entry['abschluss_id']] = $d->name;
             }
         }
     }

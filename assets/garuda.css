@@ -39,7 +39,7 @@ li.degree a img, li.faculty a img {
     margin-bottom: -3px;
 }
 
-li.profession input, li.institute input {
+li.subject input, li.institute input {
     opacity: 100;
 }
 

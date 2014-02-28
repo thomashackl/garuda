@@ -31,21 +31,14 @@ class RecipientsController extends AuthenticatedController {
         );
         if (!$this->i_am_root) {
             $this->studycourses = array();
-            foreach ($this->config as $id => $institute) {
-                if ($institute['studycourses']) {
-                    foreach ($institute['studycourses'] as $degree => $professions) {
-                        $d = new Degree($degree);
-                        if (!$this->studycourses[$degree]) {
-                            $this->studycourses[$degree] = array(
-                                'name' => $d->name,
-                                'professions' => array()
-                            );
-                        }
-                        foreach ($professions as $profession => $assigned) {
-                            $p = new StudyCourse($profession);
-                            $this->studycourses[$degree]['professions'][$profession] = $p->name;
-                        }
-                    }
+            foreach ($this->config['studycourses'] as $s) {
+                if ($this->studycourses[$s['abschluss_id']]) {
+                    $this->studycourses[$s['abschluss_id']]['subjects'][$s['studiengang_id']] = $s['subject'];
+                } else {
+                    $this->studycourses[$s['abschluss_id']] = array(
+                        'name' => $s['degree'],
+                        'subjects' => array($s['studiengang_id'] => $s['subject'])
+                    );
                 }
             }
         }
