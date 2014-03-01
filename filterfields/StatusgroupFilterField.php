@@ -66,37 +66,6 @@ class StatusgroupFilterField extends UserFilterField
     }
 
     /**
-     * Gets all users given to the currently selected institute.
-     * 
-     * @return Array All users that are affected by the current condition 
-     * field.
-     */
-    public function getUsers($restrictions=array(), $mode='user_id') {
-    	switch ($mode) {
-			case 'username':
-				$attribute = 'username';
-				break;
-			case 'user_id':
-			default:
-				$attribute = 'user_id';
-				break;
-    	}
-        $sql = "`name`=?";
-        $parameters = array($this->value);
-        if ($restrictions['InstituteFilterField']) {
-            $sql .= " AND `range_id`=?";
-            $parameters[] = $restrictions['InstituteFilterField']['value'];
-        }
-        $groups = array_map(function($g) {
-                return $g->statusgruppe_id;
-            }, Statusgruppen::findBySQL($sql, $parameters));
-        $users = array_map(function($o) {
-                return $o->user->$attribute;
-            }, StatusgruppeUser::findBySQL("`statusgruppe_id` IN (?)", array($groups)));
-        return $users;
-    }
-
-    /**
      * Gets all institute assignments for the given user.
      * 
      * @param  String $userId User to check.
