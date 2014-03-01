@@ -53,29 +53,6 @@ class RestrictedSubjectFilterField extends SubjectCondition
     }
 
     /**
-     * Compares all the users' degrees by using the specified compare operator
-     * and returns all users that fulfill the condition. This can be
-     * an important informatione when checking on validity of a combination
-     * of conditions.
-     * 
-     * @return Array All users that are affected by the current condition 
-     * field.
-     */
-    public function getUsers() {
-        $users = array();
-        // Get all the users that fulfill the degree condition.
-        $stmt = DBManager::get()->prepare(
-            "SELECT DISTINCT `user_id` ".
-            "FROM `user_studiengang` ".
-            "WHERE `studiengang_id`".$this->compareOperator."?");
-        $stmt->execute(array($this->value));
-        while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $users[] = $current['user_id'];
-        }
-        return $users;
-    }
-
-    /**
      * Gets the value for the given user that is relevant for this
      * condition field. Here, this method looks up the study degree(s) 
      * for the user. These can then be compared with the required degrees

@@ -64,12 +64,23 @@ class InstituteFilterField extends UserFilterField
     /**
      * Gets all users given to the currently selected institute.
      * 
+	 * @param String $mode specifies which user attribute to return
+	 *                     (user_id or username)
      * @return Array All users that are affected by the current condition 
      * field.
      */
-    public function getUsers() {
+    public function getUsers($restrictions=array(), $mode='user_id') {
+    	switch ($mode) {
+			case 'username':
+				$attribute = 'username';
+				break;
+			case 'user_id':
+			default:
+				$attribute = 'user_id';
+				break;
+    	}
         $users = array_map(function($u) {
-            return $u->user_id;
+            return $u->$attribute;
         }, InstituteMember::findByInstitute($this->value));
         return $users;
     }

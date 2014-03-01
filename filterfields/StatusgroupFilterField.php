@@ -71,7 +71,16 @@ class StatusgroupFilterField extends UserFilterField
      * @return Array All users that are affected by the current condition 
      * field.
      */
-    public function getUsers($restrictions=array()) {
+    public function getUsers($restrictions=array(), $mode='user_id') {
+    	switch ($mode) {
+			case 'username':
+				$attribute = 'username';
+				break;
+			case 'user_id':
+			default:
+				$attribute = 'user_id';
+				break;
+    	}
         $sql = "`name`=?";
         $parameters = array($this->value);
         if ($restrictions['InstituteFilterField']) {
@@ -82,7 +91,7 @@ class StatusgroupFilterField extends UserFilterField
                 return $g->statusgruppe_id;
             }, Statusgruppen::findBySQL($sql, $parameters));
         $users = array_map(function($o) {
-                return $o->user->user_id;
+                return $o->user->$attribute;
             }, StatusgruppeUser::findBySQL("`statusgruppe_id` IN (?)", array($groups)));
         return $users;
     }
