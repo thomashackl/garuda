@@ -153,11 +153,13 @@ class MessageController extends AuthenticatedController {
         $m = new Message();
 		$message_id = $m->send($GLOBALS['user']->id, $recipients, $this->flash['subject'], $this->flash['message']);
 		if ($message_id) {
+			$mail = new StudipMail();
 			// Now put message into mail queue.
 			foreach ($recipients as $r) {
-				$mail = new StudipMail();
-				MailQueueEntry::add($mail, $message_id, $r);
+				$u = new User($r);
+				$mail::addRecipient($u->email, '', 'Bcc');
 			}
+			MailQueueEntry::add($mail, $message_id, $r);
 		} else {
             $this->flash['error'] = _('Ihre Nachricht konnte nicht gesendet werden.');
 		}
