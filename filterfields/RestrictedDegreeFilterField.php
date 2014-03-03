@@ -19,23 +19,18 @@ require_once('lib/classes/admission/userfilter/DegreeCondition.class.php');
 
 class RestrictedDegreeFilterField extends DegreeCondition
 {
-    // --- ATTRIBUTES ---
-    public $valuesDbTable = 'abschluss';
-    public $valuesDbIdField = 'abschluss_id';
-    public $valuesDbNameField = 'name';
-    public $userDataDbTable = 'user_studiengang';
-    public $userDataDbField = 'abschluss_id';
-
     /**
      * @see UserFilterField::_construct
      */
-    public function __construct($fieldId='', $restrictionValue='') {
+    public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
         $this->validValues = array();
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $this->validValues['all'] = _('alle');
+        if ($restriction['compare'] == '=') {
+            $restriction['compare'] = '==';
+        }
         foreach($this->config['studycourses'] as $entry) {
-            if (!$restrictionValue || $entry['studiengang_id'] == $restrictionValue) {
+            if (!$restriction['compare'] || ($restriction && eval("return ('".$entry['studiengang_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
                 $d = new Degree($entry['abschluss_id']);
                 $this->validValues[$entry['abschluss_id']] = $d->name;
             }

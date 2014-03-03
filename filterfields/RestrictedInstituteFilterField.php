@@ -22,29 +22,13 @@ class RestrictedInstituteFilterField extends InstituteFilterField
      * @see UserFilterField::__construct
      */
     public function __construct($fieldId='') {
-        $this->relations = array(
-            'StatusgroupFilterField' => array(
-                'local_field' => 'Institut_id',
-                'foreign_field' => 'range_id'
-            )
-        );
-        $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
-        );
+        parent::__construct($fieldId);
         // Get Garuda configuration...
         $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        foreach ($config['institutes'] as $i) {
-            $this->validValues[$i['id']] = $i['name'];
-            foreach ($i['sub_institutes'] as $s) {
-                $this->validValues[$s['id']] = '&nbsp;&nbsp;'.$s['name'];
+        foreach ($this->validValues as $id => $name) {
+            if (!in_array($id, array_keys($config['institutes']))) {
+                unset($this->validValues[$id]);
             }
-        }
-        if ($fieldId) {
-            $this->id = $fieldId;
-            $this->load();
-        } else {
-            $this->id = $this->generateId();
         }
     }
 

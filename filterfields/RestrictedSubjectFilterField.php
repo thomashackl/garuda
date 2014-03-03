@@ -19,25 +19,20 @@ require_once('lib/classes/admission/userfilter/SubjectCondition.class.php');
 
 class RestrictedSubjectFilterField extends SubjectCondition
 {
-    // --- ATTRIBUTES ---
-    public $valuesDbTable = 'studiengaenge';
-    public $valuesDbIdField = 'studiengang_id';
-    public $valuesDbNameField = 'name';
-    public $userDataDbTable = 'user_studiengang';
-    public $userDataDbField = 'studiengang_id';
-
     /**
      * Standard constructor.
      */
-    public function __construct($fieldId='', $restrictionValue='') {
+    public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
         $this->validValues = array();
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $this->validValues['all'] = _('alle');
+        if ($restriction['compare'] == '=') {
+            $restriction['compare'] = '==';
+        }
         foreach($this->config['studycourses'] as $entry) {
-            if (!$restrictionValue || $entry['abschluss_id'] == $restrictionValue) {
-                $d = new Studycourse($entry['studiengang_id']);
-                $this->validValues[$entry['studiengang_id']] = $d->name;
+            if (!$restriction['compare'] || ($restriction && eval("return ('".$entry['abschluss_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
+                $s = new Studycourse($entry['studiengang_id']);
+                $this->validValues[$entry['studiengang_id']] = $s->name;
             }
         }
     }
@@ -50,6 +45,25 @@ class RestrictedSubjectFilterField extends SubjectCondition
     public function getName()
     {
         return _("Studienfach");
+    }
+
+    /**
+     * Gets the users affected by the current filter field. If 'all' has been
+     * set as filter value, we "trick" the SQL by injecting an array of all
+     * allowed values. 
+     * 
+     * @param Array $restrictions values from other fields that restrict the valid
+     *                            values for a user (e.g. a semester of study in
+     *                            a given subject)
+     * @return Array All users that are affected by the current condition 
+     *               field.
+     */
+    public function getUsers($restrictions=array()) {
+        if ($this->value == 'all') {
+            $this->compareOperator = ' IN ';
+            $this->value = "('".implode("', '", array_keys($this->validValues))."')";
+        }
+        return parent::getUsers($restrictions);
     }
 
     /**

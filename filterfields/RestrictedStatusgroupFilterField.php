@@ -38,6 +38,7 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             '=' => _('gleich'),
             '!=' => _('ungleich')
         );
+        $this->validValues = array();
         // Get Garuda configuration...
         $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_map(function($i) {
@@ -65,6 +66,21 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
     public function getName()
     {
         return _("Statusgruppe");
+    }
+
+    /**
+     * Gets the users affected by the current filter field. If 'all' has been
+     * set as filter value, we "trick" the SQL by injecting an array of all
+     * allowed values. 
+     * 
+     * @param Array $restrictions values from other fields that restrict the valid
+     *                            values for a user (e.g. a semester of study in
+     *                            a given subject)
+     * @return Array All users that are affected by the current condition 
+     *               field.
+     */
+    public function getUsers($restrictions=array()) {
+        return parent::getUsers($restrictions);
     }
 
     /**

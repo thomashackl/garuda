@@ -45,7 +45,9 @@ class StatusgroupFilterField extends UserFilterField
             "INNER JOIN `Institute` i ON (s.`range_id`=i.`Institut_id`) ".
             "ORDER BY s.`".$this->valuesDbNameField."` ASC");
         while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->validValues[$current[$this->valuesDbIdField]] = $current[$this->valuesDbNameField];
+            if ($current[$this->valuesDbIdField]) {
+                $this->validValues[$current[$this->valuesDbIdField]] = $current[$this->valuesDbNameField];
+            }
         }
         if ($fieldId) {
             $this->id = $fieldId;
@@ -63,6 +65,61 @@ class StatusgroupFilterField extends UserFilterField
     public function getName()
     {
         return _("Statusgruppe");
+    }
+
+    /**
+     * Compares all the users' values by using the specified compare operator
+     * and returns all users that fulfill the condition. This can be
+     * an important information when checking on validity of a combination
+     * of conditions.
+     * 
+     * @param Array $restrictions values from other fields that restrict the valid
+     *                            values for a user (e.g. a semester of study in
+     *                            a given subject)
+     * @return Array All users that are affected by the current condition 
+     *               field.
+     */
+    public function getUsers($restrictions=array()) {
+        $db = DBManager::get();
+        $users = array();
+        // Standard query getting the values without respecting other values.
+        $select = "SELECT DISTINCT `statusgruppe_user`.`user_id` ";
+        $from = "FROM `statusgruppe_user` ";
+        $from .= " INNER JOIN `statusgruppen` ON (`statusgruppen`.`statusgruppe_id`=`statusgruppe_user`.`statusgruppe_id`)";
+        $from .= " INNER JOIN `Institute` ON (`statusgruppen`.`range_id`=`Institute`.`Institut_id`)";
+        $where = "WHERE `statusgruppen`.`name`".$this->compareOperator."?";
+        $parameters = array($this->value);
+        $joinedTables = array(
+            'statusgruppe_user' => true,
+            'statusgruppen' => true,
+            'Institute' => true
+        );
+        // Check if there are restrictions given.
+        foreach ($restrictions as $otherField => $restriction) {
+            // We only take the value into consideration if it represents a valid restriction.
+            if ($this->relations[$otherField]) {
+                // Do we need to join in another table?
+                if (!$joinedTables[$restriction['table']]) {
+                    $joinedTables[$restriction['table']] = true;
+                    $from .= " INNER JOIN `".$restriction['table']."` ON (`".
+                        $this->valuesDbTable."`.`".
+                        $this->relations[$otherField]['local_field']."`=`".
+                        $restriction['table']."`.`".
+                        $this->relations[$otherField]['foreign_field']."`)";
+                }
+                // Expand WHERE statement with the value from restriction.
+                $where .= " AND `".$restriction['table']."`.`".
+                    $restriction['field']."`".$restriction['compare']."?";
+                $parameters[] = $restriction['value'];
+            }
+        }
+        // Get all the users that fulfill the condition.
+        $stmt = $db->prepare($select.$from.$where);
+        $stmt->execute($parameters);
+        while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $users[] = $current['user_id'];
+        }
+        return $users;
     }
 
     /**
