@@ -38,6 +38,7 @@ class InstituteFilterField extends UserFilterField
             '=' => _('gleich'),
             '!=' => _('ungleich')
         );
+        $this->validValues = array();
         // Get all available institutes from database, grouped by faculty.
         $institutes = Institute::getInstitutes();
         foreach ($institutes as $i) {
