@@ -1,5 +1,5 @@
 <?php use Studip\Button, Studip\LinkButton; ?>
-<form id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
+<form class="studip_form" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
     <h2><?= _('Welche Personen sollen erfasst werden?') ?></h2>
     <div id="filterfields">
         <div class="filterfield">
