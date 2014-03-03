@@ -25,3 +25,16 @@ CREATE TABLE IF NOT EXISTS `garuda_inst_inst` (
     INDEX `institute_id` (`institute_id`),
     INDEX `recipients` (`rec_inst_id`)
 );
+
+CREATE TABLE IF NOT EXISTS `garuda_messages` (
+    `job_id` INT AUTO_INCREMENT,
+    `sender_id` VARCHAR(32) REFERENCES `auth_user_md5`.`user_id`,
+    `recipients` TEXT NOT NULL DEFAULT '',
+    `subject` VARCHAR(255) NOT NULL DEFAULT '',
+    `message` TEXT NOT NULL DEFAULT '',
+    `locked` BOOL DEFAULT 0, 
+    `mkdate` INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (`job_id`),
+    INDEX `sender` (`sender_id`),
+    INDEX `ìn_progress` (`locked`)
+);
