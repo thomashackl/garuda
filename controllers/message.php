@@ -138,37 +138,15 @@ class MessageController extends AuthenticatedController {
             $f = unserialize($filter);
             $users = array_merge($users, $f->getUsers());
         }
-		
-        $recipients = array_map(function($u) {
-            $user = new MessageUser($u);
-            return $user->user_id;
-        }, array_unique($users));
-		/*
-		 * Disable automatical E-Mail forwarding for the moment, we will use
-		 * the MailQueue class for that.
-		 */
-	    $forwarding = $GLOBALS['MESSAGING_FORWARD_AS_EMAIL'];
-		$GLOBALS['MESSAGING_FORWARD_AS_EMAIL'] = 0;
-		// Send message.
-        $m = new Message();
-		$message_id = $m->send($GLOBALS['user']->id, $recipients, $this->flash['subject'], $this->flash['message']);
-		if ($message_id) {
-			$mail = new StudipMail();
-			// Now put message into mail queue.
-			foreach ($recipients as $r) {
-				$u = new User($r);
-				$mail::addRecipient($u->email, '', 'Bcc');
-			}
-			MailQueueEntry::add($mail, $message_id, $r);
-		} else {
-            $this->flash['error'] = _('Ihre Nachricht konnte nicht gesendet werden.');
-		}
-		// Restore original mail forwarding setting.
-		$GLOBALS['MESSAGING_FORWARD_AS_EMAIL'] = $forwarding;
-		// ... and get sending status.
-        if ($numRec) {
-            $this->flash['success'] = sprintf(_('Ihre Nachricht wurde an %s Personen gesendet.'), $numRec);
+
+        $users = array_unique($users);
+
+        if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'])) {
+            $this->flash['success'] = sprintf(_('Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben.'), sizeof($users));
+        } else {
+            $this->flash['success'] = sprintf(_('Ihre Nachricht an %s Personen konnte nicht gesendet werden.'), sizeof($users));
         }
+
         $this->redirect($this->url_for('message'));
     }
 

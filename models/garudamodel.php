@@ -88,9 +88,13 @@ class GarudaModel {
                     SELECT `rec_inst_id` FROM `garuda_inst_inst`
                     WHERE `institute_id` IN (:ids)
                 )
+                OR i.`fakultaets_id` IN (
+                    SELECT `rec_inst_id` FROM `garuda_inst_inst`
+                    WHERE `institute_id` IN (:ids)
+                )
                 OR i.`Institut_id` IN (:ids))
                 AND i.`fakultaets_id` != ''
-            ORDER BY f.`Name` ASC, i.`Name` ASC", array('ids' => $userInsts));
+            ORDER BY f.`Name` ASC, i.`Name` ASC", array('ids' => array_keys($config)));
         $allowed = array();
         foreach ($institutes as $inst) {
             $i = new Institute($inst['Institut_id']);
@@ -160,6 +164,49 @@ class GarudaModel {
             $success = ($success && $stmt->execute($parameters));
         }
         return $success;
+    }
+
+    /**
+     * Creates a table entry for the Garuda cronjob containing the desired
+     * message and intended recipients.
+     * 
+     * @param String $sender     Who sends this message?
+     * @param array  $recipients Intended recipients for this message
+     *                           (array of Stud.IP user IDs)
+     * @param String $subject    Message subject
+     * @param String $message    Message text
+     */
+    public static function createCronEntry($sender, $recipients, $subject, $message) {
+        $stmt = DBManager::get()->prepare("INSERT INTO `garuda_messages`
+            (`sender_id`, `recipients`, `subject`, `message`, `mkdate`)
+            VALUES
+            (:sender, :rec, :subject, :message, UNIX_TIMESTAMP())");
+        return $stmt->execute(array(
+            'sender' => $GLOBALS['user']->id,
+            'rec' => json_encode($recipients),
+            'subject' => $subject,
+            'message' => $message)
+        );
+    }
+
+    /**
+     * Gets all cron entries that are not already locked by a cron instance still running.
+     * 
+     * @return Array of found entries to be processed by cron.
+     */
+    public static function getCronEntries() {
+        return DBManager::get()->fetchAll("SELECT * FROM `garuda_messages` WHERE `locked`=0 ORDER BY `mkdate`", array());
+    }
+
+    /**
+     * Locks the given cron job entry. 
+     * 
+     * 
+     * @param int $entryId entry to be locked
+     * @return Successfully locked?
+     */
+    public static function lockCronEntry($entryId) {
+        return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=1 WHERE `job_id`=:id", array('id' => $entryId));
     }
 
 }

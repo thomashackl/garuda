@@ -18,19 +18,40 @@ require 'bootstrap.php';
 
 class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
+    /**
+     * Name for cron job.
+     */
+    const CRON = "GarudaCronjob.php";
+
+    /**
+     * Create a new Garuda instance initializing navigation and needed scripts.
+     */
     public function __construct() {
-        parent::__construct();
-        $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
-        $navigation->addSubNavigation('message', new Navigation(_('Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
-        $navigation->addSubNavigation('recipients', new Navigation(_('An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
-        PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
-        PageLayout::addScript($this->getPluginURL().'/assets/garuda.js');
-        if ($GLOBALS['perm']->have_perm('root')) {
-            $navigation->addSubNavigation('configuration', new Navigation(_('Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
+        /*
+         * We only need the plugin if we are in messaging and have at least
+         * 'dozent' permissions.
+         */
+        if (Navigation::hasItem('/messaging/in') && $GLOBALS['perm']->have_perm('dozent')) {
+            require_once(realpath(dirname(__FILE__).'/models/garudamodel.php'));
+            $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+            if ($config['studycourses'] || $config['institutes']) {
+                parent::__construct();
+                $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
+                $navigation->addSubNavigation('message', new Navigation(_('Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
+                $navigation->addSubNavigation('recipients', new Navigation(_('An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
+                PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
+                PageLayout::addScript($this->getPluginURL().'/assets/garuda.js');
+                if ($GLOBALS['perm']->have_perm('root')) {
+                    $navigation->addSubNavigation('configuration', new Navigation(_('Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
+                }
+                Navigation::addItem('/messaging/garuda', $navigation);
+            }
         }
-        Navigation::addItem('/messaging/garuda', $navigation);
     }
 
+    /**
+     * Plugin name to show in navigation.
+     */
     public function getDisplayName() {
         return _('Nachrichten an Zielgruppen');
     }
@@ -55,4 +76,24 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         StudipAutoloader::addAutoloadPath(__DIR__.'/models');
         StudipAutoloader::addAutoloadPath(__DIR__.'/filterfields');
     }
+
+    public static function onEnable($pluginId) {
+        parent::onEnable($pluginId);
+        $taskId = CronjobScheduler::registerTask(self::getCronName(), true);
+        CronjobScheduler::schedulePeriodic($taskId, -15);
+    }
+
+    public static function onDisable($pluginId) {
+        $taskId = CronjobTask::findByFilename(self::getCronName());
+        CronjobScheduler::unregisterTask($taskId[0]->task_id);
+        parent::onDisable($pluginId);
+    }
+
+    private static function getCronName() {
+        return "public/plugins_packages/intelec/GarudaPlugin/".self::CRON;
+        $plugin = PluginEngine::getPlugin(__CLASS__);
+        $path = $plugin->getPluginPath();
+        return dirname($path)."/".self::CRON;
+    }
+
 }
