@@ -12,11 +12,11 @@ STUDIP.Garuda = {
         });
 
         $('li.degree').find('a.all').click(function(event) {
-            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').each(function() { $(this).attr('checked', true); });
+            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').attr('checked', true);
         });
 
         $('a.none').click(function(event) {
-            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').each(function() { $(this).attr('checked', false); });
+            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').attr('checked', false);
         });
 
         $('li.degree').find('input.subtree:checked').each(function() {
@@ -24,19 +24,19 @@ STUDIP.Garuda = {
             $('#actions_'+$(this).data('degree-id')).attr('style', 'inline');
         });
 
-        $('li.faculty label').click(function(event) {
+        $('li.faculty label').on('click', function(event) {
             $(this).parents('li.faculty').find('span.actions').toggle();
         });
 
-        $('li.faculty').find('a.all').click(function(event) {
+        $('li.faculty').find('a.all').on('click', function(event) {
             $(this).parents('li.faculty').find('li.institute input[type="checkbox"]').each(function() { $(this).attr('checked', true); });
         });
 
-        $('li.faculty').find('a.none').click(function(event) {
+        $('li.faculty').find('a.none').on('click', function(event) {
             $(this).parents('li.faculty').find('li.institute input[type="checkbox"]').each(function() { $(this).attr('checked', false); });
         });
 
-        $('li.faculty').find('input.faculty_select').click(function(event) {
+        $('li.faculty').find('input.faculty_select').on('click', function(event) {
             var father = $(this).parents('li.faculty');
             var inputs = father.find('input.subtree');
             if ($(this).attr('checked')) {
@@ -56,14 +56,19 @@ STUDIP.Garuda = {
     },
 
     getConfig: function() {
-        $('#config').load($('#institute').data('update-url') + '/' + encodeURIComponent($('#institute').val()));
+        var textSrc = $('#institute').data('update-url').split('?');
+        var url = textSrc[0]+'/'+encodeURIComponent($('#institute').val());
+        if (textSrc[1] != '') {
+            url += '?'+textSrc[1];
+        }
+        $('#config').load(url);
     },
 
     init: function() {
         if ($('input[name="sendto"]:checked').val() == 'all') {
             $('button[name="add_filter"]').addClass('hidden-js');
         }
-        $('input[name="sendto"]').click(function() {
+        $('input[name="sendto"]').on('click', function() {
             var textSrc = $('.filtertext').data('text-src').split('?');
             var url = textSrc[0]+'/sendto_all';
             if (textSrc[1] != '') {
@@ -77,7 +82,7 @@ STUDIP.Garuda = {
                 $('button[name="add_filter"]').addClass('hidden-js');
             }
         });
-        $('.userfilter_actions a.delete').click(function(event) {
+        $('.userfilter_actions a.delete').on('click', function(event) {
             event.preventDefault();
             var father = $(this).parents('.userfilter');
             var container = father.parent();
@@ -95,7 +100,7 @@ STUDIP.Garuda = {
     },
 
     initFilter: function() {
-        $('#add_field').click(function(event) {
+        $('#add_field').on('click', function(event) {
             event.preventDefault();
             var newField = $('.filterfield').first().clone();
             newField.children('.fieldconfig').empty();
@@ -105,7 +110,7 @@ STUDIP.Garuda = {
     },
 
     initRecipientView: function() {
-        $('li.faculty label').click(function(event) {
+        $('li.faculty label').on('click', function(event) {
             var img = $(this).children('img').first();
             var tmp = img.data('toggle-icon');
             img.data('toggle-icon', img.attr('src'));
@@ -114,22 +119,50 @@ STUDIP.Garuda = {
     },
 
     getFieldConfig: function(element) {
-        var container = $(element).parent('.fieldconfig');
-        var dependent = container.data('depends-on');
-        var dependingElement = $('#'+dependent);
-        var current = encodeURIComponent($(element).val());
-        var otherCompare = encodeURIComponent(dependingElement.children('select[name="compare_operator[]"]').val());
-        var otherValue = encodeURIComponent(dependingElement.children('select[name="value[]"]').val());
-        var updateUrl = container.data('update-url').split('?');
-        var url = updateUrl[0]+'/'+encodeURIComponent(dependent)+'/'+current+'/'+otherCompare+'/'+otherValue;
+        var otherCompare = '';
+        var otherValue = '';
+        var updateUrl = $(element).parents('.fieldconfig').data('update-url').split('?');
+        if ($(element).parents('.filterfield').siblings('.filterfield').length > 0) {
+            var r = this.getRestriction($(element).parents('.filterfield').children('option:selected').first());
+            if (r != null) {
+                url += '/'+r[0]+'/'+r[1];
+            }
+        }
+        url = updateUrl[0];
         if (updateUrl[1] != '') {
             url += '?'+updateUrl[1];
         }
-        dependingElement.load(url);
     },
 
     getFilterConfig: function(element) {
-        $(element).siblings('.fieldconfig').load($(element).data('config-url')+'/'+encodeURIComponent($(element).val()));
+        var otherCompare = '';
+        var otherValue = '';
+        var textSrc = $(element).data('config-url').split('?');
+        var url = textSrc[0]+'/'+encodeURIComponent($(element).val());
+        if ($(element).parents('.filterfield').siblings('.filterfield').length > 0) {
+            var r = this.getRestriction($(element).children('option:selected').first());
+            if (r != null) {
+                url += '/'+r[0]+'/'+r[1];
+            }
+        }
+        if (textSrc[1] != '') {
+            url += '?'+textSrc[1];
+        }
+        $(element).siblings('.fieldconfig').load(url);
+    },
+
+    getRestriction: function(element) {
+        var relation = $(element).data('relation');
+        var other = $(element).parents('#filterfields').find('.filterfield').find('select[name="field[]"]');
+        for (var i=0 ; i<other.length ; i++) {
+            var current = $(other[i]);
+            if (current.val() == relation) {
+                var compare = current.parents('.filterfield').find('select[name="compare_operator[]"]').val();
+                var value = current.parents('.filterfield').find('select[name="value[]"]').val();
+                return new Array(compare, value);
+            }
+        }
+        return null;
     },
 
     removeFilter: function(element) {
@@ -156,6 +189,5 @@ STUDIP.Garuda = {
         textfield.load(url);
         return false;
     }
-
 
 };

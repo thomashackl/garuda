@@ -12,11 +12,10 @@ class UserfilterController extends AuthenticatedController {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             Navigation::activateItem('/messaging/garuda/message');
         }
-        $this->filterfields = UserFilterField::getAvailableFilterFields();
+        UserFilterField::getAvailableFilterFields();
     }
 
     public function add_action($type) {
-        $GLOBALS['perm']->check('root');
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', _('Personen filtern'));
             $this->response->add_header('X-No-Buttons', 1);
@@ -43,12 +42,12 @@ class UserfilterController extends AuthenticatedController {
             case 'employees':
                 $this->filterfields = array(
                     'RestrictedInstituteFilterField' => array(
-                        'depends_on' => 'RestrictedStatusgroupFilterField',
-                        'instance' => new RestrictedInstituteFilterField()
+                        'name' => RestrictedInstituteFilterField::getName(),
+                        'relation' => 'RestrictedStatusgroupFilterField'
                     ),
                     'RestrictedStatusgroupFilterField' => array(
-                        'depends_on' => 'RestrictedInstituteFilterField',
-                        'instance' => new RestrictedStatusgroupFilterField()
+                        'name' => RestrictedStatusgroupFilterField::getName(),
+                        'relation' => 'RestrictedInstituteFilterField'
                     )
                 );
                 break;
@@ -56,17 +55,17 @@ class UserfilterController extends AuthenticatedController {
             default:
             $this->filterfields = array(
                 'RestrictedDegreeFilterField' => array(
-                        'depends_on' => 'RestrictedSubjectFilterField',
-                        'instance' => new RestrictedDegreeFilterField(),
-                    ),
+                    'name' => RestrictedDegreeFilterField::getName(),
+                    'relation' => 'RestrictedSubjectFilterField'
+                ),
                 'RestrictedSubjectFilterField' => array(
-                        'depends_on' => 'RestrictedDegreeFilterField',
-                        'instance' => new RestrictedSubjectFilterField()
-                    ),
+                    'name' => RestrictedSubjectFilterField::getName(),
+                    'relation' => 'RestrictedDegreeFilterField'
+                ),
                 'SemesterofStudyCondition' => array(
-                        'depends_on' => '',
-                        'instance' => new SemesterofStudyCondition()
-                    )
+                    'name' => SemesterofStudyCondition::getName(),
+                    'relation' => ''
+                )
             );
         }
     }
@@ -79,13 +78,8 @@ class UserfilterController extends AuthenticatedController {
         }
     }
 
-    public function restricted_field_config_action($className, $restriction, $selectedCompareOp, $selectedValue) {
-        if ($restriction == 'all') {
-            $restriction = '';
-        }
-        $this->field = new $className('', $restriction);
-        $this->field->setCompareOperator($selectedCompareOp);
-        $this->field->setValue($selectedValue);
+    public function restricted_field_config_action($className, $restrictionCompare='', $restrictionValue='') {
+        $this->field = new $className('', array('compare' => $restrictionCompare, 'value' => $restrictionValue));
     }
 
     public function save_action() {
