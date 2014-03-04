@@ -42,7 +42,12 @@ class InstituteFilterField extends UserFilterField
         // Get all available institutes from database, grouped by faculty.
         $institutes = Institute::getInstitutes();
         foreach ($institutes as $i) {
-            $this->validValues[$i[$this->valuesDbIdField]] = $i['is_fak'] ? $i[$this->valuesDbNameField] : '  '.$i[$this->valuesDbNameField];
+            $this->validValues[$i[$this->valuesDbIdField]] = $i[$this->valuesDbNameField];
+			if ($i['is_fak']) {
+	            $this->validValues[$i[$this->valuesDbIdField].'_children'] = 
+	            	sprintf(_('%s und Untereinrichtungen'), 
+	            	$i[$this->valuesDbNameField]);
+			}
         }
         if ($fieldId) {
             $this->id = $fieldId;
@@ -69,9 +74,18 @@ class InstituteFilterField extends UserFilterField
      * field.
      */
     public function getUsers($restrictions=array()) {
-        $users = array_map(function($u) {
-            return $u->user_id;
-        }, InstituteMember::findByInstitute($this->value));
+    	if (strpos($this->value, '_children') !== false) {
+    		$realValue = substr($this->value, 0, strpos($this->value, '_children'));
+    		$users = DBManager::get()->fetchFirst("SELECT `user_id` FROM `".
+    			$this->userDataDbTable."` WHERE `".$this->userDataDbField.
+    			"` IN (SELECT `".$this->userDataDbField."` FROM `".
+    			$this->valuesDbTable."` WHERE `fakultaets_id`=?)", 
+    			array($realValue));
+		} else {
+	        $users = array_map(function($u) {
+	            return $u->user_id;
+	        }, InstituteMember::findByInstitute($this->value));
+		}
         return $users;
     }
 
