@@ -53,20 +53,20 @@ class UserfilterController extends AuthenticatedController {
                 break;
             case 'students':
             default:
-            $this->filterfields = array(
-                'RestrictedDegreeFilterField' => array(
-                    'name' => RestrictedDegreeFilterField::getName(),
-                    'relation' => 'RestrictedSubjectFilterField'
-                ),
-                'RestrictedSubjectFilterField' => array(
-                    'name' => RestrictedSubjectFilterField::getName(),
-                    'relation' => 'RestrictedDegreeFilterField'
-                ),
-                'SemesterofStudyCondition' => array(
-                    'name' => SemesterofStudyCondition::getName(),
-                    'relation' => ''
-                )
-            );
+                $this->filterfields = array(
+                    'RestrictedDegreeFilterField' => array(
+                        'name' => RestrictedDegreeFilterField::getName(),
+                        'relation' => 'RestrictedSubjectFilterField'
+                    ),
+                    'RestrictedSubjectFilterField' => array(
+                        'name' => RestrictedSubjectFilterField::getName(),
+                        'relation' => 'RestrictedDegreeFilterField'
+                    ),
+                    'SemesterofStudyCondition' => array(
+                        'name' => SemesterofStudyCondition::getName(),
+                        'relation' => ''
+                    ),
+                );
         }
     }
 
@@ -90,7 +90,7 @@ class UserfilterController extends AuthenticatedController {
         $values = Request::getArray('value');
         for ($i=0 ; $i < sizeof($fields) ; $i++) {
             $className = $fields[$i];
-            if ($className) {
+            if ($className && $compareOps[$i] && $values[$i]) {
                 $currentField = new $className();
                 $currentField->setCompareOperator($compareOps[$i]);
                 $currentField->setValue($values[$i]);
@@ -109,7 +109,9 @@ class UserfilterController extends AuthenticatedController {
         } else {
             $filters = array();
         }
-        array_push($filters, serialize($filter));
+        if ($filter->getFields()) {
+            array_push($filters, serialize($filter));
+        }
         $this->flash['filters'] = $filters;
         $this->redirect($this->url_for('message'));
     }

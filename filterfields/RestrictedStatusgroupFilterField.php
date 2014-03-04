@@ -24,10 +24,12 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
     public $userDataDbTable = 'statusgruppe_user';
     public $userDataDbField = 'statusgruppe_id';
 
+    public $config = array();
+
     /**
      * Standard constructor.
      */
-    public function __construct($fieldId='') {
+    public function __construct($fieldId='', $restriction=array()) {
         $this->relations = array(
             'InstituteFilterField' => array(
                 'local_field' => 'range_id',
@@ -39,17 +41,30 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             '!=' => _('ungleich')
         );
         $this->validValues = array();
+        if ($restriction['value']) {
+            switch ($restriction['compare']) {
+                case '!=':
+                    $compare = '!=';
+                    break;
+                case '=':
+                default:
+                    $compare = '==';
+            }
+        }
         // Get Garuda configuration...
-        $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_map(function($i) {
+        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name`, `range_id` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_map(function($i) {
                 return $i['id'];
-            }, $config['institutes'])));
+            }, $this->config['institutes'])));
         foreach ($groups as $g) {
             if ($g['name']) {
-                $this->validValues[$g['name']] = $g['name'];
+                if (!$restriction['value'] || eval("return ('".$g['range_id']."'".$compare."'".$restriction['value']."');")) {
+                    $this->validValues[$g['name']] = $g['name'];
+                }
             }
         }
         natcasesort($this->validValues);
+        $this->validValues = array('' => _('alle')) + $this->validValues;
         if ($fieldId) {
             $this->id = $fieldId;
             $this->load();
@@ -66,21 +81,6 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
     public function getName()
     {
         return _("Statusgruppe");
-    }
-
-    /**
-     * Gets the users affected by the current filter field. If 'all' has been
-     * set as filter value, we "trick" the SQL by injecting an array of all
-     * allowed values. 
-     * 
-     * @param Array $restrictions values from other fields that restrict the valid
-     *                            values for a user (e.g. a semester of study in
-     *                            a given subject)
-     * @return Array All users that are affected by the current condition 
-     *               field.
-     */
-    public function getUsers($restrictions=array()) {
-        return parent::getUsers($restrictions);
     }
 
     /**

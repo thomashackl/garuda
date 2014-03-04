@@ -24,13 +24,15 @@ class RestrictedSubjectFilterField extends SubjectCondition
      */
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
-        $this->validValues = array();
+        $this->validValues = array(
+            '' => _('alle')
+        );
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
         }
         foreach($this->config['studycourses'] as $entry) {
-            if (!$restriction['compare'] || ($restriction && eval("return ('".$entry['abschluss_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
+            if (!$restriction['value'] || ($restriction && eval("return ('".$entry['abschluss_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
                 $s = new Studycourse($entry['studiengang_id']);
                 $this->validValues[$entry['studiengang_id']] = $s->name;
             }

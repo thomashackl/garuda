@@ -87,8 +87,12 @@ class StatusgroupFilterField extends UserFilterField
         $from = "FROM `statusgruppe_user` ";
         $from .= " INNER JOIN `statusgruppen` ON (`statusgruppen`.`statusgruppe_id`=`statusgruppe_user`.`statusgruppe_id`)";
         $from .= " INNER JOIN `Institute` ON (`statusgruppen`.`range_id`=`Institute`.`Institut_id`)";
-        $where = "WHERE `statusgruppen`.`name`".$this->compareOperator."?";
-        $parameters = array($this->value);
+        if ($this->value) {
+            $where = " WHERE `statusgruppen`.`name`".$this->compareOperator."?";
+            $parameters = array($this->value);
+        } else {
+            $where = " WHERE 1";
+        }
         $joinedTables = array(
             'statusgruppe_user' => true,
             'statusgruppen' => true,

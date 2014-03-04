@@ -2,19 +2,17 @@
 <form class="studip_form" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
     <h2><?= _('Welche Personen sollen erfasst werden?') ?></h2>
     <div id="filterfields">
-        <div class="filterfield">
-            <select name="field[]" data-config-url="<?= $controller->url_for('userfilter/restricted_field_config') ?>" onchange="STUDIP.Garuda.getFilterConfig(this)">
-                <option value="">-- <?= _('bitte auswählen') ?> --</option>
         <?php foreach ($filterfields as $className => $data) { ?>
-                <option value="<?= $className ?>" data-relation="<?= htmlReady($data['relation'])?>"><?= htmlReady($data['name']) ?></option>
-        <?php } ?>
-            </select>
-            <span class="fieldconfig" data-update-url="<?= $controller->url_for('userfilter/restricted_field_config') ?>"></span>
+        <div class="filterfield" id="<?= $className ?>" data-relation="<?= htmlReady($data['relation']) ?>">
+            <label class="caption" for="field[]">
+                <?= htmlReady($data['name']) ?>
+            </label>
+            <input type="hidden" name="field[]" value="<?= $className ?>"/>
+            <span class="fieldconfig" data-update-url="<?= $controller->url_for('userfilter/restricted_field_config') ?>">
+                <?= $this->render_partial('userfilter/restricted_field_config', array('field' => new $className())) ?>
+            </span>
         </div>
-    </div>
-    <br/>
-    <div class="filter_action">
-        <?= Button::create(_('Bedingung hinzufügen'), array('id' => 'add_field')) ?>
+        <?php } ?>
     </div>
     <br/>
     <div class="submit_wrapper">

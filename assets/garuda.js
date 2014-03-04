@@ -61,6 +61,7 @@ STUDIP.Garuda = {
         if (textSrc[1] != '') {
             url += '?'+textSrc[1];
         }
+        $('#config').html($('<img>').attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
         $('#config').load(url);
     },
 
@@ -94,6 +95,7 @@ STUDIP.Garuda = {
                 if (textSrc[1] != '') {
                     url += '?'+textSrc[1];
                 }
+                textfield.html($('<img>').attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
                 textfield.load(url);
             }
         });
@@ -119,18 +121,25 @@ STUDIP.Garuda = {
     },
 
     getFieldConfig: function(element) {
-        var otherCompare = '';
-        var otherValue = '';
-        var updateUrl = $(element).parents('.fieldconfig').data('update-url').split('?');
-        if ($(element).parents('.filterfield').siblings('.filterfield').length > 0) {
-            var r = this.getRestriction($(element).parents('.filterfield').children('option:selected').first());
-            if (r != null) {
-                url += '/'+r[0]+'/'+r[1];
+        var ancestor = $(element).parents('.filterfield');
+        var relation = ancestor.data('relation');
+        if (relation != '') {
+            var compare = encodeURIComponent($(element).siblings('select[name="compare_operator[]"]').val());
+            var value = encodeURIComponent($(element).val());
+            var relatedElement = $('#'+relation);
+            var updateUrl = $(element).parent().data('update-url').split('?');
+            url = updateUrl[0] + '/' + relation;
+            var otherCompare = relatedElement.find('select[name="compare_operator[]"]').val();
+            var otherValue = relatedElement.find('select[name="value[]"]').val();
+            url += '/'+compare+'/'+value;
+            if (updateUrl[1] != '') {
+                url += '?'+updateUrl[1];
             }
-        }
-        url = updateUrl[0];
-        if (updateUrl[1] != '') {
-            url += '?'+updateUrl[1];
+            relatedElement.children('.fieldconfig').html($('<img>').attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
+            relatedElement.children('.fieldconfig').load(url, function() {
+                relatedElement.children('.fieldconfig').find('option[value="'+otherCompare+'"]').attr('selected', true);
+                relatedElement.children('.fieldconfig').find('option[value="'+otherValue+'"]').attr('selected', true);
+            });
         }
     },
 
@@ -139,30 +148,11 @@ STUDIP.Garuda = {
         var otherValue = '';
         var textSrc = $(element).data('config-url').split('?');
         var url = textSrc[0]+'/'+encodeURIComponent($(element).val());
-        if ($(element).parents('.filterfield').siblings('.filterfield').length > 0) {
-            var r = this.getRestriction($(element).children('option:selected').first());
-            if (r != null) {
-                url += '/'+r[0]+'/'+r[1];
-            }
-        }
         if (textSrc[1] != '') {
             url += '?'+textSrc[1];
         }
+        $(element).siblings('.fieldconfig').html($('<img>').attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
         $(element).siblings('.fieldconfig').load(url);
-    },
-
-    getRestriction: function(element) {
-        var relation = $(element).data('relation');
-        var other = $(element).parents('#filterfields').find('.filterfield').find('select[name="field[]"]');
-        for (var i=0 ; i<other.length ; i++) {
-            var current = $(other[i]);
-            if (current.val() == relation) {
-                var compare = current.parents('.filterfield').find('select[name="compare_operator[]"]').val();
-                var value = current.parents('.filterfield').find('select[name="value[]"]').val();
-                return new Array(compare, value);
-            }
-        }
-        return null;
     },
 
     removeFilter: function(element) {
@@ -186,6 +176,7 @@ STUDIP.Garuda = {
                 url += '?'+textSrc[1];
             }
         }
+        textfield.html($('<img>').attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
         textfield.load(url);
         return false;
     }
