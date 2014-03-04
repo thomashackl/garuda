@@ -62,8 +62,8 @@ class UserfilterController extends AuthenticatedController {
                         'name' => RestrictedSubjectFilterField::getName(),
                         'relation' => 'RestrictedDegreeFilterField'
                     ),
-                    'SemesterofStudyCondition' => array(
-                        'name' => SemesterofStudyCondition::getName(),
+                    'RestrictedSemesterofStudyFilterField' => array(
+                        'name' => RestrictedSemesterofStudyFilterField::getName(),
                         'relation' => ''
                     ),
                 );
