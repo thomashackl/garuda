@@ -12,7 +12,7 @@
         </label>
         <input type="checkbox" class="tree" id="<?= $i['id'] ?>"/>
         <?php } ?>
-        <?php if ($i['sub_institutes']) ?>
+        <?php if (is_array($i['sub_institutes'])) ?>
         <ul>
             <?php foreach ($i['sub_institutes'] as $s) { ?>
             <li class="institute" id="inst_<?= $s['id'] ?>">

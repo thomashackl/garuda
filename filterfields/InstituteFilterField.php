@@ -42,7 +42,7 @@ class InstituteFilterField extends UserFilterField
         // Get all available institutes from database, grouped by faculty.
         $institutes = Institute::getInstitutes();
         foreach ($institutes as $i) {
-            $this->validValues[$i[$this->valuesDbIdField]] = $i['is_fak'] ? $i[$this->valuesDbNameField] : '&nbsp;&nbsp;'.$i[$this->valuesDbNameField];
+            $this->validValues[$i[$this->valuesDbIdField]] = $i['is_fak'] ? $i[$this->valuesDbNameField] : '  '.$i[$this->valuesDbNameField];
         }
         if ($fieldId) {
             $this->id = $fieldId;
