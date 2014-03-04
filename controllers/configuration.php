@@ -29,15 +29,19 @@ class ConfigurationController extends AuthenticatedController {
         $info = array();
         $info[] = array(
                       "icon" => "icons/16/black/doctoral_cap.png",
-                      "text" => "Hier können Sie pro Einrichtung einstellen, ".
+                      "text" => _("Hier können Sie pro Einrichtung einstellen, ".
                                 "welche Studiengänge als Zielgruppe für ".
-                                "Nachrichten erlaubt sind.");
+                                "Nachrichten erlaubt sind."));
+        $info[] = array(
+                      "icon" => "icons/16/black/institute.png",
+                      "text" => _("Welche Einrichtungen sind neben den eigenen ".
+                                "als Zielgruppe erlaubt?"));
         $info[] = array(
                       "icon" => "icons/16/black/info.png",
-                      "text" => "Pro Einrichtung kann festgelegt werden, ob ".
+                      "text" => _("Pro Einrichtung kann festgelegt werden, ob ".
                                 "Personen die Berechtigung 'dozent' oder ".
                                 "'admin' haben müssen, um diese Funktion zu ".
-                                "nutzen.");
+                                "nutzen."));
         $infotext = array(
             array("kategorie" => _('Informationen:'),
                   "eintrag" => $info

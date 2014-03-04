@@ -102,19 +102,8 @@ class GarudaModel {
                 'id' => $i->Institut_id,
                 'name' => $i->Name,
                 'faculty' => $i->fakultaets_id,
-                'is_fak' => $i->is_fak,
-                'sub_institutes' => array()
+                'is_fak' => $i->is_fak
             );
-            if ($i->is_fak) {
-                foreach ($i->sub_institutes as $s) {
-                    $userConfig['institutes'][$inst['Institut_id']]['sub_institutes'][$s->Institut_id] = array(
-                        'id' => $s->Institut_id,
-                        'name' => $s->Name,
-                        'faculty' => $s->fakultaets_id,
-                        'is_fak' => $i->is_fak,
-                    );
-                }
-            }
         }
         return $userConfig;
     }

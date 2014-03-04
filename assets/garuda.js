@@ -112,6 +112,12 @@ STUDIP.Garuda = {
     },
 
     initRecipientView: function() {
+        $('li.degree label').on('click', function(event) {
+            var img = $(this).children('img').first();
+            var tmp = img.data('toggle-icon');
+            img.data('toggle-icon', img.attr('src'));
+            img.attr('src', tmp);
+        });
         $('li.faculty label').on('click', function(event) {
             var img = $(this).children('img').first();
             var tmp = img.data('toggle-icon');

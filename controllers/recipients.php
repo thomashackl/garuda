@@ -41,7 +41,20 @@ class RecipientsController extends AuthenticatedController {
                     );
                 }
             }
-            $this->institutes = $this->config['institutes'];
+            $this->institutes = array();
+            foreach ($this->config['institutes'] as $id => $data) {
+                if (!$this->config['institutes'][$data['faculty']]) {
+                    $this->institutes[$id] = $data;
+                } else {
+                    if ($this->institutes[$id]) {
+                        $this->institutes[$id] = $data;
+                    } else {
+                        if ($id != $data['faculty']) {
+                            $this->institutes[$data['faculty']]['sub_institutes'][$id] = $data;
+                        }
+                    }
+                }
+            }
         }
     }
 
