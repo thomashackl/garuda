@@ -1,18 +1,18 @@
-<h1><?= _('An welche Empfängerkreise darf ich schreiben?') ?></h1>
+<h1><?= dgettext('garudaplugin', 'An welche Empfängerkreise darf ich schreiben?') ?></h1>
 <?php if ($i_am_root) { ?>
-<?= formatReady(_('Mit Ihren Root-Rechten dürfen Sie an alle schreiben!').' :thumb:') ?>
+<?= formatReady(dgettext('garudaplugin', 'Mit Ihren Root-Rechten dürfen Sie an alle schreiben!').' :thumb:') ?>
 <?php } else { ?>
-<h2><?= _('Studiengänge') ?></h2>
+<h2><?= dgettext('garudaplugin', 'Studiengänge') ?></h2>
     <?php if ($studycourses) { ?>
 <?= $this->render_partial('recipients/_studycourses') ?>
     <?php } else { ?>
-    <?= _('Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben.') ?>
+    <?= dgettext('garudaplugin', 'Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben.') ?>
     <?php } ?>
-<h2><?= _('Einrichtungen') ?></h2>
+<h2><?= dgettext('garudaplugin', 'Einrichtungen') ?></h2>
     <?php if ($institutes) { ?>
 <?= $this->render_partial('recipients/_institutes') ?>
     <?php } else { ?>
-    <?= _('Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben.') ?>
+    <?= dgettext('garudaplugin', 'Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben.') ?>
     <?php } ?>
 <?php } ?>
 <script type="text/javascript">

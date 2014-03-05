@@ -75,23 +75,23 @@ class MessageController extends AuthenticatedController {
             $info = array();
             $info[] = array(
                           "icon" => "icons/16/black/mail.png",
-                          "text" => _("Schreiben Sie hier Nachrichten an ".
+                          "text" => dgettext('garudaplugin', "Schreiben Sie hier Nachrichten an ".
                                     "ausgewählte Empfängerkreise in Stud.IP."));
             $info[] = array(
                           "icon" => "icons/16/black/group2.png",
-                          "text" => _("Sie können alle Studiengänge und alle ".
+                          "text" => dgettext('garudaplugin', "Sie können alle Studiengänge und alle ".
                                     "Beschäftigten auswählen, die den ".
                                     "Einrichtungen angehören, auf die Sie Zugriff ".
                                     "haben."));
             $info[] = array(
                           "icon" => "icons/16/black/edit.png",
-                          "text" => sprintf(_("Verwenden Sie im Nachrichteninhalt ".
+                          "text" => sprintf(dgettext('garudaplugin', "Verwenden Sie im Nachrichteninhalt ".
                                     "%sTextformatierungen%s."), 
                                     '<a href="'.htmlReady(format_help_url("Basis/VerschiedenesFormat")).
                                     '" target="_blank" title="'.
-                                    _('Stud.IP-Hilfe zu Textformatierungen').'">', '</a>'));
+                                    dgettext('garudaplugin', 'Stud.IP-Hilfe zu Textformatierungen').'">', '</a>'));
             $infotext = array(
-                array("kategorie" => _('Informationen:'),
+                array("kategorie" => dgettext('garudaplugin', 'Informationen:'),
                       "eintrag" => $info
                 )
             );
@@ -142,9 +142,9 @@ class MessageController extends AuthenticatedController {
         $users = array_unique($users);
 
         if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'])) {
-            $this->flash['success'] = sprintf(_('Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben.'), sizeof($users));
+            $this->flash['success'] = sprintf(dgettext('garudaplugin', 'Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben.'), sizeof($users));
         } else {
-            $this->flash['success'] = sprintf(_('Ihre Nachricht an %s Personen konnte nicht gesendet werden.'), sizeof($users));
+            $this->flash['success'] = sprintf(dgettext('garudaplugin', 'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'), sizeof($users));
         }
 
         $this->redirect($this->url_for('message'));

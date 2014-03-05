@@ -7,17 +7,17 @@ if ($flash['error']) {
     echo MessageBox::error($flash['error']);
 }
 ?>
-<h1><?= _('Nachricht schreiben') ?></h1>
+<h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
 <form class="studip_form" action="<?= $controller->url_for('message') ?>" method="post">
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
-        <legend><?= _('Empfängerkreis') ?></legend>
-        <label class="caption" for="sendto"><?= _('An wen soll die Nachricht gesendet werden?') ?></label>
-        <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/> <?= _('alle') ?>
+        <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
+        <label class="caption" for="sendto"><?= dgettext('garudaplugin', 'An wen soll die Nachricht gesendet werden?') ?></label>
+        <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'alle') ?>
         <br/>
-        <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/> <?= _('Studierende') ?>
+        <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Studierende') ?>
         <br/>
-        <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/> <?= _('Beschäftigte') ?>
+        <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Beschäftigte') ?>
         <br/>
         <div id="filters">
             <span class="filtertext" data-text-src="<?= $controller->url_for('message') ?>">
@@ -36,18 +36,18 @@ if ($flash['error']) {
             <?php } ?>
         </div>
         <br/>
-        <?= Button::create(_('Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
+        <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
     </fieldset>
     <fieldset>
-        <legend><?= _('Nachrichteninhalt') ?></legend>
-        <label class="caption" for="subject"><?= _('Betreff') ?></label>
-        <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= _('Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="100" maxlength="255"/>
-        <label class="caption" for="message"><?= _('Nachrichtentext') ?></label>
-        <textarea name="message" placeholder="<?= _('Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
+        <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
+        <label class="caption" for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
+        <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="100" maxlength="255"/>
+        <label class="caption" for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
+        <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
     </fieldset>
     <div class="submit_wrapper">
         <?= CSRFProtection::tokenTag() ?>
-        <?= Button::createAccept(_('Nachricht verschicken'), 'submit') ?>
+        <?= Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
     </div>
 </form>
 <script type="text/javascript">

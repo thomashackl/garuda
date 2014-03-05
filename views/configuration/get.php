@@ -2,11 +2,11 @@
 use Studip\Button;
 ?>
     <label class="caption" for="perm">
-        <?= _('Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den Nachrichtenversand nutzen zu dürfen?') ?>
+        <?= dgettext('garudaplugin', 'Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den Nachrichtenversand nutzen zu dürfen?') ?>
     </label>
     <select name="perm" id="perm">
-        <option value="admin"<?= ($config['min_perm'] == 'admin') ? ' selected="selected"' : '' ?>><?= _('admin') ?></option>
-        <option value="dozent"<?= ($config['min_perm'] == 'dozent') ? ' selected="selected"' : '' ?>><?= _('dozent') ?></option>
+        <option value="admin"<?= ($config['min_perm'] == 'admin') ? ' selected="selected"' : '' ?>><?= dgettext('garudaplugin', 'admin') ?></option>
+        <option value="dozent"<?= ($config['min_perm'] == 'dozent') ? ' selected="selected"' : '' ?>><?= dgettext('garudaplugin', 'dozent') ?></option>
     </select>
     <br/><br/>
     <?= $this->render_partial('configuration/_studycourses') ?>
@@ -14,7 +14,7 @@ use Studip\Button;
     <?= $this->render_partial('configuration/_institutes') ?>
     <br/><br/>
     <div class="submit_wrapper">
-        <?= Button::createAccept(_('Einstellungen für die aktuell gewählte Einrichtung speichern'), 'submit') ?>
+        <?= Button::createAccept(dgettext('garudaplugin', 'Einstellungen für die aktuell gewählte Einrichtung speichern'), 'submit') ?>
     </div>
     <script type="text/javascript">
     //<!--

@@ -37,12 +37,12 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
             if ($config['studycourses'] || $config['institutes']) {
                 parent::__construct();
                 $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
-                $navigation->addSubNavigation('message', new Navigation(_('Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
-                $navigation->addSubNavigation('recipients', new Navigation(_('An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
+                $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
+                $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
                 PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
                 PageLayout::addScript($this->getPluginURL().'/assets/garuda.js');
                 if ($GLOBALS['perm']->have_perm('root')) {
-                    $navigation->addSubNavigation('configuration', new Navigation(_('Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
+                    $navigation->addSubNavigation('configuration', new Navigation(dgettext('garudaplugin', 'Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
                 }
                 Navigation::addItem('/messaging/garuda', $navigation);
             }
@@ -53,7 +53,7 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
      * Plugin name to show in navigation.
      */
     public function getDisplayName() {
-        return _('Nachrichten an Zielgruppen');
+        return dgettext('garudaplugin', 'Nachrichten an Zielgruppen');
     }
 
     public function initialize () {

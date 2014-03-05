@@ -25,7 +25,7 @@ class RestrictedSubjectFilterField extends SubjectCondition
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
         $this->validValues = array(
-            '' => _('alle')
+            '' => dgettext('garudaplugin', 'alle')
         );
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         if ($restriction['compare'] == '=') {
@@ -46,7 +46,7 @@ class RestrictedSubjectFilterField extends SubjectCondition
      */
     public function getName()
     {
-        return _("Studienfach");
+        return dgettext('garudaplugin', "Studienfach");
     }
 
     /**

@@ -17,7 +17,7 @@ class UserfilterController extends AuthenticatedController {
 
     public function add_action($type) {
         if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _('Personen filtern'));
+            $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
             $this->response->add_header('X-No-Buttons', 1);
         }
         switch($type) {
@@ -35,7 +35,7 @@ class UserfilterController extends AuthenticatedController {
 
     public function addrestricted_action($type) {
         if (Request::isXhr()) {
-            $this->response->add_header('X-Title', _('Personen filtern'));
+            $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
             $this->response->add_header('X-No-Buttons', 1);
         }
         switch($type) {

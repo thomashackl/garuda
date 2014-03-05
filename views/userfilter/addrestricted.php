@@ -1,6 +1,6 @@
 <?php use Studip\Button, Studip\LinkButton; ?>
 <form class="studip_form" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
-    <h2><?= _('Welche Personen sollen erfasst werden?') ?></h2>
+    <h2><?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?></h2>
     <div id="filterfields">
         <?php foreach ($filterfields as $className => $data) { ?>
         <div class="filterfield" id="<?= $className ?>" data-relation="<?= htmlReady($data['relation']) ?>">
@@ -26,7 +26,7 @@
             <?php } ?>
         <?php } ?>
         <?= CSRFProtection::tokenTag() ?>
-        <?= Button::createAccept(_('Filter übernehmen'), 'submit') ?>
+        <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
     </div>
 </form>
 <script type="text/javascript">

@@ -1,5 +1,5 @@
     <label class="caption" for="studycourse[]">
-        <?= _('An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
+        <?= dgettext('garudaplugin', 'An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
     </label>
     <ul id="degrees">
         <?php foreach ($degrees as $degree) { ?>
@@ -11,10 +11,10 @@
             </label>
             <span class="actions" id="actions_<?= $degree['abschluss_id']?>" style="display: none">
                 (
-                <?= _('markieren:') ?>
-                <a class="all"><?= _('alle') ?></a>
+                <?= dgettext('garudaplugin', 'markieren:') ?>
+                <a class="all"><?= dgettext('garudaplugin', 'alle') ?></a>
                 |
-                <a class="none"><?= _('keine') ?></a>
+                <a class="none"><?= dgettext('garudaplugin', 'keine') ?></a>
                 )
             </span>
             <input type="checkbox" class="tree" id="<?= $degree['abschluss_id'] ?>"/>

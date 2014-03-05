@@ -29,21 +29,21 @@ class ConfigurationController extends AuthenticatedController {
         $info = array();
         $info[] = array(
                       "icon" => "icons/16/black/doctoral_cap.png",
-                      "text" => _("Hier können Sie pro Einrichtung einstellen, ".
+                      "text" => dgettext('garudaplugin', "Hier können Sie pro Einrichtung einstellen, ".
                                 "welche Studiengänge als Zielgruppe für ".
                                 "Nachrichten erlaubt sind."));
         $info[] = array(
                       "icon" => "icons/16/black/institute.png",
-                      "text" => _("Welche Einrichtungen sind neben den eigenen ".
+                      "text" => dgettext('garudaplugin', "Welche Einrichtungen sind neben den eigenen ".
                                 "als Zielgruppe erlaubt?"));
         $info[] = array(
                       "icon" => "icons/16/black/info.png",
-                      "text" => _("Pro Einrichtung kann festgelegt werden, ob ".
+                      "text" => dgettext('garudaplugin', "Pro Einrichtung kann festgelegt werden, ob ".
                                 "Personen die Berechtigung 'dozent' oder ".
                                 "'admin' haben müssen, um diese Funktion zu ".
                                 "nutzen."));
         $infotext = array(
-            array("kategorie" => _('Informationen:'),
+            array("kategorie" => dgettext('garudaplugin', 'Informationen:'),
                   "eintrag" => $info
             )
         );
@@ -67,9 +67,9 @@ class ConfigurationController extends AuthenticatedController {
                 return array('degree' => $data[0], 'subject' => $data[1]);
             }, Request::getArray('studycourses'));
         if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
-            $this->flash['success'] = _('Die Änderungen wurden gespeichert.');
+            $this->flash['success'] = dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.');
         } else {
-            $this->flash['error'] = _('Die Änderungen konnten nicht gespeichert werden.');
+            $this->flash['error'] = dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.');
         }
         $this->flash['institute_id'] = Request::option('institute');
         $this->redirect($this->url_for('configuration'));

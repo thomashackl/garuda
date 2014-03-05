@@ -37,8 +37,8 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
+            '=' => dgettext('garudaplugin', 'gleich'),
+            '!=' => dgettext('garudaplugin', 'ungleich')
         );
         $this->validValues = array();
         if ($restriction['value']) {
@@ -72,7 +72,7 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             }
         }
         natcasesort($this->validValues);
-        $this->validValues = array('' => _('alle')) + $this->validValues;
+        $this->validValues = array('' => dgettext('garudaplugin', 'alle')) + $this->validValues;
         if ($fieldId) {
             $this->id = $fieldId;
             $this->load();
@@ -88,7 +88,7 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
      */
     public function getName()
     {
-        return _("Statusgruppe");
+        return dgettext('garudaplugin', "Statusgruppe");
     }
 
     /**

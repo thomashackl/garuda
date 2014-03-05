@@ -1,5 +1,5 @@
     <label class="caption" for="institutes[]">
-        <?= _('An welche Einrichtungen (außer der/den eigenen) soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
+        <?= dgettext('garudaplugin', 'An welche Einrichtungen (außer der/den eigenen) soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
     </label>
     <ul id="faculties">
         <?php $first = true; ?>
@@ -21,10 +21,10 @@
             </label>
             <span class="actions" id="actions_<?= $i['Institut_id'] ?>" style="display: none">
                 (
-                <?= _('markieren:') ?>
-                <a class="all"><?= _('alle') ?></a>
+                <?= dgettext('garudaplugin', 'markieren:') ?>
+                <a class="all"><?= dgettext('garudaplugin', 'alle') ?></a>
                 |
-                <a class="none"><?= _('keine') ?></a>
+                <a class="none"><?= dgettext('garudaplugin', 'keine') ?></a>
                 )
             </span>
             <input type="checkbox" class="tree" id="<?= $i['Institut_id'] ?>"/>

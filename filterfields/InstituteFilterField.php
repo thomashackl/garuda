@@ -35,8 +35,8 @@ class InstituteFilterField extends UserFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => _('gleich'),
-            '!=' => _('ungleich')
+            '=' => dgettext('garudaplugin', 'gleich'),
+            '!=' => dgettext('garudaplugin', 'ungleich')
         );
         $this->validValues = array();
         // Get all available institutes from database, grouped by faculty.
@@ -45,7 +45,7 @@ class InstituteFilterField extends UserFilterField
             $this->validValues[$i[$this->valuesDbIdField]] = $i[$this->valuesDbNameField];
 			if ($i['is_fak']) {
 	            $this->validValues[$i[$this->valuesDbIdField].'_children'] = 
-	            	sprintf(_('%s und Untereinrichtungen'), 
+	            	sprintf(dgettext('garudaplugin', '%s und Untereinrichtungen'), 
 	            	$i[$this->valuesDbNameField]);
 			}
         }
@@ -64,7 +64,7 @@ class InstituteFilterField extends UserFilterField
      */
     public function getName()
     {
-        return _("Einrichtung");
+        return dgettext('garudaplugin', "Einrichtung");
     }
 
     /**

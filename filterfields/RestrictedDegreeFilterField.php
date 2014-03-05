@@ -25,7 +25,7 @@ class RestrictedDegreeFilterField extends DegreeCondition
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
         $this->validValues = array(
-            '' => _('alle')
+            '' => dgettext('garudaplugin', 'alle')
         );
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         if ($restriction['compare'] == '=') {
@@ -46,7 +46,7 @@ class RestrictedDegreeFilterField extends DegreeCondition
      */
     public function getName()
     {
-        return _("Abschluss");
+        return dgettext('garudaplugin', "Abschluss");
     }
 
 } /* end of class RestrictedDegreeFilterField */

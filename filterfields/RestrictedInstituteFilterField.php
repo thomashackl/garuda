@@ -57,7 +57,7 @@ class RestrictedInstituteFilterField extends InstituteFilterField
                 }
             }
         }
-        $this->validValues = array('' => _('alle')) + $this->validValues;
+        $this->validValues = array('' => dgettext('garudaplugin', 'alle')) + $this->validValues;
     }
 
     /**

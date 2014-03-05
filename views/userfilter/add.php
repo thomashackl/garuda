@@ -1,10 +1,10 @@
 <?php use Studip\Button, Studip\LinkButton; ?>
 <form class="studip_form" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
-    <h2><?= _('Welche Personen sollen erfasst werden?') ?></h2>
+    <h2><?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?></h2>
     <div id="filterfields">
         <div class="filterfield">
             <select name="field[]" data-config-url="<?= $controller->url_for('userfilter/field_config') ?>" onchange="STUDIP.Garuda.getFilterConfig(this)">
-                <option value="">-- <?= _('bitte auswählen') ?> --</option>
+                <option value="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
         <?php foreach ($filterfields as $className => $displayName) { ?>
                 <option value="<?= $className ?>"><?= htmlReady($displayName) ?></option>
         <?php } ?>
@@ -14,7 +14,7 @@
     </div>
     <br/>
     <div class="filter_action">
-        <?= Button::create(_('Bedingung hinzufügen'), array('id' => 'add_field')) ?>
+        <?= Button::create(dgettext('garudaplugin', 'Bedingung hinzufügen'), array('id' => 'add_field')) ?>
     </div>
     <br/>
     <div class="submit_wrapper">
@@ -28,7 +28,7 @@
             <?php } ?>
         <?php } ?>
         <?= CSRFProtection::tokenTag() ?>
-        <?= Button::createAccept(_('Filter übernehmen'), 'submit') ?>
+        <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
     </div>
 </form>
 <script type="text/javascript">

@@ -18,10 +18,10 @@ class RecipientsController extends AuthenticatedController {
         $info = array();
         $info[] = array(
                         "icon" => "icons/16/black/mail.png",
-                        "text" => _("Hier sehen Sie, an welche Empfängerkreise ".
+                        "text" => dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise ".
                                 "Sie Nachrichten verschicken können."));
         $infotext = array(
-            array("kategorie" => _('Informationen:'),
+            array("kategorie" => dgettext('garudaplugin', 'Informationen:'),
                     "eintrag" => $info
             )
         );
