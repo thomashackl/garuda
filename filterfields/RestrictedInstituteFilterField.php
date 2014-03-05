@@ -25,7 +25,7 @@ class RestrictedInstituteFilterField extends InstituteFilterField
         $this->validValues = array();
         parent::__construct($fieldId);
         // Get Garuda configuration...
-        $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
         // Get legal values for institutes according to statusgroup name restriction.
         $groupRanges = array();
         if ($restriction['value']) {
@@ -43,7 +43,12 @@ class RestrictedInstituteFilterField extends InstituteFilterField
             
         }
         foreach ($this->validValues as $id => $name) {
-            if (!in_array($id, array_keys($config['institutes']))) {
+            if (strpos($id, '_children') !== false) {
+                $realId = substr($id, 0, strpos($id, '_children'));
+            } else {
+                $realId = $id;
+            }
+            if (!in_array($realId, array_keys($this->config['institutes']))) {
                 unset($this->validValues[$id]);
             }
             if ($groupRanges) {
@@ -53,6 +58,31 @@ class RestrictedInstituteFilterField extends InstituteFilterField
             }
         }
         $this->validValues = array('' => _('alle')) + $this->validValues;
+    }
+
+    /**
+     * Gets all users given to the currently selected institute.
+     * 
+     * @return Array All users that are affected by the current condition 
+     * field.
+     */
+    public function getUsers($restrictions=array()) {
+        if (strpos($this->value, '_children') !== false) {
+            $realValue = substr($this->value, 0, strpos($this->value, '_children'));
+            $users = DBManager::get()->fetchFirst("SELECT `user_id` FROM `".
+                $this->userDataDbTable."` WHERE `".$this->userDataDbField.
+                "` IN (SELECT `".$this->userDataDbField."` FROM `".
+                $this->valuesDbTable."` WHERE `fakultaets_id`".$this->compareOperator.
+                "? AND `Institut_id` IN (?) AND `inst_perms`!='user')", 
+                array($realValue, array_keys($this->config['institutes'])));
+        } else {
+            $users = DBManager::get()->fetchFirst("SELECT `user_id` ".
+                "FROM `user_inst` ".
+                "INNER JOIN `Institute` ON (`user_id`.`Institut_id`=`Institute`.`Institut_id`) ".
+                "WHERE `user_inst`.`Institut_id`".$this->compareOperator.
+                "? AND `user_inst`.`inst_perms`!='user'", array($this->value));
+        }
+        return $users;
     }
 
 } /* end of class RestrictedInstituteFilterField */

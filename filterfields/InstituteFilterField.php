@@ -82,9 +82,10 @@ class InstituteFilterField extends UserFilterField
     			$this->valuesDbTable."` WHERE `fakultaets_id`=?)", 
     			array($realValue));
 		} else {
-	        $users = array_map(function($u) {
-	            return $u->user_id;
-	        }, InstituteMember::findByInstitute($this->value));
+            $users = DBManager::get()->fetchFirst("SELECT `user_id` ".
+                "FROM `".$this->userDataDbTable."` ".
+                "WHERE `".$this->userDataDbField."`".$this->compareOperator.
+                "? AND `inst_perms`!='user'", array($this->value));
 		}
         return $users;
     }

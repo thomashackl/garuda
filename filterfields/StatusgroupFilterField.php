@@ -99,6 +99,31 @@ class StatusgroupFilterField extends UserFilterField
             'Institute' => true
         );
         // Check if there are restrictions given.
+        if ($restrictions['InstituteFilterField']) {
+            $restriction = $restrictions['InstituteFilterField'];
+            // Do we need to join in another table?
+            if (!$joinedTables[$restriction['table']]) {
+                $joinedTables[$restriction['table']] = true;
+                $from .= " INNER JOIN `".$restriction['table']."` ON (`".
+                    $this->valuesDbTable."`.`".
+                    $this->relations[$otherField]['local_field']."`=`".
+                    $restriction['table']."`.`".
+                    $this->relations[$otherField]['foreign_field']."`)";
+            }
+            // Check if faculty level with sub institutes has been selected.
+            if (strpos($restriction['value'], '_children') !== false) {
+                $realValue = substr($restriction['value'], 0, strpos($restriction['value'], '_children'));
+                $where .= " AND `".$restriction['table']."`.`fakultaets_id`".$restriction['compare']."(?)";
+                $parameters[] = $realValue;
+            } else {
+                $where .= " AND `".$restriction['table']."`.`".
+                    $restriction['field']."`".$restriction['compare']."(?)";
+                $parameters[] = $restriction['value'];
+            }
+            // Expand WHERE statement with the value from restriction.
+            $where .= " AND `".$restriction['table']."`.`".
+                $restriction['field']."`".$restriction['compare']."(?)";
+        }
         foreach ($restrictions as $otherField => $restriction) {
             // We only take the value into consideration if it represents a valid restriction.
             if ($this->relations[$otherField]) {
@@ -113,7 +138,7 @@ class StatusgroupFilterField extends UserFilterField
                 }
                 // Expand WHERE statement with the value from restriction.
                 $where .= " AND `".$restriction['table']."`.`".
-                    $restriction['field']."`".$restriction['compare']."?";
+                    $restriction['field']."`".$restriction['compare']."(?)";
                 $parameters[] = $restriction['value'];
             }
         }

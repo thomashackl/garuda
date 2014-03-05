@@ -53,12 +53,20 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
         }
         // Get Garuda configuration...
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name`, `range_id` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_map(function($i) {
-                return $i['id'];
-            }, $this->config['institutes'])));
+        $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name`, `range_id` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_keys($this->config['institutes'])));
+        // Check if faculty level with sub institutes has been selected.
+        if (strpos($restriction['value'], '_children') !== false) {
+            $realValue = substr($restriction['value'], 0, strpos($restriction['value'], '_children'));
+            $insts = DBManager::get()->fetchFirst("SELECT `Institut_id` FROM `Institute` WHERE `fakultaets_id`".$restriction['compare']."? AND `Institut_id` IN (?)", array($realValue, array_keys($this->config['institutes'])));
+        }
         foreach ($groups as $g) {
             if ($g['name']) {
-                if (!$restriction['value'] || eval("return ('".$g['range_id']."'".$compare."'".$restriction['value']."');")) {
+                if (strpos($restriction['value'], '_children') !== false) {
+                        $eval = in_array($g['range_id'], $insts);
+                    } else {
+                        $eval = eval("return ('".$g['range_id']."'".$compare."'".$restriction['value']."');");
+                    }
+                if (!$realValue || $eval) {
                     $this->validValues[$g['name']] = $g['name'];
                 }
             }
