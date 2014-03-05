@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-24 16:03+0100\n"
+"POT-Creation-Date: 2014-03-05 12:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,41 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: controllers/configuration.php:42 controllers/message.php:70
+#: controllers/configuration.php:32
+msgid ""
+"Hier können Sie pro Einrichtung einstellen, welche Studiengänge als "
+"Zielgruppe für Nachrichten erlaubt sind."
+msgstr ""
+
+#: controllers/configuration.php:37
+msgid "Welche Einrichtungen sind neben den eigenen als Zielgruppe erlaubt?"
+msgstr ""
+
+#: controllers/configuration.php:41
+msgid ""
+"Pro Einrichtung kann festgelegt werden, ob Personen die Berechtigung "
+"'dozent' oder 'admin' haben müssen, um diese Funktion zu nutzen."
+msgstr ""
+
+#: controllers/configuration.php:46 controllers/message.php:94
 #: controllers/recipients.php:24
 msgid "Informationen:"
 msgstr ""
 
-#: controllers/configuration.php:65
+#: controllers/configuration.php:70
 msgid "Die Änderungen wurden gespeichert."
 msgstr ""
 
-#: controllers/configuration.php:67
+#: controllers/configuration.php:72
 msgid "Die Änderungen konnten nicht gespeichert werden."
 msgstr ""
 
-#: controllers/message.php:28
-msgid "Studiengang"
-msgstr ""
-
-#: controllers/message.php:54
+#: controllers/message.php:78
 msgid ""
 "Schreiben Sie hier Nachrichten an ausgewählte Empfängerkreise in Stud.IP."
 msgstr ""
 
-#: controllers/message.php:58
+#: controllers/message.php:82
 msgid ""
 "Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
 "Einrichtungen angehören, auf die Sie Zugriff haben."
 msgstr ""
 
-#: controllers/message.php:64
+#: controllers/message.php:88
 #, php-format
 msgid "Verwenden Sie im Nachrichteninhalt %sTextformatierungen%s."
 msgstr ""
 
-#: controllers/message.php:68
+#: controllers/message.php:92
 msgid "Stud.IP-Hilfe zu Textformatierungen"
+msgstr ""
+
+#: controllers/message.php:145
+#, php-format
+msgid ""
+"Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben."
+msgstr ""
+
+#: controllers/message.php:147
+#, php-format
+msgid "Ihre Nachricht an %s Personen konnte nicht gesendet werden."
 msgstr ""
 
 #: controllers/recipients.php:21
@@ -59,48 +82,101 @@ msgid ""
 "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."
 msgstr ""
 
-#: controllers/userfilter.php:20 controllers/userfilter.php:36
+#: controllers/userfilter.php:20 controllers/userfilter.php:38
 msgid "Personen filtern"
 msgstr ""
 
-#: filterfields/RestrictedCourseOfStudyFilter.php:29
-#: filterfields/RestrictedCourseOfStudyFilter.php:33
-#: filterfields/RestrictedCourseOfStudyFilter.php:39
+#: filterfields/InstituteFilterField.php:38
+#: filterfields/RestrictedStatusgroupFilterField.php:40
+#: filterfields/StatusgroupFilterField.php:38
 msgid "gleich"
 msgstr ""
 
-#: filterfields/RestrictedCourseOfStudyFilter.php:30
-#: filterfields/RestrictedCourseOfStudyFilter.php:34
-#: filterfields/RestrictedCourseOfStudyFilter.php:40
+#: filterfields/InstituteFilterField.php:39
+#: filterfields/RestrictedStatusgroupFilterField.php:41
+#: filterfields/StatusgroupFilterField.php:39
 msgid "ungleich"
 msgstr ""
 
-#: filterfields/RestrictedCourseOfStudyFilter.php:37
-msgid "mindestens"
+#: filterfields/InstituteFilterField.php:48
+#, php-format
+msgid "%s und Untereinrichtungen"
 msgstr ""
 
-#: filterfields/RestrictedCourseOfStudyFilter.php:38
-msgid "höchstens"
+#: filterfields/InstituteFilterField.php:67
+msgid "Einrichtung"
 msgstr ""
 
-#: filterfields/RestrictedCourseOfStudyFilter.php:81
-msgid "Abschluss, Studiengang und Fachsemester"
+#: filterfields/RestrictedDegreeFilterField.php:28
+#: filterfields/RestrictedInstituteFilterField.php:60
+#: filterfields/RestrictedStatusgroupFilterField.php:75
+#: filterfields/RestrictedSubjectFilterField.php:28
+#: views/configuration/_institutes.php:25
+#: views/configuration/_studycourses.php:15 views/message/index.php:16
+msgid "alle"
 msgstr ""
 
-#: GarudaPlugin.class.php:24 views/message/index.php:10
+#: filterfields/RestrictedDegreeFilterField.php:49
+msgid "Abschluss"
+msgstr ""
+
+#: filterfields/RestrictedStatusgroupFilterField.php:91
+#: filterfields/StatusgroupFilterField.php:67
+msgid "Statusgruppe"
+msgstr ""
+
+#: filterfields/RestrictedSubjectFilterField.php:49
+msgid "Studienfach"
+msgstr ""
+
+#: GarudaCronjob.php:11
+msgid "Nachrichtenversand an Zielgruppen"
+msgstr ""
+
+#: GarudaCronjob.php:15
+msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
+msgstr ""
+
+#: GarudaCronjob.php:24
+msgid "Sollen Ausgaben erzeugt werden"
+msgstr ""
+
+#: GarudaPlugin.class.php:40 views/message/index.php:10
 msgid "Nachricht schreiben"
 msgstr ""
 
-#: GarudaPlugin.class.php:25
+#: GarudaPlugin.class.php:41
 msgid "An wen darf ich schreiben?"
 msgstr ""
 
-#: GarudaPlugin.class.php:29 views/configuration/index.php:9
+#: GarudaPlugin.class.php:45 views/configuration/index.php:9
 msgid "Konfiguration"
 msgstr ""
 
-#: GarudaPlugin.class.php:35
+#: GarudaPlugin.class.php:56
 msgid "Nachrichten an Zielgruppen"
+msgstr ""
+
+#: views/configuration/_institutes.php:2
+msgid ""
+"An welche Einrichtungen (außer der/den eigenen) soll die gewählte "
+"Einrichtung Nachrichten schreiben dürfen?"
+msgstr ""
+
+#: views/configuration/_institutes.php:24
+#: views/configuration/_studycourses.php:14
+msgid "markieren:"
+msgstr ""
+
+#: views/configuration/_institutes.php:27
+#: views/configuration/_studycourses.php:17
+msgid "keine"
+msgstr ""
+
+#: views/configuration/_studycourses.php:2
+msgid ""
+"An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
+"dürfen?"
 msgstr ""
 
 #: views/configuration/get.php:5
@@ -117,28 +193,7 @@ msgstr ""
 msgid "dozent"
 msgstr ""
 
-#: views/configuration/get.php:13
-msgid ""
-"An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
-"dürfen?"
-msgstr ""
-
-#: views/configuration/get.php:25
-msgid "markieren:"
-msgstr ""
-
-#: views/configuration/get.php:26 views/message/index.php:16
-#: views/userfilter/restricted_degrees.php:7
-#: views/userfilter/restricted_subjects.php:7
-#: views/userfilter/restrictedstudy.php:27
-msgid "alle"
-msgstr ""
-
-#: views/configuration/get.php:28
-msgid "keine"
-msgstr ""
-
-#: views/configuration/get.php:47
+#: views/configuration/get.php:17
 msgid "Einstellungen für die aktuell gewählte Einrichtung speichern"
 msgstr ""
 
@@ -225,7 +280,7 @@ msgstr ""
 #: views/message/sendto_filtered.php:11
 msgid ""
 "Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
-"Studiengänge gesendet, die einer der folgenden Bedingungen erfüllen:"
+"Studiengänge gesendet, die eine der folgenden Bedingungen erfüllen:"
 msgstr ""
 
 #: views/recipients/index.php:1
@@ -240,16 +295,16 @@ msgstr ""
 msgid "Studiengänge"
 msgstr ""
 
-#: views/recipients/index.php:30
+#: views/recipients/index.php:9
 msgid ""
 "Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben."
 msgstr ""
 
-#: views/recipients/index.php:32
+#: views/recipients/index.php:11
 msgid "Einrichtungen"
 msgstr ""
 
-#: views/recipients/index.php:57
+#: views/recipients/index.php:15
 msgid ""
 "Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben."
 msgstr ""
@@ -258,7 +313,7 @@ msgstr ""
 msgid "löschen"
 msgstr ""
 
-#: views/userfilter/add.php:3
+#: views/userfilter/add.php:3 views/userfilter/addrestricted.php:3
 msgid "Welche Personen sollen erfasst werden?"
 msgstr ""
 
@@ -266,18 +321,6 @@ msgstr ""
 msgid "Bedingung hinzufügen"
 msgstr ""
 
-#: views/userfilter/add.php:31 views/userfilter/restrictedstudy.php:45
+#: views/userfilter/add.php:31 views/userfilter/addrestricted.php:29
 msgid "Filter übernehmen"
-msgstr ""
-
-#: views/userfilter/restrictedstudy.php:4
-msgid "Abschluss"
-msgstr ""
-
-#: views/userfilter/restrictedstudy.php:11
-msgid "Studienfach"
-msgstr ""
-
-#: views/userfilter/restrictedstudy.php:18
-msgid "Fachsemester"
 msgstr ""
