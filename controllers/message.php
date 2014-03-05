@@ -133,12 +133,31 @@ class MessageController extends AuthenticatedController {
         $recipients = array();
         UserFilterField::getAvailableFilterFields();
         $users = array();
-		// Get configured filters and their corresponding users.
-        foreach ($this->flash['filters'] as $filter) {
-            $f = unserialize($filter);
-            $users = array_merge($users, $f->getUsers());
+		if ($this->flash['filters']) {
+			// Get configured filters and their corresponding users.
+	        foreach ($this->flash['filters'] as $filter) {
+	            $f = unserialize($filter);
+	            $users = array_merge($users, $f->getUsers());
+			}
+        } else {
+        	if ($GLOBALS['perm']->have_perm('root')) {
+        		$c = array();
+        	} else {
+        		$c = $this->config;
+        	}
+        	switch ($this->flash['sendto']) {
+				case 'all':
+					$users = GarudaModel::getAllUsers($GLOBALS['user']->id, $c);
+					break;
+				case 'students':
+					$users = GarudaModel::getAllStudents($GLOBALS['user']->id, $c);
+					break;
+				case 'employees':
+					$users = GarudaModel::getAllEmployees($GLOBALS['user']->id, $c);
+					break;
+        	}
         }
-
+	
         $users = array_unique($users);
 
         if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'])) {

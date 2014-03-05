@@ -198,4 +198,48 @@ class GarudaModel {
         return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=1 WHERE `job_id`=:id", array('id' => $entryId));
     }
 
+    public static function getAllUsers($userId, &$config=array()) {
+    	return array_merge(self::getStudents($userId), self::getEmployees($userId));
+    }
+
+	public static function getAllStudents($userId, &$config=array()) {
+		if ($config) {
+			$query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
+			$parameters = array();
+			$where = "";
+			if ($config['studycourses']) {
+				$query .= " WHERE ";
+				foreach ($config['studycourses'] as $entry) {
+					if ($where) {
+						$where .= " OR ";
+					}
+					$where .=  "(`abschluss_id`=? AND `studiengang_id`=?)";
+					$parameters[] = $entry['abschluss_id'];
+					$parameters[] = $entry['studiengang_id'];
+				}
+				$query .= $where;
+			}
+			return DBManager::get()->fetchFirst($query, $parameters));
+		} else {
+			return DBManager::get()->fetchFirst(
+				"SELECT DISTINCT `user_id` FROM `user_studiengang`"));
+		}
+	}
+
+	public static function getAllEmployees($userId, &$config=array()) {
+		if ($config) {
+			$query = "SELECT DISTINCT `user_id` FROM `user_inst` ".
+				"WHERE `inst_perms`!='user'";
+			$parameters = array();
+			if ($config['institutes']) {
+				$query .= " AND `Institut_id` IN (?)";
+				$parameters[] = array_keys($config['institutes']);
+			}
+			return DBManager::get()->fetchFirst($query, $parameters));
+		} else {
+			return DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` ".
+				"FROM `user_inst` WHERE `inst_perms`!='user'"));
+		}
+	}
+
 }
