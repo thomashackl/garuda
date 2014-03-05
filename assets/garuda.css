@@ -87,3 +87,16 @@ a.all, a.none {
 .studip_form select {
     display: inline;
 }
+
+.fac {
+    font-weight: bold;
+}
+
+.fac_all {
+    font-style: italic;
+    padding-left: 10px;
+}
+
+.inst {
+    padding-left: 15px;
+}

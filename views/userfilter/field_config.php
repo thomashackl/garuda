@@ -8,3 +8,8 @@
     <option value="<?= $id ?>"><?= htmlReady($name) ?></option>
     <?php } ?>
 </select>
+<script type="text/javascript">
+    //<!--
+    STUDIP.Garuda.initField();
+    //-->
+</script>

@@ -111,6 +111,19 @@ STUDIP.Garuda = {
         });
     },
 
+    initField: function() {
+        $('select[name="value[]"] option').each(function() {
+            var prev = $(this).prev();
+            if ($(this).attr('value').indexOf('_children') != -1) {
+                prev.attr('class', 'fac');
+                $(this).attr('class', 'fac_all');
+            }
+            if (prev.attr('class') == 'fac_all' || prev.attr('class') == 'inst') {
+                $(this).attr('class', 'inst');
+            }
+        });
+    },
+
     initRecipientView: function() {
         $('li.degree label').on('click', function(event) {
             var img = $(this).children('img').first();
