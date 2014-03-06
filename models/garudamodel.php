@@ -219,10 +219,10 @@ class GarudaModel {
 				}
 				$query .= $where;
 			}
-			return DBManager::get()->fetchFirst($query, $parameters));
+			return DBManager::get()->fetchFirst($query, $parameters);
 		} else {
 			return DBManager::get()->fetchFirst(
-				"SELECT DISTINCT `user_id` FROM `user_studiengang`"));
+				"SELECT DISTINCT `user_id` FROM `user_studiengang`");
 		}
 	}
 
