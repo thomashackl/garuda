@@ -39,8 +39,6 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
                 $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
                 $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
                 $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
-                PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
-                PageLayout::addScript($this->getPluginURL().'/assets/garuda.js');
                 if ($GLOBALS['perm']->have_perm('root')) {
                     $navigation->addSubNavigation('configuration', new Navigation(dgettext('garudaplugin', 'Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
                 }
@@ -58,6 +56,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     public function initialize () {
         PageLayout::addStylesheet($this->getPluginURL().'/assets/garuda.css');
+        PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
+        PageLayout::addScript($this->getPluginURL().'/assets/garuda.js');
     }
 
     public function perform($unconsumed_path) {
