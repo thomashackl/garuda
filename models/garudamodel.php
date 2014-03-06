@@ -235,10 +235,10 @@ class GarudaModel {
 				$query .= " AND `Institut_id` IN (?)";
 				$parameters[] = array_keys($config['institutes']);
 			}
-			return DBManager::get()->fetchFirst($query, $parameters));
+			return DBManager::get()->fetchFirst($query, $parameters);
 		} else {
 			return DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` ".
-				"FROM `user_inst` WHERE `inst_perms`!='user'"));
+				"FROM `user_inst` WHERE `inst_perms`!='user'");
 		}
 	}
 
