@@ -27,22 +27,28 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
      * Create a new Garuda instance initializing navigation and needed scripts.
      */
     public function __construct() {
+        parent::__construct();
+        $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
+        $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
+        $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
+        if ($GLOBALS['perm']->have_perm('root')) {
+            $navigation->addSubNavigation('configuration', new Navigation(dgettext('garudaplugin', 'Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
+        }
+        Navigation::addItem('/messaging/garuda', $navigation);
+        NotificationCenter::addObserver($this, 'createNavigation', 'NavigationDidActivateItem');
+    }
+
+    public function createNavigation() {
         /*
          * We only need the plugin if we are in messaging and have at least
          * 'dozent' permissions.
          */
-        if (Navigation::hasItem('/messaging/in') && $GLOBALS['perm']->have_perm('dozent')) {
+        if (Navigation::getItem('/messaging')->isActive() && $GLOBALS['perm']->have_perm('dozent')) {
             require_once(realpath(dirname(__FILE__).'/models/garudamodel.php'));
             $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-            if ($config['studycourses'] || $config['institutes']) {
-                parent::__construct();
-                $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
-                $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
-                $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
-                if ($GLOBALS['perm']->have_perm('root')) {
-                    $navigation->addSubNavigation('configuration', new Navigation(dgettext('garudaplugin', 'Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
-                }
-                Navigation::addItem('/messaging/garuda', $navigation);
+            if (!$config['studycourses'] && !$config['institutes']) {
+                $n = Navigation::getItem('/')->removeItem('/messaging/garuda');
+                //echo 'Messaging navigation:<pre>'.print_r($n, true).'</pre>';
             }
         }
     }
