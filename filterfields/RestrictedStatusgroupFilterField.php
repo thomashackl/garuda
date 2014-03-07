@@ -58,15 +58,21 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
         if (strpos($restriction['value'], '_children') !== false) {
             $realValue = substr($restriction['value'], 0, strpos($restriction['value'], '_children'));
             $insts = DBManager::get()->fetchFirst("SELECT `Institut_id` FROM `Institute` WHERE `fakultaets_id`".$restriction['compare']."? AND `Institut_id` IN (?)", array($realValue, array_keys($this->config['institutes'])));
+        } else {
+            $realValue = $restriction['value'];
         }
         foreach ($groups as $g) {
             if ($g['name']) {
                 if (strpos($restriction['value'], '_children') !== false) {
                         $eval = in_array($g['range_id'], $insts);
                     } else {
-                        $eval = eval("return ('".$g['range_id']."'".$compare."'".$restriction['value']."');");
+                        if ($restriction['compare'] && $restriction['value']) {
+                            $eval = eval("return ('".$g['range_id']."'".$compare."'".$realValue."');");
+                        } else {
+                            $eval = true;
+                        }
                     }
-                if (!$realValue || $eval) {
+                if ($eval) {
                     $this->validValues[$g['name']] = $g['name'];
                 }
             }

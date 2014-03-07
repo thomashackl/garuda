@@ -22,6 +22,12 @@ class RestrictedInstituteFilterField extends InstituteFilterField
      * @see UserFilterField::__construct
      */
     public function __construct($fieldId='', $restriction=array()) {
+        $this->relations = array(
+            'RestrictedInstituteFilterField' => array(
+                'local_field' => 'range_id',
+                'foreign_field' => 'Institut_id'
+            )
+        );
         $this->validValues = array();
         parent::__construct($fieldId);
         // Get Garuda configuration...
@@ -78,7 +84,7 @@ class RestrictedInstituteFilterField extends InstituteFilterField
         } else {
             $users = DBManager::get()->fetchFirst("SELECT `user_id` ".
                 "FROM `user_inst` ".
-                "INNER JOIN `Institute` ON (`user_id`.`Institut_id`=`Institute`.`Institut_id`) ".
+                "INNER JOIN `Institute` ON (`user_inst`.`Institut_id`=`Institute`.`Institut_id`) ".
                 "WHERE `user_inst`.`Institut_id`".$this->compareOperator.
                 "? AND `user_inst`.`inst_perms`!='user'", array($this->value));
         }
