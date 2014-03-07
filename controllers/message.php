@@ -87,33 +87,24 @@ class MessageController extends AuthenticatedController {
             $this->redirect($this->url_for('message/send'));
 		// Show normal page.
         } else {
-            $info = array();
-            $info[] = array(
-                          "icon" => "icons/16/black/mail.png",
-                          "text" => dgettext('garudaplugin', "Schreiben Sie hier Nachrichten an ".
-                                    "ausgewählte Empfängerkreise in Stud.IP."));
-            $info[] = array(
-                          "icon" => "icons/16/black/group2.png",
-                          "text" => dgettext('garudaplugin', "Sie können alle Studiengänge und alle ".
+            $this->setInfoBoxImage('infobox/messages.jpg');
+            $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                                dgettext('garudaplugin', "Schreiben Sie hier Nachrichten an ".
+                                    "ausgewählte Empfängerkreise in Stud.IP."),
+                                'icons/16/black/mail.png');
+            $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                                dgettext('garudaplugin', "Sie können alle Studiengänge und alle ".
                                     "Beschäftigten auswählen, die den ".
                                     "Einrichtungen angehören, auf die Sie Zugriff ".
-                                    "haben."));
-            $info[] = array(
-                          "icon" => "icons/16/black/edit.png",
-                          "text" => sprintf(dgettext('garudaplugin', "Verwenden Sie im Nachrichteninhalt ".
+                                    "haben."),
+                                'icons/16/black/group2.png');
+            $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                                sprintf(dgettext('garudaplugin', "Verwenden Sie im Nachrichteninhalt ".
                                     "%sTextformatierungen%s."), 
                                     '<a href="'.htmlReady(format_help_url("Basis/VerschiedenesFormat")).
                                     '" target="_blank" title="'.
-                                    dgettext('garudaplugin', 'Stud.IP-Hilfe zu Textformatierungen').'">', '</a>'));
-            $infotext = array(
-                array("kategorie" => dgettext('garudaplugin', 'Informationen:'),
-                      "eintrag" => $info
-                )
-            );
-            $this->infobox = array(
-                'content' => $infotext,
-                'picture' => 'infobox/messages.jpg'
-            );
+                                    dgettext('garudaplugin', 'Stud.IP-Hilfe zu Textformatierungen').'">', '</a>'),
+                                'icons/16/black/edit.png');
             UserFilterField::getAvailableFilterFields();
             $this->filters = array();
             if ($this->flash['filters']) {

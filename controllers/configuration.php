@@ -41,30 +41,22 @@ class ConfigurationController extends AuthenticatedController {
                 return strnatcasecmp($a->name, $b->name);
             }
         );
-        $info = array();
-        $info[] = array(
-                      "icon" => "icons/16/black/doctoral_cap.png",
-                      "text" => dgettext('garudaplugin', "Hier können Sie pro Einrichtung einstellen, ".
+        $this->setInfoBoxImage('infobox/administration.jpg');
+        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                            dgettext('garudaplugin', "Hier können Sie pro Einrichtung einstellen, ".
                                 "welche Studiengänge als Zielgruppe für ".
-                                "Nachrichten erlaubt sind."));
-        $info[] = array(
-                      "icon" => "icons/16/black/institute.png",
-                      "text" => dgettext('garudaplugin', "Welche Einrichtungen sind neben den eigenen ".
-                                "als Zielgruppe erlaubt?"));
-        $info[] = array(
-                      "icon" => "icons/16/black/info.png",
-                      "text" => dgettext('garudaplugin', "Pro Einrichtung kann festgelegt werden, ob ".
+                                "Nachrichten erlaubt sind."),
+                            'icons/16/black/doctoral_cap.png');
+        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                            dgettext('garudaplugin', "Welche Einrichtungen sind neben den eigenen ".
+                                "als Zielgruppe erlaubt?"),
+                            'icons/16/black/institute.png');
+        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                            dgettext('garudaplugin', "Pro Einrichtung kann festgelegt werden, ob ".
                                 "Personen die Berechtigung 'dozent' oder ".
                                 "'admin' haben müssen, um diese Funktion zu ".
-                                "nutzen."));
-        $infotext = array(
-            array("kategorie" => dgettext('garudaplugin', 'Informationen:'),
-                  "eintrag" => $info
-            )
-        );
-        $this->infobox = array('content' => $infotext,
-                         'picture' => 'infobox/administration.jpg'
-        );
+                                "nutzen."),
+                            'icons/16/black/lock-locked.png');
     }
 
     public function get_action($instituteId) {

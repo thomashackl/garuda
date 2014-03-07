@@ -30,20 +30,11 @@ class RecipientsController extends AuthenticatedController {
     }
 
     public function index_action() {
-        $info = array();
-        $info[] = array(
-                        "icon" => "icons/16/black/mail.png",
-                        "text" => dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise ".
-                                "Sie Nachrichten verschicken können."));
-        $infotext = array(
-            array("kategorie" => dgettext('garudaplugin', 'Informationen:'),
-                    "eintrag" => $info
-            )
-        );
-        $this->infobox = array(
-            'content' => $infotext,
-            'picture' => 'infobox/messages.jpg'
-        );
+        $this->setInfoBoxImage('infobox/messages.jpg');
+        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                            dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise ".
+                                "Sie Nachrichten verschicken können."),
+                            'icons/16/black/mail.png');
         if (!$this->i_am_root) {
             $this->studycourses = array();
             foreach ($this->config['studycourses'] as $s) {
