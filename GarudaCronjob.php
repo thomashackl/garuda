@@ -14,7 +14,7 @@
  * @category    Stud.IP
  */
 
-require_once(realpath(dirname(__FILE__).'/models/garudamodel.php'));
+require_once(realpath(dirname(__FILE__).'/models/GarudaModel.php'));
 
 /**
  * Cron job for processing the messages to send.

@@ -40,17 +40,20 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     public function createNavigation() {
         $garuda = Navigation::getItem('/messaging/garuda');
-        $n = Navigation::getItem('/')->removeItem('/messaging/garuda');
         /*
          * We only need the plugin if we are in messaging and have at least
          * 'dozent' permissions.
          */
         if (Navigation::getItem('/messaging')->isActive() && $GLOBALS['perm']->have_perm('dozent')) {
-            require_once(realpath(dirname(__FILE__).'/models/garudamodel.php'));
+            require_once(realpath(dirname(__FILE__).'/models/GarudaModel.php'));
             $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
             if ($config['studycourses'] || $config['institutes']) {
                 Navigation::getItem('/messaging')->addSubNavigation('garuda', $garuda);
+            } else {
+                Navigation::getItem('/')->removeItem('/messaging/garuda');
             }
+        } else {
+            Navigation::getItem('/')->removeItem('/messaging/garuda');
         }
     }
 
