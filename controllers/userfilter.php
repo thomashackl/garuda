@@ -28,7 +28,7 @@ class UserfilterController extends AuthenticatedController {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             Navigation::activateItem('/messaging/garuda/message');
         }
-        UserFilterField::getAvailableFilterFields();
+        $this->filterfields = UserFilterField::getAvailableFilterFields();
     }
 
     public function add_action($type) {
