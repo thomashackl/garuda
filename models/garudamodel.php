@@ -66,7 +66,7 @@ class GarudaModel {
             'studycourses' => array(),
             'institutes' => array()
         );
-        $userInsts = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId));
+        $userInsts = DBManager::get()->fetchAll("SELECT `Institut_id` FROM `user_inst` WHERE `user_id`=? AND `inst_perms`!='user'", array($userId));
         $config = self::getConfiguration($userInsts);
         foreach ($userInsts as $i) {
             if (!$GLOBALS['perm']->have_studip_perm($config[$i]['min_perm'], $i, $userId)) {
