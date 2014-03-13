@@ -29,6 +29,7 @@ class ConfigurationController extends AuthenticatedController {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
         Navigation::activateItem('/messaging/garuda/configuration');
+        $this->set_content_type('text/html;charset=windows-1252');
     }
 
     public function index_action() {

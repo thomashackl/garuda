@@ -27,6 +27,7 @@ class RecipientsController extends AuthenticatedController {
         if ($GLOBALS['perm']->have_perm('root')) {
             $this->i_am_root = true;
         }
+        $this->set_content_type('text/html;charset=windows-1252');
     }
 
     public function index_action() {

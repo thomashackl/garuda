@@ -29,6 +29,7 @@ class UserfilterController extends AuthenticatedController {
             Navigation::activateItem('/messaging/garuda/message');
         }
         $this->filterfields = UserFilterField::getAvailableFilterFields();
+        $this->set_content_type('text/html;charset=windows-1252');
     }
 
     public function add_action($type) {
