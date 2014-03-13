@@ -2,9 +2,9 @@
 
 /**
  * GarudaModel.php
- * 
+ *
  * Model class for the Garuda mailing plugin.
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of
@@ -16,7 +16,7 @@
  */
 
 class GarudaModel {
-    
+
     public static function getConfiguration($instituteIds) {
         $config = array();
         $db = DBManager::get();
@@ -66,7 +66,7 @@ class GarudaModel {
             'studycourses' => array(),
             'institutes' => array()
         );
-        $userInsts = DBManager::get()->fetchAll("SELECT `Institut_id` FROM `user_inst` WHERE `user_id`=? AND `inst_perms`!='user'", array($userId));
+        $userInsts = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId));
         $config = self::getConfiguration($userInsts);
         foreach ($userInsts as $i) {
             if (!$GLOBALS['perm']->have_studip_perm($config[$i]['min_perm'], $i, $userId)) {

@@ -39,6 +39,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
     }
 
     public function createNavigation() {
+        $garuda = Navigation::getItem('/messaging/garuda');
+        $n = Navigation::getItem('/')->removeItem('/messaging/garuda');
         /*
          * We only need the plugin if we are in messaging and have at least
          * 'dozent' permissions.
@@ -46,9 +48,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         if (Navigation::getItem('/messaging')->isActive() && $GLOBALS['perm']->have_perm('dozent')) {
             require_once(realpath(dirname(__FILE__).'/models/garudamodel.php'));
             $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-            if (!$config['studycourses'] && !$config['institutes']) {
-                $n = Navigation::getItem('/')->removeItem('/messaging/garuda');
-                //echo 'Messaging navigation:<pre>'.print_r($n, true).'</pre>';
+            if ($config['studycourses'] || $config['institutes']) {
+                Navigation::getItem('/messaging')->addSubNavigation('garuda', $garuda);
             }
         }
     }
@@ -79,8 +80,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     private function setupAutoload() {
         StudipAutoloader::addAutoloadPath($GLOBALS['STUDIP_BASE_PATH'].'/lib/classes/admission');
-        StudipAutoloader::addAutoloadPath(__DIR__.'/models');
-        StudipAutoloader::addAutoloadPath(__DIR__.'/filterfields');
+        StudipAutoloader::addAutoloadPath(realpath(dirname(__FILE__).'/models'));
+        StudipAutoloader::addAutoloadPath(realpath(dirname(__FILE__).'/filterfields'));
     }
 
     public static function onEnable($pluginId) {
