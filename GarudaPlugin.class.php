@@ -65,9 +65,16 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
     }
 
     public function initialize () {
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/garuda.min.css');
+        if (Studip\ENV == 'development') {
+            $garudaCSS = $this->getPluginURL().'/assets/garuda.css';
+            $garudaJS = $this->getPluginURL().'/assets/garuda.js';
+        } else {
+            $garudaCSS = $this->getPluginURL().'/assets/garuda.min.css';
+            $garudaJS = $this->getPluginURL().'/assets/garuda.min.js';
+        }
+        PageLayout::addStylesheet($garudaCSS);
         PageLayout::addScript($GLOBALS['ASSETS_URL'].'javascripts/userfilter.js');
-        PageLayout::addScript($this->getPluginURL().'/assets/garuda.min.js');
+        PageLayout::addScript($garudaJS);
     }
 
     public function perform($unconsumed_path) {
