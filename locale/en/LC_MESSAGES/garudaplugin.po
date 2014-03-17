@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-03-17 08:38+0100\n"
-"PO-Revision-Date: 2014-03-05 13:00+0200\n"
+"PO-Revision-Date: 2014-03-17 09:01+0200\n"
 "Last-Translator: Thomas <thomas.hackl@uni-passau.de>\n"
-"Language-Team: English <http://develop.intelec.uni-passau.de/weblate/"
-"projects/studip/garudaplugin/en/>\n"
+"Language-Team: English <http://develop.intelec.uni-"
+"passau.de/weblate/projects/studip/garudaplugin/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: controllers/message.php:96 controllers/message.php:102
 #: controllers/recipients.php:35
 msgid "Informationen"
-msgstr ""
+msgstr "Information"
 
 #: controllers/configuration.php:47
 msgid ""
@@ -43,75 +43,80 @@ msgid ""
 "Pro Einrichtung kann festgelegt werden, ob Personen die Berechtigung "
 "'dozent' oder 'admin' haben müssen, um diese Funktion zu nutzen."
 msgstr ""
+"You can configure per institute if a person needs to be 'dozent' or 'admin' "
+"in order to use this function."
 
 #: controllers/configuration.php:78
 msgid "Die Änderungen wurden gespeichert."
-msgstr ""
+msgstr "The changes have been saved."
 
 #: controllers/configuration.php:80
 msgid "Die Änderungen konnten nicht gespeichert werden."
-msgstr ""
+msgstr "The changes could not be saved."
 
 #: controllers/message.php:93
 msgid ""
 "Schreiben Sie hier Nachrichten an ausgewählte Empfängerkreise in Stud.IP."
-msgstr ""
+msgstr "Here you can write Stud.IP messages to selected target audiences."
 
 #: controllers/message.php:97
 msgid ""
 "Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
 "Einrichtungen angehören, auf die Sie Zugriff haben."
 msgstr ""
+"You can select all studycourses and employees at the institutes you have "
+"access to."
 
 #: controllers/message.php:103
 #, php-format
 msgid "Verwenden Sie im Nachrichteninhalt %sTextformatierungen%s."
-msgstr ""
+msgstr "Use %stext formatting%s in your message."
 
 #: controllers/message.php:107
 msgid "Stud.IP-Hilfe zu Textformatierungen"
-msgstr ""
+msgstr "Stud.IP help for text formatting"
 
 #: controllers/message.php:171
 #, php-format
 msgid ""
 "Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben."
-msgstr ""
+msgstr "Your message to %s persons was assigned for sending."
 
 #: controllers/message.php:173
 #, php-format
 msgid "Ihre Nachricht an %s Personen konnte nicht gesendet werden."
-msgstr ""
+msgstr "Your message to %s persons could not be saved."
 
 #: controllers/recipients.php:36
 msgid ""
 "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."
 msgstr ""
+"Here you can see which target audiences you can select for your messages."
 
 #: controllers/userfilter.php:37 controllers/userfilter.php:55
 msgid "Personen filtern"
-msgstr ""
+msgstr "filter persons"
 
 #: filterfields/InstituteFilterField.php:38
 #: filterfields/RestrictedStatusgroupFilterField.php:40
 #: filterfields/StatusgroupFilterField.php:38
 msgid "gleich"
-msgstr ""
+msgstr "equal"
 
 #: filterfields/InstituteFilterField.php:39
 #: filterfields/RestrictedStatusgroupFilterField.php:41
 #: filterfields/StatusgroupFilterField.php:39
 msgid "ungleich"
-msgstr ""
+msgstr "not equal"
 
 #: filterfields/InstituteFilterField.php:48
 #, php-format
 msgid "%s und Untereinrichtungen"
-msgstr ""
+msgstr "%s and sub institutes"
 
 #: filterfields/InstituteFilterField.php:67
 msgid "Einrichtung"
-msgstr ""
+msgstr "institute"
 
 #: filterfields/RestrictedDegreeFilterField.php:28
 #: filterfields/RestrictedInstituteFilterField.php:66
@@ -120,209 +125,224 @@ msgstr ""
 #: views/configuration/_institutes.php:25
 #: views/configuration/_studycourses.php:15 views/message/index.php:16
 msgid "alle"
-msgstr ""
+msgstr "all"
 
 #: filterfields/RestrictedDegreeFilterField.php:49
 msgid "Abschluss"
-msgstr ""
+msgstr "degree"
 
 #: filterfields/RestrictedStatusgroupFilterField.php:97
 #: filterfields/StatusgroupFilterField.php:67
 msgid "Statusgruppe"
-msgstr ""
+msgstr "status group"
 
 #: filterfields/RestrictedSubjectFilterField.php:49
 msgid "Studienfach"
-msgstr ""
+msgstr "subject"
 
 #: GarudaCronjob.php:25
 msgid "Nachrichtenversand an Zielgruppen"
-msgstr ""
+msgstr "Messages for target audiences"
 
 #: GarudaCronjob.php:29
 msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
-msgstr ""
+msgstr "Sends messages to chosen target audiences."
 
 #: GarudaPlugin.class.php:32 views/message/index.php:10
 msgid "Nachricht schreiben"
-msgstr ""
+msgstr "Write a message"
 
 #: GarudaPlugin.class.php:33
 msgid "An wen darf ich schreiben?"
-msgstr ""
+msgstr "To whom may I write?"
 
 #: GarudaPlugin.class.php:35 views/configuration/index.php:9
 msgid "Konfiguration"
-msgstr ""
+msgstr "Configuration"
 
 #: GarudaPlugin.class.php:64
 msgid "Nachrichten an Zielgruppen"
-msgstr ""
+msgstr "Messages for target audiences"
 
 #: views/configuration/_institutes.php:2
 msgid ""
 "An welche Einrichtungen (außer der/den eigenen) soll die gewählte "
 "Einrichtung Nachrichten schreiben dürfen?"
 msgstr ""
+"Which institutes (except the own ones) should be allowed as message target "
+"for the chosen institute?"
 
 #: views/configuration/_institutes.php:24
 #: views/configuration/_studycourses.php:14
 msgid "markieren:"
-msgstr ""
+msgstr "mark:"
 
 #: views/configuration/_institutes.php:27
 #: views/configuration/_studycourses.php:17
 msgid "keine"
-msgstr ""
+msgstr "none"
 
 #: views/configuration/_studycourses.php:2
 msgid ""
 "An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
 "dürfen?"
 msgstr ""
+"Which studycourses should be allowed as message target for the selected "
+"institute?"
 
 #: views/configuration/get.php:5
 msgid ""
 "Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den "
 "Nachrichtenversand nutzen zu dürfen?"
 msgstr ""
+"What are the minimum permissions needed at this institute in order to be "
+"allowed to send messages?"
 
 #: views/configuration/get.php:8
 msgid "admin"
-msgstr ""
+msgstr "admin"
 
 #: views/configuration/get.php:9
 msgid "dozent"
-msgstr ""
+msgstr "dozent"
 
 #: views/configuration/get.php:17
 msgid "Einstellungen für die aktuell gewählte Einrichtung speichern"
-msgstr ""
+msgstr "Save settings for currently selected institute"
 
 #: views/configuration/index.php:13
 msgid "Einrichtung wählen, für die Einstellungen gesetzt werden sollen:"
-msgstr ""
+msgstr "Choose institute to configure settings for:"
 
 #: views/configuration/index.php:16 views/userfilter/add.php:7
 msgid "bitte auswählen"
-msgstr ""
+msgstr "please choose"
 
 #: views/message/index.php:14
 msgid "Empfängerkreis"
-msgstr ""
+msgstr "Target audience"
 
 #: views/message/index.php:15
 msgid "An wen soll die Nachricht gesendet werden?"
-msgstr ""
+msgstr "Who should the message be sent to?"
 
 #: views/message/index.php:18
 msgid "Studierende"
-msgstr ""
+msgstr "Students"
 
 #: views/message/index.php:20
 msgid "Beschäftigte"
-msgstr ""
+msgstr "Employees"
 
 #: views/message/index.php:39
 msgid "Filter hinzufügen"
-msgstr ""
+msgstr "Add filter"
 
 #: views/message/index.php:42
 msgid "Nachrichteninhalt"
-msgstr ""
+msgstr "Message content"
 
 #: views/message/index.php:43
 msgid "Betreff"
-msgstr ""
+msgstr "Subject"
 
 #: views/message/index.php:44
 msgid "Geben Sie hier den Betreff Ihrer Nachricht ein."
-msgstr ""
+msgstr "Enter the message subject here."
 
 #: views/message/index.php:45
 msgid "Nachrichtentext"
-msgstr ""
+msgstr "Message text"
 
 #: views/message/index.php:46
 msgid "Geben Sie hier den Inhalt Ihrer Nachricht ein."
-msgstr ""
+msgstr "Enter the message text here."
 
 #: views/message/index.php:50
 msgid "Nachricht verschicken"
-msgstr ""
+msgstr "Send message"
 
 #: views/message/sendto_all.php:2
 msgid "Alle oben gewählten Personen erhalten diese Nachricht."
-msgstr ""
+msgstr "All persons selected above will get this message."
 
 #: views/message/sendto_all.php:4
 msgid ""
 "Alle oben gewählten Personen innerhalb der für Sie freigegebenen "
 "Studiengänge und Einrichtungen erhalten diese Nachricht."
 msgstr ""
+"All selected studycourse and institute members you may send to will get this "
+"message."
 
 #: views/message/sendto_filtered.php:3
 msgid ""
 "Diese Nachricht wird an Personen gesendet, die die folgende Bedingung "
 "erfüllen:"
 msgstr ""
+"This message will be sent to persons fulfilling the following condition:"
 
 #: views/message/sendto_filtered.php:5
 msgid ""
 "Diese Nachricht wird an Personen gesendet, die einer der folgenden "
 "Bedingungen erfüllen:"
 msgstr ""
+"This message will be sent to persons fulfilling one of the following "
+"conditions:"
 
 #: views/message/sendto_filtered.php:9
 msgid ""
 "Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
 "Studiengänge gesendet, die die folgende Bedingung erfüllen:"
 msgstr ""
+"This message will be sent to persons fulfilling the following condition and "
+"belonging to the studycourses and institutes you may send to:"
 
 #: views/message/sendto_filtered.php:11
 msgid ""
 "Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
 "Studiengänge gesendet, die eine der folgenden Bedingungen erfüllen:"
 msgstr ""
+"This message will be sent to persons fulfilling one of the following "
+"conditions and belonging to the studycourses and institutes you may send to:"
 
 #: views/recipients/index.php:1
 msgid "An welche Empfängerkreise darf ich schreiben?"
-msgstr ""
+msgstr "Which target audiences am I allowed to send messages to?"
 
 #: views/recipients/index.php:3
 msgid "Mit Ihren Root-Rechten dürfen Sie an alle schreiben!"
-msgstr ""
+msgstr "You are root and may write to all!"
 
 #: views/recipients/index.php:5
 msgid "Studiengänge"
-msgstr ""
+msgstr "Studycourses"
 
 #: views/recipients/index.php:9
 msgid ""
 "Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben."
-msgstr ""
+msgstr "No studycourses have been assigned to you as target audiences."
 
 #: views/recipients/index.php:11
 msgid "Einrichtungen"
-msgstr ""
+msgstr "Institutes"
 
 #: views/recipients/index.php:15
 msgid ""
 "Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben."
-msgstr ""
+msgstr "No institutes have been assigned to you as target audiences."
 
 #: views/userfilter/_show.php:5
 msgid "löschen"
-msgstr ""
+msgstr "delete"
 
 #: views/userfilter/add.php:3 views/userfilter/addrestricted.php:3
 msgid "Welche Personen sollen erfasst werden?"
-msgstr ""
+msgstr "Which persons should be included?"
 
 #: views/userfilter/add.php:17
 msgid "Bedingung hinzufügen"
-msgstr ""
+msgstr "Add condition"
 
 #: views/userfilter/add.php:31 views/userfilter/addrestricted.php:29
 msgid "Filter übernehmen"
-msgstr ""
+msgstr "Save filter"
