@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-05 13:11+0100\n"
+"POT-Creation-Date: 2014-03-17 08:38+0100\n"
 "PO-Revision-Date: 2014-03-05 13:00+0200\n"
 "Last-Translator: Thomas <thomas.hackl@uni-passau.de>\n"
 "Language-Team: English <http://develop.intelec.uni-passau.de/weblate/"
@@ -19,7 +19,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.9-dev\n"
 
-#: controllers/configuration.php:32
+#: controllers/configuration.php:46 controllers/configuration.php:51
+#: controllers/configuration.php:55 controllers/message.php:92
+#: controllers/message.php:96 controllers/message.php:102
+#: controllers/recipients.php:35
+msgid "Informationen"
+msgstr ""
+
+#: controllers/configuration.php:47
 msgid ""
 "Hier können Sie pro Einrichtung einstellen, welche Studiengänge als "
 "Zielgruppe für Nachrichten erlaubt sind."
@@ -27,66 +34,61 @@ msgstr ""
 "For each institute you can configure here which courses of study are allowed "
 "as target recipients for messages."
 
-#: controllers/configuration.php:37
+#: controllers/configuration.php:52
 msgid "Welche Einrichtungen sind neben den eigenen als Zielgruppe erlaubt?"
 msgstr "Which institutes aside from the own ones are allowed as recipients?"
 
-#: controllers/configuration.php:41
+#: controllers/configuration.php:56
 msgid ""
 "Pro Einrichtung kann festgelegt werden, ob Personen die Berechtigung "
 "'dozent' oder 'admin' haben müssen, um diese Funktion zu nutzen."
 msgstr ""
 
-#: controllers/configuration.php:46 controllers/message.php:94
-#: controllers/recipients.php:24
-msgid "Informationen:"
-msgstr ""
-
-#: controllers/configuration.php:70
+#: controllers/configuration.php:78
 msgid "Die Änderungen wurden gespeichert."
 msgstr ""
 
-#: controllers/configuration.php:72
+#: controllers/configuration.php:80
 msgid "Die Änderungen konnten nicht gespeichert werden."
 msgstr ""
 
-#: controllers/message.php:78
+#: controllers/message.php:93
 msgid ""
 "Schreiben Sie hier Nachrichten an ausgewählte Empfängerkreise in Stud.IP."
 msgstr ""
 
-#: controllers/message.php:82
+#: controllers/message.php:97
 msgid ""
 "Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
 "Einrichtungen angehören, auf die Sie Zugriff haben."
 msgstr ""
 
-#: controllers/message.php:88
+#: controllers/message.php:103
 #, php-format
 msgid "Verwenden Sie im Nachrichteninhalt %sTextformatierungen%s."
 msgstr ""
 
-#: controllers/message.php:92
+#: controllers/message.php:107
 msgid "Stud.IP-Hilfe zu Textformatierungen"
 msgstr ""
 
-#: controllers/message.php:145
+#: controllers/message.php:171
 #, php-format
 msgid ""
 "Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben."
 msgstr ""
 
-#: controllers/message.php:147
+#: controllers/message.php:173
 #, php-format
 msgid "Ihre Nachricht an %s Personen konnte nicht gesendet werden."
 msgstr ""
 
-#: controllers/recipients.php:21
+#: controllers/recipients.php:36
 msgid ""
 "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."
 msgstr ""
 
-#: controllers/userfilter.php:20 controllers/userfilter.php:38
+#: controllers/userfilter.php:37 controllers/userfilter.php:55
 msgid "Personen filtern"
 msgstr ""
 
@@ -112,8 +114,8 @@ msgid "Einrichtung"
 msgstr ""
 
 #: filterfields/RestrictedDegreeFilterField.php:28
-#: filterfields/RestrictedInstituteFilterField.php:60
-#: filterfields/RestrictedStatusgroupFilterField.php:75
+#: filterfields/RestrictedInstituteFilterField.php:66
+#: filterfields/RestrictedStatusgroupFilterField.php:81
 #: filterfields/RestrictedSubjectFilterField.php:28
 #: views/configuration/_institutes.php:25
 #: views/configuration/_studycourses.php:15 views/message/index.php:16
@@ -124,7 +126,7 @@ msgstr ""
 msgid "Abschluss"
 msgstr ""
 
-#: filterfields/RestrictedStatusgroupFilterField.php:91
+#: filterfields/RestrictedStatusgroupFilterField.php:97
 #: filterfields/StatusgroupFilterField.php:67
 msgid "Statusgruppe"
 msgstr ""
@@ -133,31 +135,27 @@ msgstr ""
 msgid "Studienfach"
 msgstr ""
 
-#: GarudaCronjob.php:11
+#: GarudaCronjob.php:25
 msgid "Nachrichtenversand an Zielgruppen"
 msgstr ""
 
-#: GarudaCronjob.php:15
+#: GarudaCronjob.php:29
 msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
 msgstr ""
 
-#: GarudaCronjob.php:24
-msgid "Sollen Ausgaben erzeugt werden"
-msgstr ""
-
-#: GarudaPlugin.class.php:40 views/message/index.php:10
+#: GarudaPlugin.class.php:32 views/message/index.php:10
 msgid "Nachricht schreiben"
 msgstr ""
 
-#: GarudaPlugin.class.php:41
+#: GarudaPlugin.class.php:33
 msgid "An wen darf ich schreiben?"
 msgstr ""
 
-#: GarudaPlugin.class.php:45 views/configuration/index.php:9
+#: GarudaPlugin.class.php:35 views/configuration/index.php:9
 msgid "Konfiguration"
 msgstr ""
 
-#: GarudaPlugin.class.php:56
+#: GarudaPlugin.class.php:64
 msgid "Nachrichten an Zielgruppen"
 msgstr ""
 
