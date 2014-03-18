@@ -164,7 +164,7 @@ class MessageController extends AuthenticatedController {
 					break;
         	}
         }
-	
+
         $users = array_unique($users);
 
         if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'])) {
