@@ -52,7 +52,7 @@ class GarudaCronjob extends CronJob {
                 $users = array_map(function($u) {
                     $o = new User($u);
                     return $o->username;
-                }, json_decode($job['recipients']));
+                }, (array) json_decode($job['recipients']));
                 $numRec = sizeof($users);
                 // Send Stud.IP message.
                 $message = $m->send($sender->user_id, $users, $job['subject'], $job['message']);
