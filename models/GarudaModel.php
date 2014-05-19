@@ -198,6 +198,17 @@ class GarudaModel {
         return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=1 WHERE `job_id`=:id", array('id' => $entryId));
     }
 
+    /**
+     * Marks the given cron job entry as done. 
+     * 
+     * 
+     * @param int $entryId entry to be locked
+     * @return Successfully set?
+     */
+    public static function cronEntryDone($entryId) {
+        return DBManager::get()->execute("UPDATE `garuda_messages` SET `done`=1 WHERE `job_id`=:id", array('id' => $entryId));
+    }
+
     public static function getAllUsers($userId, &$config=array()) {
     	return array_merge(self::getStudents($userId), self::getEmployees($userId));
     }

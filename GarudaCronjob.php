@@ -67,6 +67,7 @@ class GarudaCronjob extends CronJob {
                 // Write status to log file.
                 if ($message) {
                     Log::info_garuda(sprintf("Message from %s to %s recipients was sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
+					GarudaModel::cronEntryDone($job['job_id']);
                 } else {
                     Log::error_garuda(sprintf("Message from %s to %s recipients could not be sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
                 }
