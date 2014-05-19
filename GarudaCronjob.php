@@ -70,6 +70,7 @@ class GarudaCronjob extends CronJob {
 					GarudaModel::cronEntryDone($job['job_id']);
                 } else {
                     Log::error_garuda(sprintf("Message from %s to %s recipients could not be sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
+                    GarudaModel::unlockCronEntry($job['job_id']);
                 }
             }
         }

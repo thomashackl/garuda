@@ -184,7 +184,7 @@ class GarudaModel {
      * @return Array of found entries to be processed by cron.
      */
     public static function getCronEntries() {
-        return DBManager::get()->fetchAll("SELECT * FROM `garuda_messages` WHERE `locked`=0 ORDER BY `mkdate`", array());
+        return DBManager::get()->fetchAll("SELECT * FROM `garuda_messages` WHERE `locked`=0 AND `done`=0 ORDER BY `mkdate`", array());
     }
 
     /**
@@ -199,6 +199,17 @@ class GarudaModel {
     }
 
     /**
+     * unlocks the given cron job entry. 
+     * 
+     * 
+     * @param int $entryId entry to be unlocked
+     * @return Successfully unlocked?
+     */
+    public static function unlockCronEntry($entryId) {
+        return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=0 WHERE `job_id`=:id", array('id' => $entryId));
+    }
+
+    /**
      * Marks the given cron job entry as done. 
      * 
      * 
@@ -206,7 +217,9 @@ class GarudaModel {
      * @return Successfully set?
      */
     public static function cronEntryDone($entryId) {
-        return DBManager::get()->execute("UPDATE `garuda_messages` SET `done`=1 WHERE `job_id`=:id", array('id' => $entryId));
+        $success = DBManager::get()->execute("UPDATE `garuda_messages` SET `done`=1 WHERE `job_id`=:id", array('id' => $entryId));
+        $success = $success && self::unlockCronEntry($entryId);
+        return $success;
     }
 
     public static function getAllUsers($userId, &$config=array()) {
