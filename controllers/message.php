@@ -29,6 +29,7 @@ class MessageController extends AuthenticatedController {
             header('Content-Type: text/html; charset=windows-1252');
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
+            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery-typing-0.2.0.min.js');
         }
 		// Navigation handling.
         Navigation::activateItem('/messaging/garuda/message');
@@ -182,6 +183,10 @@ class MessageController extends AuthenticatedController {
         $this->redirect($this->url_for('message'));
     }
 
+    /**
+     * Provides a preview of a given text, possibly with Stud.IP formatting
+     * in it.
+     */
     public function preview_action() {
         $this->text = Request::get('text');
     }

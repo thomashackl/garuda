@@ -96,3 +96,8 @@ a.all, a.none {
 .inst {
     padding-left: 15px;
 }
+
+#preview_message {
+    float: left;
+    margin-left: 20px;
+}
