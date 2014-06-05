@@ -111,9 +111,13 @@ STUDIP.Garuda = {
         $('#reclist').css('display', 'none');
         $('#reclist textarea').attr('disabled', true);
         // Use jQuery typing plugin for message preview.
-        $('input[name="message"]').typing({
-            stop: function(event, elem) {
-                $('#message_preview').load($('input[name="message"]').data('preview-url'), 'text='+$('input[name="message"]').html());
+        $('textarea[name="message"]').typing({
+            stop: function() {
+                var url = $('textarea[name="message"]').data('preview-url').split('?');
+                url = url[0];
+                $('#message_preview').load(url, {
+                    'text': encodeURIComponent($('textarea[name="message"]').val())
+                });
             },
             delay: 500
         });

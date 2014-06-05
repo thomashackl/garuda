@@ -97,7 +97,8 @@ a.all, a.none {
     padding-left: 15px;
 }
 
-#preview_message {
+#message_preview {
     float: left;
-    margin-left: 20px;
+    background-color: #e7ebf1;
+    padding: 10px;
 }

@@ -188,7 +188,7 @@ class MessageController extends AuthenticatedController {
      * in it.
      */
     public function preview_action() {
-        $this->text = Request::get('text');
+        $this->text = studip_utf8decode(urldecode(Request::get('text')));
     }
 
     // customized #url_for for plugins
