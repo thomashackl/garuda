@@ -114,7 +114,7 @@ STUDIP.Garuda = {
         $('input[name="message"]').typing({
             stop: function(event, elem) {
                 $('#message_preview').load($('input[name="message"]').data('preview-url'), {
-                    text: $('input[name="message"]').html()
+                    text: $('input[name="message"]').html();
                 }));
             },
             delay: 500;
