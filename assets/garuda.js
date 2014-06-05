@@ -113,8 +113,8 @@ STUDIP.Garuda = {
         // Use jQuery typing plugin for message preview.
         $('input[name="message"]').typing({
             stop: function(event, elem) {
-                $('#message_preview').load($('input[name="message"]').data('preview-url', {
-                    'text': $('input[name="message"]').html()
+                $('#message_preview').load($('input[name="message"]').data('preview-url'), {
+                    text: $('input[name="message"]').html()
                 }));
             },
             delay: 500;
