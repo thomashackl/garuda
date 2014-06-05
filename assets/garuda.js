@@ -66,7 +66,8 @@ STUDIP.Garuda = {
     },
 
     init: function() {
-        if ($('input[name="sendto"]:checked').val() == 'all') {
+        if ($('input[name="sendto"]:checked').val() == 'all' ||
+                $('input[name="sendto"]:checked').val() == 'list') {
             $('button[name="add_filter"]').addClass('hidden-js');
         }
         $('input[name="sendto"]').on('click', function() {
@@ -77,10 +78,18 @@ STUDIP.Garuda = {
             }
             $('.filtertext').load(url);
             $('.userfilter').remove();
-            if ($('input[name="sendto"]:checked').val() != 'all') {
+            if ($('input[name="sendto"]:checked').val() != 'all' &&
+                    $('input[name="sendto"]:checked').val() != 'list') {
                 $('button[name="add_filter"]').removeClass('hidden-js');
             } else {
                 $('button[name="add_filter"]').addClass('hidden-js');
+            }
+            if ($('input[name="sendto"]:checked').val() == 'list') {
+                $('#reclist').css('display', '');
+                $('#reclist textarea').attr('disabled', false);
+            } else {
+                $('#reclist').css('display', 'none');
+                $('#reclist textarea').attr('disabled', true);
             }
         });
         $('.userfilter_actions a.delete').on('click', function(event) {

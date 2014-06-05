@@ -83,6 +83,7 @@ class MessageController extends AuthenticatedController {
             CSRFProtection::verifyUnsafeRequest();
             $this->flash['sendto'] = Request::option('sendto');
             $this->flash['filters'] = Request::getArray('filters');
+            $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
             $this->redirect($this->url_for('message/send'));
@@ -162,6 +163,11 @@ class MessageController extends AuthenticatedController {
 				case 'employees':
 					$users = GarudaModel::getAllEmployees($GLOBALS['user']->id, $c);
 					break;
+                case 'list':
+                    $users = array_map(function($e) {
+                        return User::findByUsername($e)->user_id;
+                    }, preg_split("/[\r\n]+/", $flash['list'], -1, PREG_SPLIT_NO_EMPTY));
+                    break;
         	}
         }
 

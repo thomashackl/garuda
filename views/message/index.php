@@ -19,6 +19,10 @@ if ($flash['error']) {
         <br/>
         <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Beschäftigte') ?>
         <br/>
+        <?php if ($i_am_root) { ?>
+        <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
+        <br/>
+        <?php } ?>
         <div id="filters">
             <span class="filtertext" data-text-src="<?= $controller->url_for('message') ?>">
             <?php if (!$filters) { ?>
@@ -37,6 +41,11 @@ if ($flash['error']) {
         </div>
         <br/>
         <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
+    </fieldset>
+    <fieldset id="reclist">
+        <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>
+        <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
+        <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (pro Zeile ein Nutzername)') ?>"><?= htmlReady($flash['list']) ?></textarea>
     </fieldset>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
