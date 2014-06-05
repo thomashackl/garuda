@@ -45,7 +45,7 @@ if ($flash['error']) {
     <fieldset id="reclist">
         <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>
         <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
-        <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (pro Zeile ein Nutzername)') ?>"><?= htmlReady($flash['list']) ?></textarea>
+        <textarea name="list" cols="50" rows="7" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"><?= htmlReady($flash['list']) ?></textarea>
     </fieldset>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>

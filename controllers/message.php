@@ -166,7 +166,7 @@ class MessageController extends AuthenticatedController {
                 case 'list':
                     $users = array_map(function($e) {
                         return User::findByUsername($e)->user_id;
-                    }, preg_split("/[\r\n]+/", $flash['list'], -1, PREG_SPLIT_NO_EMPTY));
+                    }, preg_split("/[\r\n,]+/", $flash['list'], -1, PREG_SPLIT_NO_EMPTY));
                     break;
         	}
         }
