@@ -45,14 +45,15 @@ if ($flash['error']) {
     <fieldset id="reclist">
         <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>
         <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
-        <textarea name="list" cols="50" rows="7" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"><?= htmlReady($flash['list']) ?></textarea>
+        <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>" cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
     </fieldset>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <label class="caption" for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
         <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="100" maxlength="255"/>
         <label class="caption" for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
-        <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
+        <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
+        <div id="message_preview"></div>
     </fieldset>
     <div class="submit_wrapper">
         <?= CSRFProtection::tokenTag() ?>

@@ -166,7 +166,7 @@ class MessageController extends AuthenticatedController {
                 case 'list':
                     $users = array_map(function($e) {
                         return User::findByUsername($e)->user_id;
-                    }, preg_split("/[\r\n,]+/", $flash['list'], -1, PREG_SPLIT_NO_EMPTY));
+                    }, preg_split("/[\r\n,]+/", $this->flash['list'], -1, PREG_SPLIT_NO_EMPTY));
                     break;
         	}
         }
@@ -180,6 +180,10 @@ class MessageController extends AuthenticatedController {
         }
 
         $this->redirect($this->url_for('message'));
+    }
+
+    public function preview_action() {
+        $this->text = Request::get('text');
     }
 
     // customized #url_for for plugins

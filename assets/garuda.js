@@ -108,6 +108,8 @@ STUDIP.Garuda = {
                 textfield.load(url);
             }
         });
+        $('#reclist').css('display', 'none');
+        $('#reclist textarea').attr('disabled', true);
     },
 
     initFilter: function() {
