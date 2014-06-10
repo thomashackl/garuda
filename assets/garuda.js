@@ -115,12 +115,18 @@ STUDIP.Garuda = {
             stop: function() {
                 var url = $('textarea[name="message"]').data('preview-url').split('?');
                 url = url[0];
-                $('#message_preview').load(url, {
+                $('#message_preview_text').load(url, {
                     'text': encodeURIComponent($('textarea[name="message"]').val())
                 });
             },
             delay: 500
         });
+        var width = $('textarea[name="message"]').width();
+        $('#message_preview_text').width(width);
+        $('#message_preview_text').css('max-width', width);
+        var height = $('textarea[name="message"]').height();
+        //$('#message_preview_text').height(height);
+        $('#message_preview').css('left', width+30);
     },
 
     initFilter: function() {

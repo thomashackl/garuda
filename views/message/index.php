@@ -51,9 +51,14 @@ if ($flash['error']) {
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <label class="caption" for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
         <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="100" maxlength="255"/>
-        <label class="caption" for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
-        <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
-        <div id="message_preview"></div>
+            <label class="caption" for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
+            <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="100" rows="20"><?= htmlReady($flash['message']) ?></textarea>
+        <span id="message_preview">
+            <label class="caption" for="message_preview_text">
+                <?= dgettext('garudaplugin', 'Vorschau der Nachricht') ?>
+            </label>
+            <div id="message_preview_text"></div>
+        </span>
     </fieldset>
     <div class="submit_wrapper">
         <?= CSRFProtection::tokenTag() ?>
