@@ -42,6 +42,7 @@ class GarudaCronjob extends CronJob {
      */
     public function execute($last_result, $parameters = array()) {
         Log::set('garuda', '/var/log/studip/garuda.log');
+        GarudaModel::cleanup();
         $jobs = GarudaModel::getCronEntries();
         $m = new Message();
         foreach ($jobs as $job) {
