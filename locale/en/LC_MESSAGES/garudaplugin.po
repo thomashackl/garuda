@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-17 15:34+0200\n"
-"PO-Revision-Date: 2014-03-17 09:01+0200\n"
-"Last-Translator: Thomas <thomas.hackl@uni-passau.de>\n"
-"Language-Team: English <http://develop.intelec.uni-passau.de/weblate/"
-"projects/studip/garudaplugin/en/>\n"
+"PO-Revision-Date: 2014-06-17 15:51+0200\n"
+"Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
+"Language-Team: English "
+"<http://example.com/weblate/projects/studip/garuda/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.9-dev\n"
+"X-Generator: Weblate 1.10-dev\n"
 
 #: controllers/configuration.php:46 controllers/configuration.php:51
 #: controllers/configuration.php:55 controllers/message.php:94
@@ -129,16 +129,16 @@ msgstr "all"
 
 #: filterfields/RestrictedDegreeFilterField.php:49
 msgid "Abschluss"
-msgstr "degree"
+msgstr "Degree"
 
 #: filterfields/RestrictedStatusgroupFilterField.php:97
 #: filterfields/StatusgroupFilterField.php:67
 msgid "Statusgruppe"
-msgstr "status group"
+msgstr "Status group"
 
 #: filterfields/RestrictedSubjectFilterField.php:49
 msgid "Studienfach"
-msgstr "subject"
+msgstr "Subject"
 
 #: GarudaCronjob.php:25
 msgid "Nachrichtenversand an Zielgruppen"
@@ -236,7 +236,7 @@ msgstr "Employees"
 
 #: views/message/index.php:23
 msgid "Manuelle Liste von Nutzernamen"
-msgstr ""
+msgstr "Manual list of usernames"
 
 #: views/message/index.php:43
 msgid "Filter hinzufügen"
@@ -244,17 +244,19 @@ msgstr "Add filter"
 
 #: views/message/index.php:46
 msgid "Manuell gesetzte Empfänger"
-msgstr ""
+msgstr "Manually added recipients"
 
 #: views/message/index.php:47
 msgid "Nutzernamen"
-msgstr ""
+msgstr "Usernames"
 
 #: views/message/index.php:48
 msgid ""
 "Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen "
 "(getrennt durch Zeilenumbruch oder Komma)"
 msgstr ""
+"Enter the usernames that shall receive your message (separated by line break "
+"or comma)"
 
 #: views/message/index.php:51
 msgid "Nachrichteninhalt"
@@ -278,7 +280,7 @@ msgstr "Enter the message text here."
 
 #: views/message/index.php:58
 msgid "Vorschau der Nachricht"
-msgstr ""
+msgstr "Message preview"
 
 #: views/message/index.php:65
 msgid "Nachricht verschicken"
