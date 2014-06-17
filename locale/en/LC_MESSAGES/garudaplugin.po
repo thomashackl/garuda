@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-17 15:34+0200\n"
-"PO-Revision-Date: 2014-06-17 15:51+0200\n"
+"PO-Revision-Date: 2014-06-17 16:20+0200\n"
 "Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English "
 "<http://example.com/weblate/projects/studip/garuda/en/>\n"
@@ -116,7 +116,7 @@ msgstr "%s and sub institutes"
 
 #: filterfields/InstituteFilterField.php:67
 msgid "Einrichtung"
-msgstr "institute"
+msgstr "Institute"
 
 #: filterfields/RestrictedDegreeFilterField.php:28
 #: filterfields/RestrictedInstituteFilterField.php:66
