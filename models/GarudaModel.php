@@ -227,7 +227,7 @@ class GarudaModel {
      * older than one week.
      */
     public static function cleanup() {
-        return DBManager::get()->execute("DELETE FROM `garuda_message` WHERE `done`=1 AND `mkdate`<?", array(time()-7*24*60*60));
+        return DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `done`=1 AND `mkdate`<?", array(time()-7*24*60*60));
     }
 
     public static function getAllUsers($userId, &$config=array()) {
