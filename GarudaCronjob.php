@@ -14,7 +14,7 @@
  * @category    Stud.IP
  */
 
-require_once(realpath(dirname(__FILE__).'/models/GarudaModel.php'));
+require_once(realpath(dirname(__FILE__).'/models/GarudaCronFunctions.php'));
 
 /**
  * Cron job for processing the messages to send.
@@ -42,21 +42,34 @@ class GarudaCronjob extends CronJob {
      */
     public function execute($last_result, $parameters = array()) {
         Log::set('garuda', '/var/log/studip/garuda.log');
-        GarudaModel::cleanup();
-        $jobs = GarudaModel::getCronEntries();
+        GarudaCronFunctions::cleanup();
+        $jobs = GarudaCronFunctions::getCronEntries();
         $m = new Message();
         foreach ($jobs as $job) {
             // Mark current entry as locked.
-            if (GarudaModel::lockCronEntry($job['job_id'])) {
-                $sender = new User($job['sender_id']);
+            if (GarudaCronFunctions::lockCronEntry($job['job_id'])) {
+                $sender = User::find($job['sender_id']);
                 // Get recipients.
                 $users = array_map(function($u) {
-                    $o = new User($u);
+                    $o = User::find($u);
                     return $o->username;
                 }, (array) json_decode($job['recipients']));
                 $numRec = sizeof($users);
-                // Send Stud.IP message.
-                $message = $m->send($sender->user_id, $users, $job['subject'], $job['message']);
+                /*
+                 * Tokens found -> we need to send the messages seperately as
+                 * personalized content is included.
+                 */
+                if ($tokens = GarudaCronFunctions::getTokens($job['job_id'])) {
+                    foreach ($tokens as $token) {
+                        // Replace the "###REPLACE###" marker with the actual token.
+                        $message = str_replace('###REPLACE###', $token, $job['message']);
+                        // Send Stud.IP message with replaced token.
+                        $message = $m->send('___%system%___', $token['user_id'], $job['subject'], $message);
+                    }
+                } else {
+                    // Send Stud.IP message.
+                    $message = $m->send($sender->user_id, $users, $job['subject'], $job['message']);
+                }
                 // Build full name of the sender for log.
                 $senderName = $sender->vorname.' '.$sender->nachname;
                 if ($sender->title_front) {
@@ -68,10 +81,10 @@ class GarudaCronjob extends CronJob {
                 // Write status to log file.
                 if ($message) {
                     Log::info_garuda(sprintf("Message from %s to %s recipients was sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
-					GarudaModel::cronEntryDone($job['job_id']);
+					GarudaCronFunctions::cronEntryDone($job['job_id']);
                 } else {
                     Log::error_garuda(sprintf("Message from %s to %s recipients could not be sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
-                    GarudaModel::unlockCronEntry($job['job_id']);
+                    GarudaCronFunctions::unlockCronEntry($job['job_id']);
                 }
             }
         }

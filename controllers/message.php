@@ -84,6 +84,7 @@ class MessageController extends AuthenticatedController {
             CSRFProtection::verifyUnsafeRequest();
             $this->flash['sendto'] = Request::option('sendto');
             $this->flash['filters'] = Request::getArray('filters');
+            $this->flash['tokens'] = $_FILES['tokens'];
             $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
@@ -167,17 +168,28 @@ class MessageController extends AuthenticatedController {
                 case 'list':
                     $users = array_map(function($e) {
                         return User::findByUsername($e)->user_id;
-                    }, preg_split("/[\r\n,]+/", $this->flash['list'], -1, PREG_SPLIT_NO_EMPTY));
+                    }, preg_split("/[\r\n,]+/", $this->flash['list'], -1, 
+                    PREG_SPLIT_NO_EMPTY));
                     break;
         	}
         }
 
         $users = array_unique($users);
 
-        if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'])) {
-            $this->flash['success'] = sprintf(dgettext('garudaplugin', 'Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben.'), sizeof($users));
+        $tokens = array();
+        if ($this->flash['tokens']) {
+            $tokens = GarudaModel::extractTokens($this->flash['tokens']['tmp_name']);
+            unlink($this->flash['tokens']);
+        }
+
+        if (GarudaModel::createCronEntry($GLOBALS['user']->id, &$users, $this->flash['subject'], $this->flash['message'], &$tokens)) {
+            $this->flash['success'] = sprintf(dgettext('garudaplugin', 
+                'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
+                'übergeben.'), sizeof($users));
         } else {
-            $this->flash['success'] = sprintf(dgettext('garudaplugin', 'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'), sizeof($users));
+            $this->flash['success'] = sprintf(dgettext('garudaplugin', 
+                'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'),
+                sizeof($users));
         }
 
         $this->redirect($this->url_for('message'));

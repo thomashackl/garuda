@@ -8,7 +8,7 @@ if ($flash['error']) {
 }
 ?>
 <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
-<form class="studip_form" action="<?= $controller->url_for('message') ?>" method="post">
+<form class="studip_form" enctype="multipart/form-data" action="<?= $controller->url_for('message') ?>" method="post">
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
@@ -42,6 +42,16 @@ if ($flash['error']) {
         <br/>
         <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
     </fieldset>
+    <?php if ($i_am_root) { ?>
+    <fieldset>
+        <legend><?= dgettext('garudaplugin', 'Liste von Tokens') ?></legend>
+        <label class="caption" for="tokens"><?= dgettext('garudaplugin', 
+            'Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in '.
+            'der Nachricht an jeden einzelnen Empfänger personalisiert '.
+            'verschickt werden sollen (Teilnahmecodes/Links etc.)') ?></label>
+        <input name="tokens" type="file" size="40"/>
+    </fieldset>
+    <?php } ?>
     <fieldset id="reclist">
         <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>
         <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>

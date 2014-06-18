@@ -155,81 +155,6 @@ class GarudaModel {
         return $success;
     }
 
-    /**
-     * Creates a table entry for the Garuda cronjob containing the desired
-     * message and intended recipients.
-     * 
-     * @param String $sender     Who sends this message?
-     * @param array  $recipients Intended recipients for this message
-     *                           (array of Stud.IP user IDs)
-     * @param String $subject    Message subject
-     * @param String $message    Message text
-     */
-    public static function createCronEntry($sender, $recipients, $subject, $message) {
-        $stmt = DBManager::get()->prepare("INSERT INTO `garuda_messages`
-            (`sender_id`, `recipients`, `subject`, `message`, `mkdate`)
-            VALUES
-            (:sender, :rec, :subject, :message, UNIX_TIMESTAMP())");
-        return $stmt->execute(array(
-            'sender' => $GLOBALS['user']->id,
-            'rec' => json_encode($recipients),
-            'subject' => $subject,
-            'message' => $message)
-        );
-    }
-
-    /**
-     * Gets all cron entries that are not already locked by a cron instance still running.
-     * 
-     * @return Array of found entries to be processed by cron.
-     */
-    public static function getCronEntries() {
-        return DBManager::get()->fetchAll("SELECT * FROM `garuda_messages` WHERE `locked`=0 AND `done`=0 ORDER BY `mkdate`", array());
-    }
-
-    /**
-     * Locks the given cron job entry. 
-     * 
-     * 
-     * @param int $entryId entry to be locked
-     * @return Successfully locked?
-     */
-    public static function lockCronEntry($entryId) {
-        return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=1 WHERE `job_id`=:id", array('id' => $entryId));
-    }
-
-    /**
-     * unlocks the given cron job entry. 
-     * 
-     * 
-     * @param int $entryId entry to be unlocked
-     * @return Successfully unlocked?
-     */
-    public static function unlockCronEntry($entryId) {
-        return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=0 WHERE `job_id`=:id", array('id' => $entryId));
-    }
-
-    /**
-     * Marks the given cron job entry as done. 
-     * 
-     * 
-     * @param int $entryId entry to be locked
-     * @return Successfully set?
-     */
-    public static function cronEntryDone($entryId) {
-        $success = DBManager::get()->execute("UPDATE `garuda_messages` SET `done`=1 WHERE `job_id`=:id", array('id' => $entryId));
-        $success = $success && self::unlockCronEntry($entryId);
-        return $success;
-    }
-
-    /**
-     * Deletes already successfully processed cronjobs from database that are
-     * older than one week.
-     */
-    public static function cleanup() {
-        return DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `done`=1 AND `mkdate`<?", array(time()-7*24*60*60));
-    }
-
     public static function getAllUsers($userId, &$config=array()) {
     	return array_merge(self::getStudents($userId), self::getEmployees($userId));
     }
@@ -273,5 +198,20 @@ class GarudaModel {
 				"FROM `user_inst` WHERE `inst_perms`!='user'");
 		}
 	}
+
+    public static function extractTokens($file, $users) {
+        $tokens = array();
+        ini_set("auto_detect_line_endings", true);
+        $handle = fopen($file, 'r');
+        while (!feof($filehandle)) {
+            $line = trim(fgets($handle));
+            if (!empty($line)) {
+                $token = new GarudaToken();
+                $token->token = $line;
+                $tokens[] = $token;
+            }
+        }
+        return $tokens;
+    }
 
 }
