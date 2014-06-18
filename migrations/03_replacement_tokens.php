@@ -10,7 +10,7 @@ class ReplacementTokens extends DBMigration
             `mkdate` INT NOT NULL DEFAULT 0,
             PRIMARY KEY (`token_id`),
             INDEX `job` (`job_id`)
-        ) ENGINE=InnoDB COLLATE latin1_german1_ci CHARACTER SET latin1");
+        ) ENGINE=InnoDB COLLATE latin1_german1_ci DEFAULT COLLATE latin1_german1_ci CHARACTER SET latin1 DEFAULT CHARACTER SET latin1");
     }
 
     function down()
