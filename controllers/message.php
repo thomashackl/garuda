@@ -168,7 +168,7 @@ class MessageController extends AuthenticatedController {
                 case 'list':
                     $users = array_map(function($e) {
                         return User::findByUsername($e)->user_id;
-                    }, preg_split("/[\r\n,]+/", $this->flash['list'], -1, 
+                    }, preg_split("/[\r\n,]+/", $this->flash['list'], -1,
                     PREG_SPLIT_NO_EMPTY));
                     break;
         	}
@@ -182,12 +182,12 @@ class MessageController extends AuthenticatedController {
             unlink($this->flash['tokens']);
         }
 
-        if (GarudaModel::createCronEntry($GLOBALS['user']->id, &$users, $this->flash['subject'], $this->flash['message'], &$tokens)) {
-            $this->flash['success'] = sprintf(dgettext('garudaplugin', 
+        if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $tokens)) {
+            $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));
         } else {
-            $this->flash['success'] = sprintf(dgettext('garudaplugin', 
+            $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'),
                 sizeof($users));
         }

@@ -28,7 +28,7 @@ class GarudaCronFunctions {
      * @param String $message    Message text
      * @param array  $tokens     Optional token list for text replacing in message
      */
-    public static function createCronEntry($sender, $recipients, $subject, $message, $tokens=array()) {
+    public static function createCronEntry($sender, &$recipients, $subject, $message, &$tokens=array()) {
         $success = true;
         $db = DBManager::get();
         $stmt = $db->prepare("INSERT INTO `garuda_messages`
