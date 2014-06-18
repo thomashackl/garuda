@@ -42,6 +42,11 @@ if ($flash['error']) {
         <br/>
         <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
     </fieldset>
+    <fieldset id="reclist">
+        <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>
+        <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
+        <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>" cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
+    </fieldset>
     <?php if ($i_am_root) { ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Liste von Tokens') ?></legend>
@@ -52,11 +57,6 @@ if ($flash['error']) {
         <input name="tokens" type="file" size="40"/>
     </fieldset>
     <?php } ?>
-    <fieldset id="reclist">
-        <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>
-        <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
-        <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>" cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
-    </fieldset>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <label class="caption" for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
