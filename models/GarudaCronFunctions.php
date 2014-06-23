@@ -20,7 +20,7 @@ class GarudaCronFunctions {
     /**
      * Creates a table entry for the Garuda cronjob containing the desired
      * message and intended recipients.
-     * 
+     *
      * @param String $sender     Who sends this message?
      * @param array  $recipients Intended recipients for this message
      *                           (array of Stud.IP user IDs)
@@ -29,6 +29,7 @@ class GarudaCronFunctions {
      * @param array  $tokens     Optional token list for text replacing in message
      */
     public static function createCronEntry($sender, &$recipients, $subject, $message, &$tokens=array()) {
+        Log::set('garuda', '/var/log/studip/garuda.log');
         $success = true;
         $db = DBManager::get();
         $stmt = $db->prepare("INSERT INTO `garuda_messages`
@@ -45,6 +46,7 @@ class GarudaCronFunctions {
             $jobId = $db->lastInsertId();
             $stmt = $db->prepare("INSERT INTO `garuda_tokens` (`job_id`, `user_id`, `token`, `mkdate`) VALUES (?, ?, ?, UNIX_TIMESTAMP())");
             foreach (array_combine((array) $recipients, array_slice($tokens, 0, sizeof((array) $recipients))) as $user => $token) {
+                Log::info_garuda("INSERT INTO `garuda_tokens` (`job_id`, `user_id`, `token`, `mkdate`) VALUES (".$jobId.", '".$user."', '".$token."', UNIX_TIMESTAMP())");
                 $success = $stmt->execute(array($jobId, $user, $token));
             }
         }
@@ -53,7 +55,7 @@ class GarudaCronFunctions {
 
     /**
      * Gets all cron entries that are not already locked by a cron instance still running.
-     * 
+     *
      * @return Array of found entries to be processed by cron.
      */
     public static function getCronEntries() {
@@ -61,8 +63,8 @@ class GarudaCronFunctions {
     }
 
     /**
-     * Locks the given cron job entry. 
-     * 
+     * Locks the given cron job entry.
+     *
      * @param int $entryId entry to be locked
      * @return Successfully locked?
      */
@@ -71,8 +73,8 @@ class GarudaCronFunctions {
     }
 
     /**
-     * unlocks the given cron job entry. 
-     * 
+     * unlocks the given cron job entry.
+     *
      * @param int $entryId entry to be unlocked
      * @return Successfully unlocked?
      */
@@ -81,8 +83,8 @@ class GarudaCronFunctions {
     }
 
     /**
-     * Marks the given cron job entry as done. 
-     * 
+     * Marks the given cron job entry as done.
+     *
      * @param int $entryId entry to be locked
      * @return Successfully set?
      */
@@ -95,7 +97,7 @@ class GarudaCronFunctions {
     /**
      * Deletes already successfully processed cronjobs from database that are
      * older than one week.
-     * 
+     *
      * @return bool Successfully cleaned?
      */
     public static function cleanup() {
@@ -104,7 +106,7 @@ class GarudaCronFunctions {
 
     /**
      * Fetches all assigned tokens for a given cron job entry.
-     * 
+     *
      * @param  int   $entryId entry to fetch tokens for
      * @return array All tokens that were found for the given cron job entry.
      */

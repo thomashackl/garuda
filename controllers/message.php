@@ -47,6 +47,7 @@ class MessageController extends AuthenticatedController {
             $this->i_am_root = true;
         }
         $this->set_content_type('text/html;charset=windows-1252');
+        Log::set('garuda', '/var/log/studip/garuda.log');
     }
 
 	/**
@@ -85,9 +86,8 @@ class MessageController extends AuthenticatedController {
             $this->flash['sendto'] = Request::option('sendto');
             $this->flash['filters'] = Request::getArray('filters');
             $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
-            if (move_uploaded_file($_FILES['tokens']['tmp_name'], $filename)) {
-                $this->flash['tokens'] = $filename;
-            }
+            move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
+            $this->flash['tokens'] = $filename;
             $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
@@ -180,12 +180,13 @@ class MessageController extends AuthenticatedController {
         $users = array_unique($users);
 
         $tokens = array();
+        Log::info_garuda('Reading tokens from file '.$this->flash['tokens'].'.');
         if ($this->flash['tokens']) {
             $tokens = GarudaModel::extractTokens($this->flash['tokens']);
             unlink($this->flash['tokens']);
         }
 
-        if (GarudaModel::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $tokens)) {
+        if (GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $tokens)) {
             $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));

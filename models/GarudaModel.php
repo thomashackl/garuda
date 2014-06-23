@@ -200,13 +200,18 @@ class GarudaModel {
 	}
 
     public static function extractTokens($file) {
+        Log::set('garuda', '/var/log/studip/garuda.log');
         $tokens = array();
         ini_set("auto_detect_line_endings", true);
         $handle = fopen($file, 'r');
-        while (($line = trim(fgets($handle))) !== false) {
-            $token = new GarudaToken();
-            $token->token = $line;
-            $tokens[] = $token;
+        if ($handle) {
+            while (!feof($handle)) {
+                $line = trim(fgets($handle));
+                Log::info_garuda('Read token '.$line.'.');
+                if ($line) {
+                    $tokens[] = $line;
+                }
+            }
         }
         return $tokens;
     }
