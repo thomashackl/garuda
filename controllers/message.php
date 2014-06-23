@@ -84,7 +84,10 @@ class MessageController extends AuthenticatedController {
             CSRFProtection::verifyUnsafeRequest();
             $this->flash['sendto'] = Request::option('sendto');
             $this->flash['filters'] = Request::getArray('filters');
-            $this->flash['tokens'] = $_FILES['tokens'];
+            $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
+            if (move_uploaded_file($_FILES['tokens']['tmp_name'], $filename)) {
+                $this->flash['tokens'] = $filename;
+            }
             $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
@@ -178,7 +181,7 @@ class MessageController extends AuthenticatedController {
 
         $tokens = array();
         if ($this->flash['tokens']) {
-            $tokens = GarudaModel::extractTokens($this->flash['tokens']['tmp_name']);
+            $tokens = GarudaModel::extractTokens($this->flash['tokens']);
             unlink($this->flash['tokens']);
         }
 
@@ -218,5 +221,5 @@ class MessageController extends AuthenticatedController {
         $args[0] = $to;
 
         return PluginEngine::getURL($this->plugin, $params, join("/", $args));
-    } 
+    }
 }

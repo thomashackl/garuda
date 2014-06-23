@@ -57,7 +57,7 @@ class GarudaModel {
 
     /**
      * Fetches the configuration settings for a given user.
-     * 
+     *
      * @param String $userId user to check
      * @return array The courses of study and institutes the user may set as recipients.
      */
@@ -199,17 +199,14 @@ class GarudaModel {
 		}
 	}
 
-    public static function extractTokens($file, $users) {
+    public static function extractTokens($file) {
         $tokens = array();
         ini_set("auto_detect_line_endings", true);
         $handle = fopen($file, 'r');
-        while (!feof($filehandle)) {
-            $line = trim(fgets($handle));
-            if (!empty($line)) {
-                $token = new GarudaToken();
-                $token->token = $line;
-                $tokens[] = $token;
-            }
+        while (($line = trim(fgets($handle))) !== false) {
+            $token = new GarudaToken();
+            $token->token = $line;
+            $tokens[] = $token;
         }
         return $tokens;
     }
