@@ -55,6 +55,16 @@ if ($flash['error']) {
             'der Nachricht an jeden einzelnen Empfänger personalisiert '.
             'verschickt werden sollen (Teilnahmecodes/Links etc.)') ?></label>
         <input name="tokens" type="file" size="40"/>
+        <br/>
+        <label class="caption" for="message_tokens">
+            <?= dgettext('garudaplugin', 'oder verwende Tokens aus bereits verschickter Nachricht:') ?>
+        </label>
+        <select name="message_tokens">
+            <option value="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
+            <?php foreach ($messages as $m) { ?>
+            <option value="<?= $m['job_id'] ?>"><?= date('d.m.Y H:i', $m['mkdate']).' '.htmlReady($m['subject']) ?></option>
+            <?php } ?>
+        </select>
     </fieldset>
     <?php } ?>
     <fieldset>

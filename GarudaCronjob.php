@@ -59,12 +59,12 @@ class GarudaCronjob extends CronJob {
                  * Tokens found -> we need to send the messages seperately as
                  * personalized content is included.
                  */
-                if ($tokens = GarudaCronFunctions::getTokens($job['job_id'])) {
-                    foreach ($tokens as $token) {
-                        $u = User::find($token['user_id']);
+                if ($tokens = GarudaCronFunctions::getTokens($job['job_id'], true)) {
+                    foreach ($tokens as $user_id => $token) {
+                        $u = User::find($user_id);
                         $username = $u->username;
                         // Replace the "###REPLACE###" marker with the actual token.
-                        $text = str_replace('###REPLACE###', $token['token'], $job['message']);
+                        $text = str_replace('###REPLACE###', $token, $job['message']);
                         // Send Stud.IP message with replaced token.
                         $message = $m->send('____%system%____', array($username), $job['subject'], $text);
                     }

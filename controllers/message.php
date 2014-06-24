@@ -90,7 +90,10 @@ class MessageController extends AuthenticatedController {
             if ($_FILES['tokens']) {
                 $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
                 move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
-                $this->flash['tokens'] = $filename;
+                $this->flash['token_file'] = $filename;
+            }
+            if (Request::option('message_tokens')) {
+                $this->flash['message_tokens'] = Request::option('message_tokens');
             }
             $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
@@ -127,6 +130,9 @@ class MessageController extends AuthenticatedController {
                     $current = unserialize($filter);
                     $this->filters[] = $current;
                 }
+            }
+            if ($this->i_am_root) {
+                $this->messages = GarudaModel::getMessagesWithTokens();
             }
         }
     }
@@ -185,14 +191,29 @@ class MessageController extends AuthenticatedController {
         $users = array_unique($users);
 
         $tokens = array();
-        if ($this->flash['tokens']) {
-            $tokens = GarudaModel::extractTokens($this->flash['tokens']);
-            unlink($this->flash['tokens']);
+        // Read tokens from an uploaded file.
+        if ($this->flash['token_file']) {
+            $tokens = GarudaModel::extractTokens($this->flash['token_file']);
+            unlink($this->flash['token_file']);
             if (sizeof($tokens) < sizeof($users)) {
                 $this->flash['error'] = sprintf(dgettext('garudaplugin',
                     'Es gibt weniger Tokens als Personen für den '.
-                    'Nachrichtenempfang!');
+                    'Nachrichtenempfang!'));
                 $error = true;
+            }
+        }
+        // Get tokens that were assigned to a previously sent message.
+        if ($this->flash['message_tokens']) {
+            $data = GarudaModel::getTokens($this->flash['message_tokens'], true);
+            $unassigned = GarudaModel::getUnassignedTokens($this->flash['message_tokens']);
+            $unassigned_count = 0;
+            foreach ($users as $user) {
+                if ($data[$user]) {
+                    $tokens[$user] = $data[$user];
+                } else {
+                    $tokens[$user] = $unassigned[$unassigned_count];
+                    $unassigned_count++;
+                }
             }
         }
 

@@ -216,4 +216,48 @@ class GarudaModel {
         return $tokens;
     }
 
+    /**
+     * Fetches all assigned tokens for a given cron job entry.
+     *
+     * @param  int   $entryId entry to fetch tokens for
+     * @param  bool  $only_assigned fetch only tokens that are assigned to a user ID.
+     * @return array All tokens that were found for the given cron job entry.
+     */
+    public static function getTokens($entryId, $only_assigned=false) {
+        $tokens = array();
+        if ($only_assigned) {
+            $query = "SELECT * FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id` AND `user_id` IS NOT NULL";
+        } else {
+            $query = "SELECT * FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id`";
+        }
+        $data = DBManager::get()->fetchAll($query, array($entryId));
+        foreach ($data as $entry) {
+            $tokens[$entry['user_id']] = $entry['token'];
+        }
+        return $tokens;
+    }
+
+    /**
+     * Fetches all unassigned tokens for a given cron job entry.
+     *
+     * @param  int   $entryId entry to fetch tokens for
+     * @return array All unassigned tokens that were found for the given cron job entry.
+     */
+    public static function getUnassignedTokens($entryId) {
+        return DBManager::get()->fetchFirst("SELECT `token` FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id` AND `user_id` IS NULL ORDER BY `token_id`", array($entryId));
+    }
+
+    /**
+     * Fetches all sent messages that have tokens assigned.
+     * 
+     * @return An array of messages.
+     */
+    public static function getJobsWithTokens() {
+        return DBManager::get()->fetchAll("SELECT *
+            FROM `garuda_messages` m
+                INNER JOIN `garuda_tokens` t ON (m.`job_id`=t.`job_id`)
+            WHERE m.`done`=1
+            ORDER BY m.`mkdate` DESC");
+    }
+
 }

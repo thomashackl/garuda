@@ -106,14 +106,4 @@ class GarudaCronFunctions {
         return DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `done`=1 AND `protected`=0 AND `mkdate`<?", array(time()-7*24*60*60));
     }
 
-    /**
-     * Fetches all assigned tokens for a given cron job entry.
-     *
-     * @param  int   $entryId entry to fetch tokens for
-     * @return array All tokens that were found for the given cron job entry.
-     */
-    public static function getTokens($entryId) {
-        return DBManager::get()->fetchAll("SELECT * FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id`", array($entryId));
-    }
-
 }
