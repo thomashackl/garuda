@@ -143,7 +143,7 @@ class MessageController extends AuthenticatedController {
 	 * Send the message to the given recipients.
 	 */
     public function send_action() {
-        $recipients = array();
+        $error = false;
         UserFilterField::getAvailableFilterFields();
         $users = array();
 		if ($this->flash['filters']) {
@@ -184,14 +184,20 @@ class MessageController extends AuthenticatedController {
         if ($this->flash['tokens']) {
             $tokens = GarudaModel::extractTokens($this->flash['tokens']);
             unlink($this->flash['tokens']);
+            if (sizeof($tokens) < sizeof($users)) {
+                $this->flash['error'] = sprintf(dgettext('garudaplugin',
+                    'Es gibt weniger Tokens als Personen für den '.
+                    'Nachrichtenempfang!');
+                $error = true;
+            }
         }
 
-        if (GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $tokens)) {
+        if (!$error && GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $tokens)) {
             $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));
         } else {
-            $this->flash['success'] = sprintf(dgettext('garudaplugin',
+            $this->flash['error'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'),
                 sizeof($users));
         }
