@@ -84,9 +84,11 @@ class MessageController extends AuthenticatedController {
             CSRFProtection::verifyUnsafeRequest();
             $this->flash['sendto'] = Request::option('sendto');
             $this->flash['filters'] = Request::getArray('filters');
-            $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
-            move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
-            $this->flash['tokens'] = $filename;
+            if ($_FILES['tokens']) {
+                $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
+                move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
+                $this->flash['tokens'] = $filename;
+            }
             $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
