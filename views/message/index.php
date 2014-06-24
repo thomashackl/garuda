@@ -69,6 +69,12 @@ if ($flash['error']) {
             </label>
             <div id="message_preview_text"></div>
         </span>
+        <?php if ($i_am_root) { ?>
+        <label class="caption">
+            <input type="checkbox" name="protected"<?= $flash['protected'] ? ' checked="checked"' : '' ?>/>
+            <?= dgettext('garudaplugin', 'Beim automatischen Bereinigen der verschickten Nachrichten nicht entfernen') ?>
+        </label>
+        <?php } ?>
     </fieldset>
     <div class="submit_wrapper">
         <?= CSRFProtection::tokenTag() ?>

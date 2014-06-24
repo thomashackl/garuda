@@ -65,6 +65,9 @@ class MessageController extends AuthenticatedController {
             if (Request::getArray('filters')) {
                 $this->flash['filters'] = Request::getArray('filters');
             }
+            if (Request::option('protected')) {
+                $this->flash['protected'] = true;
+            }
 			// Get message subject.
             if (Request::get('subject')) {
                 $this->flash['subject'] = Request::get('subject');
@@ -92,6 +95,7 @@ class MessageController extends AuthenticatedController {
             $this->flash['list'] = Request::get('list');
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
+            $this->flash['protected'] = Request::option('protected');
             $this->redirect($this->url_for('message/send'));
 		// Show normal page.
         } else {
@@ -192,7 +196,7 @@ class MessageController extends AuthenticatedController {
             }
         }
 
-        if (!$error && GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $tokens)) {
+        if (!$error && GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $this->flash['protected'], $tokens)) {
             $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));

@@ -26,21 +26,23 @@ class GarudaCronFunctions {
      *                           (array of Stud.IP user IDs)
      * @param String $subject    Message subject
      * @param String $message    Message text
+     * @param bool   $protected  Protect message from automatic cleanup deletion?
      * @param array  $tokens     Optional token list for text replacing in message
      */
-    public static function createCronEntry($sender, &$recipients, $subject, $message, &$tokens=array()) {
+    public static function createCronEntry($sender, &$recipients, $subject, $message, $protected=false, &$tokens=array()) {
         Log::set('garuda', '/var/log/studip/garuda.log');
         $success = true;
         $db = DBManager::get();
         $stmt = $db->prepare("INSERT INTO `garuda_messages`
-            (`sender_id`, `recipients`, `subject`, `message`, `mkdate`)
+            (`sender_id`, `recipients`, `subject`, `message`, `protected`, `mkdate`)
             VALUES
-            (:sender, :rec, :subject, :message, UNIX_TIMESTAMP())");
+            (:sender, :rec, :subject, :message, :protected, UNIX_TIMESTAMP())");
         $success = $stmt->execute(array(
             'sender' => $GLOBALS['user']->id,
             'rec' => json_encode($recipients),
             'subject' => $subject,
-            'message' => $message)
+            'message' => $message,
+            'protected' => $protected)
         );
         if ($success && $tokens) {
             $jobId = $db->lastInsertId();
@@ -101,7 +103,7 @@ class GarudaCronFunctions {
      * @return bool Successfully cleaned?
      */
     public static function cleanup() {
-        return DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `done`=1 AND `mkdate`<?", array(time()-7*24*60*60));
+        return DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `done`=1 AND `protected`=0 AND `mkdate`<?", array(time()-7*24*60*60));
     }
 
     /**
