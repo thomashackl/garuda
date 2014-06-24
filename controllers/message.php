@@ -47,7 +47,6 @@ class MessageController extends AuthenticatedController {
             $this->i_am_root = true;
         }
         $this->set_content_type('text/html;charset=windows-1252');
-        Log::set('garuda', '/var/log/studip/garuda.log');
     }
 
 	/**
@@ -180,7 +179,6 @@ class MessageController extends AuthenticatedController {
         $users = array_unique($users);
 
         $tokens = array();
-        Log::info_garuda('Reading tokens from file '.$this->flash['tokens'].'.');
         if ($this->flash['tokens']) {
             $tokens = GarudaModel::extractTokens($this->flash['tokens']);
             unlink($this->flash['tokens']);
