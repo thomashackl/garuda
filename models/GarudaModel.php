@@ -156,7 +156,7 @@ class GarudaModel {
     }
 
     public static function getAllUsers($userId, &$config=array()) {
-    	return array_merge(self::getStudents($userId), self::getEmployees($userId));
+    	return array_merge(self::getAllStudents($userId), self::getAllEmployees($userId));
     }
 
 	public static function getAllStudents($userId, &$config=array()) {
@@ -200,14 +200,12 @@ class GarudaModel {
 	}
 
     public static function extractTokens($file) {
-        Log::set('garuda', '/var/log/studip/garuda.log');
         $tokens = array();
         ini_set("auto_detect_line_endings", true);
         $handle = fopen($file, 'r');
         if ($handle) {
             while (!feof($handle)) {
                 $line = trim(fgets($handle));
-                Log::info_garuda('Read token '.$line.'.');
                 if ($line) {
                     $tokens[] = $line;
                 }
@@ -226,7 +224,7 @@ class GarudaModel {
     public static function getTokens($entryId, $only_assigned=false) {
         $tokens = array();
         if ($only_assigned) {
-            $query = "SELECT * FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id` AND `user_id` IS NOT NULL";
+            $query = "SELECT * FROM `garuda_tokens` WHERE `job_id`=? AND `user_id` IS NOT NULL ORDER BY `token_id`";
         } else {
             $query = "SELECT * FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id`";
         }
@@ -244,16 +242,16 @@ class GarudaModel {
      * @return array All unassigned tokens that were found for the given cron job entry.
      */
     public static function getUnassignedTokens($entryId) {
-        return DBManager::get()->fetchFirst("SELECT `token` FROM `garuda_tokens` WHERE `job_id`=? ORDER BY `token_id` AND `user_id` IS NULL ORDER BY `token_id`", array($entryId));
+        return DBManager::get()->fetchFirst("SELECT `token` FROM `garuda_tokens` WHERE `job_id`=? AND `user_id` IS NULL ORDER BY `token_id`", array($entryId));
     }
 
     /**
      * Fetches all sent messages that have tokens assigned.
-     * 
+     *
      * @return An array of messages.
      */
-    public static function getJobsWithTokens() {
-        return DBManager::get()->fetchAll("SELECT *
+    public static function getMessagesWithTokens() {
+        return DBManager::get()->fetchAll("SELECT DISTINCT m.*
             FROM `garuda_messages` m
                 INNER JOIN `garuda_tokens` t ON (m.`job_id`=t.`job_id`)
             WHERE m.`done`=1

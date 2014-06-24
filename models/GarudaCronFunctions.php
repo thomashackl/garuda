@@ -42,14 +42,16 @@ class GarudaCronFunctions {
             'rec' => json_encode($recipients),
             'subject' => $subject,
             'message' => $message,
-            'protected' => $protected)
+            'protected' => $protected ? 1 : 0)
         );
         if ($success && $tokens) {
             $jobId = $db->lastInsertId();
             $stmt = $db->prepare("INSERT INTO `garuda_tokens` (`job_id`, `user_id`, `token`, `mkdate`) VALUES (?, ?, ?, UNIX_TIMESTAMP())");
             foreach (array_combine((array) $recipients, array_slice($tokens, 0, sizeof((array) $recipients))) as $user => $token) {
-                Log::info_garuda("INSERT INTO `garuda_tokens` (`job_id`, `user_id`, `token`, `mkdate`) VALUES (".$jobId.", '".$user."', '".$token."', UNIX_TIMESTAMP())");
                 $success = $stmt->execute(array($jobId, $user, $token));
+            }
+            foreach (array_slice($tokens, sizeof((array) $recipients)) as $free) {
+                $success = $success && $stmt->execute(array($jobId, null, $free));
             }
         }
         return $success;

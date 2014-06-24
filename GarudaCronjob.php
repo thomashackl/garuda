@@ -15,6 +15,7 @@
  */
 
 require_once(realpath(dirname(__FILE__).'/models/GarudaCronFunctions.php'));
+require_once(realpath(dirname(__FILE__).'/models/GarudaModel.php'));
 
 /**
  * Cron job for processing the messages to send.
@@ -59,7 +60,7 @@ class GarudaCronjob extends CronJob {
                  * Tokens found -> we need to send the messages seperately as
                  * personalized content is included.
                  */
-                if ($tokens = GarudaCronFunctions::getTokens($job['job_id'], true)) {
+                if ($tokens = GarudaModel::getTokens($job['job_id'], true)) {
                     foreach ($tokens as $user_id => $token) {
                         $u = User::find($user_id);
                         $username = $u->username;

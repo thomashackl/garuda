@@ -87,7 +87,7 @@ class MessageController extends AuthenticatedController {
             CSRFProtection::verifyUnsafeRequest();
             $this->flash['sendto'] = Request::option('sendto');
             $this->flash['filters'] = Request::getArray('filters');
-            if ($_FILES['tokens']) {
+            if ($_FILES['tokens']['tmp_name']) {
                 $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
                 move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
                 $this->flash['token_file'] = $filename;
@@ -196,9 +196,9 @@ class MessageController extends AuthenticatedController {
             $tokens = GarudaModel::extractTokens($this->flash['token_file']);
             unlink($this->flash['token_file']);
             if (sizeof($tokens) < sizeof($users)) {
-                $this->flash['error'] = sprintf(dgettext('garudaplugin',
+                $this->flash['error'] = dgettext('garudaplugin',
                     'Es gibt weniger Tokens als Personen für den '.
-                    'Nachrichtenempfang!'));
+                    'Nachrichtenempfang!');
                 $error = true;
             }
         }
@@ -211,8 +211,15 @@ class MessageController extends AuthenticatedController {
                 if ($data[$user]) {
                     $tokens[$user] = $data[$user];
                 } else {
-                    $tokens[$user] = $unassigned[$unassigned_count];
-                    $unassigned_count++;
+                    if ($unassigned[$unassigned_count]) {
+                        $tokens[$user] = $unassigned[$unassigned_count];
+                        $unassigned_count++;
+                    } else {
+                        $error = true;
+                        $this->flash['error'] = dgettext('garudaplugin',
+                            'Es sind zu wenige freie Tokens vorhanden!');
+                        break;
+                    }
                 }
             }
         }
@@ -222,9 +229,11 @@ class MessageController extends AuthenticatedController {
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));
         } else {
-            $this->flash['error'] = sprintf(dgettext('garudaplugin',
-                'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'),
-                sizeof($users));
+            if (!$this->flash['error']) {
+                $this->flash['error'] = sprintf(dgettext('garudaplugin',
+                    'Ihre Nachricht an %s Personen konnte nicht gesendet werden.'),
+                    sizeof($users));
+            }
         }
 
         $this->redirect($this->url_for('message'));
