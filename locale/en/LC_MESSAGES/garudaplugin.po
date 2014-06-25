@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-17 15:34+0200\n"
+"POT-Creation-Date: 2014-06-25 08:19+0200\n"
 "PO-Revision-Date: 2014-06-17 16:20+0200\n"
 "Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
-"Language-Team: English "
-"<http://example.com/weblate/projects/studip/garuda/en/>\n"
+"Language-Team: English <http://example.com/weblate/projects/studip/garuda/en/"
+">\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -20,8 +20,8 @@ msgstr ""
 "X-Generator: Weblate 1.10-dev\n"
 
 #: controllers/configuration.php:46 controllers/configuration.php:51
-#: controllers/configuration.php:55 controllers/message.php:94
-#: controllers/message.php:98 controllers/message.php:104
+#: controllers/configuration.php:55 controllers/message.php:106
+#: controllers/message.php:110 controllers/message.php:116
 #: controllers/recipients.php:35
 msgid "Informationen"
 msgstr "Information"
@@ -54,12 +54,12 @@ msgstr "The changes have been saved."
 msgid "Die Änderungen konnten nicht gespeichert werden."
 msgstr "The changes could not be saved."
 
-#: controllers/message.php:95
+#: controllers/message.php:107
 msgid ""
 "Schreiben Sie hier Nachrichten an ausgewählte Empfängerkreise in Stud.IP."
 msgstr "Here you can write Stud.IP messages to selected target audiences."
 
-#: controllers/message.php:99
+#: controllers/message.php:111
 msgid ""
 "Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
 "Einrichtungen angehören, auf die Sie Zugriff haben."
@@ -67,22 +67,30 @@ msgstr ""
 "You can select all studycourses and employees at the institutes you have "
 "access to."
 
-#: controllers/message.php:105
+#: controllers/message.php:117
 #, php-format
 msgid "Verwenden Sie im Nachrichteninhalt %sTextformatierungen%s."
 msgstr "Use %stext formatting%s in your message."
 
-#: controllers/message.php:109
+#: controllers/message.php:121
 msgid "Stud.IP-Hilfe zu Textformatierungen"
 msgstr "Stud.IP help for text formatting"
 
-#: controllers/message.php:178
+#: controllers/message.php:200
+msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
+msgstr ""
+
+#: controllers/message.php:220
+msgid "Es sind zu wenige freie Tokens vorhanden!"
+msgstr ""
+
+#: controllers/message.php:229
 #, php-format
 msgid ""
 "Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben."
 msgstr "Your message to %s persons was assigned for sending."
 
-#: controllers/message.php:180
+#: controllers/message.php:234
 #, php-format
 msgid "Ihre Nachricht an %s Personen konnte nicht gesendet werden."
 msgstr "Your message to %s persons could not be saved."
@@ -140,11 +148,11 @@ msgstr "Status group"
 msgid "Studienfach"
 msgstr "Subject"
 
-#: GarudaCronjob.php:25
+#: GarudaCronjob.php:26
 msgid "Nachrichtenversand an Zielgruppen"
 msgstr "Messages for target audiences"
 
-#: GarudaCronjob.php:29
+#: GarudaCronjob.php:30
 msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
 msgstr "Sends messages to chosen target audiences."
 
@@ -214,7 +222,8 @@ msgstr "Save settings for currently selected institute"
 msgid "Einrichtung wählen, für die Einstellungen gesetzt werden sollen:"
 msgstr "Choose institute to configure settings for:"
 
-#: views/configuration/index.php:16 views/userfilter/add.php:7
+#: views/configuration/index.php:16 views/message/index.php:64
+#: views/userfilter/add.php:7
 msgid "bitte auswählen"
 msgstr "please choose"
 
@@ -258,31 +267,51 @@ msgstr ""
 "Enter the usernames that shall receive your message (separated by line break "
 "or comma)"
 
-#: views/message/index.php:51
+#: views/message/index.php:52
+msgid "Liste von Tokens"
+msgstr ""
+
+#: views/message/index.php:54
+msgid ""
+"Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in der "
+"Nachricht an jeden einzelnen Empfänger personalisiert verschickt werden "
+"sollen (Teilnahmecodes/Links etc.)"
+msgstr ""
+
+#: views/message/index.php:61
+msgid "oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:"
+msgstr ""
+
+#: views/message/index.php:73
 msgid "Nachrichteninhalt"
 msgstr "Message content"
 
-#: views/message/index.php:52
+#: views/message/index.php:74
 msgid "Betreff"
 msgstr "Subject"
 
-#: views/message/index.php:53
+#: views/message/index.php:75
 msgid "Geben Sie hier den Betreff Ihrer Nachricht ein."
 msgstr "Enter the message subject here."
 
-#: views/message/index.php:54
+#: views/message/index.php:76
 msgid "Nachrichtentext"
 msgstr "Message text"
 
-#: views/message/index.php:55
+#: views/message/index.php:77
 msgid "Geben Sie hier den Inhalt Ihrer Nachricht ein."
 msgstr "Enter the message text here."
 
-#: views/message/index.php:58
+#: views/message/index.php:80
 msgid "Vorschau der Nachricht"
 msgstr "Message preview"
 
-#: views/message/index.php:65
+#: views/message/index.php:87
+msgid ""
+"Beim automatischen Bereinigen der verschickten Nachrichten nicht entfernen"
+msgstr ""
+
+#: views/message/index.php:93
 msgid "Nachricht verschicken"
 msgstr "Send message"
 
