@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-25 08:19+0200\n"
-"PO-Revision-Date: 2014-06-17 16:20+0200\n"
+"PO-Revision-Date: 2014-06-25 08:32+0200\n"
 "Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
-"Language-Team: English <http://example.com/weblate/projects/studip/garuda/en/"
-">\n"
+"Language-Team: English "
+"<http://example.com/weblate/projects/studip/garuda/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -78,11 +78,11 @@ msgstr "Stud.IP help for text formatting"
 
 #: controllers/message.php:200
 msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
-msgstr ""
+msgstr "There are less tokens than message recipients!"
 
 #: controllers/message.php:220
 msgid "Es sind zu wenige freie Tokens vorhanden!"
-msgstr ""
+msgstr "There are too few unassigned tokens!"
 
 #: controllers/message.php:229
 #, php-format
@@ -269,7 +269,7 @@ msgstr ""
 
 #: views/message/index.php:52
 msgid "Liste von Tokens"
-msgstr ""
+msgstr "Token list"
 
 #: views/message/index.php:54
 msgid ""
@@ -277,10 +277,12 @@ msgid ""
 "Nachricht an jeden einzelnen Empfänger personalisiert verschickt werden "
 "sollen (Teilnahmecodes/Links etc.)"
 msgstr ""
+"You can upload a text file containing the texts that will be sent to each "
+"recipient (Codes/links etc.)"
 
 #: views/message/index.php:61
 msgid "oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:"
-msgstr ""
+msgstr "or use tokens from an already sent message:"
 
 #: views/message/index.php:73
 msgid "Nachrichteninhalt"
@@ -309,7 +311,7 @@ msgstr "Message preview"
 #: views/message/index.php:87
 msgid ""
 "Beim automatischen Bereinigen der verschickten Nachrichten nicht entfernen"
-msgstr ""
+msgstr "Don't delete on automatic cleanup of sent messages"
 
 #: views/message/index.php:93
 msgid "Nachricht verschicken"
