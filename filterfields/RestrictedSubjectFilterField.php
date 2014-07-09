@@ -33,7 +33,7 @@ class RestrictedSubjectFilterField extends SubjectCondition
         }
         foreach($this->config['studycourses'] as $entry) {
             if (!$restriction['value'] || ($restriction && eval("return ('".$entry['abschluss_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
-                $s = new Studycourse($entry['studiengang_id']);
+                $s = new StudyCourse($entry['studiengang_id']);
                 $this->validValues[$entry['studiengang_id']] = $s->name;
             }
         }

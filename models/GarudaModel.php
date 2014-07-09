@@ -159,45 +159,60 @@ class GarudaModel {
     	return array_merge(self::getAllStudents($userId), self::getAllEmployees($userId));
     }
 
-	public static function getAllStudents($userId, &$config=array()) {
-		if ($config) {
-			$query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
-			$parameters = array();
-			$where = "";
-			if ($config['studycourses']) {
-				$query .= " WHERE ";
-				foreach ($config['studycourses'] as $entry) {
-					if ($where) {
-						$where .= " OR ";
-					}
-					$where .=  "(`abschluss_id`=? AND `studiengang_id`=?)";
-					$parameters[] = $entry['abschluss_id'];
-					$parameters[] = $entry['studiengang_id'];
-				}
-				$query .= $where;
-			}
-			return DBManager::get()->fetchFirst($query, $parameters);
-		} else {
-			return DBManager::get()->fetchFirst(
-				"SELECT DISTINCT `user_id` FROM `user_studiengang` WHERE `studiengang_id`!='21979dd6cc8bcb2138f333506dc30ffb'");
-		}
-	}
+    public static function getAllStudents($userId, &$config=array()) {
+        if ($config) {
+            $query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
+            $parameters = array();
+            $where = "";
+            $studycourses = array();
+            foreach ($config as $inst) {
+                if ($inst['studycourses']) {
+                    $studycourses = array_merge($studycourses, $inst['studycourses']);
+                }
+            }
+            if ($studycourses) {
+                $query .= " WHERE ";
+                foreach ($studycourses as $degree => $sub) {
+                    foreach ($sub as $studycourse => $assigned) {
+                        if ($where) {
+                            $where .= " OR ";
+                        }
+                        $where .=  "(`abschluss_id`=? AND `studiengang_id`=?)";
+                        $parameters[] = $degree;
+                        $parameters[] = $studycourse;
+                    }
+                }
+                $query .= $where;
+            }
+            return DBManager::get()->fetchFirst($query, $parameters);
+        } else if ($GLOBALS['perm']->have_perm('root', $userId)) {
+            return DBManager::get()->fetchFirst(
+                "SELECT DISTINCT `user_id` FROM `user_studiengang` WHERE `studiengang_id`!='21979dd6cc8bcb2138f333506dc30ffb'");
+        }
+    }
 
-	public static function getAllEmployees($userId, &$config=array()) {
-		if ($config) {
-			$query = "SELECT DISTINCT `user_id` FROM `user_inst` ".
-				"WHERE `inst_perms`!='user'";
-			$parameters = array();
-			if ($config['institutes']) {
-				$query .= " AND `Institut_id` IN (?)";
-				$parameters[] = array_keys($config['institutes']);
-			}
-			return DBManager::get()->fetchFirst($query, $parameters);
-		} else {
-			return DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` ".
-				"FROM `user_inst` WHERE `inst_perms`!='user'");
-		}
-	}
+    public static function getAllEmployees($userId, &$config=array()) {
+        if ($config) {
+            $query = "SELECT DISTINCT `user_id` FROM `user_inst` ".
+                "WHERE `inst_perms` IN ('autor', 'tutor', 'dozent')";
+            $parameters = array();
+            // Add own institutes first.
+            $institutes = array_flip(array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId)));
+            foreach ($config as $inst) {
+                if ($inst['institutes']) {
+                    $institutes = array_merge($institutes, $inst['institutes']);
+                }
+            }
+            if ($institutes) {
+                $query .= " AND `Institut_id` IN (?)";
+                $parameters[] = array_keys($institutes);
+            }
+            return DBManager::get()->fetchFirst($query, $parameters);
+        } else if ($GLOBALS['perm']->have_perm('root', $userId)) {
+            return DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` ".
+                "FROM `user_inst` WHERE `inst_perms` IN ('autor', 'tutor', 'dozent')");
+        }
+    }
 
     public static function extractTokens($file) {
         $tokens = array();
