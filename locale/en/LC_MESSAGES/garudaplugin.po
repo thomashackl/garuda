@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-25 08:19+0200\n"
-"PO-Revision-Date: 2014-06-25 08:32+0200\n"
-"Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
+"PO-Revision-Date: 2014-09-26 11:19+0200\n"
+"Last-Translator: Andrew <Andrew.Rink@uni-passau.de>\n"
 "Language-Team: English "
 "<http://example.com/weblate/projects/studip/garuda/en/>\n"
 "Language: en\n"
@@ -124,7 +124,7 @@ msgstr "%s and sub institutes"
 
 #: filterfields/InstituteFilterField.php:67
 msgid "Einrichtung"
-msgstr "Institute"
+msgstr "Organisational unit"
 
 #: filterfields/RestrictedDegreeFilterField.php:28
 #: filterfields/RestrictedInstituteFilterField.php:66
@@ -379,7 +379,7 @@ msgstr "No studycourses have been assigned to you as target audiences."
 
 #: views/recipients/index.php:11
 msgid "Einrichtungen"
-msgstr "Institutes"
+msgstr "Organisational units"
 
 #: views/recipients/index.php:15
 msgid ""
