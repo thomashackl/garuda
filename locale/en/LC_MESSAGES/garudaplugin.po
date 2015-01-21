@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-06-25 08:19+0200\n"
-"PO-Revision-Date: 2014-09-26 11:19+0200\n"
-"Last-Translator: Andrew <Andrew.Rink@uni-passau.de>\n"
+"PO-Revision-Date: 2015-01-21 11:01+0200\n"
+"Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English "
 "<http://example.com/weblate/projects/studip/garuda/en/>\n"
 "Language: en\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.10-dev\n"
+"X-Generator: Weblate 2.1-dev\n"
 
 #: controllers/configuration.php:46 controllers/configuration.php:51
 #: controllers/configuration.php:55 controllers/message.php:106
@@ -48,7 +48,7 @@ msgstr ""
 
 #: controllers/configuration.php:78
 msgid "Die Änderungen wurden gespeichert."
-msgstr "The changes have been saved."
+msgstr "Your changes have been saved."
 
 #: controllers/configuration.php:80
 msgid "Die Änderungen konnten nicht gespeichert werden."
@@ -124,7 +124,7 @@ msgstr "%s and sub institutes"
 
 #: filterfields/InstituteFilterField.php:67
 msgid "Einrichtung"
-msgstr "Organisational unit"
+msgstr "Institute"
 
 #: filterfields/RestrictedDegreeFilterField.php:28
 #: filterfields/RestrictedInstituteFilterField.php:66
@@ -158,7 +158,7 @@ msgstr "Sends messages to chosen target audiences."
 
 #: GarudaPlugin.class.php:34 views/message/index.php:10
 msgid "Nachricht schreiben"
-msgstr "Write a message"
+msgstr "Write message"
 
 #: GarudaPlugin.class.php:35
 msgid "An wen darf ich schreiben?"
@@ -225,7 +225,7 @@ msgstr "Choose institute to configure settings for:"
 #: views/configuration/index.php:16 views/message/index.php:64
 #: views/userfilter/add.php:7
 msgid "bitte auswählen"
-msgstr "please choose"
+msgstr "please select"
 
 #: views/message/index.php:14
 msgid "Empfängerkreis"
@@ -370,7 +370,7 @@ msgstr "You are root and may write to all!"
 
 #: views/recipients/index.php:5
 msgid "Studiengänge"
-msgstr "Studycourses"
+msgstr "Courses of study"
 
 #: views/recipients/index.php:9
 msgid ""
@@ -379,7 +379,7 @@ msgstr "No studycourses have been assigned to you as target audiences."
 
 #: views/recipients/index.php:11
 msgid "Einrichtungen"
-msgstr "Organisational units"
+msgstr "Institutes"
 
 #: views/recipients/index.php:15
 msgid ""
@@ -396,7 +396,7 @@ msgstr "Which persons should be included?"
 
 #: views/userfilter/add.php:17
 msgid "Bedingung hinzufügen"
-msgstr "Add condition"
+msgstr "Add condition."
 
 #: views/userfilter/add.php:31 views/userfilter/addrestricted.php:29
 msgid "Filter übernehmen"
