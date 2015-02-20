@@ -19,11 +19,6 @@ require 'bootstrap.php';
 class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     /**
-     * Name for cron job.
-     */
-    const CRON = "GarudaCronjob.php";
-
-    /**
      * Create a new Garuda instance initializing navigation and needed scripts.
      */
     public function __construct() {
@@ -99,21 +94,19 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     public static function onEnable($pluginId) {
         parent::onEnable($pluginId);
-        $taskId = CronjobScheduler::registerTask(self::getCronName(), true);
+        require_once(__DIR__.'/GarudaCronjob.php');
+        $task = new GarudaCronjob();
+        $taskId = CronjobScheduler::getInstance()->registerTask($task);
         CronjobScheduler::schedulePeriodic($taskId, -15);
     }
 
     public static function onDisable($pluginId) {
-        $taskId = CronjobTask::findByFilename(self::getCronName());
-        CronjobScheduler::unregisterTask($taskId[0]->task_id);
+        $task = CronjobTask::findByClass('GarudaCronjob');
+        if ($task) {
+            CronjobScheduler::getInstance()->unregisterTask($task[0]->id);
+            $task[0]->delete();
+        }
         parent::onDisable($pluginId);
-    }
-
-    private static function getCronName() {
-        return "public/plugins_packages/intelec/GarudaPlugin/".self::CRON;
-        $plugin = PluginEngine::getPlugin(__CLASS__);
-        $path = $plugin->getPluginPath();
-        return dirname($path)."/".self::CRON;
     }
 
 }
