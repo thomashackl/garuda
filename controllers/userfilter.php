@@ -35,7 +35,6 @@ class UserfilterController extends AuthenticatedController {
     public function add_action($type) {
         if (Request::isXhr()) {
             $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
-            $this->response->add_header('X-No-Buttons', 1);
         }
         switch($type) {
             case 'employees':

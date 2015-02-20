@@ -102,24 +102,17 @@ class MessageController extends AuthenticatedController {
             $this->redirect($this->url_for('message/send'));
 		// Show normal page.
         } else {
-            $this->setInfoBoxImage('infobox/messages.jpg');
-            $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
-                                dgettext('garudaplugin', "Schreiben Sie hier Nachrichten an ".
-                                    "ausgewählte Empfängerkreise in Stud.IP."),
-                                'icons/16/black/mail.png');
-            $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+            Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Zielgruppen'),
                                 dgettext('garudaplugin', "Sie können alle Studiengänge und alle ".
                                     "Beschäftigten auswählen, die den ".
                                     "Einrichtungen angehören, auf die Sie Zugriff ".
                                     "haben."),
-                                'icons/16/black/group2.png');
-            $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
-                                sprintf(dgettext('garudaplugin', "Verwenden Sie im Nachrichteninhalt ".
-                                    "%sTextformatierungen%s."), 
-                                    '<a href="'.htmlReady(format_help_url("Basis/VerschiedenesFormat")).
-                                    '" target="_blank" title="'.
-                                    dgettext('garudaplugin', 'Stud.IP-Hilfe zu Textformatierungen').'">', '</a>'),
-                                'icons/16/black/edit.png');
+                                'icons/16/white/group2.png');
+            Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
+                                sprintf(dgettext('garudaplugin', "Verwenden Sie [Stud.IP-Textformatierungen]%s im ".
+                                    "Nachrichteninhalt."),
+                                    format_help_url("Basis/VerschiedenesFormat")),
+                                'icons/16/white/edit.png');
             UserFilterField::getAvailableFilterFields();
             $this->filters = array();
             if ($this->flash['filters']) {

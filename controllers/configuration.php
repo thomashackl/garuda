@@ -42,22 +42,21 @@ class ConfigurationController extends AuthenticatedController {
                 return strnatcasecmp($a->name, $b->name);
             }
         );
-        $this->setInfoBoxImage('infobox/administration.jpg');
-        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Konfiguration'),
                             dgettext('garudaplugin', "Hier können Sie pro Einrichtung einstellen, ".
                                 "welche Studiengänge als Zielgruppe für ".
                                 "Nachrichten erlaubt sind."),
-                            'icons/16/black/doctoral_cap.png');
-        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                            'icons/16/white/doctoral_cap.png');
+        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Einrichtungen'),
                             dgettext('garudaplugin', "Welche Einrichtungen sind neben den eigenen ".
                                 "als Zielgruppe erlaubt?"),
-                            'icons/16/black/institute.png');
-        $this->addToInfobox(dgettext('garudaplugin', 'Informationen'),
+                            'icons/16/white/institute.png');
+        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Berechtigung'),
                             dgettext('garudaplugin', "Pro Einrichtung kann festgelegt werden, ob ".
                                 "Personen die Berechtigung 'dozent' oder ".
                                 "'admin' haben müssen, um diese Funktion zu ".
                                 "nutzen."),
-                            'icons/16/black/lock-locked.png');
+                            'icons/16/white/lock-locked.png');
     }
 
     public function get_action($instituteId) {
