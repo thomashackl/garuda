@@ -40,7 +40,7 @@ if ($flash['error']) {
             <?php } ?>
         </div>
         <br/>
-        <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('rel' => 'lightbox')); ?>
+        <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
     </fieldset>
     <fieldset id="reclist">
         <legend><?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?></legend>

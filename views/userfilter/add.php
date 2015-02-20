@@ -17,19 +17,18 @@
         <?= Button::create(dgettext('garudaplugin', 'Bedingung hinzufügen'), array('id' => 'add_field')) ?>
     </div>
     <br/>
-    <div class="submit_wrapper">
-        <?php foreach ($flash->flash as $key => $value) { ?>
-            <?php if (is_array($value)) { ?>
-                <?php foreach ($value as $entry) { ?>
-        <input type="hidden" name="<?= htmlReady($key) ?>[]" value="<?= htmlReady($entry) ?>"/>
-                <?php } ?>
-            <?php } else { ?>
-        <input type="hidden" name="<?= htmlReady($key) ?>" value="<?= htmlReady($value) ?>"/>
+    <?php foreach ($flash->flash as $key => $value) { ?>
+        <?php if (is_array($value)) { ?>
+            <?php foreach ($value as $entry) { ?>
+    <input type="hidden" name="<?= htmlReady($key) ?>[]" value="<?= htmlReady($entry) ?>"/>
             <?php } ?>
+        <?php } else { ?>
+    <input type="hidden" name="<?= htmlReady($key) ?>" value="<?= htmlReady($value) ?>"/>
         <?php } ?>
-        <?= CSRFProtection::tokenTag() ?>
-        <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
-    </div>
+    <?php } ?>
+    <?= CSRFProtection::tokenTag() ?>
+    <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit', array('data-dialog-button' => '')) ?>
+    <?= LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message'), array('data-dialog-button' => '', 'data-dialog' => 'close')) ?>
 </form>
 <script type="text/javascript">
 //<!--
