@@ -30,6 +30,8 @@ class ConfigurationController extends AuthenticatedController {
         }
         Navigation::activateItem('/messaging/garuda/configuration');
         $this->set_content_type('text/html;charset=windows-1252');
+        $this->sidebar = Sidebar::get();
+        $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
 
     public function index_action() {

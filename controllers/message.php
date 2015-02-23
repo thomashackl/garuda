@@ -47,6 +47,8 @@ class MessageController extends AuthenticatedController {
             $this->i_am_root = true;
         }
         $this->set_content_type('text/html;charset=windows-1252');
+        $this->sidebar = Sidebar::get();
+        $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
 
 	/**

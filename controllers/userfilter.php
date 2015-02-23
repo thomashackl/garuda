@@ -30,6 +30,8 @@ class UserfilterController extends AuthenticatedController {
         }
         $this->filterfields = UserFilterField::getAvailableFilterFields();
         $this->set_content_type('text/html;charset=windows-1252');
+        $this->sidebar = Sidebar::get();
+        $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
 
     public function add_action($type) {
