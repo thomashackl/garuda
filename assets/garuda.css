@@ -1,55 +1,21 @@
-li.degree, li.faculty {
-    list-style-type: none;
-    margin-left: -28px;
-}
-
-li.institute {
-    list-style-type: none;
-    margin-left: -5px;
-}
-
-li.degree input.tree, li.faculty input.tree {
-    opacity: 0;
-}
-
-li.degree input.tree + ul, li.faculty input.tree + ul {
-    margin-top: -19px;
-    padding-top: 16px;
-}
-
-li.degree input.tree + ul > li, li.faculty input.tree + ul > li {
-    display: none;
-    margin-left: -14px !important;
-    background: url('images/dots.png') repeat-y;
-    padding-left: 15px;
-    padding-top: 2px;
-    cursor: pointer;
-}
-
-li.degree input.tree + ul > li:last-child, li.faculty input.tree + ul > li:last-child {
-    background: url('images/dots-end.png') no-repeat;
-}
-
-
-li.degree input.tree:checked + ul > li, li.faculty input.tree:checked + ul > li {
-    display: block;
-}
-
-li.degree label, li.faculty label {
-    display: inline;
-    padding-left: 20px;
-}
-
-li.degree a img, li.faculty a img {
-    margin-bottom: -3px;
-}
-
-li.subject input, li.institute input {
-    opacity: 100;
-}
-
 #config li.faculty {
     padding-left: 22px;
+}
+
+.css-tree.collapsable input[type="checkbox"].selector {
+    display: inline;
+}
+
+.css-tree.collapsable label {
+    display: inline;
+}
+
+.css-tree.collapsable input[type="checkbox"].tree ~ span.actions {
+    display: none;
+}
+
+.css-tree.collapsable input[type="checkbox"].tree:checked ~ span.actions {
+    display: inline;
 }
 
 a.all, a.none {

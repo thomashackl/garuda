@@ -7,52 +7,17 @@ STUDIP.Garuda = {
     },
 
     configOpenSelected: function() {
-        $('li.degree label').click(function(event) {
-            $(this).parents('li.degree').find('span.actions').toggle();
+        $('input[type="checkbox"].selector:checked').parents('li').children('input[type="checkbox"].tree').attr('checked', true);
+        $('span.actions a.all').each(function() {
+            $(this).on('click', function() {
+                $(this).parent().siblings('ul').children('li').children('input[type="checkbox"].selector').attr('checked', true);
+            });
         });
-
-        $('li.degree').find('a.all').click(function(event) {
-            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').attr('checked', true);
+        $('span.actions a.none').each(function() {
+            $(this).on('click', function() {
+                $(this).parent().siblings('ul').children('li').children('input[type="checkbox"].selector').attr('checked', false);
+            });
         });
-
-        $('a.none').click(function(event) {
-            $(this).parents('li.degree').find('li.subject input[type="checkbox"]').attr('checked', false);
-        });
-
-        $('li.degree').find('input.subtree:checked').each(function() {
-            $('#'+$(this).data('degree-id')).attr('checked', true);
-            $('#actions_'+$(this).data('degree-id')).attr('style', 'inline');
-        });
-
-        $('li.faculty label').on('click', function(event) {
-            $(this).parents('li.faculty').find('span.actions').toggle();
-        });
-
-        $('li.faculty').find('a.all').on('click', function(event) {
-            $(this).parents('li.faculty').find('li.institute input[type="checkbox"]').each(function() { $(this).attr('checked', true); });
-        });
-
-        $('li.faculty').find('a.none').on('click', function(event) {
-            $(this).parents('li.faculty').find('li.institute input[type="checkbox"]').each(function() { $(this).attr('checked', false); });
-        });
-
-        $('li.faculty').find('input.faculty_select').on('click', function(event) {
-            var father = $(this).parents('li.faculty');
-            var inputs = father.find('input.subtree');
-            if ($(this).attr('checked')) {
-                inputs.attr('disabled', true);
-                inputs.attr('checked', true);
-            } else {
-                inputs.removeAttr('disabled');
-                inputs.removeAttr('checked');
-            }
-        });
-
-        $('li.faculty').find('input.subtree:checked').each(function() {
-            $('#'+$(this).data('faculty-id')).attr('checked', true);
-            $('#actions_'+$(this).data('faculty-id')).attr('style', 'inline');
-        });
-
     },
 
     getConfig: function() {

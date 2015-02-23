@@ -32,9 +32,8 @@ class RecipientsController extends AuthenticatedController {
 
     public function index_action() {
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Erlaubte Zielgruppen'),
-                            dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise ".
-                                "Sie Nachrichten verschicken können."),
-                            'icons/16/white/mail.png');
+            dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."),
+            'icons/16/white/mail.png');
         if (!$this->i_am_root) {
             $this->studycourses = array();
             foreach ($this->config['studycourses'] as $s) {
