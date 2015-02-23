@@ -67,16 +67,30 @@ a.all, a.none {
     padding-left: 15px;
 }
 
-#message_preview {
-    position: relative;
-    top: -370px;
-    left: 650px;
+@media (min-width: 1440px) {
+    #message {
+        float: left;
+        width: 49%;
+    }
+
+    #preview {
+        float: right;
+        width: 49%;
+    }
+}
+
+@media (max-width: 1439px) {
+    #message {
+        width: 90%;
+    }
+
+    #preview {
+        width: 90%;
+    }
 }
 
 #message_preview_text {
     background-color: #e7ebf1;
     padding: 10px;
-    width: 400px;
-    max-width: 400px;
     margin-top: 10px;
 }
