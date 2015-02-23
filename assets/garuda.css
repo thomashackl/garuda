@@ -2,6 +2,10 @@
     padding-left: 22px;
 }
 
+#config section {
+    margin-bottom: 20px;
+}
+
 .css-tree.collapsable input[type="checkbox"].selector {
     display: inline;
 }
