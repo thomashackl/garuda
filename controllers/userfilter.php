@@ -137,17 +137,14 @@ class UserfilterController extends AuthenticatedController {
     // customized #url_for for plugins
     function url_for($to) {
         $args = func_get_args();
-
-        # find params
+        // find params
         $params = array();
         if (is_array(end($args))) {
             $params = array_pop($args);
         }
-
-        # urlencode all but the first argument
+        // urlencode all but the first argument
         $args = array_map("urlencode", $args);
         $args[0] = $to;
-
         return PluginEngine::getURL($this->plugin, $params, join("/", $args));
     } 
 }
