@@ -1,17 +1,15 @@
-<ul id="degrees">
+<ul class="collapsable css-tree">
     <?php foreach ($studycourses as $degree => $data) { ?>
         <?php if ($data['name']) { ?>
-    <li class="degree">
+    <li>
+        <input type="checkbox" class="tree" id="<?= $degree ?>"/>
         <label for="<?= $degree ?>">
-            <?= Assets::img('icons/16/blue/arr_1right.png', array('data-toggle-icon' => Assets::image_path('icons/16/blue/arr_1down.png'))) ?>
             <?= htmlReady($data['name']) ?>
         </label>
-        <input type="checkbox" class="tree" id="<?= $degree ?>"/>
             <?php if ($data['subjects']) { ?>
-        <ul id="subjects_<?= $degree ?>">
+        <ul>
                 <?php foreach ($data['subjects'] as $subject => $pname) { ?>
             <li class="subject">
-                <?= Assets::img('icons/16/black/doctoral_cap.png') ?>
                 <?= htmlReady($pname) ?>
             </li>
                 <?php } ?>
