@@ -105,7 +105,20 @@ class GarudaCronFunctions {
      * @return bool Successfully cleaned?
      */
     public static function cleanup() {
-        return DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `done`=1 AND `protected`=0 AND `mkdate`<?", array(time()-7*24*60*60));
+        $jobs = DBManager::get()->fetchFirst("SELECT `job_id` FROM `garuda_messages` WHERE `done`=1 AND `protected`=0 AND `mkdate`<?", array(time()-7*24*60*60));
+        if ($jobs) {
+            if (DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `job_id` IN (?)", array($jobs))) {
+                if (DBManager::get()->execute("DELETE FROM `garuda_tokens` WHERE `job_id` IN (?)", array($jobs))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 
 }
