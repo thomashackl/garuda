@@ -8,7 +8,7 @@ class InitGaruda extends DBMigration
             `mkdate` INT NOT NULL DEFAULT 0,
             `chdate` INT NOT NULL DEFAULT 0,
             PRIMARY KEY (`institute_id`)
-        ) ENGINE=InnoDB COLLATE latin1_german1_ci CHARACTER SET latin1");
+        )");
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_inst_stg` (
             `institute_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
             `abschluss_id` VARCHAR(32) REFERENCES `abschluss`.`abschluss_id`,
@@ -18,7 +18,7 @@ class InitGaruda extends DBMigration
             INDEX `institute_id` (`institute_id`),
             INDEX `degree` (`abschluss_id`),
             INDEX `subject` (`studiengang_id`)
-        ) ENGINE=InnoDB COLLATE latin1_german1_ci CHARACTER SET latin1");
+        )");
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_inst_inst` (
             `institute_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
             `rec_inst_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
@@ -26,7 +26,7 @@ class InitGaruda extends DBMigration
             PRIMARY KEY (`institute_id`, `rec_inst_id`),
             INDEX `institute_id` (`institute_id`),
             INDEX `recipients` (`rec_inst_id`)
-        ) ENGINE=InnoDB COLLATE latin1_german1_ci CHARACTER SET latin1");
+        )");
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_messages` (
             `job_id` INT AUTO_INCREMENT,
             `sender_id` VARCHAR(32) REFERENCES `auth_user_md5`.`user_id`,
@@ -38,7 +38,7 @@ class InitGaruda extends DBMigration
             PRIMARY KEY (`job_id`),
             INDEX `sender` (`sender_id`),
             INDEX `ìn_progress` (`locked`)
-        ) ENGINE=InnoDB COLLATE latin1_german1_ci CHARACTER SET latin1");
+        )");
     }
 
     function down()
