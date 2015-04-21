@@ -84,9 +84,9 @@ if ($flash['error']) {
             <div id="message_preview_text"></div>
         </div>
         <?php if ($i_am_root) { ?>
-        <label class="caption">
+        <label class="caption" style="clear:both">
             <input type="checkbox" name="protected"<?= $flash['protected'] ? ' checked="checked"' : '' ?>/>
-            <?= dgettext('garudaplugin', 'Beim automatischen Bereinigen der verschickten Nachrichten nicht entfernen') ?>
+            <?= dgettext('garudaplugin', 'Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden') ?>
         </label>
         <?php } ?>
     </fieldset>
