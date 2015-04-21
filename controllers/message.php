@@ -72,11 +72,11 @@ class MessageController extends AuthenticatedController {
             }
 			// Get message subject.
             if (Request::get('subject')) {
-                $this->flash['subject'] = Request::get('subject');
+                $this->flash['subject'] = studip_utf8decode(Request::get('subject'));
             }
 			// Get message text.
             if (Request::get('message')) {
-                $this->flash['message'] = Request::get('message');
+                $this->flash['message'] = studip_utf8decode(Request::get('message'));
             }
 			// Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
@@ -123,6 +123,7 @@ class MessageController extends AuthenticatedController {
                         $filter = studip_utf8decode($filter);
                     }
                     $current = unserialize($filter);
+                    $current->show_user_count = true;
                     $this->filters[] = $current;
                 }
             }
