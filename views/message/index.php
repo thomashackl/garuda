@@ -13,15 +13,23 @@ if ($flash['error']) {
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
         <label class="caption" for="sendto"><?= dgettext('garudaplugin', 'An wen soll die Nachricht gesendet werden?') ?></label>
-        <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'alle') ?>
-        <br/>
-        <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Studierende') ?>
-        <br/>
-        <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Beschäftigte') ?>
-        <br/>
+        <label>
+            <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/>
+            <?= dgettext('garudaplugin', 'alle') ?>
+        </label>
+        <label>
+            <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/>
+            <?= dgettext('garudaplugin', 'Studierende') ?>
+        </label>
+        <label>
+            <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/>
+            <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+        </label>
+        <label>
         <?php if ($i_am_root) { ?>
-        <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked="checked"' : '') ?>/> <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
-        <br/>
+            <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked="checked"' : '') ?>/>
+            <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
+        </label>
         <?php } ?>
         <div id="filters">
             <span class="filtertext" data-text-src="<?= $controller->url_for('message') ?>">
