@@ -42,9 +42,8 @@ class GarudaCronjob extends CronJob {
      * Send all prepared messages.
      */
     public function execute($last_result, $parameters = array()) {
-        Log::set('garuda', $GLOBALS['TMP_PATH'].'/garuda.log');
         if (!GarudaCronFunctions::cleanup()) {
-            Log::error_garuda('Could not clean up!');
+            echo 'ERROR: Could not clean up!';
         }
         $jobs = GarudaCronFunctions::getCronEntries();
         $m = new Message();
@@ -83,12 +82,12 @@ class GarudaCronjob extends CronJob {
                 if ($sender->title_rear) {
                     $senderName .= ', '.$sender->title_rear;
                 }
-                // Write status to log file.
+                // Write status to cron log.
                 if ($message) {
-                    Log::info_garuda(sprintf("Message from %s to %s recipients was sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
+                    echo sprintf("INFO: Message from %s to %s recipients was sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']);
 					GarudaCronFunctions::cronEntryDone($job['job_id']);
                 } else {
-                    Log::error_garuda(sprintf("Message from %s to %s recipients could not be sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']));
+                    echo sprintf("ERROR: Message from %s to %s recipients could not be sent:\n%s\n\n%s", $senderName, $numRec, $job['subject'], $job['message']);
                     GarudaCronFunctions::unlockCronEntry($job['job_id']);
                 }
             }

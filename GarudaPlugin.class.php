@@ -96,7 +96,7 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         parent::onEnable($pluginId);
         require_once(__DIR__.'/GarudaCronjob.php');
         $task = new GarudaCronjob();
-        $taskId = CronjobScheduler::getInstance()->registerTask($task);
+        $taskId = CronjobScheduler::getInstance()->registerTask($task, true);
         CronjobScheduler::schedulePeriodic($taskId, -15);
     }
 
