@@ -42,9 +42,9 @@ class GarudaCronjob extends CronJob {
      * Send all prepared messages.
      */
     public function execute($last_result, $parameters = array()) {
-        Log::set('garuda', '/var/log/studip/garuda.log');
+        Log::set('garuda', $GLOBALS['TMP_PATH'].'/garuda.log');
         if (!GarudaCronFunctions::cleanup()) {
-            Log::error('Could not clean up!');
+            Log::error_garuda('Could not clean up!');
         }
         $jobs = GarudaCronFunctions::getCronEntries();
         $m = new Message();
