@@ -77,6 +77,42 @@ if ($flash['error']) {
         <?php } ?>
     </fieldset>
     <?php } ?>
+    <?php if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) { ?>
+    <?php // message_id wird zum Upload benötigt damit die Dateien eine Zuordnung haben (siehe die upload klasse!) ?>
+    <?php $attachment_token = md5(uniqid("neWAtTaChMeNt")) ?>
+    <input type="hidden" name="message_id" id="message_id" value="<?= htmlReady($attachment_token) ?>">
+    <fieldset id="attachments">
+        <legend><?= _('Anhänge') ?></legend>
+        <label class="caption" for="attachments"><?= _('Laden Sie hier Dateianhänge hoch.') ?></label>
+        <div id="attachments">
+            <h4><?= _('Anhänge') ?></h4>
+            <div>
+                <ul class="files">
+                    <li style="display: none;" class="file">
+                        <span class="icon"></span>
+                        <span class="name"></span>
+                        <span class="size"></span>
+                        <a class="remove_attachment"><?= Assets::img("icons/16/blue/trash", array('class' => "text-bottom")) ?></a>
+                    </li>
+                </ul>
+                <div id="statusbar_container">
+                    <div class="statusbar" style="display: none;">
+                        <div class="progress"></div>
+                        <div class="progresstext">0%</div>
+                    </div>
+                </div>
+                <label style="cursor: pointer;">
+                    <input type="file" id="fileupload" multiple onChange="STUDIP.Messages.upload_from_input(this);" style="display: none;">
+                    <?= Assets::img("icons/20/blue/upload", array('title' => _("Datei hochladen"), 'class' => "text-bottom")) ?>
+                    <?= _("Datei hochladen") ?>
+                </label>
+
+                <div id="upload_finished" style="display: none"><?= _("wird verarbeitet") ?></div>
+                <div id="upload_received_data" style="display: none"><?= _("gespeichert") ?></div>
+            </div>
+        </div>
+    </fieldset>
+    <?php } ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <div id="message">

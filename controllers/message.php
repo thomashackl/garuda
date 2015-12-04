@@ -78,6 +78,7 @@ class MessageController extends AuthenticatedController {
             if (Request::get('message')) {
                 $this->flash['message'] = studip_utf8decode(Request::get('message'));
             }
+            $this->flash['attachment_token'] = Request::get('message_id');
 			// Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
                 $this->redirect($this->url_for('userfilter/add', Request::option('sendto')));
@@ -101,6 +102,7 @@ class MessageController extends AuthenticatedController {
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
             $this->flash['protected'] = Request::option('protected');
+            $this->flash['attachment_token'] = Request::get('message_id');
             $this->redirect($this->url_for('message/send'));
 		// Show normal page.
         } else {
@@ -220,7 +222,7 @@ class MessageController extends AuthenticatedController {
             }
         }
 
-        if (!$error && GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $this->flash['protected'], $tokens)) {
+        if (!$error && GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $this->flash['protected'], $tokens, $this->flash['attachment_token'])) {
             $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));

@@ -46,7 +46,6 @@ class GarudaCronjob extends CronJob {
             echo 'ERROR: Could not clean up!';
         }
         $jobs = GarudaCronFunctions::getCronEntries();
-        $m = new Message();
         foreach ($jobs as $job) {
             // Mark current entry as locked.
             if (GarudaCronFunctions::lockCronEntry($job['job_id'])) {
@@ -68,11 +67,11 @@ class GarudaCronjob extends CronJob {
                         // Replace the "###REPLACE###" marker with the actual token.
                         $text = str_replace('###REPLACE###', $token, $job['message']);
                         // Send Stud.IP message with replaced token.
-                        $message = $m->send('____%system%____', array($username), $job['subject'], $text);
+                        $message = $this->send('____%system%____', array($username), $job['subject'], $text, $job['attachment_id']);
                     }
                 } else {
                     // Send Stud.IP message.
-                    $message = $m->send($sender->user_id, $users, $job['subject'], $job['message']);
+                    $message = $this->send($sender->user_id, $users, $job['subject'], $job['message'], $job['attachment_id']);
                 }
                 // Build full name of the sender for log.
                 $senderName = $sender->vorname.' '.$sender->nachname;
@@ -94,6 +93,18 @@ class GarudaCronjob extends CronJob {
         }
     }
 
+    /**
+     * Send a single message (optionally with attachment).
+     */
+    private function send($sender, $recipients, $subject, $message, $attachment_id) {
+        $messaging = new messaging();
+        if ($attachment_id) {
+            $messaging->provisonal_attachment_id = $attachment_id;
+        }
+        $result = $messaging->insert_message($message, $recipients, $sender, time(), '', false, '', $subject);
+        return $result;      
+    }
+    
     public function tearDown() {
 
     }

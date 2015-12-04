@@ -29,18 +29,19 @@ class GarudaCronFunctions {
      * @param bool   $protected  Protect message from automatic cleanup deletion?
      * @param array  $tokens     Optional token list for text replacing in message
      */
-    public static function createCronEntry($sender, &$recipients, $subject, $message, $protected=false, &$tokens=array()) {
+    public static function createCronEntry($sender, &$recipients, $subject, $message, $protected=false, &$tokens=array(), $attachment_id='') {
         $success = true;
         $db = DBManager::get();
-        $stmt = $db->prepare("INSERT INTO `garuda_messages`
-            (`sender_id`, `recipients`, `subject`, `message`, `protected`, `mkdate`)
+        $stmt = $db->prepare("INSERT INTO garuda_messages
+            (sender_id, recipients, subject, message, attachment_id, protected, mkdate)
             VALUES
-            (:sender, :rec, :subject, :message, :protected, UNIX_TIMESTAMP())");
+            (:sender, :rec, :subject, :message, :attachment_id, :protected, UNIX_TIMESTAMP())");
         $success = $stmt->execute(array(
             'sender' => $GLOBALS['user']->id,
             'rec' => json_encode($recipients),
             'subject' => $subject,
             'message' => $message,
+            'attachment_id' => $attachment_id,
             'protected' => $protected ? 1 : 0)
         );
         if ($success && $tokens) {
