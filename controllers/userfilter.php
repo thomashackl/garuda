@@ -90,7 +90,8 @@ class UserfilterController extends AuthenticatedController {
 
     public function field_config_action($className) {
         if ($className) {
-            $this->field = new $className();
+            list($fieldType, $param) = explode('_', $className);
+            $this->field = new $fieldType($param);
         } else {
             $this->render_nothing();
         }
@@ -109,7 +110,8 @@ class UserfilterController extends AuthenticatedController {
         for ($i=0 ; $i < sizeof($fields) ; $i++) {
             $className = $fields[$i];
             if ($className && $compareOps[$i] && $values[$i]) {
-                $currentField = new $className();
+                list($fieldType, $param) = explode('_', $className);
+                $currentField = new $fieldType($param);
                 $currentField->setCompareOperator($compareOps[$i]);
                 $currentField->setValue($values[$i]);
                 $filter->addField($currentField);
