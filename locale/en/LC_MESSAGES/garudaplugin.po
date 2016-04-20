@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-21 13:41+0200\n"
-"PO-Revision-Date: 2015-04-21 13:44+0200\n"
-"Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
-"Language-Team: English "
-"<http://example.com/weblate/projects/studip/garuda/en/>\n"
+"PO-Revision-Date: 2016-04-20 10:05+0000\n"
+"Last-Translator: Thomas Hackl <thomas.hackl@uni-passau.de>\n"
+"Language-Team: English <https://develop.intelec.uni-"
+"passau.de/weblate/projects/studip/garudaplugin/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.2\n"
+"X-Generator: Weblate 2.6-dev\n"
 
 #: controllers/configuration.php:47
 msgid "Berechtigung"
@@ -133,7 +133,7 @@ msgstr "%s and sub institutes"
 
 #: filterfields/InstituteFilterField.php:67
 msgid "Einrichtung"
-msgstr "Institute"
+msgstr "Institution"
 
 #: filterfields/RestrictedDegreeFilterField.php:28
 #: filterfields/RestrictedInstituteFilterField.php:66
@@ -230,7 +230,7 @@ msgstr "Choose institute to configure settings for:"
 #: views/configuration/index.php:16 views/message/index.php:64
 #: views/userfilter/add.php:7
 msgid "bitte auswählen"
-msgstr "please select"
+msgstr "please choose"
 
 #: views/message/index.php:14
 msgid "Empfängerkreis"
