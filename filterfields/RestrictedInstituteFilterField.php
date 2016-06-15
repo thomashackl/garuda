@@ -92,5 +92,3 @@ class RestrictedInstituteFilterField extends InstituteFilterField
     }
 
 } /* end of class RestrictedInstituteFilterField */
-
-?>

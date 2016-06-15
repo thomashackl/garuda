@@ -147,5 +147,3 @@ class StatusgroupFilterField extends UserFilterField
     }
 
 } /* end of class StatusgroupFilterField */
-
-?>

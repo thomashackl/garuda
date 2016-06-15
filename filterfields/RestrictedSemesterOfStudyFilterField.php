@@ -120,5 +120,3 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
     }
 
 } /* end of class RestrictedSemesterOfStudyFilterField */
-
-?>

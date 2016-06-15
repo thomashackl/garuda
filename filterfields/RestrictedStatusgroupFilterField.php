@@ -114,5 +114,3 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
     }
 
 } /* end of class RestrictedStatusgroupMemberFilterField */
-
-?>

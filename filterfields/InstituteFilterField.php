@@ -107,5 +107,3 @@ class InstituteFilterField extends UserFilterField
     }
 
 } /* end of class InstituteFilterField */
-
-?>

@@ -50,5 +50,3 @@ class RestrictedDegreeFilterField extends DegreeCondition
     }
 
 } /* end of class RestrictedDegreeFilterField */
-
-?>

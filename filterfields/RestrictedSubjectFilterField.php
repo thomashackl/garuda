@@ -93,5 +93,3 @@ class RestrictedSubjectFilterField extends SubjectCondition
     }
 
 } /* end of class RestrictedSubjectFilterField */
-
-?>
