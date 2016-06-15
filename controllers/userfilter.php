@@ -29,6 +29,7 @@ class UserfilterController extends AuthenticatedController {
             Navigation::activateItem('/messaging/garuda/message');
         }
         $this->filterfields = UserFilterField::getAvailableFilterFields();
+        $this->filterfields['GenderFilterField'] = GenderFilterField::getFilterName();
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
@@ -66,6 +67,10 @@ class UserfilterController extends AuthenticatedController {
                     'RestrictedStatusgroupFilterField' => array(
                         'name' => RestrictedStatusgroupFilterField::getName(),
                         'relation' => 'RestrictedInstituteFilterField'
+                    ),
+                    'RestrictedGenderFilterField' => array(
+                        'name' => RestrictedGenderFilterField::getName(),
+                        'relation' => ''
                     )
                 );
                 break;
@@ -84,6 +89,10 @@ class UserfilterController extends AuthenticatedController {
                         'name' => RestrictedSemesterOfStudyFilterField::getName(),
                         'relation' => ''
                     ),
+                    'RestrictedGenderFilterField' => array(
+                        'name' => RestrictedGenderFilterField::getName(),
+                        'relation' => ''
+                    )
                 );
         }
     }
@@ -107,9 +116,10 @@ class UserfilterController extends AuthenticatedController {
         $fields = Request::getArray('field');
         $compareOps = Request::getArray('compare_operator');
         $values = Request::getArray('value');
+
         for ($i=0 ; $i < sizeof($fields) ; $i++) {
             $className = $fields[$i];
-            if ($className && $compareOps[$i] && $values[$i]) {
+            if ($className && $compareOps[$i] && isset($values[$i])) {
                 list($fieldType, $param) = explode('_', $className);
                 $currentField = new $fieldType($param);
                 $currentField->setCompareOperator($compareOps[$i]);
