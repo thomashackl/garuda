@@ -7,8 +7,9 @@ use Studip\Button;
             <?= dgettext('garudaplugin', 'Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den Nachrichtenversand nutzen zu dürfen?') ?>
         </label>
         <select name="perm" id="perm">
-            <option value="admin"<?= ($config['min_perm'] == 'admin') ? ' selected="selected"' : '' ?>><?= dgettext('garudaplugin', 'admin') ?></option>
-            <option value="dozent"<?= ($config['min_perm'] == 'dozent') ? ' selected="selected"' : '' ?>><?= dgettext('garudaplugin', 'dozent') ?></option>
+            <option value="admin"<?= ($config['min_perm'] == 'admin') ? ' selected' : '' ?>><?= dgettext('garudaplugin', 'admin') ?></option>
+            <option value="dozent"<?= ($config['min_perm'] == 'dozent') ? ' selected' : '' ?>><?= dgettext('garudaplugin', 'dozent') ?></option>
+            <option value="tutor"<?= ($config['min_perm'] == 'tutor') ? ' selected' : '' ?>><?= dgettext('garudaplugin', 'tutor') ?></option>
         </select>
     </section>
     <section>
