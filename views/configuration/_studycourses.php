@@ -6,7 +6,7 @@
     <ul class="collapsable css-tree">
         <li>
             <input type="checkbox" class="tree" id="<?= $degree['abschluss_id'] ?>"/>
-            <label for="<?= $degree['abschluss_id'] ?>">
+            <label for="<?= $degree['abschluss_id'] ?>" class="undecorated">
                 <?= htmlReady($degree['name']) ?>
             </label>
             <span class="actions" id="actions_<?= $degree['abschluss_id']?>">

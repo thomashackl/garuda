@@ -16,7 +16,7 @@
         <li>
             <input type="checkbox" name="institutes[]" class="selector" value="<?= $i['Institut_id'] ?>"<?= ($config['institutes'][$i['Institut_id']]) ? ' checked="checked"' : '' ?>/>
             <input type="checkbox" class="tree" id="<?= $i['Institut_id'] ?>"/>
-            <label for="<?= $i['Institut_id'] ?>">
+            <label for="<?= $i['Institut_id'] ?>" class="undecorated">
                 <?= htmlReady($i['Name']) ?>
             </label>
             <span class="actions" id="actions_<?= $i['Institut_id'] ?>">
