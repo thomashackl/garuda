@@ -1,85 +1,68 @@
 #config li.faculty {
-    padding-left: 22px;
+  padding-left: 22px;
 }
-
 #config section {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-
 .css-tree.collapsable input[type="checkbox"].selector {
-    display: inline;
+  display: inline;
 }
-
+.css-tree.collapsable input[type="checkbox"].selector.tree ~ span.actions {
+  display: none;
+}
+.css-tree.collapsable input[type="checkbox"].selector.tree ~ span.actions:checked ~ span.actions {
+  display: inline;
+}
 .css-tree.collapsable label {
-    display: inline;
+  display: inline;
 }
-
-.css-tree.collapsable input[type="checkbox"].tree ~ span.actions {
-    display: none;
+a.all,
+a.none {
+  cursor: pointer;
 }
-
-.css-tree.collapsable input[type="checkbox"].tree:checked ~ span.actions {
-    display: inline;
-}
-
-a.all, a.none {
-    cursor: pointer;
-}
-
 #filters {
-    margin-left: 30px;
-    margin-top: 10px;
-    font-style: italic;
+  margin-left: 30px;
+  margin-top: 10px;
+  font-style: italic;
 }
-
 .userfilter {
-    margin-left: 15px;
-    display: list-item;
-    list-style-type: disc;
+  margin-left: 15px;
+  display: list-item;
+  list-style-type: disc;
 }
-
 .userfilter .actions {
-    display: none;
+  display: none;
 }
-
 .userfilter:hover .actions {
-    display: inline;
+  display: inline;
 }
-
 .filterfield {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-
-.studip_form select {
-    display: inline;
-}
-
 .fac {
-    font-weight: bold;
+  font-weight: bold;
 }
-
 .fac_all {
-    font-style: italic;
-    padding-left: 10px;
+  font-style: italic;
+  padding-left: 10px;
 }
-
 .inst {
-    padding-left: 15px;
+  padding-left: 15px;
 }
-
 #message {
-    width: 650px;
-    float: left;
+  width: 650px;
+  float: left;
 }
-
 #preview {
-    width: 650px;
-    float: left;
+  width: 650px;
+  float: left;
 }
-
 #message_preview_text {
-    background-color: #e7ebf1;
-    padding: 10px;
-    margin-top: 10px;
-    width: 90%;
+  background-color: #e7ebf1;
+  padding: 10px;
+  margin-top: 10px;
+  width: 90%;
+}
+table.garuda-planned tbody tr td {
+  vertical-align: top;
 }
