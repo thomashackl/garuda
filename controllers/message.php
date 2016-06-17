@@ -11,7 +11,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class MessageController extends AuthenticatedController {
@@ -46,7 +46,7 @@ class MessageController extends AuthenticatedController {
         if ($GLOBALS['perm']->have_perm('root')) {
             $this->i_am_root = true;
         }
-        $this->set_content_type('text/html;charset=windows-1252');
+
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }

@@ -12,11 +12,17 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class GarudaModel {
 
+    /**
+     * Fetches the configuration for the given institute IDs:
+     * Persons having at least which permission level may write messages to whom?
+     *
+     * @param mixed $instituteIds the institutes to check
+     */
     public static function getConfiguration($instituteIds) {
         $config = array();
         $db = DBManager::get();

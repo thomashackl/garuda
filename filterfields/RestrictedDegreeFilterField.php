@@ -12,7 +12,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 require_once('lib/classes/admission/userfilter/DegreeCondition.class.php');

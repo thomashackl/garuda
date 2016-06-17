@@ -11,7 +11,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 require 'bootstrap.php';
@@ -27,6 +27,7 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         bindtextdomain('garudaplugin', realpath(dirname(__FILE__).'/locale'));
         $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
         $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
+        $navigation->addSubNavigation('planned', new Navigation(dgettext('garudaplugin', 'Anstehende Nachrichten'), PluginEngine::getURL($this, array(), 'planned')));
         $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
         if ($GLOBALS['perm']->have_perm('root')) {
             $navigation->addSubNavigation('configuration', new Navigation(dgettext('garudaplugin', 'Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
