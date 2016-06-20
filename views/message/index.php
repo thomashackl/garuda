@@ -8,7 +8,7 @@ if ($flash['error']) {
 }
 ?>
 <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
-<form class="default" enctype="multipart/form-data" action="<?= $controller->url_for('message') ?>" method="post">
+<form class="default" enctype="multipart/form-data" action="<?= $controller->url_for('message') ?>" method="post" data-secure>
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
