@@ -37,7 +37,7 @@ class GarudaCronFunctions {
             VALUES
             (:sender, :rec, :subject, :message, :attachment_id, :protected, UNIX_TIMESTAMP())");
         $success = $stmt->execute(array(
-            'sender' => $GLOBALS['user']->id,
+            'sender' => $sender,
             'rec' => json_encode($recipients),
             'subject' => $subject,
             'message' => $message,

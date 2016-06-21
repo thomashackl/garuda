@@ -8,7 +8,7 @@ if ($flash['error']) {
 }
 ?>
 <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
-<form class="default" enctype="multipart/form-data" action="<?= $controller->url_for('message') ?>" method="post" data-secure>
+<form class="default" enctype="multipart/form-data" action="<?= $controller->url_for('message') ?>" method="post">
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
@@ -128,6 +128,42 @@ if ($flash['error']) {
             </div>
         </section>
     </fieldset>
+    <?php } ?>
+    <?php if ($i_am_root) { ?>
+        <fieldset>
+            <legend><?= dgettext('garudaplugin', 'Absender') ?></legend>
+            <section>
+                <label class="caption">
+                    <input type="radio" name="sender" class="garuda-sender-config" value="me"<?=
+                        (!$sender || $sender == 'me') ? 'checked' : '' ?>>
+                    <?= dgettext('garudaplugin', 'Die Nachricht von meiner Kennung verschicken') ?>
+                </label>
+            </section>
+            <section>
+                <label class="caption">
+                    <input type="radio" name="sender" class="garuda-sender-config" value="person"<?=
+                        $sender == 'person' ? 'checked' : '' ?>>
+                    <?= dgettext('garudaplugin', 'Eine andere Person als Absender eintragen') ?>
+                    <span id="garuda-sendername"<?= ($sender == 'person' && $senderid) ? '' : ' class="hidden-js"' ?>>
+                        (<?= $sendername ? htmlReady($sendername) : dgettext('garudaplugin', 'niemand') ?>)
+                    </span>
+                </label>
+                <div id="garuda-sender-choose-person"<?= $sender == 'person' ? '' : ' class="hidden-js"' ?>>
+                    <label class="caption" for="fromsearch_1">
+                        <?= dgettext('garudaplugin', 'Alternativen Absender suchen') ?>
+                        <?= $fromsearch ?>
+                    </label>
+                    <input type="hidden" name="senderid" id="garuda-senderid" value="<?= $senderid ?>">
+                </div>
+            </section>
+            <section>
+                <label class="caption">
+                    <input type="radio" name="sender" class="garuda-sender-config" value="system"<?=
+                        $sender == 'system' ? 'checked' : ''?>>
+                    <?= dgettext('garudaplugin', 'Anonym, mit "Stud.IP" als Absender verschicken') ?>
+                </label>
+            </section>
+        </fieldset>
     <?php } ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>

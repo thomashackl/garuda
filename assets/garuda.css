@@ -39,6 +39,9 @@ a.none {
 .filterfield {
   margin-bottom: 10px;
 }
+.studip_form select {
+  display: inline;
+}
 .fac {
   font-weight: bold;
 }
@@ -48,6 +51,12 @@ a.none {
 }
 .inst {
   padding-left: 15px;
+}
+#garuda-sender-choose-person {
+  margin-left: 30px;
+}
+#garuda-sendername {
+  text-wrap: none;
 }
 #message {
   width: 650px;

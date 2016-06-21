@@ -128,6 +128,12 @@ class UserfilterController extends AuthenticatedController {
             }
         }
         $this->flash['sendto'] = Request::option('sendto');
+        if (Request::option('sender')) {
+            $this->flash['sender'] = Request::option('sender');
+            if (Request::option('senderid')) {
+                $this->flash['senderid'] = Request::option('senderid');
+            }
+        }
         if (Request::get('subject')) {
             $this->flash['subject'] = Request::get('subject');
         }

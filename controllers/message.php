@@ -55,6 +55,7 @@ class MessageController extends AuthenticatedController {
 	 * Page for writing new messages and setting recipients.
 	 */
     public function index_action() {
+
 		/*
 		 * "Add filter" button has been clicked. We need to handle that
 		 * action here first, because already set values (e.g. message
@@ -62,6 +63,7 @@ class MessageController extends AuthenticatedController {
 		 */
         if (Request::submitted('add_filter')) {
             CSRFProtection::verifyUnsafeRequest();
+
             $this->flash['sendto'] = Request::option('sendto');
 			// Get already set filters.
             if (Request::getArray('filters')) {
@@ -69,6 +71,14 @@ class MessageController extends AuthenticatedController {
             }
             if (Request::option('protected')) {
                 $this->flash['protected'] = true;
+            }
+			// Get alternative sender if applicable.
+            if ($this->i_am_root && Request::option('sender')) {
+                $this->flash['sender'] = Request::option('sender');
+
+                if (Request::option('sender') == 'person' && Request::option('senderid')) {
+                    $this->flash['senderid'] = Request::option('senderid');
+                }
             }
 			// Get message subject.
             if (Request::get('subject')) {
@@ -99,6 +109,14 @@ class MessageController extends AuthenticatedController {
                 $this->flash['message_tokens'] = Request::option('message_tokens');
             }
             $this->flash['list'] = Request::get('list');
+            // Get alternative sender if applicable.
+            if ($this->i_am_root && Request::get('sender')) {
+                $this->flash['sender'] = Request::option('sender');
+
+                if (Request::option('sender') == 'person' && Request::option('senderid')) {
+                    $this->flash['senderid'] = Request::option('senderid');
+                }
+            }
             $this->flash['subject'] = Request::get('subject');
             $this->flash['message'] = Request::get('message');
             $this->flash['protected'] = Request::option('protected');
@@ -113,9 +131,9 @@ class MessageController extends AuthenticatedController {
                                     "haben."),
                                 'icons/16/white/group2.png');
             Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
-                                sprintf(dgettext('garudaplugin', "Verwenden Sie [Stud.IP-Textformatierungen]%s im ".
-                                    "Nachrichteninhalt."),
-                                    format_help_url("Basis/VerschiedenesFormat")),
+                                sprintf(dgettext('garudaplugin', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im '.
+                                    'Nachrichteninhalt.'),
+                                    format_help_url('Basis/VerschiedenesFormat')),
                                 'icons/16/white/edit.png');
             UserFilterField::getAvailableFilterFields();
             $this->filters = array();
@@ -129,8 +147,31 @@ class MessageController extends AuthenticatedController {
                     $this->filters[] = $current;
                 }
             }
+
             if ($this->i_am_root) {
                 $this->messages = GarudaModel::getMessagesWithTokens();
+
+                // Prepare search object for alternative message sender.
+                $psearch = new PermissionSearch('user',
+                    dgettext('garudaplugin', 'Absender suchen'),
+                    'user_id',
+                    array(
+                        'permission' => array('autor', 'tutor', 'dozent', 'admin', 'root'),
+                        'exclude_user' => array()
+                    )
+                );
+                $this->fromsearch = QuickSearch::get('fromsearch', $psearch)
+                    ->fireJSFunctionOnSelect('STUDIP.Garuda.replaceSender')
+                    ->render();
+
+                if ($this->flash['sender']) {
+                    $this->sender = $this->flash['sender'];
+
+                    if ($this->flash['senderid']) {
+                        $this->senderid = $this->flash['senderid'];
+                        $this->sendername = User::find($this->senderid)->getFullname();
+                    }
+                }
             }
         }
     }
@@ -162,7 +203,7 @@ class MessageController extends AuthenticatedController {
 	            $users = array_merge($users, $f->getUsers());
 			}
         } else {
-        	if ($GLOBALS['perm']->have_perm('root')) {
+        	if ($this->i_am_root) {
         		$c = array();
         	} else {
         		$c = $this->config;
@@ -188,41 +229,64 @@ class MessageController extends AuthenticatedController {
 
         $users = array_unique($users);
 
+        $sender = $GLOBALS['user']->id;
+
         $tokens = array();
-        // Read tokens from an uploaded file.
-        if ($this->flash['token_file']) {
-            $tokens = GarudaModel::extractTokens($this->flash['token_file']);
-            unlink($this->flash['token_file']);
-            if (sizeof($tokens) < sizeof($users)) {
-                $this->flash['error'] = dgettext('garudaplugin',
-                    'Es gibt weniger Tokens als Personen für den '.
-                    'Nachrichtenempfang!');
-                $error = true;
+
+        if ($this->i_am_root) {
+
+            // Set alternative sender if applicable.
+            switch ($this->flash['sender']) {
+                case 'person':
+                    $sender = $this->flash['senderid'];
+                    break;
+                case 'system':
+                    $sender = '____%system%____';
+                    break;
+                case 'me':
+                default:
+                    break;
             }
-        }
-        // Get tokens that were assigned to a previously sent message.
-        if ($this->flash['message_tokens']) {
-            $data = GarudaModel::getTokens($this->flash['message_tokens'], true);
-            $unassigned = GarudaModel::getUnassignedTokens($this->flash['message_tokens']);
-            $unassigned_count = 0;
-            foreach ($users as $user) {
-                if ($data[$user]) {
-                    $tokens[$user] = $data[$user];
-                } else {
-                    if ($unassigned[$unassigned_count]) {
-                        $tokens[$user] = $unassigned[$unassigned_count];
-                        $unassigned_count++;
+
+            // Read tokens from an uploaded file.
+            if ($this->flash['token_file']) {
+                $tokens = GarudaModel::extractTokens($this->flash['token_file']);
+                unlink($this->flash['token_file']);
+                if (sizeof($tokens) < sizeof($users)) {
+                    $this->flash['error'] = dgettext('garudaplugin',
+                        'Es gibt weniger Tokens als Personen für den ' .
+                        'Nachrichtenempfang!');
+                    $error = true;
+                }
+            }
+
+            // Get tokens that were assigned to a previously sent message.
+            if ($this->flash['message_tokens']) {
+                $data = GarudaModel::getTokens($this->flash['message_tokens'], true);
+                $unassigned = GarudaModel::getUnassignedTokens($this->flash['message_tokens']);
+                $unassigned_count = 0;
+                foreach ($users as $user) {
+                    if ($data[$user]) {
+                        $tokens[$user] = $data[$user];
                     } else {
-                        $error = true;
-                        $this->flash['error'] = dgettext('garudaplugin',
-                            'Es sind zu wenige freie Tokens vorhanden!');
-                        break;
+                        if ($unassigned[$unassigned_count]) {
+                            $tokens[$user] = $unassigned[$unassigned_count];
+                            $unassigned_count++;
+                        } else {
+                            $error = true;
+                            $this->flash['error'] = dgettext('garudaplugin',
+                                'Es sind zu wenige freie Tokens vorhanden!');
+                            break;
+                        }
                     }
                 }
             }
         }
 
-        if (!$error && GarudaCronFunctions::createCronEntry($GLOBALS['user']->id, $users, $this->flash['subject'], $this->flash['message'], $this->flash['protected'], $tokens, $this->flash['attachment_token'])) {
+        if (!$error && GarudaCronFunctions::createCronEntry($sender,
+                $users, $this->flash['subject'], $this->flash['message'],
+                $this->flash['protected'], $tokens,
+                $this->flash['attachment_token'])) {
             $this->flash['success'] = sprintf(dgettext('garudaplugin',
                 'Ihre Nachricht an %s Personen wurde an das System zum Versand '.
                 'übergeben.'), sizeof($users));
