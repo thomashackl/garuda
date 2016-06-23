@@ -7,12 +7,12 @@ if ($flash['error']) {
 }
 ?>
 <h1><?= dgettext('garudaplugin', 'Konfiguration') ?></h1>
-<form class="default" action="<?= $controller->url_for('configuration/save') ?>" method="post">
+<form class="default" action="<?= $controller->url_for('permissions/save') ?>" method="post">
     <section>
         <?= CSRFProtection::tokenTag() ?>
         <label>
             <?= dgettext('garudaplugin', 'Einrichtung wählen, für die Einstellungen gesetzt werden sollen:') ?>
-            <select name="institute" id="institute" onchange="STUDIP.Garuda.getConfig()" data-update-url="<?= $controller->url_for('configuration/get') ?>">
+            <select name="institute" id="institute" onchange="STUDIP.Garuda.getConfig()" data-update-url="<?= $controller->url_for('permissions/get') ?>">
                 <option value="">
                     -- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --
                 </option>

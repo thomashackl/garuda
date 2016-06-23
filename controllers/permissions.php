@@ -1,8 +1,8 @@
 <?php
 /**
- * configuration.php
+ * permissions.php
  * 
- * Configuration functionality for Garuda: who may send messages to whom?
+ * Permission functionality for Garuda: who may send messages to whom?
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -16,7 +16,7 @@
 
 require_once('app/models/studycourse.php');
 
-class ConfigurationController extends AuthenticatedController {
+class PermissionsController extends AuthenticatedController {
 
     public function before_filter(&$action, &$args) {
         $GLOBALS['perm']->check('root');
@@ -28,7 +28,7 @@ class ConfigurationController extends AuthenticatedController {
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        Navigation::activateItem('/messaging/garuda/configuration');
+        Navigation::activateItem('/messaging/garuda/permissions');
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');

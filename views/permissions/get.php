@@ -13,10 +13,10 @@ use Studip\Button;
         </select>
     </section>
     <section>
-        <?= $this->render_partial('configuration/_studycourses') ?>
+        <?= $this->render_partial('permissions/_studycourses') ?>
     </section>
     <section>
-        <?= $this->render_partial('configuration/_institutes') ?>
+        <?= $this->render_partial('permissions/_institutes') ?>
     </section>
     <?= Button::createAccept(dgettext('garudaplugin', 'Einstellungen für die aktuell gewählte Einrichtung speichern'), 'submit') ?>
 </article>

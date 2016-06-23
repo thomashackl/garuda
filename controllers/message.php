@@ -54,8 +54,8 @@ class MessageController extends AuthenticatedController {
 	/**
 	 * Page for writing new messages and setting recipients.
 	 */
-    public function index_action() {
-
+    public function index_action()
+    {
 		/*
 		 * "Add filter" button has been clicked. We need to handle that
 		 * action here first, because already set values (e.g. message
