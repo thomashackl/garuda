@@ -56,6 +56,68 @@ class MessageController extends AuthenticatedController {
 	 */
     public function index_action()
     {
+        // Set values from Request.
+        if (Request::option('sendto')) {
+            $this->flash['sendto'] = Request::option('sendto');
+        }
+        if (Request::getArray('filters')) {
+            $this->flash['filters'] = Request::getArray('filters');
+        }
+        if ($_FILES['tokens']['tmp_name']) {
+            $filename = $GLOBALS['TMP_PATH'] . '/' . uniqid('', true);
+            move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
+            $this->flash['token_file'] = $filename;
+        }
+        if (Request::option('message_tokens')) {
+            $this->flash['message_tokens'] = Request::option('message_tokens');
+        }
+        if (Request::get('list')) {
+            $this->flash['list'] = Request::get('list');
+        }
+        // Get alternative sender if applicable.
+        if ($this->i_am_root && Request::get('sender')) {
+            $this->flash['sender'] = Request::option('sender');
+
+            if (Request::option('sender') == 'person' && Request::option('senderid')) {
+                $this->flash['senderid'] = Request::option('senderid');
+            }
+        }
+        if (Request::get('subject')) {
+            $this->flash['subject'] = Request::get('subject');
+        }
+        if (Request::get('message')) {
+            $this->flash['message'] = Request::get('message');
+        }
+        $this->flash['protected'] = Request::option('protected');
+        $this->flash['attachment_token'] = Request::get('message_id');
+
+        if ($this->i_am_root) {
+            $this->messages = GarudaModel::getMessagesWithTokens();
+
+            // Prepare search object for alternative message sender.
+            $psearch = new PermissionSearch('user',
+                dgettext('garudaplugin', 'Absender suchen'),
+                'user_id',
+                array(
+                    'permission' => array('autor', 'tutor', 'dozent', 'admin', 'root'),
+                    'exclude_user' => array()
+                )
+            );
+            $this->fromsearch = QuickSearch::get('fromsearch', $psearch)
+                ->fireJSFunctionOnSelect('STUDIP.Garuda.replaceSender')
+                ->render();
+
+            if ($this->flash['sender']) {
+                $this->sender = $this->flash['sender'];
+
+                if ($this->flash['senderid']) {
+                    $this->senderid = $this->flash['senderid'];
+                    $this->user = User::find($this->senderid);
+                }
+            }
+
+        }
+
 		/*
 		 * "Add filter" button has been clicked. We need to handle that
 		 * action here first, because already set values (e.g. message
@@ -64,64 +126,38 @@ class MessageController extends AuthenticatedController {
         if (Request::submitted('add_filter')) {
             CSRFProtection::verifyUnsafeRequest();
 
-            $this->flash['sendto'] = Request::option('sendto');
-			// Get already set filters.
-            if (Request::getArray('filters')) {
-                $this->flash['filters'] = Request::getArray('filters');
-            }
-            if (Request::option('protected')) {
-                $this->flash['protected'] = true;
-            }
-			// Get alternative sender if applicable.
-            if ($this->i_am_root && Request::option('sender')) {
-                $this->flash['sender'] = Request::option('sender');
-
-                if (Request::option('sender') == 'person' && Request::option('senderid')) {
-                    $this->flash['senderid'] = Request::option('senderid');
-                }
-            }
-			// Get message subject.
-            if (Request::get('subject')) {
-                $this->flash['subject'] = studip_utf8decode(Request::get('subject'));
-            }
-			// Get message text.
-            if (Request::get('message')) {
-                $this->flash['message'] = studip_utf8decode(Request::get('message'));
-            }
-            $this->flash['attachment_token'] = Request::get('message_id');
 			// Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
-                $this->redirect($this->url_for('userfilter/add', Request::option('sendto')));
+                $this->relocate('userfilter/add', Request::option('sendto'));
             } else {
-                $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto')));
+                $this->relocate$this->url_for('userfilter/addrestricted', Request::option('sendto'));
             }
+
 		// Send message to configured recipients.
         } else if (Request::submitted('submit')) {
             CSRFProtection::verifyUnsafeRequest();
-            $this->flash['sendto'] = Request::option('sendto');
-            $this->flash['filters'] = Request::getArray('filters');
-            if ($_FILES['tokens']['tmp_name']) {
-                $filename = $GLOBALS['TMP_PATH'].'/'.uniqid('', true);
-                move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
-                $this->flash['token_file'] = $filename;
-            }
-            if (Request::option('message_tokens')) {
-                $this->flash['message_tokens'] = Request::option('message_tokens');
-            }
-            $this->flash['list'] = Request::get('list');
-            // Get alternative sender if applicable.
-            if ($this->i_am_root && Request::get('sender')) {
-                $this->flash['sender'] = Request::option('sender');
 
-                if (Request::option('sender') == 'person' && Request::option('senderid')) {
-                    $this->flash['senderid'] = Request::option('senderid');
+            // Check for necessary values.
+            if (!Request::get('subject') || !Request::get('message') ||
+                (Request::option('sendto') == 'list' && !$_FILES['tokens'])) {
+
+                $error = array();
+                if (!Request::get('subject')) {
+                    $error[] = dgettext('garudaplugin', 'Bitte geben Sie einen Betreff an.');
                 }
+                if (!Request::get('message')) {
+                    $error[] = dgettext('garudaplugin', 'Bitte geben Sie eine Nachricht an.');
+                }
+                if (Request::option('sendto') == 'list' && !$_FILES['tokens']) {
+                    $error[] = dgettext('garudaplugin', 'Bitte geben Sie eine Liste von Nutzernamen an.');
+                }
+
+                PageLayout::postError(implode('<br>', $error));
+            // All okay, continue with message processing.
+            } else {
+                $this->relocate('message/send');
             }
-            $this->flash['subject'] = Request::get('subject');
-            $this->flash['message'] = Request::get('message');
-            $this->flash['protected'] = Request::option('protected');
-            $this->flash['attachment_token'] = Request::get('message_id');
-            $this->redirect($this->url_for('message/send'));
+
 		// Show normal page.
         } else {
             Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Zielgruppen'),
@@ -148,31 +184,6 @@ class MessageController extends AuthenticatedController {
                 }
             }
 
-            if ($this->i_am_root) {
-                $this->messages = GarudaModel::getMessagesWithTokens();
-
-                // Prepare search object for alternative message sender.
-                $psearch = new PermissionSearch('user',
-                    dgettext('garudaplugin', 'Absender suchen'),
-                    'user_id',
-                    array(
-                        'permission' => array('autor', 'tutor', 'dozent', 'admin', 'root'),
-                        'exclude_user' => array()
-                    )
-                );
-                $this->fromsearch = QuickSearch::get('fromsearch', $psearch)
-                    ->fireJSFunctionOnSelect('STUDIP.Garuda.replaceSender')
-                    ->render();
-
-                if ($this->flash['sender']) {
-                    $this->sender = $this->flash['sender'];
-
-                    if ($this->flash['senderid']) {
-                        $this->senderid = $this->flash['senderid'];
-                        $this->sendername = User::find($this->senderid)->getFullname();
-                    }
-                }
-            }
         }
     }
 
@@ -298,7 +309,7 @@ class MessageController extends AuthenticatedController {
             }
         }
 
-        $this->redirect($this->url_for('message'));
+        $this->relocate('message');
     }
 
     /**

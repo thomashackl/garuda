@@ -145,7 +145,8 @@ if ($flash['error']) {
                         $sender == 'person' ? 'checked' : '' ?>>
                     <?= dgettext('garudaplugin', 'Eine andere Person als Absender eintragen') ?>
                     <span id="garuda-sendername"<?= ($sender == 'person' && $senderid) ? '' : ' class="hidden-js"' ?>>
-                        (<?= $sendername ? htmlReady($sendername) : dgettext('garudaplugin', 'niemand') ?>)
+                        (<?= $user ? htmlReady($user->getFullname()) . '(' .
+                            htmlReady($user->username) . ')' : dgettext('garudaplugin', 'niemand') ?>)
                     </span>
                 </label>
                 <div id="garuda-sender-choose-person"<?= $sender == 'person' ? '' : ' class="hidden-js"' ?>>

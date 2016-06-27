@@ -81,7 +81,7 @@ class PermissionsController extends AuthenticatedController {
             $this->flash['error'] = dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.');
         }
         $this->flash['institute_id'] = Request::option('institute');
-        $this->redirect($this->url_for('configuration'));
+        $this->relocate('configuration');
     }
 
     // customized #url_for for plugins

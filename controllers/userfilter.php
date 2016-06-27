@@ -149,7 +149,7 @@ class UserfilterController extends AuthenticatedController {
             array_push($filters, serialize($filter));
         }
         $this->flash['filters'] = $filters;
-        $this->redirect($this->url_for('message'));
+        $this->relocate('message');
     }
 
     // customized #url_for for plugins
