@@ -147,7 +147,7 @@ class OverviewController extends AuthenticatedController {
     {
         $m = GarudaMessage::find($id);
         if ($m->sender_id == $GLOBALS['user']->id || $GLOBALS['perm']->have_perm('root')) {
-            if ($m->delete) {
+            if ($m->delete()) {
                 PageLayout::postSuccess(dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.'));
             } else {
                 PageLayout::postError(dgettext('garudaplugin', 'Die Nachricht konnte nicht gelöscht werden.'));
@@ -156,7 +156,7 @@ class OverviewController extends AuthenticatedController {
             PageLayout::postError(dgettext('garudaplugin', 'Zugriff verweigert. '.
                 'Sie haben nicht die nötigen Rechte, um diese Nachricht zu löschen.'));
         }
-        $this->relocate('garuda/overview');
+        $this->relocate('overview');
     }
 
     // customized #url_for for plugins

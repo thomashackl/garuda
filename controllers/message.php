@@ -128,9 +128,9 @@ class MessageController extends AuthenticatedController {
 
 			// Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
-                $this->relocate('userfilter/add', Request::option('sendto'));
+                $this->redirect($this->url_for('userfilter/add', Request::option('sendto')));
             } else {
-                $this->relocate$this->url_for('userfilter/addrestricted', Request::option('sendto'));
+                $this->direct($this->url_for('userfilter/addrestricted', Request::option('sendto')));
             }
 
 		// Send message to configured recipients.
@@ -200,10 +200,135 @@ class MessageController extends AuthenticatedController {
         $this->one = $one;
     }
 
+    /**
+     * Prepares the message for sending by creating a database entry
+     * that will be processed on next cron run.
+     */
+    public function send_action()
+    {
+        $error = false;
+
+        UserFilterField::getAvailableFilterFields();
+
+        $users = array();
+
+        /*
+         * Calculate which users this message will be sent to.
+         */
+        // Message will be sent to people defined by given filters.
+        if ($this->flash['filters']) {
+            // Get configured filters and their corresponding users.
+            foreach ($this->flash['filters'] as $filter) {
+                $f = unserialize($filter);
+                $users = array_merge($users, $f->getUsers());
+            }
+            $users = array_unique($users);
+
+        // Message will be sent to a pre-defined list of recipient usernames.
+        } else if ($this->flash['sendto'] == 'list') {
+            $users = array_unique(array_map(function($e) {
+                return User::findByUsername($e)->user_id;
+            }, preg_split("/[\r\n,]+/", $this->flash['list'], -1,
+                PREG_SPLIT_NO_EMPTY)));
+
+        // Whole groups are selected, like "all students".
+        } else {
+            if ($this->i_am_root) {
+                $config = array();
+            } else {
+                $config = $this->config;
+            }
+            $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $config);
+        }
+
+        $sender = $GLOBALS['user']->id;
+
+        $tokens = array();
+
+        if ($this->i_am_root) {
+
+            // Set alternative sender if applicable.
+            switch ($this->flash['sender']) {
+                case 'person':
+                    $sender = $this->flash['senderid'];
+                    break;
+                case 'system':
+                    $sender = '____%system%____';
+                    break;
+                case 'me':
+                default:
+                    break;
+            }
+
+            // Read tokens from an uploaded file.
+            if ($this->flash['token_file']) {
+                $tokens = GarudaModel::extractTokens($this->flash['token_file']);
+                unlink($this->flash['token_file']);
+                if (sizeof($tokens) < sizeof($users)) {
+                    $this->flash['error'] = dgettext('garudaplugin',
+                        'Es gibt weniger Tokens als Personen für den ' .
+                        'Nachrichtenempfang!');
+                    $error = true;
+                }
+            }
+
+            // Get tokens that were assigned to a previously sent message.
+            if ($this->flash['message_tokens']) {
+                $data = GarudaModel::getTokens($this->flash['message_tokens'], true);
+                $unassigned = GarudaModel::getUnassignedTokens($this->flash['message_tokens']);
+                $unassigned_count = 0;
+                foreach ($users as $user) {
+                    if ($data[$user]) {
+                        $tokens[$user] = $data[$user];
+                    } else {
+                        if ($unassigned[$unassigned_count]) {
+                            $tokens[$user] = $unassigned[$unassigned_count];
+                            $unassigned_count++;
+                        } else {
+                            $error = true;
+                            $this->flash['error'] = dgettext('garudaplugin',
+                                'Es sind zu wenige freie Tokens vorhanden!');
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        $message = new GarudaMessage();
+        $message->sender_id = $sender;
+        $message->author_id = $GLOBALS['user']->id;
+
+        if ($this->flash['sendto'] == 'list') {
+            $message->recipients = $users;
+        } else {
+            $message->target = $this->flash['sendto'];
+        }
+
+        $message->subject = $this->flash['subject'];
+        $message->message = $this->flash['message'];
+        $message->protected = (int) $this->flash['protected'];
+        $message->attachment_id = $this->flash['attachment_token'];
+        $message->store();
+
+        if ($this->flash['filters']) {
+            foreach ($this->flash['filters'] as $filter) {
+                $f = unserialize($filter);
+                $f->store();
+                $gf = new GarudaFilter();
+                $gf->job_id = $message->id;
+                $gf->filter_id = $f->id;
+                $gf->store();
+            }
+        }
+        $this->relocate('message');
+    }
+
+
 	/**
 	 * Send the message to the given recipients.
 	 */
-    public function send_action() {
+    public function send_old_action() {
         $error = false;
         UserFilterField::getAvailableFilterFields();
         $users = array();

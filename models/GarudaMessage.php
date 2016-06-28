@@ -50,6 +50,10 @@ class GarudaMessage extends SimpleORMap
             'class_name' => 'GarudaMessageToken',
             'foreign_key' => 'job_id'
         );
+        $config['has_many']['filters'] = array(
+            'class_name' => 'GarudaFilter',
+            'foreign_key' => 'job_id'
+        );
 
         parent::configure($config);
     }
@@ -59,6 +63,32 @@ class GarudaMessage extends SimpleORMap
         $this->registerCallback('before_store after_store after_initialize', 'cbJsonifyRecipients');
 
         parent::__construct($id);
+    }
+
+    public function getRecipients()
+    {
+        $recipients = array();
+
+        if ($this->target == 'list' && $this->recipients) {
+            $recipients = $this->recipients->pluck('user_id');
+        } else if ($this->target != 'list') {
+            if ($this->filters) {
+
+                UserFilterField::getAvailableFilterFields();
+
+                foreach ($this->filters as $filter) {
+                    $f = new UserFilter($filter->filter_id);
+                    $recipients = array_merge($recipients, $f->getUsers());
+                }
+
+                $recipients = array_unique($recipients);
+
+            } else {
+                $recipients = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->target);
+            }
+        }
+
+        return $recipients;
     }
 
     protected function cbJsonifyRecipients($type)

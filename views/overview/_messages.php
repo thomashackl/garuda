@@ -50,7 +50,7 @@
             <td></td>
             <td><?= date('d.m.Y H:i', $m->mkdate) ?></td>
             <td>
-                <a href="<?= $controller->url_for('garuda/overview/delete_message', $m->id) ?>" data-confirm="<?=
+                <a href="<?= $controller->url_for('overview/delete_message', $m->id) ?>" data-confirm="<?=
                 dgettext('garudaplugin', 'Wollen Sie die Nachricht wirklich löschen?')?>">
                     <?= Icon::create('trash', 'clickable')->asImg() ?>
                 </a>
