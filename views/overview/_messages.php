@@ -25,8 +25,13 @@
     <tbody>
     <?php foreach ($messages as $m) : ?>
         <tr>
-            <td><?= htmlReady($m->author->getFullname()) ?></td>
-            <td><?= htmlReady($m->sender ? $m->sender->getFullname() : 'Stud.IP') ?></td>
+            <td>
+                <?= htmlReady($m->author->getFullname()) ?> (<?= $m->author->username?>)
+            </td>
+            <td>
+                <?= htmlReady($m->sender ?
+                    $m->sender->getFullname() . ' (' . $m->sender->username . ')' : 'Stud.IP') ?>
+            </td>
             <td><?= htmlReady($m->subject) ?></td>
             <td>
                         <span class="garuda-more hidden-no-js<?= strlen($m->message) <= 150 ? ' hidden-js' : '' ?>">
