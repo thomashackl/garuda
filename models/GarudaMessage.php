@@ -65,6 +65,7 @@ class GarudaMessage extends SimpleORMap
     public function __construct($id = null)
     {
         $this->registerCallback('before_store after_store after_initialize', 'cbJsonifyRecipients');
+        $this->registerCallback('before_delete', 'cbCleanupFilters');
 
         parent::__construct($id);
     }
@@ -102,6 +103,17 @@ class GarudaMessage extends SimpleORMap
         }
         if (in_array($type, array('after_initialize', 'after_store')) && is_string($this->recipients)) {
             $this->recipients = json_decode($this->recipients, true) ?: array();
+        }
+    }
+
+    protected function cbCleanupFilters($event)
+    {
+        if ($this->filters) {
+            UserFilterField::getAvailableFilterFields();
+            foreach ($this->filters as $filter) {
+                $f = new UserFilter($filter->filter_id);
+                $f->delete();
+            }
         }
     }
 

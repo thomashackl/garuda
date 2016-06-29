@@ -147,13 +147,6 @@ class OverviewController extends AuthenticatedController {
     {
         $m = GarudaMessage::find($id);
         if ($m->sender_id == $GLOBALS['user']->id || $GLOBALS['perm']->have_perm('root')) {
-            if ($m->filters) {
-                UserFilterField::getAvailableFilterFields();
-                foreach ($m->filters as $filter) {
-                    $f = new UserFilter($filter->filter_id);
-                    $f->delete();
-                }
-            }
             if ($m->delete()) {
                 PageLayout::postSuccess(dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.'));
             } else {
