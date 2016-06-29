@@ -48,11 +48,15 @@ class GarudaMessage extends SimpleORMap
         );
         $config['has_many']['tokens'] = array(
             'class_name' => 'GarudaMessageToken',
-            'foreign_key' => 'job_id'
+            'foreign_key' => 'job_id',
+            'on_store' => 'store',
+            'on_delete' => 'delete'
         );
         $config['has_many']['filters'] = array(
             'class_name' => 'GarudaFilter',
-            'foreign_key' => 'job_id'
+            'foreign_key' => 'job_id',
+            'on_store' => 'store',
+            'on_delete' => 'delete'
         );
 
         parent::configure($config);

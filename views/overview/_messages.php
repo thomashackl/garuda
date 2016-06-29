@@ -7,7 +7,7 @@
         <col width="150">
         <col width="15%">
         <col>
-        <col width="15%">
+        <col width="25%">
         <col width="100">
         <col width="35">
     </colgroup>
@@ -47,7 +47,24 @@
                             <?php endif ?>
                         </span>
             </td>
-            <td></td>
+            <td>
+                <?php if ($m->target == 'all') : ?>
+                    <?= dgettext('garudaplugin', 'Alle') ?>
+                <?php elseif ($m->target == 'students') : ?>
+                    <?= dgettext('garudaplugin', 'Studierende') ?>
+                <?php elseif ($m->target == 'employees') : ?>
+                    <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+                <?php elseif ($m->target == 'list') : ?>
+                    <?= dgettext('garudaplugin', 'Liste von Nutzern') ?>
+                <?php endif ?>
+                <?php if ($m->filters) : ?>
+                    <ul>
+                    <?php foreach ($m->filters as $filter) : $f = new UserFilter($filter->filter_id); ?>
+                        <li><?= $f ?></li>
+                    <?php endforeach ?>
+                    </ul>
+                <?php endif ?>
+            </td>
             <td><?= date('d.m.Y H:i', $m->mkdate) ?></td>
             <td>
                 <a href="<?= $controller->url_for('overview/delete_message', $m->id) ?>" data-confirm="<?=

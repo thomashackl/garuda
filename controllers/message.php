@@ -301,9 +301,8 @@ class MessageController extends AuthenticatedController {
 
         if ($this->flash['sendto'] == 'list') {
             $message->recipients = $users;
-        } else {
-            $message->target = $this->flash['sendto'];
         }
+        $message->target = $this->flash['sendto'];
 
         $message->subject = $this->flash['subject'];
         $message->message = $this->flash['message'];
