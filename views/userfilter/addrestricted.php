@@ -27,8 +27,10 @@
         <?php endforeach ?>
     </section>
     <?= CSRFProtection::tokenTag() ?>
-    <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit', array('data-dialog-button' => '')) ?>
-    <?= LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message'), array('data-dialog-button' => '', 'data-dialog' => 'close')) ?>
+    <footer data-dialog-button>
+        <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
+        <?= LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message/write')) ?>
+    </footer>
 </form>
 <script type="text/javascript">
 //<!--

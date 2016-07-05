@@ -13,9 +13,10 @@
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
  * @category    Garuda
  *
- * @property string job_id database column
- * @property string id alias column for job_id
- * @property string userfilter_id database column
+ * @property string message_id database column
+ * @property string filter_id database column
+ * @property string id alias column for message_id, filter_id
+ * @property string type database column
  * @property string mkdate database column
  */
 class GarudaFilter extends SimpleORMap
@@ -26,6 +27,21 @@ class GarudaFilter extends SimpleORMap
         $config['db_table'] = 'garuda_filters';
 
         parent::configure($config);
+    }
+
+    public static function findByMessageIdAndType($id, $type)
+    {
+        return self::findBySQL("`message_id` = ? AND `type` = ?", array($id, $type));
+    }
+
+    public static function findByJobId($id)
+    {
+        return self::findByMessageIdAndType($id, 'message');
+    }
+
+    public static function findByTemplateId($id)
+    {
+        return self::findByMessageIdAndType($id, 'template');
     }
 
 }

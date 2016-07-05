@@ -18,6 +18,8 @@ require_once('app/models/studycourse.php');
 
 class PermissionsController extends AuthenticatedController {
 
+    protected $utf8decode_xhr = true;
+
     public function before_filter(&$action, &$args) {
         $GLOBALS['perm']->check('root');
         $this->current_action = $action;
@@ -25,9 +27,15 @@ class PermissionsController extends AuthenticatedController {
         $this->flash = Trails_Flash::instance();
         if (Request::isXhr()) {
             $this->set_layout(null);
+            $request = Request::getInstance();
+            foreach ($request as $key => $value) {
+                $request[$key] = studip_utf8decode($value);
+            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
+        $this->set_content_type('text/html;charset=windows-1252');
+
         Navigation::activateItem('/messaging/garuda/permissions');
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();

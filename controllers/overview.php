@@ -17,8 +17,6 @@
 
 class OverviewController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     /**
      * Actions and settings taking place before every page call.
      */
@@ -28,9 +26,15 @@ class OverviewController extends AuthenticatedController {
 
         if (Request::isXhr()) {
             $this->set_layout(null);
+            $request = Request::getInstance();
+            foreach ($request as $key => $value) {
+                $request[$key] = studip_utf8decode($value);
+            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
+            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.typing-0.2.0.min.js');
         }
+        $this->set_content_type('text/html;charset=windows-1252');
 
         // Navigation handling.
         Navigation::activateItem('/messaging/garuda/overview');
@@ -44,10 +48,10 @@ class OverviewController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
         $vw = new ViewsWidget();
+        $vw->addLink(dgettext('garudaplugin', 'Vorlagen'), $this->url_for('overview/templates'))
+            ->setActive($action == 'templates');
         $vw->addLink(dgettext('garudaplugin', 'Demnächst zu verschicken'), $this->url_for('overview/to_send'))
             ->setActive($action == 'to_send');
-        $vw->addLink(dgettext('garudaplugin', 'In Bearbeitung'), $this->url_for('overview/locked'))
-            ->setActive($action == 'locked');
         $vw->addLink(dgettext('garudaplugin', 'Geschützt'), $this->url_for('overview/protected'))
             ->setActive($action == 'protected');
         $this->sidebar->addWidget($vw);
@@ -56,7 +60,12 @@ class OverviewController extends AuthenticatedController {
 
     public function index_action()
     {
-        $this->relocate('overview/to_send');
+        $this->relocate('overview/templates');
+    }
+
+    public function templates_action()
+    {
+        $this->templates = GarudaTemplate::findMine();
     }
 
     /**
@@ -86,32 +95,6 @@ class OverviewController extends AuthenticatedController {
     }
 
     /**
-     * Overview of messages that are just processed or are stuck.
-     */
-    public function locked_action()
-    {
-        // Root sees all messages...
-        if ($this->i_am_root) {
-            // Messages to be sent.
-            $query = "`locked` = 1
-                AND `done` = 0
-                ORDER BY `mkdate` DESC";
-            $params = array();
-
-            // ... other users only see their own.
-        } else {
-            // Messages to be sent.
-            $query = "`locked` = 1
-                AND `done` = 0
-                AND (`author_id` = :me OR `sender_id` = :me)
-                ORDER BY `mkdate` DESC";
-            $params = array('me' => $GLOBALS['user']->id);
-
-        }
-        $this->messages = GarudaMessage::findBySql($query, $params);
-    }
-
-    /**
      * Overview of protected messages which will be kept after successful sending.
      */
     public function protected_action()
@@ -125,10 +108,10 @@ class OverviewController extends AuthenticatedController {
                 ORDER BY `mkdate` DESC";
             $params = array();
 
-            // ... other users only see their own.
+        // ... other users only see their own.
         } else {
             // Messages to be sent.
-            $query = "`locked` = 1
+            $query = "`locked` = 0
                 AND `done` = 0
                 AND `protected` = 1
                 AND (`author_id` = :me OR `sender_id` = :me)
@@ -143,20 +126,110 @@ class OverviewController extends AuthenticatedController {
      * Deletes the given message.
      * @param $id the message to delete.
      */
-    public function delete_message_action($id)
+    public function delete_message_action($type = 'message', $id)
     {
-        $m = GarudaMessage::find($id);
-        if ($m->sender_id == $GLOBALS['user']->id || $GLOBALS['perm']->have_perm('root')) {
-            if ($m->delete()) {
-                PageLayout::postSuccess(dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.'));
+        if ($type == 'message') {
+            $m = GarudaMessage::find($id);
+
+            if (!$m->done) {
+                $target = 'overview/to_send';
+            } else if ($m->done && $m->protected) {
+                $target = 'overview/protected';
             } else {
-                PageLayout::postError(dgettext('garudaplugin', 'Die Nachricht konnte nicht gelöscht werden.'));
+                $target = 'overview';
             }
         } else {
-            PageLayout::postError(dgettext('garudaplugin', 'Zugriff verweigert. '.
-                'Sie haben nicht die nötigen Rechte, um diese Nachricht zu löschen.'));
+            $m = GarudaTemplate::find($id);
+            $target = 'overview/templates';
         }
-        $this->relocate('overview');
+        if (in_array($GLOBALS['user_id'], array($m->author_id, $m->sender_id)) || $GLOBALS['perm']->have_perm('root')) {
+            if ($m->delete()) {
+                PageLayout::postSuccess($type == 'message' ?
+                    dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.') :
+                    dgettext('garudaplugin', 'Die Vorlage wurde gelöscht.'));
+            } else {
+                PageLayout::postError($type == 'message' ?
+                    dgettext('garudaplugin', 'Die Nachricht konnte nicht gelöscht werden.') :
+                    dgettext('garudaplugin', 'Die Vorlage konnte nicht gelöscht werden.'));
+            }
+        } else {
+            PageLayout::postError($type == 'message' ?
+                dgettext('garudaplugin', 'Zugriff verweigert. '.
+                    'Sie haben nicht die nötigen Rechte, um diese Nachricht zu löschen.') :
+                dgettext('garudaplugin', 'Zugriff verweigert. '.
+                    'Sie haben nicht die nötigen Rechte, um diese Vorlage zu löschen.'));
+        }
+        $this->relocate($target);
+    }
+
+    /**
+     * Edit a message or template.
+     *
+     * @param $type one of 'message' or 'template'
+     * @param string|null $id edit an already existing entry
+     */
+    public function edit_message_action($type, $id = '')
+    {
+        $this->type = $type;
+        $this->message = ($type == 'message') ? new GarudaMessage($id) : new GarudaTemplate($id);
+    }
+
+    /**
+     * Saves a message or template by setting the given data.
+     *
+     * @param string|null $id already existing message or template.
+     */
+    public function save_message_action($id = '')
+    {
+        CSRFProtection::verifyUnsafeRequest();
+        switch (Request::option('type')) {
+            case 'message':
+                break;
+            case 'template':
+                $t = new GarudaTemplate($id);
+                $t->name = Request::get('name');
+                $t->target = Request::option('sendto');
+
+                $t->author_id = $GLOBALS['user']->id;
+                $t->sender_id = $GLOBALS['user']->id;
+
+                // Set another sender if root and alternative sender is set, set myself otherwise.
+                if ($this->i_am_root) {
+                    if (Request::option('sender', 'me') == 'person') {
+                        $t->sender_id = Request::option('senderid', $GLOBALS['user']->id);
+                    } else if (Request::option('sender', 'me') == 'system') {
+                        $t->sender_id = '___%system%___';
+                    }
+                }
+
+                $t->subject = Request::get('subject');
+                $t->message = Request::get('message');
+
+                if ($t->store()) {
+
+                    UserFilterField::getAvailableFilterFields();
+                    foreach (Request::getArray('filters') as $filter) {
+                        $f = unserialize(urldecode($filter));
+                        $f->store();
+                        $gf = new GarudaFilter();
+                        $gf->type = 'template';
+                        $gf->filter_id = $f->id;
+                        $gf->message_id = $t->id;
+                        $gf->store();
+                    }
+
+                    PageLayout::postSuccess(sprintf(
+                        dgettext('garudaplugin', 'Die Vorlage "%s" wurde gespeichert.'),
+                        $t->name)
+                    );
+                } else {
+                    PageLayout::postError(sprintf(
+                            dgettext('garudaplugin', 'Die Vorlage "%s" konnte nicht gespeichert werden.'),
+                            $t->name)
+                    );
+                }
+                $this->relocate('message');
+        }
     }
 
     // customized #url_for for plugins

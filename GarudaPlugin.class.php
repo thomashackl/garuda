@@ -26,7 +26,7 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         // Localization
         bindtextdomain('garudaplugin', realpath(dirname(__FILE__).'/locale'));
         $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
-        $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
+        $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message/write')));
         $navigation->addSubNavigation('overview', new Navigation(dgettext('garudaplugin', 'Nachrichtenübersicht'), PluginEngine::getURL($this, array(), 'overview')));
         $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
         if ($GLOBALS['perm']->have_perm('root')) {

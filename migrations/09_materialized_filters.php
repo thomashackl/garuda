@@ -8,10 +8,10 @@ class MaterializedFilters extends Migration
     {
         // Create new table for referencing stored user filters.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_filters` (
-            `job_id` INT NOT NULL,
+            `message_id` INT NOT NULL,
             `filter_id` CHAR(32) NOT NULL REFERENCES `userfilter`.`filter_id`,
             `mkdate` INT NOT NULL DEFAULT 0,
-            PRIMARY KEY (`job_id`, `filter_id`)
+            PRIMARY KEY (`message_id`, `filter_id`)
         )");
 
         // Add new column for target user groups instead of concrete recipients.

@@ -295,8 +295,8 @@ class GarudaModel {
     public static function getMessagesWithTokens() {
         return DBManager::get()->fetchAll("SELECT DISTINCT m.*
             FROM `garuda_messages` m
-                INNER JOIN `garuda_tokens` t ON (m.`job_id`=t.`job_id`)
             WHERE m.`done`=1
+                AND EXISTS (SELECT DISTINCT `job_id` FROM `garuda_tokens` WHERE `job_id`=m.`job_id`)
             ORDER BY m.`mkdate` DESC");
     }
 

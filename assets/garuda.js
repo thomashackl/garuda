@@ -219,6 +219,14 @@
                 $('span#garuda-sendername').addClass('hidden-js');
             }
         });
+        if ($('form.garuda-js-init').length > 0) {
+            STUDIP.Garuda.init();
+        }
+    });
+    $(document).on('dialog-open', function(event) {
+        if ($('form.garuda-js-init').length > 0) {
+            STUDIP.Garuda.init();
+        }
     });
 
 }(jQuery, STUDIP));

@@ -8,7 +8,7 @@ if ($flash['error']) {
 }
 ?>
 <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
-<form class="default" enctype="multipart/form-data" action="<?= $controller->url_for('message') ?>" method="post">
+<form class="default garuda-js-init" enctype="multipart/form-data" action="<?= $controller->url_for('message/write') ?>" method="post">
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
@@ -62,7 +62,7 @@ if ($flash['error']) {
         <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
         <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>" cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
     </fieldset>
-    <?php if ($i_am_root) { ?>
+    <?php if ($i_am_root && !$message) { ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Liste von Tokens') ?></legend>
         <section>
@@ -190,12 +190,14 @@ if ($flash['error']) {
         <?php } ?>
     </fieldset>
     <?= CSRFProtection::tokenTag() ?>
-    <section data-dialog-button>
-        <?= Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
-    </section>
+    <footer data-dialog-button>
+        <?php if ($message) : ?>
+            <?= Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'submit') ?>
+            <?= Button::createCancel(_('Abbrechen')) ?>
+        <?php else : ?>
+            <?= Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
+            <?= Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
+                'template', array('data-dialog' => 'size=auto')) ?>
+        <?php endif ?>
+    </footer>
 </form>
-<script type="text/javascript">
-//<!--
-    STUDIP.Garuda.init();
-//-->
-</script>

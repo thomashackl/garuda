@@ -34,23 +34,21 @@
             </td>
             <td><?= htmlReady($m->subject) ?></td>
             <td>
-                        <span class="garuda-more hidden-no-js<?= strlen($m->message) <= 150 ? ' hidden-js' : '' ?>">
-                            <?= formatReady(substr($m->message, 0, 150)); ?>
-                            <?php if (strlen($m->message) > 150) : ?>
-                                <a href="">
-                                ...
-                                    <?= dgettext('garuda', '(mehr)') ?>
-                            </a>
-                            <?php endif ?>
-                        </span>
-                        <span class="garuda-messagetext<?php strlen($m->message) > 150 ? ' hidden-js' : '' ?>"><?=
-                            formatReady($m->message); ?>
-                            <?php if (strlen($m->message) > 150) : ?>
-                                <a href="">
-                                <?= dgettext('garuda', '(weniger anzeigen)') ?>
-                            </a>
-                            <?php endif ?>
-                        </span>
+                <span class="garuda-more hidden-no-js<?= strlen($m->message) <= 150 ? ' hidden-js' : '' ?>">
+                    <?= formatReady(substr($m->message, 0, 150)); ?>
+                    <a href="">
+                        ...
+                        <?= dgettext('garuda', '(mehr)') ?>
+                    </a>
+                </span>
+                <span class="garuda-messagetext<?= strlen($m->message) > 150 ? ' hidden-js' : '' ?>"><?=
+                    formatReady($m->message); ?>
+                    <?php if (strlen($m->message) > 150) : ?>
+                        <a href="">
+                            <?= dgettext('garuda', '(weniger anzeigen)') ?>
+                        </a>
+                    <?php endif ?>
+                </span>
             </td>
             <td>
                 <?php if ($m->target == 'all') : ?>
@@ -72,8 +70,15 @@
             </td>
             <td><?= date('d.m.Y H:i', $m->mkdate) ?></td>
             <td>
-                <a href="<?= $controller->url_for('overview/delete_message', $m->id) ?>" data-confirm="<?=
-                dgettext('garudaplugin', 'Wollen Sie die Nachricht wirklich löschen?')?>">
+                <a href="<?= $controller->url_for('message/write', $type, $m->id)
+                   ?>" title="<?= dgettext('garudaplugin', 'Nachricht bearbeiten') ?>"
+                   data-dialog="size='auto'">
+                    <?= Icon::create('edit', 'clickable')->asImg() ?>
+                </a>
+                <a href="<?= $controller->url_for('overview/delete_message', $type, $m->id) ?>" data-confirm="<?=
+                    $type == 'message' ?
+                    dgettext('garudaplugin', 'Wollen Sie die Nachricht wirklich löschen?') :
+                    dgettext('garudaplugin', 'Wollen Sie die Vorlage wirklich löschen?')?>">
                     <?= Icon::create('trash', 'clickable')->asImg() ?>
                 </a>
             </td>

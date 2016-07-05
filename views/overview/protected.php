@@ -3,7 +3,8 @@
         array(
             'messages' => $messages,
             'title' => dgettext('garudaplugin',
-                'Geschützte Nachrichten, die nach erfolgreichem Versand nicht gelöscht werden dürfen'))
+                'Geschützte Nachrichten, die nach erfolgreichem Versand nicht gelöscht werden dürfen'),
+            'type' => 'message')
     ) ?>
 <?php else : ?>
     <?= MessageBox::info(dgettext('garudaplugin', 'Es sind keine geschützten Nachrichten vorhanden.')) ?>

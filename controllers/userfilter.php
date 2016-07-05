@@ -17,17 +17,25 @@
 
 class UserfilterController extends AuthenticatedController {
 
+    protected $utf8decode_xhr = true;
+
     public function before_filter(&$action, &$args) {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
         if (Request::isXhr()) {
             $this->set_layout(null);
-            header('Content-Type: text/html; charset=windows-1252');
+            /*$request = Request::getInstance();
+            foreach ($request as $key => $value) {
+                $request[$key] = studip_utf8decode($value);
+            }*/
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
-            Navigation::activateItem('/messaging/garuda/message');
         }
+        $this->set_content_type('text/html;charset=windows-1252');
+
+        Navigation::activateItem('/messaging/garuda/message');
+
         $this->filterfields = UserFilterField::getAvailableFilterFields();
         $this->filterfields['GenderFilterField'] = GenderFilterField::getFilterName();
         $this->set_content_type('text/html;charset=windows-1252');
@@ -149,7 +157,7 @@ class UserfilterController extends AuthenticatedController {
             array_push($filters, serialize($filter));
         }
         $this->flash['filters'] = $filters;
-        $this->relocate('message');
+        $this->relocate('message/write');
     }
 
     // customized #url_for for plugins
