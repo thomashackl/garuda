@@ -198,7 +198,7 @@ class OverviewController extends AuthenticatedController {
                     if (Request::option('sender', 'me') == 'person') {
                         $t->sender_id = Request::option('senderid', $GLOBALS['user']->id);
                     } else if (Request::option('sender', 'me') == 'system') {
-                        $t->sender_id = '___%system%___';
+                        $t->sender_id = '____%system%____';
                     }
                 }
 

@@ -197,7 +197,7 @@ if ($flash['error']) {
         <?php else : ?>
             <?= Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
             <?= Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
-                'template', array('data-dialog' => 'size=auto')) ?>
+                'save_template', array('data-dialog' => 'size=auto')) ?>
         <?php endif ?>
     </footer>
 </form>

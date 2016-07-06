@@ -65,7 +65,8 @@ class MessageController extends AuthenticatedController {
         $this->relocate('message/write');
     }
 
-    public function write_action($type = 'message', $id = '') {
+    public function write_action($type = 'message', $id = '')
+    {
         // Set values from Request.
         if (Request::option('sendto')) {
             $this->flash['sendto'] = Request::option('sendto');
@@ -144,7 +145,7 @@ class MessageController extends AuthenticatedController {
             }
 
             // Save the current settings as new template.
-        } else if (Request::submitted('template')) {
+        } else if (Request::submitted('save_template')) {
 
             // Show template edit dialog.
             $this->redirect($this->url_for('overview/edit_message/template'));
@@ -193,12 +194,12 @@ class MessageController extends AuthenticatedController {
 
             $this->filters = array();
 
-            if ($id) {
+            if ($id || $type == 'load') {
 
                 if ($type == 'message') {
                     $this->message = new GarudaMessage($id);
                 } else {
-                    $this->message = new GarudaTemplate($id);
+                    $this->message = new GarudaTemplate($id ?: Request::int('template'));
                 }
                 $this->flash['sendto'] = $this->message->target;
                 $this->filters = array_map(function ($f) { return new UserFilter($f['filter_id']); },
@@ -244,6 +245,14 @@ class MessageController extends AuthenticatedController {
                 $sidebar->addWidget($actions);
             }
         }
+    }
+
+    /**
+     * Shows a list of available templates for loading.
+     */
+    public function load_template_action()
+    {
+        $this->templates = GarudaTemplate::findMine();
     }
 
 	/**
