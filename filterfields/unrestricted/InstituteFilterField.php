@@ -35,8 +35,8 @@ class InstituteFilterField extends UserFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => dgettext('garudaplugin', 'gleich'),
-            '!=' => dgettext('garudaplugin', 'ungleich')
+            '=' => dgettext('garudaplugin', 'ist'),
+            '!=' => dgettext('garudaplugin', 'ist nicht')
         );
         $this->validValues = array();
         // Get all available institutes from database, grouped by faculty.
@@ -85,7 +85,7 @@ class InstituteFilterField extends UserFilterField
             $users = DBManager::get()->fetchFirst("SELECT `user_id` ".
                 "FROM `".$this->userDataDbTable."` ".
                 "WHERE `".$this->userDataDbField."`".$this->compareOperator.
-                "? AND `inst_perms`!='user'", array($this->value));
+                "?", array($this->value));
 		}
         return $users;
     }

@@ -23,10 +23,16 @@ if ($flash['error']) {
             <label>
                 <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Studierende') ?>
+                <?= tooltipIcon(dgettext('garudaplugin',
+                        'Hierüber werden alle Personen gefunden, die einem '.
+                        'oder mehreren Studiengängen zugeordnet sind.')) ?>
             </label>
             <label>
                 <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+                <?= tooltipIcon(dgettext('garudaplugin',
+                    'Hierüber werden alle Personen gefunden, die mindestens '.
+                    'einer Einrichtung zugeordnet sind.')) ?>
             </label>
             <label>
                 <?php if ($i_am_root) { ?>

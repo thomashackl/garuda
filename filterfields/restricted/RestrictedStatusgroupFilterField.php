@@ -37,8 +37,8 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => dgettext('garudaplugin', 'gleich'),
-            '!=' => dgettext('garudaplugin', 'ungleich')
+            '=' => dgettext('garudaplugin', 'ist'),
+            '!=' => dgettext('garudaplugin', 'ist nicht')
         );
         $this->validValues = array();
         if ($restriction['value']) {
