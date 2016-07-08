@@ -63,7 +63,8 @@ class GarudaCronFunctions {
      * @return Array of found entries to be processed by cron.
      */
     public static function getCronEntries() {
-        return DBManager::get()->fetchAll("SELECT * FROM `garuda_messages` WHERE `locked`=0 AND `done`=0 ORDER BY `mkdate`", array());
+        return GarudaMessage::findBySQL("`locked` = 0 AND `done` = 0 AND
+            (`send_date` IS NULL OR `send_date` <= UNIX_TIMESTAMP())");
     }
 
     /**
@@ -73,7 +74,9 @@ class GarudaCronFunctions {
      * @return Successfully locked?
      */
     public static function lockCronEntry($entryId) {
-        return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=1 WHERE `job_id`=:id", array('id' => $entryId));
+        $m = GarudaMessage::find($entryId);
+        $m->locked = 1;
+        return $m->store();
     }
 
     /**
@@ -83,7 +86,9 @@ class GarudaCronFunctions {
      * @return Successfully unlocked?
      */
     public static function unlockCronEntry($entryId) {
-        return DBManager::get()->execute("UPDATE `garuda_messages` SET `locked`=0 WHERE `job_id`=:id", array('id' => $entryId));
+        $m = GarudaMessage::find($entryId);
+        $m->locked = 0;
+        return $m->store();
     }
 
     /**
@@ -93,9 +98,10 @@ class GarudaCronFunctions {
      * @return Successfully set?
      */
     public static function cronEntryDone($entryId) {
-        $success = DBManager::get()->execute("UPDATE `garuda_messages` SET `done`=1 WHERE `job_id`=:id", array('id' => $entryId));
-        $success = $success && self::unlockCronEntry($entryId);
-        return $success;
+        $m = GarudaMessage::find($entryId);
+        $m->done = 0;
+        $m->locked = 0;
+        return $m->store();
     }
 
     /**
@@ -105,17 +111,17 @@ class GarudaCronFunctions {
      * @return bool Successfully cleaned?
      */
     public static function cleanup() {
-        $jobs = DBManager::get()->fetchFirst("SELECT `job_id` FROM `garuda_messages` WHERE `done`=1 AND `protected`=0 AND `mkdate`<?", array(time()-7*24*60*60));
+        $success = true;
+
+        $jobs = GarudaMessage::findBySQL("`done` = 1 AND `protected` = 0 AND `mkdate` < ?",
+            array(time() - (Config::get()->GARUDA_CLEANUP_INTERVAL ?: 7)*24*60*60));
+
         if ($jobs) {
-            if (DBManager::get()->execute("DELETE FROM `garuda_messages` WHERE `job_id` IN (?)", array($jobs))) {
-                DBManager::get()->execute("DELETE FROM `garuda_tokens` WHERE `job_id` IN (?)", array($jobs));
-                return true;
-            } else {
-                return false;
+            foreach ($jobs as $j) {
+                $success = $success && GarudaMessage::find($j->id)->delete();
             }
-        } else {
-            return true;
         }
+        return $success;
     }
 
 }

@@ -1,5 +1,4 @@
 <?php
-use Studip\Button, Studip\LinkButton;
 if ($flash['success']) {
     echo MessageBox::success($flash['success']);
 }
@@ -34,6 +33,13 @@ if ($flash['error']) {
                 <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked="checked"' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
             </label>
+            <label class="caption" id="reclist">
+                <textarea name="list" placeholder="<?= dgettext('garudaplugin',
+                    'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht '.
+                    'empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"
+                          cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
+
+            </label>
             <?php } ?>
         </section>
         <section id="filters">
@@ -52,20 +58,19 @@ if ($flash['error']) {
                 <?= $this->render_partial('userfilter/_show', array('filter' => $filter)) ?>
             <?php } ?>
             <br>
-            <?= Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
+            <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
         </section>
-    </fieldset>
-    <fieldset id="reclist">
-        <legend>
-            <?= dgettext('garudaplugin', 'Manuell gesetzte Empfänger') ?>
-        </legend>
-        <label class="caption" for="list"><?= dgettext('garudaplugin', 'Nutzernamen') ?></label>
-        <textarea name="list" placeholder="<?= dgettext('garudaplugin', 'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>" cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
     </fieldset>
     <?php if ($i_am_root && !$message) { ?>
     <fieldset>
-        <legend><?= dgettext('garudaplugin', 'Liste von Tokens') ?></legend>
+        <legend><?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes') ?></legend>
         <section>
+            <label>
+                <input type="checkbox" name="use_tokens">
+                <?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes o.ä. verwenden') ?>
+            </label>
+        </section>
+        <section class="use_tokens hidden-js">
             <label class="caption" for="tokens"><?= dgettext('garudaplugin',
                 'Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in '.
                 'der Nachricht an jeden einzelnen Empfänger personalisiert '.
@@ -73,7 +78,7 @@ if ($flash['error']) {
             <input name="tokens" type="file" size="40">
         </section>
         <?php if ($messages) { ?>
-            <section>
+            <section class="use_tokens hidden-js">
                 <label class="caption" for="message_tokens">
                     <?= dgettext('garudaplugin', 'oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:') ?>
                 </label>
@@ -189,14 +194,32 @@ if ($flash['error']) {
             </section>
         <?php } ?>
     </fieldset>
+    <fieldset>
+        <legend>
+            <?= dgettext('garudaplugin', 'Versandzeitpunkt') ?>
+        </legend>
+        <section>
+            <label>
+                <input type="checkbox" name="send_at_date">
+                <?= dgettext('garudaplugin', 'Nachricht erst zu einem späteren Zeitpunkt verschicken') ?>
+            </label>
+        </section>
+        <section class="send_date hidden-js">
+            <label>
+                <?= dgettext('garudaplugin', 'Wann soll die Nachricht verschickt werden?') ?>
+                <input type="text" class="size-l" name="send_date" size="25" maxlength="16" value="<?= $flash['send_date'] ?
+                    date('d.m.Y H:i', $flash['send_date']) : date('d.m.Y H:i') ?>">
+            </label>
+        </section>
+    </fieldset>
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
         <?php if ($message) : ?>
-            <?= Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'submit') ?>
-            <?= Button::createCancel(_('Abbrechen')) ?>
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'submit') ?>
+            <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
         <?php else : ?>
-            <?= Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
-            <?= Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
+            <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
                 'save_template', array('data-dialog' => 'size=auto')) ?>
         <?php endif ?>
     </footer>

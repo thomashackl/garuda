@@ -17,6 +17,7 @@
  * @property string id alias column for job_id
  * @property string sender_id database column
  * @property string author_id database column
+ * @property string send_date database column
  * @property string target database column
  * @property string recipients database column
  * @property string subject database column

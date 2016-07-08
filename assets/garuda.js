@@ -38,6 +38,7 @@
                     $('input[name="sendto"]:checked').val() == 'list') {
                 $('button[name="add_filter"]').addClass('hidden-js');
             }
+
             $('input[name="sendto"]').on('click', function() {
                 var textSrc = $('.filtertext').data('text-src').split('?');
                 var url = textSrc[0]+'/sendto_all';
@@ -55,11 +56,24 @@
                 if ($('input[name="sendto"]:checked').val() == 'list') {
                     $('#reclist').css('display', '');
                     $('#reclist textarea').attr('disabled', false);
+                    $('span.filtertext').addClass('hidden-js');
                 } else {
                     $('#reclist').css('display', 'none');
                     $('#reclist textarea').attr('disabled', true);
+                    $('span.filtertext').removeClass('hidden-js');
                 }
             });
+
+            $('input[name="use_tokens"]').on('click', function(event) {
+                $('section.use_tokens').toggleClass('hidden-js');
+            });
+
+            $('input[name="send_at_date"]').on('click', function(event) {
+                $('section.send_date').toggleClass('hidden-js');
+            });
+
+            $('input[name="send_date"]').datetimepicker();
+
             $('.userfilter_actions a.delete').on('click', function(event) {
                 event.preventDefault();
                 var father = $(this).parents('.userfilter');
@@ -76,8 +90,10 @@
                     textfield.load(url);
                 }
             });
+
             $('#reclist').css('display', 'none');
             $('#reclist textarea').attr('disabled', true);
+
             // Use jQuery typing plugin for message preview.
             $('textarea[name="message"]').typing({
                 stop: function() {
