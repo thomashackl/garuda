@@ -11,6 +11,6 @@
     </section>
     <footer data-dialog-button>
         <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Laden'), 'load_template') ?>
-        <?= Studip\Button::createCancel(_('Abbrechen')) ?>
+        <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
     </footer>
 </form>

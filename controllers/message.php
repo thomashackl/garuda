@@ -350,7 +350,7 @@ class MessageController extends AuthenticatedController {
 
         $message->subject = $this->flash['subject'];
         $message->message = $this->flash['message'];
-        $message->protected = (int) $this->flash['protected'];
+        $message->protected = $this->flash['protected'] ? 1 : 0;
         $message->attachment_id = $this->flash['attachment_token'];
 
         if ($message->store()) {

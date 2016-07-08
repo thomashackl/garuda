@@ -99,7 +99,7 @@ class GarudaCronFunctions {
      */
     public static function cronEntryDone($entryId) {
         $m = GarudaMessage::find($entryId);
-        $m->done = 0;
+        $m->done = 1;
         $m->locked = 0;
         return $m->store();
     }

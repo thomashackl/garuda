@@ -30,7 +30,8 @@ class GarudaMessageToken extends SimpleORMap
         $config['db_table'] = 'garuda_tokens';
         $config['has_one']['user'] = array(
             'class_name' => 'User',
-            'foreign_key' => 'user_id'
+            'foreign_key' => 'user_id',
+            'assoc_func' => 'findByUser_id',
         );
         $config['has_one']['message'] = array(
             'class_name' => 'GarudaMessage',
@@ -38,6 +39,45 @@ class GarudaMessageToken extends SimpleORMap
         );
 
         parent::configure($config);
+    }
+
+    /**
+     * Finds and returns all tokens belonging to the given job that are not
+     * assigned to a user_id.
+     *
+     * @param int $job_id job to fetch tokens for
+     */
+    public static function findUnassignedTokens($job_id)
+    {
+        return self::findBySQL("`job_id` = ? AND `user_id` IS NULL", array($job_id));
+    }
+
+    /**
+     * Fetches all users that have tokens for the given job assigned to them.
+     *
+     * @param int $job_id job to check token assignments for
+     * @return mixed
+     */
+    public static function findAssignedUser_ids($job_id)
+    {
+        return DBManager::get()->fetchFirst(
+            "SELECT DISTINCT `user_id` FROM `garuda_tokens` WHERE `job_id` = ? AND `user_id` IS NOT NULL",
+            array($job_id));
+    }
+
+    /**
+     * Copies tokens that were used by an already sent message for usage in a new message.
+     *
+     * @param int $old_job_id already processed and sent message id.
+     * @param int $new_job_id new message id to add tokens to.
+     */
+    public static function copyTokens($old_job_id, $new_job_id)
+    {
+        DBManager::get()->execute("INSERT INTO `garuda_tokens` (
+            SELECT 0, :new_id, `user_id`, `token`, UNIX_TIMESTAMP()
+            FROM `garuda_tokens`
+            WHERE `job_id` = :old_id)",
+            array('new_id' => $new_job_id, 'old_id' => $old_job_id));
     }
 
 }

@@ -14,8 +14,11 @@
  * @category    Garuda
  */
 
-require_once(realpath(dirname(__FILE__).'/models/GarudaCronFunctions.php'));
-require_once(realpath(dirname(__FILE__).'/models/GarudaModel.php'));
+require_once(realpath(__DIR__.'/models/GarudaCronFunctions.php'));
+require_once(realpath(__DIR__.'/models/GarudaModel.php'));
+require_once(realpath(__DIR__.'/models/GarudaFilter.php'));
+require_once(realpath(__DIR__.'/models/GarudaMessageToken.php'));
+require_once(realpath(__DIR__.'/models/GarudaMessage.php'));
 
 /**
  * Cron job for processing the messages to send.
@@ -48,53 +51,75 @@ class GarudaCronjob extends CronJob {
         $jobs = GarudaCronFunctions::getCronEntries();
         foreach ($jobs as $job) {
             // Mark current entry as locked.
-            if (GarudaCronFunctions::lockCronEntry($job['job_id'])) {
-                $author = User::find($job['author_id']);
+            if (GarudaCronFunctions::lockCronEntry($job->id)) {
+
                 // Get recipients.
-                $users = array_map(function($u) {
+                $recipients = $job->getRecipients();
+
+                // Get recipient usernames.
+                $users = array_map(function ($u) {
                     $o = User::find($u);
                     return $o->username;
-                }, (array) json_decode($job['recipients']));
+                }, $recipients);
                 $numRec = sizeof($users);
+
                 /*
                  * Tokens found -> we need to send the messages separately as
                  * personalized content is included.
                  */
-                if ($tokens = GarudaModel::getTokens($job['job_id'], true)) {
-                    foreach ($tokens as $user_id => $token) {
-                        $u = User::find($user_id);
-                        $username = $u->username;
-                        // Replace the "###REPLACE###" marker with the actual token.
-                        $text = str_replace('###REPLACE###', $token, $job['message']);
-                        // Send Stud.IP message with replaced token.
-                        $message = $this->send('____%system%____', array($username), $job['subject'], $text,
-                            $job['attachment_id']);
-                    }
+                if ($job->tokens) {
+
+                    $free_users = array_diff($recipients, GarudaMessageToken::findAssignedUser_ids($job->id));
+
+                    /*
+                     * Token assignment and message sending are done via
+                     * findAndMapBySQL and not directly on $job->tokens
+                     * because there we would get memory problems.
+                     */
+                    $message = GarudaMessageToken::findAndMapBySQL(function ($token) use (&$free_users, $job) {
+                        // Assign token to user if not already assigned.
+                        if (!$token->user_id && $user = array_shift($free_users)) {
+                            $token->user_id = $user;
+                            $token->store();
+                        }
+
+                        if ($token->user_id) {
+                            // Replace the "###REPLACE###" marker with the actual token.
+                            $text = str_replace('###REPLACE###', $token->token, $job->message);
+
+                            // Send Stud.IP message with replaced token.
+                            return $this->send($job->sender_id,
+                                array($token->user->username), $job->subject,
+                                $text, $job->attachment_id);
+                        } else {
+                            return null;
+                        }
+                    }, "`job_id` = ?", array($job->id));
+
                 } else {
-                    // Send Stud.IP message.
-                    $message = $this->send($job['sender_id'], $users, $job['subject'], $job['message'],
-                        $job['attachment_id']);
+                    // Send one Stud.IP message to all recipients at once.
+                    $message = $this->send($job->sender_id, $users, $job->subject, $job->message,
+                        $job->attachment_id);
                 }
                 // Write status to cron log.
                 if ($message) {
-                    if ($job['author_id'] == $job['sender_id']) {
+                    if ($job->author_id == $job->sender_id) {
                         echo sprintf("\nINFO: Message from %s to %s recipients was sent:\n%s\n\n%s\n",
-                            $author->getFullname(), $numRec, $job['subject'], $job['message']);
+                            $job->author->getFullname(), $numRec, $job->subject, $job->message);
                     } else {
-                        if ($job['sender_id'] == '____%system%____') {
+                        if ($job->sender_id == '____%system%____') {
                             $senderName = 'Stud.IP';
                         } else {
-                            $sender = User::find($job['sender_id']);
-                            $senderName = $sender->getFullname();
+                            $senderName = $job->sender->getFullname();
                         }
                         echo sprintf("\nINFO: Message from %s (sent as %s) to %s recipients was sent:\n%s\n\n%s\n",
-                            $author->getFullname(), $senderName, $numRec, $job['subject'], $job['message']);
+                            $job->author->getFullname(), $senderName, $numRec, $job->subject, $job->message);
                     }
-					GarudaCronFunctions::cronEntryDone($job['job_id']);
+					GarudaCronFunctions::cronEntryDone($job->id);
                 } else {
                     echo sprintf("\nERROR: Message from %s to %s recipients could not be sent:\n%s\n\n%s\n",
-                        $senderName, $numRec, $job['subject'], $job['message']);
-                    GarudaCronFunctions::unlockCronEntry($job['job_id']);
+                        $senderName, $numRec, $job->subject, $job->message);
+                    GarudaCronFunctions::unlockCronEntry($job->id);
                 }
             }
         }

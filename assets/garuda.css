@@ -52,6 +52,9 @@ a.none {
 .inst {
   padding-left: 15px;
 }
+#reclist {
+  margin-left: 30px;
+}
 #garuda-sender-choose-person {
   margin-left: 30px;
 }
