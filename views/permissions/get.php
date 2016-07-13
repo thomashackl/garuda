@@ -3,7 +3,7 @@ use Studip\Button;
 ?>
 <article>
     <section>
-        <label class="caption" for="perm">
+        <label for="perm">
             <?= dgettext('garudaplugin', 'Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den Nachrichtenversand nutzen zu dürfen?') ?>
         </label>
         <select name="perm" id="perm">

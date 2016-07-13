@@ -1,4 +1,4 @@
-    <label class="caption" for="institutes[]">
+    <label for="institutes[]">
         <?= dgettext('garudaplugin', 'An welche Einrichtungen (außer der/den eigenen) soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
     </label>
     <ul class="collapsable css-tree">

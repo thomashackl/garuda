@@ -1,4 +1,4 @@
-<label class="caption" for="studycourses[]">
+<label for="studycourses[]">
     <?= dgettext('garudaplugin', 'An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
 </label>
 <?php foreach ($degrees as $degree) { ?>

@@ -7,7 +7,7 @@
     <section id="filterfields">
         <?php foreach ($filterfields as $className => $data) { ?>
         <div class="filterfield" id="<?= $className ?>" data-relation="<?= htmlReady($data['relation']) ?>">
-            <label class="caption" for="field[]">
+            <label for="field[]">
                 <?= htmlReady($data['name']) ?>
             </label>
             <input type="hidden" name="field[]" value="<?= $className ?>"/>
