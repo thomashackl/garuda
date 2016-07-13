@@ -1,42 +1,7 @@
 <?php
 
-class RestrictedGenderFilterField extends UserFilterField
+class RestrictedGenderFilterField extends GenderFilterField
 {
-    public $userDataDbField = 'geschlecht';
-    public $userDataDbTable = 'user_info';
-
-    public function __construct($fieldId='')
-    {
-        $this->validCompareOperators = array(
-            '='   => _('ist'),
-            '!=' => _('ist nicht'),
-        );
-
-        $this->validValues = array(
-            0 => _('unbekannt'),
-            1 => _('männlich'),
-            2 => _('weiblich'),
-        );
-
-        if ($fieldId) {
-            $this->id = $fieldId;
-            $this->load();
-        } else {
-            $this->id = $this->generateId();
-        }
-
-    }
-
-    public function getName()
-    {
-        return _('Geschlecht');
-    }
-
-    public static function getFilterName()
-    {
-        return _('Geschlecht');
-    }
-
     /**
      * Gets all users with given gender.
      *

@@ -92,12 +92,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         StudipAutoloader::addAutoloadPath($GLOBALS['STUDIP_BASE_PATH'].'/lib/classes/admission');
         StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
 
-        // Load appropriate filter fields.
-        if ($GLOBALS['perm']->have_perm('root')) {
-            StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
-        } else {
-            StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
-        }
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
     }
 
     public static function onEnable($pluginId) {

@@ -6,8 +6,10 @@ if ($flash['error']) {
     echo MessageBox::error($flash['error']);
 }
 ?>
-<h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
 <form class="default garuda-js-init" enctype="multipart/form-data" action="<?= $controller->url_for('message/write') ?>" method="post">
+    <header>
+        <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
+    </header>
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
@@ -64,7 +66,7 @@ if ($flash['error']) {
                 <?= $this->render_partial('userfilter/_show', array('filter' => $filter)) ?>
             <?php } ?>
             <br>
-            <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
+            <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => 'size=auto')); ?>
         </section>
     </fieldset>
     <?php if ($i_am_root && !$message) { ?>

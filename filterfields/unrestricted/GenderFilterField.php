@@ -31,11 +31,6 @@ class GenderFilterField extends UserFilterField
         return _('Geschlecht');
     }
  
-    public static function getFilterName()
-    {
-        return _('Geschlecht');
-    }
- 
     /**
      * Gets all users with given gender.
      *

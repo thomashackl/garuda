@@ -4,8 +4,13 @@
     <?php } ?>
 </select>
 <select name="value[]" size="1" class="conditionfield_value" onchange="STUDIP.Garuda.getFieldConfig(this)">
+    <option value="">
+        <?= dgettext('garudaplugin', 'alle') ?>
+    </option>
     <?php foreach ($field->getValidValues() as $id => $name) { ?>
-    <option value="<?= $id ?>"<?= ($id == $field->getValue() ? ' selected="selected"' : '') ?>><?= htmlReady($name) ?></option>
+    <option value="<?= $id ?>"<?= ($id === $field->getValue() ? ' selected="selected"' : '') ?>>
+        <?= htmlReady($name) ?>
+    </option>
     <?php } ?>
 </select>
 <script type="text/javascript">

@@ -24,10 +24,15 @@ class RestrictedSubjectFilterField extends SubjectCondition
      */
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
-        $this->validValues = array(
-            '' => dgettext('garudaplugin', 'alle')
-        );
+
+        // Get Garuda configuration...
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        foreach ($this->validValues as $id => $name) {
+            if (!in_array($id, array_keys($this->config['subjects']))) {
+                unset($this->validValues[$id]);
+            }
+        }
+
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
         }

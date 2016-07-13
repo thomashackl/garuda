@@ -159,7 +159,7 @@
                 var value = encodeURIComponent($(element).val());
                 var relatedElement = $('#'+relation);
                 var updateUrl = $(element).parent().data('update-url').split('?');
-                url = updateUrl[0] + '/' + relation;
+                var url = updateUrl[0] + '/' + relation;
                 var otherCompare = relatedElement.find('select[name="compare_operator[]"]').val();
                 var otherValue = relatedElement.find('select[name="value[]"]').val();
                 url += '/'+compare+'/'+value;

@@ -277,17 +277,6 @@ class GarudaModel {
     }
 
     /**
-     * Fetches all unassigned tokens for a given cron job entry.
-     *
-     * @param  int   $entryId entry to fetch tokens for
-     * @return array All unassigned tokens that were found for the given cron job entry.
-     */
-    public static function getUnassignedTokens($entryId)
-    {
-        return DBManager::get()->fetchFirst("SELECT `token` FROM `garuda_tokens` WHERE `job_id`=? AND `user_id` IS NULL ORDER BY `token_id`", array($entryId));
-    }
-
-    /**
      * Fetches all sent messages that have tokens assigned.
      *
      * @return An array of messages.

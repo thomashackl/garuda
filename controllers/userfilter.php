@@ -37,16 +37,12 @@ class UserfilterController extends AuthenticatedController {
         Navigation::activateItem('/messaging/garuda/message');
 
         $this->filterfields = UserFilterField::getAvailableFilterFields();
-        $this->filterfields['GenderFilterField'] = GenderFilterField::getFilterName();
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
 
     public function add_action($type) {
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
-        }
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
@@ -57,19 +53,16 @@ class UserfilterController extends AuthenticatedController {
                 );
                 break;
             case 'students':
+                $this->filterfields['GenderFilterField'] = GenderFilterField::getName();
+                $this->filterfields['SelfAssignInstUserFilterField'] = SelfAssignInstUserFilterField::getName();
             default:
                 break;
         }
     }
 
     public function addrestricted_action($type) {
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
-            $this->response->add_header('X-No-Buttons', 1);
-        }
         switch($type) {
             case 'employees':
-            case 'permissions':
                 $this->filterfields = array(
                     'RestrictedInstituteFilterField' => array(
                         'name' => RestrictedInstituteFilterField::getName(),
@@ -81,6 +74,10 @@ class UserfilterController extends AuthenticatedController {
                     ),
                     'RestrictedGenderFilterField' => array(
                         'name' => RestrictedGenderFilterField::getName(),
+                        'relation' => ''
+                    ),
+                    'RestrictedPermissionFilterField' => array(
+                        'name' => RestrictedPermissionFilterField::getName(),
                         'relation' => ''
                     )
                 );
@@ -102,6 +99,10 @@ class UserfilterController extends AuthenticatedController {
                     ),
                     'RestrictedGenderFilterField' => array(
                         'name' => RestrictedGenderFilterField::getName(),
+                        'relation' => ''
+                    ),
+                    'RestrictedSelfAssignInstUserFilterField' => array(
+                        'name' => RestrictedSelfAssignInstUserFilterField::getName(),
                         'relation' => ''
                     )
                 );
@@ -130,7 +131,7 @@ class UserfilterController extends AuthenticatedController {
 
         for ($i=0 ; $i < sizeof($fields) ; $i++) {
             $className = $fields[$i];
-            if ($className && $compareOps[$i] && isset($values[$i])) {
+            if ($className && $compareOps[$i] && isset($values[$i]) && $values[$i] !== '') {
                 list($fieldType, $param) = explode('_', $className);
                 $currentField = new $fieldType($param);
                 $currentField->setCompareOperator($compareOps[$i]);

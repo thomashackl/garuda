@@ -13,7 +13,6 @@ class PermissionFilterField extends UserFilterField
         );
 
         $this->validValues = array(
-            'user' => dgettext('garudaplugin', 'Selbst zugeordnet (Leser/in)'),
             'autor' => dgettext('garudaplugin', 'Mitglied (Autor/in)'),
             'tutor' => dgettext('garudaplugin', 'Tutor/in'),
             'dozent' => dgettext('garudaplugin', 'Lehrende/r'),
@@ -29,11 +28,6 @@ class PermissionFilterField extends UserFilterField
     }
 
     public function getName()
-    {
-        return _('Rechtestufe');
-    }
-
-    public static function getFilterName()
     {
         return _('Rechtestufe');
     }

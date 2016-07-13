@@ -78,7 +78,6 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             }
         }
         natcasesort($this->validValues);
-        $this->validValues = array('' => dgettext('garudaplugin', 'alle')) + $this->validValues;
         if ($fieldId) {
             $this->id = $fieldId;
             $this->load();

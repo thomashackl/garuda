@@ -1,6 +1,9 @@
-<?php use Studip\Button, Studip\LinkButton; ?>
 <form class="default" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
-    <h2><?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?></h2>
+    <header>
+        <h2>
+            <?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?>
+        </h2>
+    </header>
     <section id="filterfields">
         <?php foreach ($filterfields as $className => $data) { ?>
         <div class="filterfield" id="<?= $className ?>" data-relation="<?= htmlReady($data['relation']) ?>">
@@ -14,7 +17,6 @@
         </div>
         <?php } ?>
     </section>
-    <br>
     <section>
         <?php foreach ($flash->flash as $key => $value) : ?>
             <?php if (is_array($value)) : ?>
@@ -28,8 +30,8 @@
     </section>
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
-        <?= Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
-        <?= LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message/write')) ?>
+        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
+        <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message/write'), array('data-dialog-button' => true, 'data-dialog="close"')) ?>
     </footer>
 </form>
 <script type="text/javascript">
