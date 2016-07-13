@@ -19,18 +19,18 @@ if ($flash['error']) {
                 <?= dgettext('garudaplugin', 'An wen soll die Nachricht gesendet werden?') ?>
             </header>
             <label>
-                <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked="checked"' : '') ?>/>
+                <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked' : '') ?>/>
                 <?= dgettext('garudaplugin', 'alle') ?>
             </label>
             <label>
-                <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked="checked"' : '') ?>/>
+                <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Studierende') ?>
                 <?= tooltipIcon(dgettext('garudaplugin',
                         'Hierüber werden alle Personen gefunden, die einem '.
                         'oder mehreren Studiengängen zugeordnet sind.')) ?>
             </label>
             <label>
-                <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked="checked"' : '') ?>/>
+                <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Beschäftigte') ?>
                 <?= tooltipIcon(dgettext('garudaplugin',
                     'Hierüber werden alle Personen gefunden, die mindestens '.
@@ -38,7 +38,7 @@ if ($flash['error']) {
             </label>
             <label>
                 <?php if ($i_am_root) { ?>
-                <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked="checked"' : '') ?>/>
+                <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
             </label>
             <label class="caption" id="reclist">
@@ -196,7 +196,7 @@ if ($flash['error']) {
         <?php if ($i_am_root) { ?>
             <section>
                 <label class="caption" style="clear:both">
-                    <input type="checkbox" name="protected"<?= $flash['protected'] ? ' checked="checked"' : '' ?>/>
+                    <input type="checkbox" name="protected"<?= $flash['protected'] ? ' checked' : '' ?>/>
                     <?= dgettext('garudaplugin', 'Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden') ?>
                 </label>
             </section>

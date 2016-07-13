@@ -14,7 +14,7 @@
         </li>
                 <?php } ?>
         <li>
-            <input type="checkbox" name="institutes[]" class="selector" value="<?= $i['Institut_id'] ?>"<?= ($config['institutes'][$i['Institut_id']]) ? ' checked="checked"' : '' ?>/>
+            <input type="checkbox" name="institutes[]" class="selector" value="<?= $i['Institut_id'] ?>"<?= ($config['institutes'][$i['Institut_id']]) ? ' checked' : '' ?>/>
             <input type="checkbox" class="tree" id="<?= $i['Institut_id'] ?>"/>
             <label for="<?= $i['Institut_id'] ?>" class="undecorated">
                 <?= htmlReady($i['Name']) ?>
@@ -31,7 +31,7 @@
             <?php } else { ?>
                 <li>
                     <?php $o=new Institute($i['Institut_id']); ?>
-                    <input type="checkbox" class="selector" name="institutes[]" value="<?= $i['Institut_id'] ?>"<?= ($config['institutes'][$o->fakultaets_id] ? ' checked="checked" disabled="disabled"' : ($config['institutes'][$i['Institut_id']] ? ' checked="checked"' : '')) ?> data-faculty-id="<?= $o->fakultaets_id ?>"/>
+                    <input type="checkbox" class="selector" name="institutes[]" value="<?= $i['Institut_id'] ?>"<?= ($config['institutes'][$o->fakultaets_id] ? ' checked disabled' : ($config['institutes'][$i['Institut_id']] ? ' checked="checked"' : '')) ?> data-faculty-id="<?= $o->fakultaets_id ?>"/>
                     <?= htmlReady($i['Name']) ?>
                 </li>
             <?php } ?>
