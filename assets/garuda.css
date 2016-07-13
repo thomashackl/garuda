@@ -20,7 +20,15 @@ a.all,
 a.none {
   cursor: pointer;
 }
-#filters {
+form div#garuda-coursesearch {
+  margin-bottom: 25px;
+  margin-left: 30px;
+}
+form div#garuda-coursesearch ul#garuda-courses {
+  clear: both;
+  padding-top: 10px;
+}
+form #filters {
   margin-left: 30px;
   margin-top: 10px;
   font-style: italic;

@@ -241,6 +241,33 @@ class MessageController extends AuthenticatedController {
 
             }
 
+            if ($GLOBALS['perm']->have_perm('root')) {
+                $parameters = array(
+                    'semtypes' => studygroup_sem_types() ?: array(),
+                    'exclude' => array()
+                );
+            } else if ($GLOBALS['perm']->have_perm('admin')) {
+                $parameters = array(
+                    'semtypes' => studygroup_sem_types() ?: array(),
+                    'institutes' => array_map(function ($i) {
+                        return $i['Institut_id'];
+                    }, Institute::getMyInstitutes()),
+                    'exclude' => array()
+                );
+
+            } else {
+                $parameters = array(
+                    'userid' => $GLOBALS['user']->id,
+                    'semtypes' => studygroup_sem_types() ?: array(),
+                    'exclude' => array()
+                );
+            }
+            $coursesearch = MyCoursesSearch::get('Seminar_id', $GLOBALS['perm']->get_perm(), $parameters);
+            $this->coursesearch = QuickSearch::get('course_id', $coursesearch)
+                ->setInputStyle('width:100%')
+                ->fireJSFunctionOnSelect('STUDIP.Garuda.addCourse')
+                ->render();
+
             // Show action for loading a message template if applicable.
             if (GarudaTemplate::findByAuthor_id($GLOBALS['user']->id)) {
                 $sidebar = Sidebar::get();
@@ -271,9 +298,20 @@ class MessageController extends AuthenticatedController {
 
 	/**
 	 * One or more filters restrict the recipients, show corresponding text.
+     * 
+     * @param bool $one is only one filter set?
 	 */
-    public function sendto_filtered_action($one=false) {
+    public function sendto_filtered_action($one = false) {
         $this->one = $one;
+    }
+
+	/**
+	 * Recipients are set by course membership, show corresponding text.
+     * 
+     * @param bool $and do recipients need to be members in all selected courses?
+	 */
+    public function sendto_courses_action($and = false) {
+        $this->and = $and;
     }
 
     /**

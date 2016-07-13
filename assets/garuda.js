@@ -35,19 +35,25 @@
 
         init: function() {
             if ($('input[name="sendto"]:checked').val() == 'all' ||
+                    $('input[name="sendto"]:checked').val() == 'courses' ||
                     $('input[name="sendto"]:checked').val() == 'list') {
                 $('button[name="add_filter"]').addClass('hidden-js');
             }
 
             $('input[name="sendto"]').on('click', function() {
                 var textSrc = $('.filtertext').data('text-src').split('?');
-                var url = textSrc[0]+'/sendto_all';
+                if ($('input[name="sendto"]:checked').val() == 'courses') {
+                    var url = textSrc[0] + '/sendto_courses';
+                } else {
+                    var url = textSrc[0] + '/sendto_all';
+                }
                 if (textSrc[1] != '') {
-                    url += '?'+textSrc[1];
+                    url += '?' + textSrc[1];
                 }
                 $('.filtertext').load(url);
                 $('.userfilter').remove();
                 if ($('input[name="sendto"]:checked').val() != 'all' &&
+                    $('input[name="sendto"]:checked').val() != 'courses' &&
                         $('input[name="sendto"]:checked').val() != 'list') {
                     $('button[name="add_filter"]').removeClass('hidden-js');
                 } else {
@@ -61,6 +67,11 @@
                     $('#reclist').css('display', 'none');
                     $('#reclist textarea').attr('disabled', true);
                     $('span.filtertext').removeClass('hidden-js');
+                }
+                if ($('input[name="sendto"]:checked').val() == 'courses') {
+                    $('div#garuda-coursesearch').removeClass('hidden-js');
+                } else {
+                    $('div#garuda-coursesearch').addClass('hidden-js');
                 }
             });
 
@@ -79,6 +90,7 @@
                 var father = $(this).parents('.userfilter');
                 var container = father.parent();
                 father.remove();
+                if (container)
                 if (container.children('.userfilter').length == 0) {
                     var textfield = container.children('.filtertext');
                     var textSrc = textfield.data('text-src').split('?');
@@ -194,17 +206,17 @@
             if (filters == 0) {
                 var url = textSrc[0]+'/sendto_all';
                 if (textSrc[1] != '') {
-                    url += '?'+textSrc[1];
+                    url += '?' + textSrc[1];
                 }
             } else if (filters == 1) {
-                var url = textSrc[0]+'/sendto_filtered/true';
+                var url = textSrc[0] + '/sendto_filtered/true';
                 if (textSrc[1] != '') {
-                    url += '?'+textSrc[1];
+                    url += '?' + textSrc[1];
                 }
             } else {
-                var url = textSrc[0]+'/sendto_filtered'+textSrc[1];
+                var url = textSrc[0] + '/sendto_filtered' + textSrc[1];
                 if (textSrc[1] != '') {
-                    url += '?'+textSrc[1];
+                    url += '?' + textSrc[1];
                 }
             }
             textfield.html($('<img>').attr('src', STUDIP.ASSETS_URL + 'images/ajax_indicator_small.gif'));
@@ -217,6 +229,23 @@
             $('input#garuda-senderid').attr('value', id);
             $('span#garuda-sendername').html('(' + cleaned + ')').removeClass('hidden-js');
             return false;
+        },
+
+        addCourse: function(id, name) {
+            // Remove all formatting from name.
+            var cleaned = $('<div>').html(name).text();
+            var list = $('ul#garuda-courses');
+            if (list.children('li.' + id).length == 0) {
+                var child = $('<li>').
+                    addClass(id).
+                    html(cleaned);
+                var input = $('<input>').
+                    attr('type', 'hidden').
+                    attr('name', 'courses[]').
+                    attr('value', id);
+                child.append(input);
+                list.append(child);
+            }
         }
 
     };

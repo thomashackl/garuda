@@ -13,7 +13,7 @@ if ($flash['error']) {
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
-        <label class="caption" for="sendto"></label>
+        <label for="sendto"></label>
         <section>
             <header>
                 <?= dgettext('garudaplugin', 'An wen soll die Nachricht gesendet werden?') ?>
@@ -37,11 +37,26 @@ if ($flash['error']) {
                     'einer Einrichtung zugeordnet sind.')) ?>
             </label>
             <label>
+                <input type="radio" name="sendto" value="courses" <?= ($flash['sendto'] == 'courses' ? ' checked' : '') ?>/>
+                <?= dgettext('garudaplugin', 'Veranstaltungsteilnehmende') ?>
+                <?= tooltipIcon(dgettext('garudaplugin',
+                    'Hierüber werden alle Personen gefunden, die als '.
+                    'Teilnehmende in eine der gewählten Veranstaltungen '.
+                    'eingetragen sind.')) ?>
+            </label>
+            <div<?= $flash['sendto'] == 'courses' ? '' : ' class="hidden-js"' ?> id="garuda-coursesearch">
+                <label>
+                    <?= dgettext('garudaplugin', 'Suchen und Hinzufügen der gewünschten Veranstaltungen') ?>
+                    <?= $coursesearch ?>
+                </label>
+                <ul id="garuda-courses"></ul>
+            </div>
+            <label>
                 <?php if ($i_am_root) { ?>
                 <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
             </label>
-            <label class="caption" id="reclist">
+            <label id="reclist">
                 <textarea name="list" placeholder="<?= dgettext('garudaplugin',
                     'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht '.
                     'empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"
@@ -52,19 +67,21 @@ if ($flash['error']) {
         </section>
         <section id="filters">
             <span class="filtertext" data-text-src="<?= $controller->url_for('message') ?>">
-            <?php if (!$filters) { ?>
+            <?php if ($flash['sendto'] == 'courses') : ?>
+                <?= $this->render_partial('message/sendto_courses') ?>
+            <?php elseif (!$filters) : ?>
                 <?= $this->render_partial('message/sendto_all') ?>
-            <?php } else { ?>
-                <?php if (sizeof($filters) == 1) { ?>
-            <?= $this->render_partial('message/sendto_filtered', array('one' => true)) ?>
-                <?php } else { ?>
-            <?= $this->render_partial('message/sendto_filtered') ?>
-                <?php } ?>
-            <?php } ?>
+            <?php else : ?>
+                <?php if (sizeof($filters) == 1) : ?>
+                    <?= $this->render_partial('message/sendto_filtered', array('one' => true)) ?>
+                <?php else : ?>
+                    <?= $this->render_partial('message/sendto_filtered') ?>
+                <?php endif ?>
+            <?php endif ?>
             </span>
-            <?php foreach ($filters as $filter) { ?>
+            <?php foreach ($filters as $filter) : ?>
                 <?= $this->render_partial('userfilter/_show', array('filter' => $filter)) ?>
-            <?php } ?>
+            <?php endforeach ?>
             <br>
             <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => 'size=auto')); ?>
         </section>
@@ -79,7 +96,7 @@ if ($flash['error']) {
             </label>
         </section>
         <section class="use_tokens hidden-js">
-            <label class="caption" for="tokens"><?= dgettext('garudaplugin',
+            <label for="tokens"><?= dgettext('garudaplugin',
                 'Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in '.
                 'der Nachricht an jeden einzelnen Empfänger personalisiert '.
                 'verschickt werden sollen (Teilnahmecodes/Links etc.)') ?></label>
@@ -87,7 +104,7 @@ if ($flash['error']) {
         </section>
         <?php if ($messages) { ?>
             <section class="use_tokens hidden-js">
-                <label class="caption" for="message_tokens">
+                <label for="message_tokens">
                     <?= dgettext('garudaplugin', 'oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:') ?>
                 </label>
                 <select name="message_tokens">
@@ -111,7 +128,7 @@ if ($flash['error']) {
         <legend><?= _('Anhänge') ?></legend>
         <section>
             <input type="hidden" name="message_id" id="message_id" value="<?= htmlReady($attachment_token) ?>">
-            <label class="caption" for="attachments"><?= _('Laden Sie hier Dateianhänge hoch.') ?></label>
+            <label for="attachments"><?= _('Laden Sie hier Dateianhänge hoch.') ?></label>
             <div id="attachments">
                 <h4><?= _('Anhänge') ?></h4>
                 <div>
@@ -146,14 +163,14 @@ if ($flash['error']) {
         <fieldset>
             <legend><?= dgettext('garudaplugin', 'Absender') ?></legend>
             <section>
-                <label class="caption">
+                <label>
                     <input type="radio" name="sender" class="garuda-sender-config" value="me"<?=
                         (!$sender || $sender == 'me') ? 'checked' : '' ?>>
                     <?= dgettext('garudaplugin', 'Die Nachricht von meiner Kennung verschicken') ?>
                 </label>
             </section>
             <section>
-                <label class="caption">
+                <label>
                     <input type="radio" name="sender" class="garuda-sender-config" value="person"<?=
                         $sender == 'person' ? 'checked' : '' ?>>
                     <?= dgettext('garudaplugin', 'Eine andere Person als Absender eintragen') ?>
@@ -163,7 +180,7 @@ if ($flash['error']) {
                     </span>
                 </label>
                 <div id="garuda-sender-choose-person"<?= $sender == 'person' ? '' : ' class="hidden-js"' ?>>
-                    <label class="caption" for="fromsearch_1">
+                    <label for="fromsearch_1">
                         <?= dgettext('garudaplugin', 'Alternativen Absender suchen') ?>
                         <?= $fromsearch ?>
                     </label>
@@ -171,7 +188,7 @@ if ($flash['error']) {
                 </div>
             </section>
             <section>
-                <label class="caption">
+                <label>
                     <input type="radio" name="sender" class="garuda-sender-config" value="system"<?=
                         $sender == 'system' ? 'checked' : ''?>>
                     <?= dgettext('garudaplugin', 'Anonym, mit "Stud.IP" als Absender verschicken') ?>
@@ -182,20 +199,20 @@ if ($flash['error']) {
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <section id="message">
-            <label class="caption" for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
+            <label for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
             <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="75" maxlength="255"/>
-            <label class="caption" for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
+            <label for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
             <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
         </section>
         <section id="preview">
-            <label class="caption" for="message_preview_text">
+            <label for="message_preview_text">
                 <?= dgettext('garudaplugin', 'Vorschau der Nachricht') ?>
             </label>
             <div id="message_preview_text"></div>
         </section>
         <?php if ($i_am_root) { ?>
             <section>
-                <label class="caption" style="clear:both">
+                <label style="clear:both">
                     <input type="checkbox" name="protected"<?= $flash['protected'] ? ' checked' : '' ?>/>
                     <?= dgettext('garudaplugin', 'Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden') ?>
                 </label>
