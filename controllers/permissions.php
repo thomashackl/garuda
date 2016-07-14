@@ -84,9 +84,9 @@ class PermissionsController extends AuthenticatedController {
                 return array('degree' => $data[0], 'subject' => $data[1]);
             }, Request::getArray('studycourses'));
         if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
-            $this->flash['success'] = dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.');
+            PageLayout::postSuccess(dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.'));
         } else {
-            $this->flash['error'] = dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.');
+            PageLayout::postError(dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.'));
         }
         $this->flash['institute_id'] = Request::option('institute');
         $this->relocate('configuration');

@@ -142,7 +142,8 @@ class OverviewController extends AuthenticatedController {
             $m = GarudaTemplate::find($id);
             $target = 'overview/templates';
         }
-        if (in_array($GLOBALS['user_id'], array($m->author_id, $m->sender_id)) || $GLOBALS['perm']->have_perm('root')) {
+
+        if (in_array($GLOBALS['user']->id, array($m->author_id, $m->sender_id)) || $GLOBALS['perm']->have_perm('root')) {
             if ($m->delete()) {
                 PageLayout::postSuccess($type == 'message' ?
                     dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.') :
@@ -192,6 +193,11 @@ class OverviewController extends AuthenticatedController {
 
                 $t->author_id = $GLOBALS['user']->id;
                 $t->sender_id = $GLOBALS['user']->id;
+
+                if ($t->target == 'courses' && count(Request::getArray('courses')) > 0) {
+                    $t->courses = SimpleORMapCollection::createFromArray(
+                        Course::findMany(Request::getArray('courses')));
+                }
 
                 // Set another sender if root and alternative sender is set, set myself otherwise.
                 if ($this->i_am_root) {

@@ -3,5 +3,5 @@ pluginclassname=GarudaPlugin
 origin=intelec
 version=1.6.3
 description=Allows mail sending to selectable target audiences.
-studipMinVersion=3.1
-studipMaxVersion=3.3.99
+studipMinVersion=3.4
+studipMaxVersion=3.9.99

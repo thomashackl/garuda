@@ -20,7 +20,6 @@ class MessageController extends AuthenticatedController {
      * Actions and settings taking place before every page call.
      */
     public function before_filter(&$action, &$args) {
-        SimpleORMap::expireTableScheme();
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
@@ -67,13 +66,53 @@ class MessageController extends AuthenticatedController {
 
     public function write_action($type = 'message', $id = '')
     {
-        // Set values from Request.
+        // Set values from Request:
+        // Message target.
         if (Request::option('sendto')) {
             $this->flash['sendto'] = Request::option('sendto');
         }
+
+        // Prepare course search.
+        if ($GLOBALS['perm']->have_perm('root')) {
+            $parameters = array(
+                'semtypes' => studygroup_sem_types() ?: array(),
+                'exclude' => array()
+            );
+        } else if ($GLOBALS['perm']->have_perm('admin')) {
+            $parameters = array(
+                'semtypes' => studygroup_sem_types() ?: array(),
+                'institutes' => array_map(function ($i) {
+                    return $i['Institut_id'];
+                }, Institute::getMyInstitutes()),
+                'exclude' => array()
+            );
+
+        } else {
+            $parameters = array(
+                'userid' => $GLOBALS['user']->id,
+                'semtypes' => studygroup_sem_types() ?: array(),
+                'exclude' => array()
+            );
+        }
+        $coursesearch = MyCoursesSearch::get('Seminar_id', $GLOBALS['perm']->get_perm(), $parameters);
+        $this->coursesearch = QuickSearch::get('course_id', $coursesearch)
+            ->setInputStyle('width:100%')
+            ->fireJSFunctionOnSelect('STUDIP.Garuda.addCourse')
+            ->render();
+
+        // Keep already selected courses.
+        $this->courses = array();
+        if (Request::getArray('courses')) {
+            $this->flash['courses'] = Request::getArray('courses');
+            $this->courses = Course::findMany(Request::getArray('courses'));
+        }
+
+        // User filters.
         if (Request::getArray('filters')) {
             $this->flash['filters'] = Request::getArray('filters');
         }
+
+        // Uploaded token file.
         if ($_FILES['tokens']['tmp_name']) {
             $filename = $GLOBALS['TMP_PATH'] . '/' . uniqid('', true);
             move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
@@ -82,6 +121,8 @@ class MessageController extends AuthenticatedController {
         if (Request::option('message_tokens')) {
             $this->flash['message_tokens'] = Request::option('message_tokens');
         }
+
+        // Manually set list of recipients.
         if (Request::get('list')) {
             $this->flash['list'] = Request::get('list');
         }
@@ -93,15 +134,24 @@ class MessageController extends AuthenticatedController {
                 $this->flash['senderid'] = Request::option('senderid');
             }
         }
+
+        // Message subject.
         if (Request::get('subject')) {
             $this->flash['subject'] = Request::get('subject');
         }
+
+        // Message text.
         if (Request::get('message')) {
             $this->flash['message'] = Request::get('message');
         }
+
+        // Do not automatically delete message on cleanup run.
         $this->flash['protected'] = Request::option('protected');
+
+        // Optional message attachment.
         $this->flash['attachment_token'] = Request::get('message_id');
 
+        // Alternative date for sending.
         $this->flash['send_date'] = time();
         if (Request::option('send_at_date')) {
             $send_date = date_parse(Request::option('send_date', 'now'));
@@ -162,21 +212,24 @@ class MessageController extends AuthenticatedController {
         } else if (Request::submitted('submit')) {
             CSRFProtection::verifyUnsafeRequest();
 
-            // Check for necessary values.
-            if (!Request::get('subject') || !Request::get('message') ||
-                (Request::option('sendto') == 'list' && !$_FILES['tokens'])) {
+            $error = array();
+            if (!Request::get('subject')) {
+                $error[] = dgettext('garudaplugin', 'Bitte geben Sie einen Betreff an.');
+            }
+            if (!Request::get('message')) {
+                $error[] = dgettext('garudaplugin', 'Bitte geben Sie eine Nachricht an.');
+            }
+            if (Request::option('sendto') == 'list' && !Request::get('list')) {
+                $error[] = dgettext('garudaplugin', 'Bitte geben Sie mindestens einen Nutzernamen an.');
+            }
+            if (Request::option('sendto') == 'courses' && count(Request::getArray('courses')) == 0) {
+                $error[] = dgettext('garudaplugin',
+                    'Bitte geben Sie mindestens eine Veranstaltung an, '.
+                    'deren Teilnehmende die Nachricht erhalten sollen.');
+            }
 
-                $error = array();
-                if (!Request::get('subject')) {
-                    $error[] = dgettext('garudaplugin', 'Bitte geben Sie einen Betreff an.');
-                }
-                if (!Request::get('message')) {
-                    $error[] = dgettext('garudaplugin', 'Bitte geben Sie eine Nachricht an.');
-                }
-                if (Request::option('sendto') == 'list' && !$_FILES['tokens']) {
-                    $error[] = dgettext('garudaplugin', 'Bitte geben Sie eine Liste von Nutzernamen an.');
-                }
-
+            // Errors found, show corresponding messages.
+            if (count($error) > 0) {
                 PageLayout::postError(implode('<br>', $error));
             // All okay, continue with message processing.
             } else {
@@ -207,9 +260,10 @@ class MessageController extends AuthenticatedController {
                 if ($type == 'message') {
                     $this->message = new GarudaMessage($id);
                 } else {
-                    $this->message = new GarudaTemplate($id ?: Request::int('template'));
+                    $this->message = new GarudaTemplate($id ?: Request::option('template'));
                 }
                 $this->flash['sendto'] = $this->message->target;
+                $this->courses = $this->message->courses;
                 $this->filters = array_map(function ($f) { return new UserFilter($f['filter_id']); },
                     $this->message->filters->toArray());
                 // Get alternative sender if applicable.
@@ -240,33 +294,6 @@ class MessageController extends AuthenticatedController {
                 }
 
             }
-
-            if ($GLOBALS['perm']->have_perm('root')) {
-                $parameters = array(
-                    'semtypes' => studygroup_sem_types() ?: array(),
-                    'exclude' => array()
-                );
-            } else if ($GLOBALS['perm']->have_perm('admin')) {
-                $parameters = array(
-                    'semtypes' => studygroup_sem_types() ?: array(),
-                    'institutes' => array_map(function ($i) {
-                        return $i['Institut_id'];
-                    }, Institute::getMyInstitutes()),
-                    'exclude' => array()
-                );
-
-            } else {
-                $parameters = array(
-                    'userid' => $GLOBALS['user']->id,
-                    'semtypes' => studygroup_sem_types() ?: array(),
-                    'exclude' => array()
-                );
-            }
-            $coursesearch = MyCoursesSearch::get('Seminar_id', $GLOBALS['perm']->get_perm(), $parameters);
-            $this->coursesearch = QuickSearch::get('course_id', $coursesearch)
-                ->setInputStyle('width:100%')
-                ->fireJSFunctionOnSelect('STUDIP.Garuda.addCourse')
-                ->render();
 
             // Show action for loading a message template if applicable.
             if (GarudaTemplate::findByAuthor_id($GLOBALS['user']->id)) {
@@ -345,6 +372,17 @@ class MessageController extends AuthenticatedController {
             }, preg_split("/[\r\n,]+/", $this->flash['list'], -1,
                 PREG_SPLIT_NO_EMPTY)));
 
+        // Message will be sent to members of selected courses.
+        } else if ($this->flash['sendto'] == 'courses') {
+
+            $members = array();
+            foreach ($this->flash['courses'] as $course) {
+                $members = array_merge($members,
+                    array_map(function($m) { return $m->user_id; },
+                        CourseMember::findByCourseAndStatus($course, array('user', 'autor'))));
+            }
+            $users = array_unique($members);
+
         // Whole groups are selected, like "all students".
         } else {
             if ($this->i_am_root) {
@@ -390,6 +428,11 @@ class MessageController extends AuthenticatedController {
         $message->message = $this->flash['message'];
         $message->protected = $this->flash['protected'] ? 1 : 0;
         $message->attachment_id = $this->flash['attachment_token'];
+
+        if ($this->flash['courses']) {
+            $message->courses = SimpleORMapCollection::createFromArray(
+                Course::findMany($this->flash['courses']));
+        }
 
         if ($message->store()) {
 

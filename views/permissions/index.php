@@ -1,11 +1,3 @@
-<?php
-if ($flash['success']) {
-    echo MessageBox::success($flash['success']);
-}
-if ($flash['error']) {
-    echo MessageBox::error($flash['error']);
-}
-?>
 <h1><?= dgettext('garudaplugin', 'Konfiguration') ?></h1>
 <form class="default" action="<?= $controller->url_for('permissions/save') ?>" method="post">
     <section>

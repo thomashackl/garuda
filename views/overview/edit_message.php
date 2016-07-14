@@ -16,6 +16,11 @@
                 <input type="hidden" name="filters[]" value="<?= urlencode($filter) ?>">
             <?php endforeach ?>
         <?php endif ?>
+        <?php if ($flash['sendto'] == 'courses' && $flash['courses']) : ?>
+            <?php foreach ($flash['courses'] as $course) : ?>
+                <input type="hidden" name="courses[]" value="<?= $course ?>">
+            <?php endforeach ?>
+        <?php endif ?>
         <?php if ($flash['sender']) : ?>
             <input type="hidden" name="sender" value="<?= $flash['sender'] ?>">
             <?php if ($flash['senderid']) : ?>

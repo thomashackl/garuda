@@ -57,6 +57,8 @@
                     <?= dgettext('garudaplugin', 'Studierende') ?>
                 <?php elseif ($m->target == 'employees') : ?>
                     <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+                <?php elseif ($m->target == 'courses') : ?>
+                    <?= dgettext('garudaplugin', 'Teilnehmende von Veranstaltungen') ?>
                 <?php elseif ($m->target == 'list') : ?>
                     <?= dgettext('garudaplugin', 'Liste von Nutzern') ?>
                 <?php endif ?>
@@ -64,6 +66,13 @@
                     <ul>
                     <?php foreach ($m->filters as $filter) : $f = new UserFilter($filter->filter_id); ?>
                         <li><?= $f ?></li>
+                    <?php endforeach ?>
+                    </ul>
+                <?php endif ?>
+                <?php if ($m->courses) : ?>
+                    <ul>
+                    <?php foreach ($m->courses as $course) : ?>
+                        <li><?= $course->getFullname() ?></li>
                     <?php endforeach ?>
                     </ul>
                 <?php endif ?>

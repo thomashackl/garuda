@@ -31,7 +31,8 @@
  * @property User author has_one User
  * @property User sender has_one User
  * @property GarudaToken tokens has_many GarudaToken
- * @property GarudaFilter filter has_many GarudaFilter
+ * @property GarudaFilter filters has_many GarudaFilter
+ * @property Course courses has_many Course
  */
 class GarudaMessage extends SimpleORMap
 {
@@ -62,6 +63,17 @@ class GarudaMessage extends SimpleORMap
             'on_store' => 'store',
             'on_delete' => 'delete'
         );
+        $config['has_and_belongs_to_many']['courses'] = array(
+            'class_name' => 'Course',
+            'thru_table' => 'garuda_courses',
+            'thru_key' => 'message_id',
+            'thru_assoc_key' => 'course_id',
+            'order_by' => Config::get()->IMPORTANT_SEMNUMBER ?
+                'ORDER BY `start_time` DESC, `VeranstaltungsNummer`, `Name`' :
+                'ORDER BY `start_time` DESC, `Name`',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
 
         parent::configure($config);
     }
@@ -78,8 +90,21 @@ class GarudaMessage extends SimpleORMap
     {
         $recipients = array();
 
+        // Manually created list of usernames.
         if ($this->target == 'list' && $this->recipients) {
             $recipients = $this->recipients->pluck('user_id');
+
+        // Members of selected courses.
+        } else if ($this->target == 'courses') {
+            $members = array();
+            foreach ($this->courses as $course) {
+                $members = array_merge($members,
+                    array_map(function($m) { return $m->user_id; },
+                        CourseMember::findByCourseAndStatus($course->id, array('user', 'autor'))));
+            }
+            $recipients = array_unique($members);
+
+        // Anything else.
         } else if ($this->target != 'list') {
             if ($this->filters) {
 

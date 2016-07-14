@@ -51,6 +51,17 @@ class GarudaTemplate extends SimpleORMap
             'on_store' => 'store',
             'on_delete' => 'delete'
         );
+        $config['has_and_belongs_to_many']['courses'] = array(
+            'class_name' => 'Course',
+            'thru_table' => 'garuda_courses',
+            'thru_key' => 'message_id',
+            'thru_assoc_key' => 'course_id',
+            'order_by' => Config::get()->IMPORTANT_SEMNUMBER ?
+                'ORDER BY `start_time` DESC, `VeranstaltungsNummer`, `Name`' :
+                'ORDER BY `start_time` DESC, `Name`',
+            'on_delete' => 'delete',
+            'on_store' => 'store'
+        );
 
         parent::configure($config);
     }

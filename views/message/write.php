@@ -1,11 +1,3 @@
-<?php
-if ($flash['success']) {
-    echo MessageBox::success($flash['success']);
-}
-if ($flash['error']) {
-    echo MessageBox::error($flash['error']);
-}
-?>
 <form class="default garuda-js-init" enctype="multipart/form-data" action="<?= $controller->url_for('message/write') ?>" method="post">
     <header>
         <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
@@ -49,7 +41,16 @@ if ($flash['error']) {
                     <?= dgettext('garudaplugin', 'Suchen und Hinzufügen der gewünschten Veranstaltungen') ?>
                     <?= $coursesearch ?>
                 </label>
-                <ul id="garuda-courses"></ul>
+                <ul id="garuda-courses">
+                    <?php foreach ($courses as $course) : ?>
+                        <li>
+                            <?= htmlReady(trim($course->veranstaltungsnummer .
+                                ' ' . $course->name) . ' (' .
+                                $course->start_semester->name . ')') ?>
+                            <input type="hidden" name="courses[]" value="<?= $course->id ?>">
+                        </li>
+                    <?php endforeach ?>
+                </ul>
             </div>
             <label>
                 <?php if ($i_am_root) { ?>
@@ -232,7 +233,7 @@ if ($flash['error']) {
         <section class="send_date hidden-js">
             <label>
                 <?= dgettext('garudaplugin', 'Wann soll die Nachricht verschickt werden?') ?>
-                <input type="text" class="size-l" name="send_date" size="25" maxlength="16" value="<?= $flash['send_date'] ?
+                <input type="text" name="send_date" size="25" value="<?= $flash['send_date'] ?
                     date('d.m.Y H:i', $flash['send_date']) : date('d.m.Y H:i') ?>">
             </label>
         </section>
