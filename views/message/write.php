@@ -206,10 +206,10 @@
             <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
         </section>
         <section id="preview">
-            <label for="message_preview_text">
+            <label>
                 <?= dgettext('garudaplugin', 'Vorschau der Nachricht') ?>
+                <div id="message_preview_text"></div>
             </label>
-            <div id="message_preview_text"></div>
         </section>
         <?php if ($i_am_root) { ?>
             <section>

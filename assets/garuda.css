@@ -20,6 +20,15 @@ a.all,
 a.none {
   cursor: pointer;
 }
+form #reclist {
+  margin-left: 30px;
+}
+form #garuda-sender-choose-person {
+  margin-left: 30px;
+}
+form #garuda-sendername {
+  text-wrap: none;
+}
 form div#garuda-coursesearch {
   margin-bottom: 25px;
   margin-left: 30px;
@@ -32,6 +41,21 @@ form #filters {
   margin-left: 30px;
   margin-top: 10px;
   font-style: italic;
+}
+form #message {
+  width: 650px;
+  float: left;
+  margin-right: 15px;
+}
+form #preview {
+  width: 650px;
+  float: left;
+  margin-top: 70px;
+}
+form #preview #message_preview_text {
+  background-color: #e7ebf1;
+  padding: 10px;
+  width: 90%;
 }
 .userfilter {
   margin-left: 15px;
@@ -59,29 +83,6 @@ form #filters {
 }
 .inst {
   padding-left: 15px;
-}
-#reclist {
-  margin-left: 30px;
-}
-#garuda-sender-choose-person {
-  margin-left: 30px;
-}
-#garuda-sendername {
-  text-wrap: none;
-}
-#message {
-  width: 650px;
-  float: left;
-}
-#preview {
-  width: 650px;
-  float: left;
-}
-#message_preview_text {
-  background-color: #e7ebf1;
-  padding: 10px;
-  margin-top: 10px;
-  width: 90%;
 }
 table.garuda-messages tbody tr td {
   vertical-align: top;
