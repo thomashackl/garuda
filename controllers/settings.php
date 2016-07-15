@@ -52,6 +52,9 @@ class SettingsController extends AuthenticatedController {
      */
     public function index_action()
     {
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Einstellungen'));
+
         $task = CronjobTask::findOneByClass('GarudaCronjob');
         $this->schedule = CronjobSchedule::findOneByTask_id($task->id);
 

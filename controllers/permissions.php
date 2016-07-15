@@ -43,6 +43,9 @@ class PermissionsController extends AuthenticatedController {
     }
 
     public function index_action() {
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Berechtigungen'));
+
         $this->faculties = Institute::findBySQL("`Institut_id`=`fakultaets_id`");
         usort($this->faculties,
             function($a, $b) {

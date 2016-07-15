@@ -66,6 +66,9 @@ class MessageController extends AuthenticatedController {
 
     public function write_action($type = 'message', $id = '')
     {
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Nachricht schreiben'));
+
         // Set values from Request:
         // Message target.
         if (Request::option('sendto')) {

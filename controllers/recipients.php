@@ -45,6 +45,9 @@ class RecipientsController extends AuthenticatedController {
     }
 
     public function index_action() {
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Meine Berechtigungen'));
+
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Erlaubte Zielgruppen'),
             dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."),
             'icons/16/white/mail.png');

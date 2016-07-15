@@ -40,6 +40,9 @@ class UserfilterController extends AuthenticatedController {
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
+
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Personen filtern'));
     }
 
     public function add_action($type) {
