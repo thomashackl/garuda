@@ -208,6 +208,11 @@ class MessageController extends AuthenticatedController {
             // Show template edit dialog.
             $this->redirect($this->url_for('overview/edit_message/template'));
 
+        // Export explicit message recipient list
+        } else if (Request::submitted('export')) {
+
+            $this->relocate('message/export');
+
         // Send message to configured recipients.
         } else if (Request::submitted('submit')) {
             CSRFProtection::verifyUnsafeRequest();
@@ -317,6 +322,71 @@ class MessageController extends AuthenticatedController {
         $this->templates = GarudaTemplate::findMine();
     }
 
+    public function export_action()
+    {
+        // Create a new message object with user settings.
+        $m = new GarudaMessage();
+        $m->target = $this->flash['sendto'];
+        if (count($this->flash['filters']) > 0) {
+            $m->filters = SimpleORMapCollection::createFromArray(
+                array_map(function ($f) { return unserialize($f); },
+                    $this->flash['filters']));
+        }
+        if (count($this->flash['courses']) > 0) {
+            $m->courses = SimpleORMapCollection::createFromArray(Course::findMany($this->flash['courses']));
+        }
+        // Fetch message recipients...
+        $recipients = SimpleORMapCollection::createFromArray(
+            User::findMany($m->getRecipients()))->orderBy('nachname, vorname, username');
+
+        // ... and create a corresponding csv.
+        $data = array();
+
+        switch ($m->target) {
+            case 'all':
+                $data[] = array(dgettext('garudaplugin', 'Alle Personen'));
+                break;
+            case 'students':
+                $data[] = array(dgettext('garudaplugin', 'Studierende'));
+                if ($m->filters) {
+                    foreach ($m->filters as $f) {
+                        $data[] = array($f->toString());
+                    }
+                }
+                break;
+            case 'employees':
+                $data[] = array(dgettext('garudaplugin', 'Beschäftigte'));
+                if ($m->filters) {
+                    foreach ($m->filters as $f) {
+                        $data[] = array($f->toString());
+                    }
+                }
+                break;
+            case 'courses':
+                $data[] = array(dgettext('garudaplugin', 'Teilnehmende von Veranstaltungen'));
+                if ($m->courses) {
+                    foreach ($m->courses as $c) {
+                        $data[] = array($c->getFullname());
+                    }
+                }
+                break;
+            case 'list':
+                $data[] = array(dgettext('garudaplugin', 'Manuell erstellte Liste von Personen'));
+                break;
+        }
+
+        $data[] = array(sprintf(dgettext('garudaplugin', 'Daten vom %s'), date('d.m.Y H:i')));
+        $data[] = array();
+
+        foreach ($recipients as $r) {
+            $data[] = array($r->nachname, $r->vorname, $r->username, $r->email);
+        }
+
+        $this->response->add_header('Content-Type', 'text/csv');
+        $this->response->add_header('Content-Disposition', 'attachment; filename=nachrichtenempfaenger.csv');
+        $this->render_text(array_to_csv($data));
+    }
+
 	/**
 	 * No filter has been set, show corresponding text.
 	 */
@@ -347,8 +417,6 @@ class MessageController extends AuthenticatedController {
      */
     public function send_action()
     {
-        $error = false;
-
         $users = array();
 
         /*

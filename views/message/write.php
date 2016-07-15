@@ -240,13 +240,16 @@
     </fieldset>
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
-        <?php if ($message) : ?>
+        <?php if ($message && Request::isXhr()) : ?>
             <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'submit') ?>
             <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
         <?php else : ?>
             <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
             <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
                 'save_template', array('data-dialog' => 'size=auto')) ?>
+            <?php if (Config::get()->GARUDA_ENABLE_EXPORT) : ?>
+                <?= Studip\Button::create(dgettext('garudaplugin', 'Empfängerliste exportieren'), 'export') ?>
+            <?php endif ?>
         <?php endif ?>
     </footer>
 </form>
