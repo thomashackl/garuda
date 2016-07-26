@@ -16,6 +16,7 @@
  * @property string message_id database column
  * @property string filter_id database column
  * @property string id alias column for message_id, filter_id
+ * @property string user_id database column
  * @property string mkdate database column
  */
 class GarudaFilter extends SimpleORMap

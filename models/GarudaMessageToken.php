@@ -42,14 +42,29 @@ class GarudaMessageToken extends SimpleORMap
     }
 
     /**
+     * Finds the token assigned to the given user and the given job.
+     *
+     * @param $job_id
+     * @param $user_id
+     */
+    public static function findByJobAndUser($job_id, $user_id)
+    {
+        return self::findOneBySQL("`job_id` = ? AND `user_id` = ?",
+            array($job_id, $user_id));
+    }
+
+    /**
      * Finds and returns all tokens belonging to the given job that are not
      * assigned to a user_id.
      *
      * @param int $job_id job to fetch tokens for
+     * @param int $number find only specified number of tokens, default unlimited
      */
-    public static function findUnassignedTokens($job_id)
+    public static function findUnassignedTokens($job_id, $number = 0)
     {
-        return self::findBySQL("`job_id` = ? AND `user_id` IS NULL", array($job_id));
+        $method = $number == 1 ? 'findOneBySQL' : 'findBySQL';
+        return self::$method("`job_id` = ? AND `user_id` IS NULL ORDER BY `token_id`",
+            array($job_id));
     }
 
     /**

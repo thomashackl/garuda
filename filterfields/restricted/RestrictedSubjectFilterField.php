@@ -25,8 +25,12 @@ class RestrictedSubjectFilterField extends SubjectCondition
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
 
-        // Get Garuda configuration...
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+
         foreach ($this->validValues as $id => $name) {
             if (!in_array($id, array_keys($this->config['subjects']))) {
                 unset($this->validValues[$id]);

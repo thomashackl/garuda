@@ -80,7 +80,7 @@ class GarudaTemplate extends SimpleORMap
             array('me' => $GLOBALS['user']->id));
     }
 
-    public function getRecipients()
+    public function getMessageRecipients()
     {
         $recipients = array();
 
@@ -109,7 +109,7 @@ class GarudaTemplate extends SimpleORMap
     protected function cbJsonifyRecipients($type)
     {
         if ($type === 'before_store' && !is_string($this->recipients)) {
-            $this->recipients = json_encode($this->recipients ?: null);
+            $this->recipients = $this->recipients ? json_encode($this->recipients) : null;
         }
         if (in_array($type, array('after_initialize', 'after_store')) && is_string($this->recipients)) {
             $this->recipients = json_decode($this->recipients, true) ?: array();

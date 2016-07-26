@@ -48,57 +48,41 @@ class GarudaCronjob extends CronJob {
         if (!GarudaCronFunctions::cleanup()) {
             echo 'ERROR: Could not clean up!';
         }
+
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
+
         $jobs = GarudaCronFunctions::getCronEntries();
         foreach ($jobs as $job) {
             // Mark current entry as locked.
             if (GarudaCronFunctions::lockCronEntry($job->id)) {
 
                 // Get recipients.
-                $recipients = $job->getRecipients();
+                $recipients = $job->getMessageRecipients();
 
-                // Get recipient usernames.
-                $users = array_map(function ($u) {
-                    $o = User::find($u);
-                    return $o->username;
-                }, $recipients);
-                $numRec = sizeof($users);
+                $numRec = sizeof($recipients);
 
                 /*
-                 * Tokens found -> we need to send the messages separately as
+                 * Replaceable markers found -> we need to send the messages separately as
                  * personalized content is included.
                  */
-                if ($job->tokens) {
+                if ($job->hasMarkers()) {
 
-                    $free_users = array_diff($recipients, GarudaMessageToken::findAssignedUser_ids($job->id));
-
-                    /*
-                     * Token assignment and message sending are done via
-                     * findAndMapBySQL and not directly on $job->tokens
-                     * because there we would get memory problems.
-                     */
-                    $message = GarudaMessageToken::findAndMapBySQL(function ($token) use (&$free_users, $job) {
-                        // Assign token to user if not already assigned.
-                        if (!$token->user_id && $user = array_shift($free_users)) {
-                            $token->user_id = $user;
-                            $token->store();
-                        }
-
-                        if ($token->user_id) {
-                            // Replace the "###REPLACE###" marker with the actual token.
-                            $text = str_replace('###REPLACE###', $token->token, $job->message);
-
-                            // Send Stud.IP message with replaced token.
-                            return $this->send($job->sender_id,
-                                array($token->user->username), $job->subject,
-                                $text, $job->attachment_id);
-                        } else {
-                            return null;
-                        }
-                    }, "`job_id` = ?", array($job->id));
+                    foreach ($recipients as $rec) {
+                        $user = User::find($rec);
+                        $personalized = GarudaMarker::replaceMarkers($job, $user);
+                        $message = $this->send($job->sender_id,
+                            array($user->username), $job->subject,
+                            $personalized, $job->attachment_id);
+                    }
 
                 } else {
+
+                    $usernames = array_map(function ($r) { return User::find($r)->username; }, $recipients);
+
                     // Send one Stud.IP message to all recipients at once.
-                    $message = $this->send($job->sender_id, $users, $job->subject, $job->message,
+                    $message = $this->send($job->sender_id, $usernames, $job->subject, $job->message,
                         $job->attachment_id);
                 }
                 // Write status to cron log.
@@ -121,6 +105,8 @@ class GarudaCronjob extends CronJob {
                         $senderName, $numRec, $job->subject, $job->message);
                     GarudaCronFunctions::unlockCronEntry($job->id);
                 }
+            } else {
+                echo "\nERROR: Cannot lock entry " . $job->id . "\n";
             }
         }
     }

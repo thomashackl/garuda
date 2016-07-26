@@ -18,6 +18,8 @@
 class RestrictedSelfAssignInstUserFilterField extends SelfAssignInstUserFilterField
 {
 
+    public $config = array();
+
     /**
      * @see SelfAssignInstUserFilterField::__construct
      */
@@ -29,8 +31,13 @@ class RestrictedSelfAssignInstUserFilterField extends SelfAssignInstUserFilterFi
                 'foreign_field' => 'Institut_id'
             )
         );
-        // Get Garuda configuration...
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+
         foreach ($this->validValues as $id => $name) {
             if (strpos($id, '_children') !== false) {
                 $realId = substr($id, 0, strpos($id, '_children'));

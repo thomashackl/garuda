@@ -230,6 +230,7 @@ class OverviewController extends AuthenticatedController {
                         $gf->type = 'template';
                         $gf->filter_id = $f->id;
                         $gf->message_id = $t->id;
+                        $gf->user_id = $t->author_id;
                         $gf->store();
                     }
 

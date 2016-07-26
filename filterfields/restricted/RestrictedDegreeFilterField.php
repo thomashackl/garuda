@@ -19,19 +19,19 @@ require_once('lib/classes/admission/userfilter/DegreeCondition.class.php');
 
 class RestrictedDegreeFilterField extends DegreeCondition
 {
+    public $config = array();
+
     /**
      * @see UserFilterField::_construct
      */
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
 
-        // Get Garuda configuration...
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-        foreach ($this->validValues as $id => $name) {
-            if (!in_array($id, array_keys($this->config['degrees']))) {
-                unset($this->validValues[$id]);
-            }
-        }
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findOneByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
 
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';

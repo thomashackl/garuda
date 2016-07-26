@@ -157,7 +157,7 @@ class MessageController extends AuthenticatedController {
         // Alternative date for sending.
         $this->flash['send_date'] = time();
         if (Request::option('send_at_date')) {
-            $send_date = date_parse(Request::option('send_date', 'now'));
+            $send_date = strtotime(Request::get('send_date', 'now'));
             if ($send_date >= time()) {
                 $this->flash['send_date'] = $send_date;
             }
@@ -305,15 +305,21 @@ class MessageController extends AuthenticatedController {
 
             // Show action for loading a message template if applicable.
             if (GarudaTemplate::findByAuthor_id($GLOBALS['user']->id)) {
-                $sidebar = Sidebar::get();
-
                 // Groups
                 $actions = new ActionsWidget();
                 $actions->addLink(_('Aus Vorlage laden'),
                     $this->url_for('message/load_template'),
                     Icon::create('mail+edit', 'clickable'))->asDialog('size=auto');
-                $sidebar->addWidget($actions);
+                $this->sidebar->addWidget($actions);
             }
+
+            $markerWidget = new LinksWidget();
+            $markerWidget->setTitle(dgettext('garudaplugin', 'Verfügbare Textersetzungen'));
+            foreach (GarudaMarker::findBySQL("1 ORDER BY `marker`") as $marker) {
+                $markerWidget->addLink('###' . $marker->marker . '###',
+                    $this->url_for('message/marker_info', $marker->id))->asDialog('size=auto');
+            }
+            $this->sidebar->addWidget($markerWidget);
         }
     }
 
@@ -340,7 +346,7 @@ class MessageController extends AuthenticatedController {
         }
         // Fetch message recipients...
         $recipients = SimpleORMapCollection::createFromArray(
-            User::findMany($m->getRecipients()))->orderBy('nachname, vorname, username');
+            User::findMany($m->getMessageRecipients()))->orderBy('nachname, vorname, username');
 
         // ... and create a corresponding csv.
         $data = array();
@@ -461,7 +467,7 @@ class MessageController extends AuthenticatedController {
             } else {
                 $config = $this->config;
             }
-            $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $config);
+            $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->flash['sendto'], $config);
         }
 
         $sender = $GLOBALS['user']->id;
@@ -529,7 +535,7 @@ class MessageController extends AuthenticatedController {
             if ($this->flash['message_tokens']) {
 
                 // Copy tokens from old message.
-                GarudaMessageTokens::copyTokens($this->flash['message_tokens'], $message->id);
+                GarudaMessageToken::copyTokens($this->flash['message_tokens'], $message->id);
 
                 // Get all unassigned tokens so they can be distributed among newly added users.
                 $tokens = GarudaMessageToken::findUnassignedTokens($message->id);
@@ -558,8 +564,8 @@ class MessageController extends AuthenticatedController {
                     $f->store();
                     $gf = new GarudaFilter();
                     $gf->message_id = $message->id;
-                    $gf->type = 'message';
                     $gf->filter_id = $f->id;
+                    $gf->user_id = $message->author_id;
                     $gf->store();
                 }
             }
@@ -581,8 +587,18 @@ class MessageController extends AuthenticatedController {
      * Provides a preview of a given text, possibly with Stud.IP formatting
      * in it.
      */
-    public function preview_action() {
+    public function preview_action()
+    {
         $this->text = studip_utf8decode(urldecode(Request::get('text')));
+    }
+
+    public function marker_info_action($marker_id)
+    {
+        $marker = GarudaMarker::find($marker_id);
+        PageLayout::setTitle(sprintf(
+            dgettext('garudaplugin', 'Textersetzung %s'),
+            $marker->marker));
+        $this->render_text($marker->description);
     }
 
     // customized #url_for for plugins

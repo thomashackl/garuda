@@ -2,6 +2,8 @@
 
 class RestrictedGenderFilterField extends GenderFilterField
 {
+    public $config = array();
+
     /**
      * Gets all users with given gender.
      *
@@ -10,8 +12,11 @@ class RestrictedGenderFilterField extends GenderFilterField
      */
     public function getUsers($restrictions = array())
     {
-        // Get Garuda configuration...
-        $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
 
         $users = DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` " .
             "FROM `" . $this->userDataDbTable . "` " .
@@ -27,7 +32,7 @@ class RestrictedGenderFilterField extends GenderFilterField
                 'value' => $this->value,
                 'stg' => array_map(function ($s) { return $s['studiengang_id']; }, $config['studycourses']),
                 'degree' => array_map(function ($s) { return $s['abschluss_id']; }, $config['studycourses']),
-                'inst' => $config['institutes'],
+                'inst' => $this->config['institutes'],
             ));
 
         return $users;
