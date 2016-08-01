@@ -64,7 +64,7 @@
                 <?php endif ?>
                 <?php if ($m->filters) : ?>
                     <ul>
-                    <?php foreach ($m->filters as $filter) : $f = new UserFilter($filter->filter_id); ?>
+                    <?php foreach ($m->filters as $filter) : $f = new UserFilter($filter->filter_id); $f->show_user_count = true; ?>
                         <li><?= $f ?></li>
                     <?php endforeach ?>
                     </ul>
