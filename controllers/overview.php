@@ -227,7 +227,6 @@ class OverviewController extends AuthenticatedController {
                         $f = unserialize(urldecode($filter));
                         $f->store();
                         $gf = new GarudaFilter();
-                        $gf->type = 'template';
                         $gf->filter_id = $f->id;
                         $gf->message_id = $t->id;
                         $gf->user_id = $t->author_id;

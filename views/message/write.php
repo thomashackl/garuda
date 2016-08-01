@@ -84,7 +84,7 @@
                 <?= $this->render_partial('userfilter/_show', array('filter' => $filter)) ?>
             <?php endforeach ?>
             <br>
-            <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => 'size=auto')); ?>
+            <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
         </section>
     </fieldset>
     <?php if ($i_am_root && !$message) { ?>
@@ -241,7 +241,10 @@
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
         <?php if ($message && Request::isXhr()) : ?>
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'submit') ?>
+            <input type="hidden" name="id" value="<?= $message->id ?>">
+            <input type="hidden" name="type" value="<?= $message instanceof GarudaTemplate ? 'template' : 'message' ?>">
+            <input type="hidden" name="landingpoint" value="<?= $controller->url_for($message instanceof GarudaTemplate ? 'overview/templates' : 'overview/to_send') ?>">
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'store') ?>
             <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
         <?php else : ?>
             <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>

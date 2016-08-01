@@ -22,8 +22,10 @@ class PermissionsController extends AuthenticatedController {
 
     public function before_filter(&$action, &$args) {
         $GLOBALS['perm']->check('root');
+
         $this->current_action = $action;
         $this->validate_args($args);
+        $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
         if (Request::isXhr()) {
             $this->set_layout(null);

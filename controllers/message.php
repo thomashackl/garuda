@@ -211,6 +211,13 @@ class MessageController extends AuthenticatedController {
             // Show template edit dialog.
             $this->redirect($this->url_for('overview/edit_message/template'));
 
+        // Save changes on an existing message or template.
+        } else if (Request::submitted('store')) {
+
+            $this->storeMessage(Request::option('id'), Request::option('type'));
+
+            $this->relocate(Request::get('landingpoint'));
+
         // Export explicit message recipient list
         } else if (Request::submitted('export')) {
 
@@ -470,48 +477,7 @@ class MessageController extends AuthenticatedController {
             $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->flash['sendto'], $config);
         }
 
-        $sender = $GLOBALS['user']->id;
-
-        $tokens = array();
-
-        if ($this->i_am_root) {
-
-            // Set alternative sender if applicable.
-            switch ($this->flash['sender']) {
-                case 'person':
-                    $sender = $this->flash['senderid'];
-                    break;
-                case 'system':
-                    $sender = '____%system%____';
-                    break;
-                case 'me':
-                default:
-                    break;
-            }
-
-        }
-
-        $message = new GarudaMessage();
-        $message->sender_id = $sender;
-        $message->author_id = $GLOBALS['user']->id;
-        $message->send_date = $this->flash['send_date'] ?: time();
-
-        if ($this->flash['sendto'] == 'list') {
-            $message->recipients = $users;
-        }
-        $message->target = $this->flash['sendto'];
-
-        $message->subject = $this->flash['subject'];
-        $message->message = $this->flash['message'];
-        $message->protected = $this->flash['protected'] ? 1 : 0;
-        $message->attachment_id = $this->flash['attachment_token'];
-
-        if ($this->flash['courses']) {
-            $message->courses = SimpleORMapCollection::createFromArray(
-                Course::findMany($this->flash['courses']));
-        }
-
-        if ($message->store()) {
+        if ($message = $this->storeMessage()) {
 
             // Read tokens from an uploaded file.
             if ($this->flash['token_file']) {
@@ -557,19 +523,6 @@ class MessageController extends AuthenticatedController {
 
             }
 
-            // Process user filters and save them to database.
-            if ($this->flash['filters']) {
-                foreach ($this->flash['filters'] as $filter) {
-                    $f = unserialize($filter);
-                    $f->store();
-                    $gf = new GarudaFilter();
-                    $gf->message_id = $message->id;
-                    $gf->filter_id = $f->id;
-                    $gf->user_id = $message->author_id;
-                    $gf->store();
-                }
-            }
-
             PageLayout::postSuccess(sprintf(
                 dgettext('garudaplugin', 'Ihre Nachricht an %u Personen wurde gespeichert.'),
                 count($users)));
@@ -602,7 +555,7 @@ class MessageController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    function url_for($to) {
+    public function url_for($to) {
         $args = func_get_args();
 
         # find params
@@ -617,4 +570,94 @@ class MessageController extends AuthenticatedController {
 
         return PluginEngine::getURL($this->plugin, $params, join("/", $args));
     }
+
+    private function storeMessage($id = '', $type = 'message')
+    {
+        UserFilterField::getAvailableFilterFields();
+
+        if ($type == 'template') {
+            $message = new GarudaTemplate($id);
+        } else {
+            $message = new GarudaMessage($id);
+        }
+
+        $sender = $GLOBALS['user']->id;
+
+        if ($this->i_am_root) {
+
+            // Set alternative sender if applicable.
+            switch ($this->flash['sender']) {
+                case 'person':
+                    $sender = $this->flash['senderid'];
+                    break;
+                case 'system':
+                    $sender = '____%system%____';
+                    break;
+                case 'me':
+                default:
+                    break;
+            }
+
+        }
+
+        $message->sender_id = $sender;
+
+        if (!$message->author_id) {
+            $message->author_id = $GLOBALS['user']->id;
+        }
+
+        if ($this->flash['sendto'] == 'list') {
+            $message->recipients = $users;
+        }
+        $message->target = $this->flash['sendto'];
+
+        $message->subject = $this->flash['subject'];
+        $message->message = $this->flash['message'];
+
+        if ($type == 'message') {
+            $message->send_date = $this->flash['send_date'] ?: time();
+            $message->protected = $this->flash['protected'] ? 1 : 0;
+            $message->attachment_id = $this->flash['attachment_token'];
+        }
+
+        if ($this->flash['courses']) {
+            $message->courses = SimpleORMapCollection::createFromArray(
+                Course::findMany($this->flash['courses']));
+        }
+
+        if ($message->store()) {
+            $mfilters = GarudaFilter::findByMessage_id($message->id);
+            $mfilterIds = array_map(function($f) { return $f->id; }, $mfilters);
+            $newFilters = array();
+
+            // Process user filters and save them to database.
+            if ($this->flash['filters']) {
+
+                foreach ($this->flash['filters'] as $filter) {
+                    $f = unserialize($filter);
+                    $f->store();
+
+                    $newFilters[] = $f->id;
+
+                    $gf = new GarudaFilter(array($message->id, $f->id));
+                    $gf->user_id = $message->author_id;
+                    $gf->store();
+                }
+
+            }
+
+            foreach ($mfilters as $filter) {
+                if (!in_array($filter->filter_id, $newFilters)) {
+                    $uf = new UserFilter($filter->filter_id);
+                    $uf->delete();
+                    $filter->delete();
+                }
+            }
+
+            return $message;
+        } else {
+            return null;
+        }
+    }
+
 }
