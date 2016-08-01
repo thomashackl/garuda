@@ -243,6 +243,61 @@ class MessageController extends AuthenticatedController {
                     'deren Teilnehmende die Nachricht erhalten sollen.');
             }
 
+            $users = array();
+
+            /*
+             * Calculate which users this message will be sent to.
+             */
+            // Message will be sent to people defined by given filters.
+            if ($this->flash['filters']) {
+                UserFilterField::getAvailableFilterFields();
+
+                // Get configured filters and their corresponding users.
+                foreach ($this->flash['filters'] as $filter) {
+                    $f = unserialize($filter);
+                    $users = array_merge($users, $f->getUsers());
+                }
+                $users = array_unique($users);
+
+            // Message will be sent to a pre-defined list of recipient usernames.
+            } else if ($this->flash['sendto'] == 'list') {
+                $users = array_unique(array_map(function($e) {
+                    return User::findByUsername($e)->user_id;
+                }, preg_split("/[\r\n,]+/", $this->flash['list'], -1,
+                    PREG_SPLIT_NO_EMPTY)));
+
+            // Message will be sent to members of selected courses.
+            } else if ($this->flash['sendto'] == 'courses') {
+
+                $members = array();
+                foreach ($this->flash['courses'] as $course) {
+                    $members = array_merge($members,
+                        array_map(function($m) { return $m->user_id; },
+                            CourseMember::findByCourseAndStatus($course, array('user', 'autor'))));
+                }
+                $users = array_unique($members);
+
+            // Whole groups are selected, like "all students".
+            } else {
+                if ($this->i_am_root) {
+                    $config = array();
+                } else {
+                    $config = $this->config;
+                }
+                $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->flash['sendto'], $config);
+            }
+
+            if (count($users) < 1) {
+                $error[] = dgettext('garudaplugin',
+                    'Ihre Nachricht hat aktuell keine Empfänger '.
+                    'und kann daher nicht verschickt werden. '.
+                    'Bitte verändern Sie die Einstellungen oder '.
+                    'speichern Sie die Nachricht als Vorlage ab.');
+
+            } else {
+                $this->flash['users'] = $users;
+            }
+
             // Errors found, show corresponding messages.
             if (count($error) > 0) {
                 PageLayout::postError(implode('<br>', $error));
@@ -433,50 +488,6 @@ class MessageController extends AuthenticatedController {
      */
     public function send_action()
     {
-        $users = array();
-
-        /*
-         * Calculate which users this message will be sent to.
-         */
-        // Message will be sent to people defined by given filters.
-        if ($this->flash['filters']) {
-            UserFilterField::getAvailableFilterFields();
-
-            // Get configured filters and their corresponding users.
-            foreach ($this->flash['filters'] as $filter) {
-                $f = unserialize($filter);
-                $users = array_merge($users, $f->getUsers());
-            }
-            $users = array_unique($users);
-
-        // Message will be sent to a pre-defined list of recipient usernames.
-        } else if ($this->flash['sendto'] == 'list') {
-            $users = array_unique(array_map(function($e) {
-                return User::findByUsername($e)->user_id;
-            }, preg_split("/[\r\n,]+/", $this->flash['list'], -1,
-                PREG_SPLIT_NO_EMPTY)));
-
-        // Message will be sent to members of selected courses.
-        } else if ($this->flash['sendto'] == 'courses') {
-
-            $members = array();
-            foreach ($this->flash['courses'] as $course) {
-                $members = array_merge($members,
-                    array_map(function($m) { return $m->user_id; },
-                        CourseMember::findByCourseAndStatus($course, array('user', 'autor'))));
-            }
-            $users = array_unique($members);
-
-        // Whole groups are selected, like "all students".
-        } else {
-            if ($this->i_am_root) {
-                $config = array();
-            } else {
-                $config = $this->config;
-            }
-            $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->flash['sendto'], $config);
-        }
-
         if ($message = $this->storeMessage()) {
 
             // Read tokens from an uploaded file.
@@ -525,11 +536,11 @@ class MessageController extends AuthenticatedController {
 
             PageLayout::postSuccess(sprintf(
                 dgettext('garudaplugin', 'Ihre Nachricht an %u Personen wurde gespeichert.'),
-                count($users)));
+                count($this->flash['users'])));
         } else {
             PageLayout::postSuccess(sprintf(
                 dgettext('garudaplugin', 'Ihre Nachricht an %u Personen konnte nicht gespeichert werden.'),
-                count($users)));
+                count($this->flash['users'])));
         }
 
         $this->relocate('message/write');
