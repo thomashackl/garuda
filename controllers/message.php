@@ -336,6 +336,7 @@ class MessageController extends AuthenticatedController {
                 $this->courses = $this->message->courses;
                 $this->filters = array_map(function ($f) { return new UserFilter($f['filter_id']); },
                     $this->message->filters->toArray());
+                array_walk($this->filters, function ($f) { $f->show_user_count = true; });
                 // Get alternative sender if applicable.
                 if ($this->message->sender_id == '____%system%____') {
                     $this->sender = 'system';
