@@ -12,12 +12,19 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class GarudaModel {
 
-    public static function getConfiguration($instituteIds) {
+    /**
+     * Fetches the configuration for the given institute IDs:
+     * Persons having at least which permission level may write messages to whom?
+     *
+     * @param mixed $instituteIds the institutes to check
+     */
+    public static function getConfiguration($instituteIds)
+    {
         $config = array();
         $db = DBManager::get();
         $data = $db->fetchAll("SELECT * FROM `garuda_config` WHERE `institute_id` IN (?)", array($instituteIds));
@@ -61,7 +68,8 @@ class GarudaModel {
      * @param String $userId user to check
      * @return array The courses of study and institutes the user may set as recipients.
      */
-    public static function getConfigurationForUser($userId) {
+    public static function getConfigurationForUser($userId)
+    {
         $userConfig = array(
             'studycourses' => array(),
             'institutes' => array()
@@ -108,7 +116,8 @@ class GarudaModel {
         return $userConfig;
     }
 
-    public static function saveConfiguration($instituteId, $minPerm, $assignedStudycourses, $assignedInstitutes) {
+    public static function saveConfiguration($instituteId, $minPerm, $assignedStudycourses, $assignedInstitutes)
+    {
         $success = true;
         $db = DBManager::get();
         $stmt = $db->prepare("INSERT INTO `garuda_config` (`institute_id`, `min_perm`, `mkdate`, `chdate`)
@@ -155,11 +164,25 @@ class GarudaModel {
         return $success;
     }
 
-    public static function getAllUsers($userId, &$config=array()) {
+    public static function calculateUsers($userId, $target, $config = array())
+    {
+        switch ($target) {
+            case 'all':
+                return self::getAllUsers($userId, $config);
+            case 'students':
+                return self::getAllStudents($userId, $config);
+            case 'employees':
+                return self::getAllEmployees($userId, $config);
+        }
+    }
+
+    public static function getAllUsers($userId, $config=array())
+    {
     	return array_merge(self::getAllStudents($userId), self::getAllEmployees($userId));
     }
 
-    public static function getAllStudents($userId, &$config=array()) {
+    public static function getAllStudents($userId, $config=array())
+    {
         if ($config) {
             $query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
             $parameters = array();
@@ -191,7 +214,8 @@ class GarudaModel {
         }
     }
 
-    public static function getAllEmployees($userId, &$config=array()) {
+    public static function getAllEmployees($userId, $config=array())
+    {
         if ($config) {
             $query = "SELECT DISTINCT `user_id` FROM `user_inst` ".
                 "WHERE `inst_perms` IN ('autor', 'tutor', 'dozent')";
@@ -214,7 +238,8 @@ class GarudaModel {
         }
     }
 
-    public static function extractTokens($file) {
+    public static function extractTokens($file)
+    {
         $tokens = array();
         ini_set("auto_detect_line_endings", true);
         $handle = fopen($file, 'r');
@@ -236,7 +261,8 @@ class GarudaModel {
      * @param  bool  $only_assigned fetch only tokens that are assigned to a user ID.
      * @return array All tokens that were found for the given cron job entry.
      */
-    public static function getTokens($entryId, $only_assigned=false) {
+    public static function getTokens($entryId, $only_assigned=false)
+    {
         $tokens = array();
         if ($only_assigned) {
             $query = "SELECT * FROM `garuda_tokens` WHERE `job_id`=? AND `user_id` IS NOT NULL ORDER BY `token_id`";
@@ -251,16 +277,6 @@ class GarudaModel {
     }
 
     /**
-     * Fetches all unassigned tokens for a given cron job entry.
-     *
-     * @param  int   $entryId entry to fetch tokens for
-     * @return array All unassigned tokens that were found for the given cron job entry.
-     */
-    public static function getUnassignedTokens($entryId) {
-        return DBManager::get()->fetchFirst("SELECT `token` FROM `garuda_tokens` WHERE `job_id`=? AND `user_id` IS NULL ORDER BY `token_id`", array($entryId));
-    }
-
-    /**
      * Fetches all sent messages that have tokens assigned.
      *
      * @return An array of messages.
@@ -268,8 +284,8 @@ class GarudaModel {
     public static function getMessagesWithTokens() {
         return DBManager::get()->fetchAll("SELECT DISTINCT m.*
             FROM `garuda_messages` m
-                INNER JOIN `garuda_tokens` t ON (m.`job_id`=t.`job_id`)
             WHERE m.`done`=1
+                AND EXISTS (SELECT DISTINCT `job_id` FROM `garuda_tokens` WHERE `job_id`=m.`job_id`)
             ORDER BY m.`mkdate` DESC");
     }
 

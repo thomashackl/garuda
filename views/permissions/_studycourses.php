@@ -1,4 +1,4 @@
-<label class="caption" for="studycourses[]">
+<label for="studycourses[]">
     <?= dgettext('garudaplugin', 'An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
 </label>
 <?php foreach ($degrees as $degree) { ?>
@@ -6,7 +6,7 @@
     <ul class="collapsable css-tree">
         <li>
             <input type="checkbox" class="tree" id="<?= $degree['abschluss_id'] ?>"/>
-            <label for="<?= $degree['abschluss_id'] ?>">
+            <label for="<?= $degree['abschluss_id'] ?>" class="undecorated">
                 <?= htmlReady($degree['name']) ?>
             </label>
             <span class="actions" id="actions_<?= $degree['abschluss_id']?>">

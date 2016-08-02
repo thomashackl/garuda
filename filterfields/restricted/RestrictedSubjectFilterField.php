@@ -12,7 +12,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 require_once('lib/classes/admission/userfilter/SubjectCondition.class.php');
@@ -24,10 +24,19 @@ class RestrictedSubjectFilterField extends SubjectCondition
      */
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
-        $this->validValues = array(
-            '' => dgettext('garudaplugin', 'alle')
-        );
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+
+        foreach ($this->validValues as $id => $name) {
+            if (!in_array($id, array_keys($this->config['subjects']))) {
+                unset($this->validValues[$id]);
+            }
+        }
+
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
         }
@@ -93,5 +102,3 @@ class RestrictedSubjectFilterField extends SubjectCondition
     }
 
 } /* end of class RestrictedSubjectFilterField */
-
-?>

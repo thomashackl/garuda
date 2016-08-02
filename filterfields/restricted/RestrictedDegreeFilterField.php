@@ -12,22 +12,27 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 require_once('lib/classes/admission/userfilter/DegreeCondition.class.php');
 
 class RestrictedDegreeFilterField extends DegreeCondition
 {
+    public $config = array();
+
     /**
      * @see UserFilterField::_construct
      */
     public function __construct($fieldId='', $restriction=array()) {
         parent::__construct($fieldId);
-        $this->validValues = array(
-            '' => dgettext('garudaplugin', 'alle')
-        );
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findOneByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
         }
@@ -38,17 +43,4 @@ class RestrictedDegreeFilterField extends DegreeCondition
             }
         }
     }
-
-    /**
-     * Get this field's display name.
-     *
-     * @return String
-     */
-    public function getName()
-    {
-        return dgettext('garudaplugin', "Abschluss");
-    }
-
-} /* end of class RestrictedDegreeFilterField */
-
-?>
+}

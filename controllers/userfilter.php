@@ -12,10 +12,12 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class UserfilterController extends AuthenticatedController {
+
+    protected $utf8decode_xhr = true;
 
     public function before_filter(&$action, &$args) {
         $this->plugin = $this->dispatcher->plugin;
@@ -23,39 +25,45 @@ class UserfilterController extends AuthenticatedController {
 
         if (Request::isXhr()) {
             $this->set_layout(null);
-            header('Content-Type: text/html; charset=windows-1252');
+            /*$request = Request::getInstance();
+            foreach ($request as $key => $value) {
+                $request[$key] = studip_utf8decode($value);
+            }*/
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
-            Navigation::activateItem('/messaging/garuda/message');
         }
+        $this->set_content_type('text/html;charset=windows-1252');
+
+        Navigation::activateItem('/messaging/garuda/message');
+
         $this->filterfields = UserFilterField::getAvailableFilterFields();
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
+
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Personen filtern'));
     }
 
     public function add_action($type) {
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
-        }
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
                     'InstituteFilterField' => InstituteFilterField::getName(),
-                    'StatusgroupFilterField' => StatusgroupFilterField::getName()
+                    'StatusgroupFilterField' => StatusgroupFilterField::getName(),
+                    'GenderFilterField' => GenderFilterField::getName(),
+                    'PermissionFilterField' => PermissionFilterField::getName()
                 );
                 break;
             case 'students':
+                $this->filterfields['GenderFilterField'] = GenderFilterField::getName();
+                $this->filterfields['SelfAssignInstUserFilterField'] = SelfAssignInstUserFilterField::getName();
             default:
                 break;
         }
     }
 
     public function addrestricted_action($type) {
-        if (Request::isXhr()) {
-            $this->response->add_header('X-Title', dgettext('garudaplugin', 'Personen filtern'));
-            $this->response->add_header('X-No-Buttons', 1);
-        }
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
@@ -66,6 +74,14 @@ class UserfilterController extends AuthenticatedController {
                     'RestrictedStatusgroupFilterField' => array(
                         'name' => RestrictedStatusgroupFilterField::getName(),
                         'relation' => 'RestrictedInstituteFilterField'
+                    ),
+                    'RestrictedGenderFilterField' => array(
+                        'name' => RestrictedGenderFilterField::getName(),
+                        'relation' => ''
+                    ),
+                    'RestrictedPermissionFilterField' => array(
+                        'name' => RestrictedPermissionFilterField::getName(),
+                        'relation' => ''
                     )
                 );
                 break;
@@ -84,6 +100,14 @@ class UserfilterController extends AuthenticatedController {
                         'name' => RestrictedSemesterOfStudyFilterField::getName(),
                         'relation' => ''
                     ),
+                    'RestrictedGenderFilterField' => array(
+                        'name' => RestrictedGenderFilterField::getName(),
+                        'relation' => ''
+                    ),
+                    'RestrictedSelfAssignInstUserFilterField' => array(
+                        'name' => RestrictedSelfAssignInstUserFilterField::getName(),
+                        'relation' => ''
+                    )
                 );
         }
     }
@@ -107,9 +131,10 @@ class UserfilterController extends AuthenticatedController {
         $fields = Request::getArray('field');
         $compareOps = Request::getArray('compare_operator');
         $values = Request::getArray('value');
+
         for ($i=0 ; $i < sizeof($fields) ; $i++) {
             $className = $fields[$i];
-            if ($className && $compareOps[$i] && $values[$i]) {
+            if ($className && $compareOps[$i] && isset($values[$i]) && $values[$i] !== '') {
                 list($fieldType, $param) = explode('_', $className);
                 $currentField = new $fieldType($param);
                 $currentField->setCompareOperator($compareOps[$i]);
@@ -118,6 +143,12 @@ class UserfilterController extends AuthenticatedController {
             }
         }
         $this->flash['sendto'] = Request::option('sendto');
+        if (Request::option('sender')) {
+            $this->flash['sender'] = Request::option('sender');
+            if (Request::option('senderid')) {
+                $this->flash['senderid'] = Request::option('senderid');
+            }
+        }
         if (Request::get('subject')) {
             $this->flash['subject'] = Request::get('subject');
         }
@@ -133,7 +164,7 @@ class UserfilterController extends AuthenticatedController {
             array_push($filters, serialize($filter));
         }
         $this->flash['filters'] = $filters;
-        $this->redirect($this->url_for('message'));
+        $this->relocate('message/write');
     }
 
     // customized #url_for for plugins

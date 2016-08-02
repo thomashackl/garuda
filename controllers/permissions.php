@@ -1,8 +1,8 @@
 <?php
 /**
- * configuration.php
+ * permissions.php
  * 
- * Configuration functionality for Garuda: who may send messages to whom?
+ * Permission functionality for Garuda: who may send messages to whom?
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -11,30 +11,43 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 require_once('app/models/studycourse.php');
 
-class ConfigurationController extends AuthenticatedController {
+class PermissionsController extends AuthenticatedController {
+
+    protected $utf8decode_xhr = true;
 
     public function before_filter(&$action, &$args) {
         $GLOBALS['perm']->check('root');
+
         $this->current_action = $action;
         $this->validate_args($args);
+        $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
         if (Request::isXhr()) {
             $this->set_layout(null);
+            $request = Request::getInstance();
+            foreach ($request as $key => $value) {
+                $request[$key] = studip_utf8decode($value);
+            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        Navigation::activateItem('/messaging/garuda/configuration');
+        $this->set_content_type('text/html;charset=windows-1252');
+
+        Navigation::activateItem('/messaging/garuda/permissions');
         $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
 
     public function index_action() {
+        PageLayout::setTitle($this->plugin->getDisplayName() .
+            ' - ' . dgettext('garudaplugin', 'Berechtigungen'));
+
         $this->faculties = Institute::findBySQL("`Institut_id`=`fakultaets_id`");
         usort($this->faculties,
             function($a, $b) {
@@ -76,12 +89,12 @@ class ConfigurationController extends AuthenticatedController {
                 return array('degree' => $data[0], 'subject' => $data[1]);
             }, Request::getArray('studycourses'));
         if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
-            $this->flash['success'] = dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.');
+            PageLayout::postSuccess(dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.'));
         } else {
-            $this->flash['error'] = dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.');
+            PageLayout::postError(dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.'));
         }
         $this->flash['institute_id'] = Request::option('institute');
-        $this->redirect($this->url_for('configuration'));
+        $this->relocate('configuration');
     }
 
     // customized #url_for for plugins

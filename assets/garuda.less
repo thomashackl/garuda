@@ -1,0 +1,125 @@
+#config {
+  li.faculty {
+    padding-left: 22px;
+  }
+
+  section {
+    margin-bottom: 20px;
+  }
+}
+
+.css-tree.collapsable {
+  input[type="checkbox"].selector {
+    display: inline;
+
+    &.tree ~ span.actions {
+      display: none;
+
+      &:checked ~ span.actions {
+        display: inline;
+      }
+    }
+
+  }
+
+  label {
+    display: inline;
+  }
+}
+
+a.all, a.none {
+  cursor: pointer;
+}
+
+form {
+  #reclist {
+    margin-left: 30px;
+  }
+
+  #garuda-sender-choose-person {
+    margin-left: 30px;
+  }
+
+  #garuda-sendername {
+    text-wrap: none;
+  }
+
+  div#garuda-coursesearch {
+    margin-bottom: 25px;
+    margin-left: 30px;
+
+    ul#garuda-courses {
+      clear: both;
+      padding-top: 10px;
+    }
+  }
+
+  #filters {
+    margin-left: 30px;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  #message {
+    width: 650px;
+    float: left;
+    margin-right: 15px;
+  }
+
+  #preview {
+    width: 650px;
+    float: left;
+    margin-top: 70px;
+
+    #message_preview_text {
+      background-color: #e7ebf1;
+      padding: 10px;
+      width: 90%;
+    }
+  }
+}
+
+.userfilter {
+  margin-left: 15px;
+  display: list-item;
+  list-style-type: disc;
+
+  .actions {
+    display: none;
+  }
+
+  &:hover .actions {
+    display: inline;
+  }
+}
+
+.filterfield {
+  margin-bottom: 10px;
+}
+
+.studip_form select {
+  display: inline;
+}
+
+.fac {
+  font-weight: bold;
+}
+
+.fac_all {
+  font-style: italic;
+  padding-left: 10px;
+}
+
+.inst {
+  padding-left: 15px;
+}
+
+table.garuda-messages {
+  tbody {
+    tr {
+      td {
+        vertical-align: top;
+      }
+    }
+  }
+}

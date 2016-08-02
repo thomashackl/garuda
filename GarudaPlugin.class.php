@@ -11,7 +11,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 require 'bootstrap.php';
@@ -26,10 +26,12 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
         // Localization
         bindtextdomain('garudaplugin', realpath(dirname(__FILE__).'/locale'));
         $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
-        $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message')));
+        $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message/write')));
+        $navigation->addSubNavigation('overview', new Navigation(dgettext('garudaplugin', 'Nachrichtenübersicht'), PluginEngine::getURL($this, array(), 'overview')));
         $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
         if ($GLOBALS['perm']->have_perm('root')) {
-            $navigation->addSubNavigation('configuration', new Navigation(dgettext('garudaplugin', 'Konfiguration'), PluginEngine::getURL($this, array(), 'configuration')));
+            $navigation->addSubNavigation('permissions', new Navigation(dgettext('garudaplugin', 'Berechtigungen'), PluginEngine::getURL($this, array(), 'permissions')));
+            $navigation->addSubNavigation('settings', new Navigation(dgettext('garudaplugin', 'Einstellungen'), PluginEngine::getURL($this, array(), 'settings')));
         }
         Navigation::addItem('/messaging/garuda', $navigation);
         NotificationCenter::addObserver($this, 'createNavigation', 'NavigationDidActivateItem');
@@ -88,8 +90,10 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     private function setupAutoload() {
         StudipAutoloader::addAutoloadPath($GLOBALS['STUDIP_BASE_PATH'].'/lib/classes/admission');
-        StudipAutoloader::addAutoloadPath(realpath(dirname(__FILE__).'/models'));
-        StudipAutoloader::addAutoloadPath(realpath(dirname(__FILE__).'/filterfields'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
+
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
     }
 
     public static function onEnable($pluginId) {

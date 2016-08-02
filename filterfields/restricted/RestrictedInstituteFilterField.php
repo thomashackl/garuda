@@ -12,11 +12,13 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class RestrictedInstituteFilterField extends InstituteFilterField
 {
+
+    public $config = array();
 
     /**
      * @see UserFilterField::__construct
@@ -30,8 +32,13 @@ class RestrictedInstituteFilterField extends InstituteFilterField
         );
         $this->validValues = array();
         parent::__construct($fieldId);
-        // Get Garuda configuration...
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+
         // Get legal values for institutes according to statusgroup name restriction.
         $groupRanges = array();
         if ($restriction['value']) {
@@ -63,7 +70,6 @@ class RestrictedInstituteFilterField extends InstituteFilterField
                 }
             }
         }
-        $this->validValues = array('' => dgettext('garudaplugin', 'alle')) + $this->validValues;
     }
 
     /**
@@ -92,5 +98,3 @@ class RestrictedInstituteFilterField extends InstituteFilterField
     }
 
 } /* end of class RestrictedInstituteFilterField */
-
-?>

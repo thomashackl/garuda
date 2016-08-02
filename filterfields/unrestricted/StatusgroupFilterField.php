@@ -12,7 +12,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class StatusgroupFilterField extends UserFilterField
@@ -35,8 +35,8 @@ class StatusgroupFilterField extends UserFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => dgettext('garudaplugin', 'gleich'),
-            '!=' => dgettext('garudaplugin', 'ungleich')
+            '=' => dgettext('garudaplugin', 'ist'),
+            '!=' => dgettext('garudaplugin', 'ist nicht')
         );
         // Get all available institute statusgroups from database.
         $stmt = DBManager::get()->query(
@@ -147,5 +147,3 @@ class StatusgroupFilterField extends UserFilterField
     }
 
 } /* end of class StatusgroupFilterField */
-
-?>

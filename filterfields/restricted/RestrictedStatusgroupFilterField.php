@@ -12,7 +12,7 @@
  *
  * @author      Thomas Hackl <thomas.hackl@uni-passau.de>
  * @license     http://www.gnu.org/licenses/gpl-2.0.html GPL version 2
- * @category    Stud.IP
+ * @category    Garuda
  */
 
 class RestrictedStatusgroupFilterField extends StatusgroupFilterField
@@ -37,8 +37,8 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => dgettext('garudaplugin', 'gleich'),
-            '!=' => dgettext('garudaplugin', 'ungleich')
+            '=' => dgettext('garudaplugin', 'ist'),
+            '!=' => dgettext('garudaplugin', 'ist nicht')
         );
         $this->validValues = array();
         if ($restriction['value']) {
@@ -51,8 +51,13 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
                     $compare = '==';
             }
         }
-        // Get Garuda configuration...
-        $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
+
+        // Get Garuda configuration:
+        // Find out which user this filter belongs to...
+        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        // ... and load Garuda config for this user.
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+
         $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name`, `range_id` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_keys($this->config['institutes'])));
         // Check if faculty level with sub institutes has been selected.
         if (strpos($restriction['value'], '_children') !== false) {
@@ -78,7 +83,6 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
             }
         }
         natcasesort($this->validValues);
-        $this->validValues = array('' => dgettext('garudaplugin', 'alle')) + $this->validValues;
         if ($fieldId) {
             $this->id = $fieldId;
             $this->load();
@@ -114,5 +118,3 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
     }
 
 } /* end of class RestrictedStatusgroupMemberFilterField */
-
-?>
