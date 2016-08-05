@@ -1,6 +1,7 @@
 <?php
 
 require_once(realpath(__DIR__.'/../models/GarudaMessage.php'));
+require_once(realpath(__DIR__.'/../models/GarudaTemplate.php'));
 
 class SendToCourseParticipants extends Migration
 {

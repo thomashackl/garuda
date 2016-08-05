@@ -17,7 +17,7 @@ class MaterializedFilters extends Migration
 
         // Add new column for target user groups instead of concrete recipients.
         DBManager::get()->exec("ALTER TABLE `garuda_messages`
-          ADD `target` ENUM ('all', 'students', 'employees', 'usernames') NOTNULL AFTER `author_id`,
+          ADD `target` ENUM ('all', 'students', 'employees', 'usernames') NOT NULL AFTER `author_id`,
           CHANGE `recipients` `recipients` LONGTEXT NULL");
         GarudaMessage::expireTableScheme();
     }
