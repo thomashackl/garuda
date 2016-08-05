@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.2\n"
+"X-Generator: Weblate 2.6-dev\n"
 
 #: controllers/message.php:70 GarudaPlugin.class.php:29
 #: views/message/write.php:3
@@ -320,7 +320,7 @@ msgstr "%s and sub institutes"
 
 #: filterfields/unrestricted/InstituteFilterField.php:67
 msgid "Einrichtung"
-msgstr "Institute"
+msgstr "Institution"
 
 #: filterfields/unrestricted/PermissionFilterField.php:16
 msgid "Mitglied (Autor/in)"
