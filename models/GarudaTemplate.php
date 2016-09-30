@@ -20,6 +20,7 @@
  * @property string author_id database column
  * @property string target database column
  * @property string recipients database column
+ * @property string exclude_users database column
  * @property string subject database column
  * @property string message database column
  * @property string mkdate database column
@@ -103,16 +104,33 @@ class GarudaTemplate extends SimpleORMap
             }
         }
 
+        // If there are users to be excluded, remove them now.
+        if ($this->exclude_users) {
+            $recipients = array_diff($recipients, array_map(function($u) {
+                return $u->id;
+            }, User::findMany($this->exclude_users)));
+        }
+
         return $recipients;
     }
 
     protected function cbJsonifyRecipients($type)
     {
-        if ($type === 'before_store' && !is_string($this->recipients)) {
-            $this->recipients = $this->recipients ? json_encode($this->recipients) : null;
+        if ($type === 'before_store') {
+            if (!is_string($this->recipients)) {
+                $this->recipients = $this->recipients ? json_encode($this->recipients) : null;
+            }
+            if (!is_string($this->exclude_users)) {
+                $this->exclude_users = $this->exclude_users ? json_encode($this->exclude_users) : null;
+            }
         }
-        if (in_array($type, array('after_initialize', 'after_store')) && is_string($this->recipients)) {
-            $this->recipients = json_decode($this->recipients, true) ?: array();
+        if (in_array($type, array('after_initialize', 'after_store'))) {
+            if (is_string($this->recipients)) {
+                $this->recipients = json_decode($this->recipients, true) ?: array();
+            }
+            if (is_string($this->exclude_users)) {
+                $this->exclude_users = json_decode($this->exclude_users, true) ?: array();
+            }
         }
     }
 

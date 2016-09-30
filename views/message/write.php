@@ -86,6 +86,19 @@
             <br>
             <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
         </section>
+        <section id="exclude">
+            <label>
+                <input type="checkbox" name="exclude"<?= $flash['excludelist'] ? ' checked' : ''?>>
+                <?= dgettext('garudaplugin', 'Personen ausschließen') ?>
+            </label>
+            <label id="excludelist">
+                <textarea name="excludelist" placeholder="<?= dgettext('garudaplugin',
+                    'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht NICHT '.
+                    'empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"
+                          cols="80" rows="7"><?= htmlReady($flash['excludelist']) ?></textarea>
+
+            </label>
+        </section>
     </fieldset>
     <?php if ($i_am_root && !$message) { ?>
     <fieldset>

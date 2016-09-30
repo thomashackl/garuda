@@ -60,7 +60,7 @@
                     $('button[name="add_filter"]').addClass('hidden-js');
                 }
                 if ($('input[name="sendto"]:checked').val() == 'list') {
-                    $('#reclist').css('display', '');
+                    $('#reclist').css('display', 'block');
                     $('#reclist textarea').attr('disabled', false);
                     $('span.filtertext').addClass('hidden-js');
                 } else {
@@ -72,6 +72,16 @@
                     $('div#garuda-coursesearch').removeClass('hidden-js');
                 } else {
                     $('div#garuda-coursesearch').addClass('hidden-js');
+                }
+            });
+
+            $('input[name="exclude"]').on('click', function() {
+                if ($(this).prop('checked')) {
+                    $('#excludelist').css('display', 'block');
+                    $('textarea[name="excludelist"]').attr('disabled', false);
+                } else {
+                    $('#excludelist').css('display', 'none');
+                    $('textarea[name="excludelist"]').attr('disabled', true);
                 }
             });
 
@@ -103,8 +113,16 @@
                 }
             });
 
-            $('#reclist').css('display', 'none');
-            $('#reclist textarea').attr('disabled', true);
+            if ($('input[name="sendto"]:checked').val() != 'list') {
+                $('#reclist').css('display', 'none');
+                $('#reclist textarea').attr('disabled', true);
+            }
+
+
+            if (!$('input[name="exclude"]').attr('checked')) {
+                $('#excludelist').css('display', 'none');
+                $('textarea[name="excludelist]').attr('disabled', true);
+            }
 
             // Use jQuery typing plugin for message preview.
             $('textarea[name="message"]').typing({

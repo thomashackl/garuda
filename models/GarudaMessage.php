@@ -20,6 +20,7 @@
  * @property string send_date database column
  * @property string target database column
  * @property string recipients database column
+ * @property string exclude_users database column
  * @property string subject database column
  * @property string message database column
  * @property string attachment_id database column
@@ -92,7 +93,7 @@ class GarudaMessage extends SimpleORMap
 
         // Manually created list of usernames.
         if ($this->target == 'list' && $this->recipients) {
-            $recipients = $this->recipients->pluck('user_id');
+            $recipients = $this->recipients;
 
         // Members of selected courses.
         } else if ($this->target == 'courses') {
@@ -120,6 +121,14 @@ class GarudaMessage extends SimpleORMap
             } else {
                 $recipients = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->target);
             }
+        }
+
+        // If there are users to be excluded, remove them now.
+        if ($this->exclude_users) {
+            $recipients = array_diff($recipients, array_filter(array_map(function($u) {
+                return $u->id;
+            }, User::findManyByUsername(preg_split("/[\r\n,]+/",
+                $this->exclude_users, -1, PREG_SPLIT_NO_EMPTY)))));
         }
 
         return $recipients;
@@ -151,11 +160,21 @@ class GarudaMessage extends SimpleORMap
 
     protected function cbJsonifyRecipients($type)
     {
-        if ($type === 'before_store' && !is_string($this->recipients)) {
-            $this->recipients = $this->recipients ? json_encode($this->recipients) : null;
+        if ($type === 'before_store') {
+            if (!is_string($this->recipients)) {
+                $this->recipients = $this->recipients ? json_encode($this->recipients) : null;
+            }
+            if (!is_string($this->exclude_users)) {
+                $this->exclude_users = $this->exclude_users ? json_encode($this->exclude_users) : null;
+            }
         }
-        if (in_array($type, array('after_initialize', 'after_store')) && is_string($this->recipients)) {
-            $this->recipients = $this->recipients ? json_decode($this->recipients, true) : array();
+        if (in_array($type, array('after_initialize', 'after_store'))) {
+            if (is_string($this->recipients)) {
+                $this->recipients = json_decode($this->recipients, true) ?: array();
+            }
+            if (is_string($this->exclude_users)) {
+                $this->exclude_users = json_decode($this->exclude_users, true) ?: array();
+            }
         }
     }
 

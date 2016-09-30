@@ -198,7 +198,11 @@ class OverviewController extends AuthenticatedController {
             case 'template':
                 $t = new GarudaTemplate($id);
                 $t->name = Request::get('name');
-                $t->target = Request::option('sendto');
+                if (Request::option('sendto') != 'list') {
+                    $t->target = Request::option('sendto');
+                } else {
+                    $t->target = 'usernames';
+                }
 
                 $t->author_id = $GLOBALS['user']->id;
                 $t->sender_id = $GLOBALS['user']->id;
@@ -206,6 +210,20 @@ class OverviewController extends AuthenticatedController {
                 if ($t->target == 'courses' && count(Request::getArray('courses')) > 0) {
                     $t->courses = SimpleORMapCollection::createFromArray(
                         Course::findMany(Request::getArray('courses')));
+                }
+
+                if ($t->target == 'usernames') {
+                    $t->recipients = array_map(function($u) {
+                            return $u->id;
+                        }, array_filter(User::findManyByUsername(preg_split("/[\r\n,]+/",
+                        Request::get('list'), -1, PREG_SPLIT_NO_EMPTY))));
+                }
+
+                if (Request::get('excludelist')) {
+                    $t->exclude_users = array_map(function($u) {
+                            return $u->id;
+                        }, array_filter(User::findManyByUsername(preg_split("/[\r\n,]+/",
+                        Request::get('excludelist'), -1, PREG_SPLIT_NO_EMPTY))));
                 }
 
                 // Set another sender if root and alternative sender is set, set myself otherwise.
@@ -248,7 +266,7 @@ class OverviewController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    function url_for($to) {
+    public function url_for($to) {
         $args = func_get_args();
 
         # find params

@@ -79,7 +79,8 @@ class GarudaCronjob extends CronJob {
 
                 } else {
 
-                    $usernames = array_map(function ($r) { return User::find($r)->username; }, $recipients);
+                    $usernames = array_map(function ($r) { return $r->username; },
+                        array_filter(User::findMany($recipients)));
 
                     // Send one Stud.IP message to all recipients at once.
                     $message = $this->send($job->sender_id, $usernames, $job->subject, $job->message,

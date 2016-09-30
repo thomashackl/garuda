@@ -11,6 +11,12 @@
     <?php endif ?>
     <?php if ($message->isNew()) : ?>
         <input type="hidden" name="sendto" value="<?= $flash['sendto'] ?>">
+        <?php if ($flash['sendto'] == 'list') : ?>
+            <input type="hidden" name="list" value="<?= $flash['list'] ?>">
+        <?php endif ?>
+        <?php if ($flash['excludelist']) : ?>
+            <input type="hidden" name="excludelist" value="<?= $flash['excludelist'] ?>">
+        <?php endif ?>
         <?php if ($flash['filters']) : ?>
             <?php foreach ($flash['filters'] as $filter) : ?>
                 <input type="hidden" name="filters[]" value="<?= urlencode($filter) ?>">

@@ -129,6 +129,12 @@ class MessageController extends AuthenticatedController {
         if (Request::get('list')) {
             $this->flash['list'] = Request::get('list');
         }
+
+        // Exclude users from recipient list.
+        if (Request::get('excludelist')) {
+            $this->flash['excludelist'] = Request::get('excludelist');
+        }
+
         // Get alternative sender if applicable.
         if ($this->i_am_root && Request::get('sender')) {
             $this->flash['sender'] = Request::option('sender');
@@ -261,10 +267,10 @@ class MessageController extends AuthenticatedController {
 
             // Message will be sent to a pre-defined list of recipient usernames.
             } else if ($this->flash['sendto'] == 'list') {
-                $users = array_unique(array_map(function($e) {
+                $users = array_unique(array_filter(array_map(function($e) {
                     return User::findByUsername($e)->user_id;
                 }, preg_split("/[\r\n,]+/", $this->flash['list'], -1,
-                    PREG_SPLIT_NO_EMPTY)));
+                    PREG_SPLIT_NO_EMPTY))));
 
             // Message will be sent to members of selected courses.
             } else if ($this->flash['sendto'] == 'courses') {
@@ -285,6 +291,14 @@ class MessageController extends AuthenticatedController {
                     $config = $this->config;
                 }
                 $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->flash['sendto'], $config);
+            }
+
+            // If there are users to be excluded, remove them now.
+            if ($this->flash['excludelist']) {
+                $users = array_diff($users, array_filter(array_map(function($u) {
+                    return $u->id;
+                }, User::findManyByUsername(preg_split("/[\r\n,]+/",
+                    $this->flash['excludelist'], -1, PREG_SPLIT_NO_EMPTY)))));
             }
 
             if (count($users) < 1) {
@@ -328,11 +342,26 @@ class MessageController extends AuthenticatedController {
             if ($id || $type == 'load') {
 
                 if ($type == 'message') {
-                    $this->message = new GarudaMessage($id);
+                    $this->message = GarudaMessage::find($id);
                 } else {
-                    $this->message = new GarudaTemplate($id ?: Request::option('template'));
+                    $this->message = GarudaTemplate::find($id ?: Request::option('template'));
                 }
-                $this->flash['sendto'] = $this->message->target;
+
+                if ($this->message->target == 'usernames') {
+                    $this->flash['sendto'] = 'list';
+                    $this->flash['list'] = implode("\n", array_map(function($u) {
+                        return $u->username;
+                    }, User::findMany($this->message->recipients)));
+                } else {
+                    $this->flash['sendto'] = $this->message->target;
+                }
+
+                if ($this->message->exclude_users) {
+                    $this->flash['excludelist'] = implode("\n", array_map(function($u) {
+                        return $u->username;
+                    }, User::findMany($this->message->exclude_users)));
+                }
+
                 $this->courses = $this->message->courses;
                 $this->filters = array_map(function ($f) { return new UserFilter($f['filter_id']); },
                     $this->message->filters->toArray());
@@ -588,9 +617,9 @@ class MessageController extends AuthenticatedController {
         UserFilterField::getAvailableFilterFields();
 
         if ($type == 'template') {
-            $message = new GarudaTemplate($id);
+            $message = $id ? GarudaTemplate::find($id) : new GarudaTemplate();
         } else {
-            $message = new GarudaMessage($id);
+            $message = $id ? GarudaMessage::find($id) : new GarudaMessage();
         }
 
         $sender = $GLOBALS['user']->id;
@@ -619,9 +648,20 @@ class MessageController extends AuthenticatedController {
         }
 
         if ($this->flash['sendto'] == 'list') {
-            $message->recipients = $users;
+            $message->recipients = array_map(function($u) {
+                    return $u->id;
+                }, array_filter(User::findManyByUsername(preg_split("/[\r\n,]+/",
+                    $this->flash['list'], -1, PREG_SPLIT_NO_EMPTY))));
         }
-        $message->target = $this->flash['sendto'];
+
+        if ($this->flash['excludelist']) {
+            $message->recipients = array_map(function($u) {
+                return $u->id;
+            }, array_filter(User::findManyByUsername(preg_split("/[\r\n,]+/",
+                $this->flash['excludelist'], -1, PREG_SPLIT_NO_EMPTY))));
+        }
+
+        $message->target = $this->flash['sendto'] == 'list' ? 'usernames' : $this->flash['sendto'];
 
         $message->subject = $this->flash['subject'];
         $message->message = $this->flash['message'];

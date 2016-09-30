@@ -20,6 +20,13 @@ a.all,
 a.none {
   cursor: pointer;
 }
+form section#exclude {
+  margin-top: 10px;
+  margin-left: 25px;
+}
+form section#exclude #excludelist {
+  margin-left: 30px;
+}
 form #reclist {
   margin-left: 30px;
 }
