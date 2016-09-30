@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/../models/GarudaMessage.php'));
 
 class MaterializedFilters extends Migration
 {
-    function up()
+    public function up()
     {
         // Create new table for referencing stored user filters.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_filters` (
@@ -22,7 +22,7 @@ class MaterializedFilters extends Migration
         GarudaMessage::expireTableScheme();
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_filters`");
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `target`, CHANGE `recipients` `recipients` LONGTEXT NOT NULL");

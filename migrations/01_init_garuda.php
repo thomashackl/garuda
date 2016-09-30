@@ -1,7 +1,7 @@
 <?php
 class InitGaruda extends DBMigration
 {
-    function up(){
+    public function up(){
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_config` (
             `institute_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
             `min_perm` ENUM ('dozent', 'admin') NOT NULL DEFAULT 'admin',
@@ -41,7 +41,7 @@ class InitGaruda extends DBMigration
         )");
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_config`");
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_inst_stg`");

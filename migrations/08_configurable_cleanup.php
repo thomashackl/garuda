@@ -2,7 +2,7 @@
 
 class ConfigurableCleanup extends Migration
 {
-    function up()
+    public function up()
     {
         try {
             Config::get()->create('GARUDA_CLEANUP_INTERVAL', array(
@@ -15,7 +15,7 @@ class ConfigurableCleanup extends Migration
         } catch (InvalidArgumentException $e) {}
     }
 
-    function down()
+    public function down()
     {
         $entries = ConfigEntry::findByField('GARUDA_CLEANUP_INTERVAL');
         foreach ($entries as $e) {

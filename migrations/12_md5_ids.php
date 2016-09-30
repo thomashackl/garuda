@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/../models/GarudaMessage.php'));
 
 class MD5IDs extends Migration
 {
-    function up()
+    public function up()
     {
         // Change datatype of ID columns.
         DBManager::get()->exec("ALTER TABLE `garuda_messages` CHANGE `job_id` `job_id` CHAR(32) NOT NULL");
@@ -54,7 +54,7 @@ class MD5IDs extends Migration
         GarudaMessage::expireTableScheme();
     }
 
-    function down()
+    public function down()
     {
         // Reintroduce "type" column in filters table and connect it to the corresponding entries.
         DBManager::get()->exec("ALTER TABLE `garuda_filters`

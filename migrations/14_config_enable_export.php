@@ -2,7 +2,7 @@
 
 class ConfigEnableExport extends Migration
 {
-    function up()
+    public function up()
     {
         try {
             Config::get()->create('GARUDA_ENABLE_EXPORT', array(
@@ -15,7 +15,7 @@ class ConfigEnableExport extends Migration
         } catch (InvalidArgumentException $e) {}
     }
 
-    function down()
+    public function down()
     {
         $entries = ConfigEntry::findByField('GARUDA_ENABLE_EXPORT');
         foreach ($entries as $e) {

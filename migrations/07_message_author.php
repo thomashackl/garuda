@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/../models/GarudaMessage.php'));
 
 class MessageAuthor extends Migration
 {
-    function up()
+    public function up()
     {
         // Add new column for message author...
         DBManager::get()->exec("ALTER TABLE `garuda_messages` ADD `author_id` CHAR(32) NOT NULL AFTER `sender_id`");
@@ -13,7 +13,7 @@ class MessageAuthor extends Migration
         GarudaMessage::expireTableScheme();
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `author_id`");
         GarudaMessage::expireTableScheme();

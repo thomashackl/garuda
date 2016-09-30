@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/../models/GarudaMarker.php'));
 
 class ReplacementMarkers extends Migration
 {
-    function up()
+    public function up()
     {
         // Create new table for replacement markers.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_markers` (
@@ -74,7 +74,7 @@ class ReplacementMarkers extends Migration
 
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_markers`");
     }

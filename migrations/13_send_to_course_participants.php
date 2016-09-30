@@ -5,7 +5,7 @@ require_once(realpath(__DIR__.'/../models/GarudaTemplate.php'));
 
 class SendToCourseParticipants extends Migration
 {
-    function up()
+    public function up()
     {
         // Create new table for linking courses as message target.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_courses` (
@@ -24,7 +24,7 @@ class SendToCourseParticipants extends Migration
         GarudaTemplate::expireTableScheme();
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_courses`");
 

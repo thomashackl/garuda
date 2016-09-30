@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/../models/GarudaMessage.php'));
 
 class SendAtDate extends Migration
 {
-    function up()
+    public function up()
     {
         /*
          * Add new column to filters table for specifying an (optional) sending date.
@@ -14,7 +14,7 @@ class SendAtDate extends Migration
         GarudaMessage::expireTableScheme();
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `send_date`");
         GarudaMessage::expireTableScheme();

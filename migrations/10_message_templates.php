@@ -4,7 +4,7 @@ require_once(realpath(__DIR__.'/../models/GarudaFilter.php'));
 
 class MessageTemplates extends Migration
 {
-    function up()
+    public function up()
     {
         // Create new table for message templates.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_templates` (
@@ -30,7 +30,7 @@ class MessageTemplates extends Migration
         GarudaFilter::expireTableScheme();
     }
 
-    function down()
+    public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_templates`");
         DBManager::get()->exec("ALTER TABLE `garuda_filters` DROP `type`");
