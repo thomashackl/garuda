@@ -92,7 +92,7 @@ class GarudaMessage extends SimpleORMap
         $recipients = array();
 
         // Manually created list of usernames.
-        if ($this->target == 'list' && $this->recipients) {
+        if ($this->target == 'usernames' && $this->recipients) {
             $recipients = $this->recipients;
 
         // Members of selected courses.
@@ -106,7 +106,7 @@ class GarudaMessage extends SimpleORMap
             $recipients = array_unique($members);
 
         // Anything else.
-        } else if ($this->target != 'list') {
+        } else if ($this->target != 'usernames') {
             if ($this->filters) {
 
                 UserFilterField::getAvailableFilterFields();
@@ -125,10 +125,7 @@ class GarudaMessage extends SimpleORMap
 
         // If there are users to be excluded, remove them now.
         if ($this->exclude_users) {
-            $recipients = array_diff($recipients, array_filter(array_map(function($u) {
-                return $u->id;
-            }, User::findManyByUsername(preg_split("/[\r\n,]+/",
-                $this->exclude_users, -1, PREG_SPLIT_NO_EMPTY)))));
+            $recipients = array_diff($recipients, $this->exclude_users);
         }
 
         return $recipients;

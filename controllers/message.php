@@ -655,7 +655,7 @@ class MessageController extends AuthenticatedController {
         }
 
         if ($this->flash['excludelist']) {
-            $message->recipients = array_map(function($u) {
+            $message->exclude_users = array_map(function($u) {
                 return $u->id;
             }, array_filter(User::findManyByUsername(preg_split("/[\r\n,]+/",
                 $this->flash['excludelist'], -1, PREG_SPLIT_NO_EMPTY))));
