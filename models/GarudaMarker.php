@@ -18,6 +18,7 @@
  * @property string marker database column
  * @property string type database column
  * @property string description database column
+ * @property string permission database column
  * @property string replacement database column
  * @property string replacement_female database column
  * @property string replacement_unknown database column
@@ -126,7 +127,9 @@ class GarudaMarker extends SimpleORMap
         $find = array();
         $replace = array();
         foreach ($markers as $marker) {
-            if (strpos($text, '###' . $marker->marker . '###') !== false && $marker->type != 'token') {
+            if ($GLOBALS['perm']->have_perm($marker->permission) &&
+                    strpos($text, '###' . $marker->marker . '###') !== false &&
+                    $marker->type != 'token') {
                 $find[] = '###' . $marker->marker . '###';
                 $replace[] = $marker->getMarkerReplacement($user);
             }
@@ -138,7 +141,8 @@ class GarudaMarker extends SimpleORMap
     private static function processToken($message_id, $text, $user)
     {
         foreach (self::findByType('token') as $marker) {
-            if (strpos($text, '###' . $marker->marker . '###') !== false) {
+            if ($GLOBALS['perm']->have_perm($marker->permission) &&
+                    strpos($text, '###' . $marker->marker . '###') !== false) {
                 $text = str_replace('###' . $marker->marker . '###',
                     $marker->getReplacementToken($message_id, $user),
                     $text);

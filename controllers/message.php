@@ -408,8 +408,10 @@ class MessageController extends AuthenticatedController {
             $markerWidget = new LinksWidget();
             $markerWidget->setTitle(dgettext('garudaplugin', 'Verfügbare Textersetzungen'));
             foreach (GarudaMarker::findBySQL("1 ORDER BY `marker`") as $marker) {
-                $markerWidget->addLink('###' . $marker->marker . '###',
-                    $this->url_for('message/marker_info', $marker->id))->asDialog('size=auto');
+                if ($GLOBALS['perm']->have_perm($marker->permission)) {
+                    $markerWidget->addLink('###' . $marker->marker . '###',
+                        $this->url_for('message/marker_info', $marker->id))->asDialog('size=auto');
+                }
             }
             $this->sidebar->addWidget($markerWidget);
         }
