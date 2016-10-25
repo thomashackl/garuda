@@ -107,7 +107,7 @@ class GarudaMessage extends SimpleORMap
 
         // Anything else.
         } else if ($this->target != 'usernames') {
-            if ($this->filters) {
+            if (count($this->filters) > 0) {
 
                 UserFilterField::getAvailableFilterFields();
 
