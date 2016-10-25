@@ -356,7 +356,7 @@ class MessageController extends AuthenticatedController {
                     $this->flash['sendto'] = $this->message->target;
                 }
 
-                if ($this->message->exclude_users) {
+                if (count($this->message->exclude_users) > 0) {
                     $this->flash['excludelist'] = implode("\n", array_map(function($u) {
                         return $u->username;
                     }, User::findMany($this->message->exclude_users)));
@@ -451,7 +451,7 @@ class MessageController extends AuthenticatedController {
                 break;
             case 'students':
                 $data[] = array(dgettext('garudaplugin', 'Studierende'));
-                if ($m->filters) {
+                if (count($m->filters) > 0) {
                     foreach ($m->filters as $f) {
                         $data[] = array($f->toString());
                     }
@@ -459,7 +459,7 @@ class MessageController extends AuthenticatedController {
                 break;
             case 'employees':
                 $data[] = array(dgettext('garudaplugin', 'Beschäftigte'));
-                if ($m->filters) {
+                if (count($m->filters) > 0) {
                     foreach ($m->filters as $f) {
                         $data[] = array($f->toString());
                     }
@@ -467,7 +467,7 @@ class MessageController extends AuthenticatedController {
                 break;
             case 'courses':
                 $data[] = array(dgettext('garudaplugin', 'Teilnehmende von Veranstaltungen'));
-                if ($m->courses) {
+                if (count($m->courses) > 0) {
                     foreach ($m->courses as $c) {
                         $data[] = array($c->getFullname());
                     }
