@@ -26,7 +26,7 @@ class ReplacementMarkers extends Migration
                 'marker' => 'FULLNAME',
                 'type' => 'database',
                 'description' => 'Hier wird der volle Name der jeweiligen Person eingesetzt, z.B. "Prof. Max Mustermann, PhD".',
-                'replacement' => 'user_info.title ###FIRSTNAME### ###LASTNAME### user_info.title_rear',
+                'replacement' => 'user_info.title_front ###FIRSTNAME### ###LASTNAME### user_info.title_rear',
             ),
             array(
                 'marker' => 'FIRSTNAME',
