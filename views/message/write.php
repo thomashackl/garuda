@@ -213,10 +213,31 @@
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <section id="message">
-            <label for="subject"><?= dgettext('garudaplugin', 'Betreff') ?></label>
-            <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="75" maxlength="255"/>
-            <label for="message"><?= dgettext('garudaplugin', 'Nachrichtentext') ?></label>
-            <textarea name="message" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
+            <label for="subject">
+                <span class="required">
+                    <?= dgettext('garudaplugin', 'Betreff') ?>
+                </span>
+                <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="75" maxlength="255"/>
+            </label>
+            <label id="garuda-markers">
+                <?= dgettext('garudaplugin', 'Feld für Serienmail einfügen') ?>
+                <select name="markers">
+                    <option value="" data-description="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
+                    <?php foreach ($markers as $marker) : ?>
+                        <?php if ($GLOBALS['perm']->have_perm($marker->permission)) : ?>
+                            <option value="{<?= $marker->marker ?>}" data-description="<?= htmlReady(nl2br($marker->description)) ?>"><?= htmlReady($marker->marker) ?></option>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                </select>
+                <?= Studip\LinkButton::createAccept(_('Einsetzen'), '', array('id' => 'garuda-add-marker', 'class' => 'hidden-js')) ?>
+                <div id="garuda-marker-description"></div>
+            </label>
+            <label for="message">
+                <span class="required">
+                    <?= dgettext('garudaplugin', 'Nachrichtentext') ?>
+                </span>
+                <textarea name="message" class="add_toolbar" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
+            </label>
         </section>
         <section id="preview">
             <label>
