@@ -89,6 +89,24 @@
                 $('section.use_tokens').toggleClass('hidden-js');
             });
 
+            var markers = $('label#garuda-markers');
+            var addMarker = $('#garuda-add-marker');
+            markers.children('select').on('change', function() {
+                var selected = $(this).children('option:selected');
+                $('#garuda-marker-description').html(selected.data('description'));
+                if (selected.attr('value') != '') {
+                    addMarker.removeClass('hidden-js');
+                } else {
+                    addMarker.addClass('hidden-js');
+                }
+            });
+            markers.insertAfter('div.buttons');
+            addMarker.on('click', function() {
+                markers.parent().children('textarea').
+                insertAtCaret($('label#garuda-markers select option:selected').attr('value'));
+                return false;
+            });
+
             $('input[name="send_at_date"]').on('click', function(event) {
                 $('section.send_date').toggleClass('hidden-js');
             });

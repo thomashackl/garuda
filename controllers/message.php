@@ -33,6 +33,7 @@ class MessageController extends AuthenticatedController {
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.typing-0.2.0.min.js');
+            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.insert-at-caret.min.js');
         }
         $this->set_content_type('text/html;charset=windows-1252');
 
@@ -405,15 +406,7 @@ class MessageController extends AuthenticatedController {
                 $this->sidebar->addWidget($actions);
             }
 
-            $markerWidget = new LinksWidget();
-            $markerWidget->setTitle(dgettext('garudaplugin', 'Verfügbare Textersetzungen'));
-            foreach (GarudaMarker::findBySQL("1 ORDER BY `marker`") as $marker) {
-                if ($GLOBALS['perm']->have_perm($marker->permission)) {
-                    $markerWidget->addLink('###' . $marker->marker . '###',
-                        $this->url_for('message/marker_info', $marker->id))->asDialog('size=auto');
-                }
-            }
-            $this->sidebar->addWidget($markerWidget);
+            $this->markers = GarudaMarker::findBySQL("1 ORDER BY `position`, `marker`");
         }
     }
 

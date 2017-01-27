@@ -22,6 +22,7 @@
  * @property string replacement database column
  * @property string replacement_female database column
  * @property string replacement_unknown database column
+ * @property string position database column
  * @property string mkdate database column
  * @property string chdate database column
  */
