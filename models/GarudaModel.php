@@ -37,12 +37,12 @@ class GarudaModel {
             $stmt = $db->prepare("SELECT gis.*
                 FROM `garuda_inst_stg` gis
                     INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
-                    INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=s.`studiengang_id`)
+                    INNER JOIN `fach` f ON (gis.`studiengang_id`=f.`fach_id`)
                 WHERE gis.`institute_id`=:id
                 ORDER BY a.`name` ASC, s.`name` ASC");
             $stmt->execute(array('id' => $entry['institute_id']));
             while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['studiengang_id']] = true;
+                $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['fach_id']] = true;
             }
             $stmt = $db->prepare("SELECT gi.*
                 FROM `garuda_inst_inst` gi
@@ -82,10 +82,10 @@ class GarudaModel {
             }
         }
         // Get allowed study courses.
-        $userConfig['studycourses'] = DBManager::get()->fetchAll("SELECT a.`abschluss_id`, a.`name` AS degree, s.`studiengang_id`, s.`name` AS subject
+        $userConfig['studycourses'] = DBManager::get()->fetchAll("SELECT a.`abschluss_id`, a.`name` AS degree, f.`fach_id`, f.`name` AS subject
             FROM `garuda_inst_stg` gis
                 INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
-                INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=s.`studiengang_id`)
+                INNER JOIN `fach` f ON (gis.`studiengang_id`=f.`fach_id`)
             WHERE (gis.`institute_id` IN (:ids))
             ORDER BY degree ASC, subject ASC", array('ids' => $userInsts));
         // Get allowed institutes (user's own institutes are always allowed).

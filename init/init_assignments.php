@@ -21,7 +21,7 @@ $data = DBManager::get()->fetchAll("SELECT `abschluss_id`, `name` FROM `abschlus
 foreach ($data as $row) {
     $degrees[$row['name']] = $row['abschluss_id'];
 }
-$data = DBManager::get()->fetchAll("SELECT `studiengang_id`, `name` FROM `studiengaenge` WHERE `name`!='' ORDER BY `name` ASC");
+$data = DBManager::get()->fetchAll("SELECT `fach_id`, `name` FROM `fach` WHERE `name`!='' ORDER BY `name` ASC");
 foreach ($data as $row) {
     $subjects[$row['name']] = $row['studiengang_id'];
 }

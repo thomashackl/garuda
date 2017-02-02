@@ -42,8 +42,8 @@ class RestrictedSubjectFilterField extends SubjectCondition
         }
         foreach($this->config['studycourses'] as $entry) {
             if (!$restriction['value'] || ($restriction && eval("return ('".$entry['abschluss_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
-                $s = new StudyCourse($entry['studiengang_id']);
-                $this->validValues[$entry['studiengang_id']] = $s->name;
+                $s = new StudyCourse($entry['fach_id']);
+                $this->validValues[$entry['fach_id']] = $s->name;
             }
         }
     }
@@ -91,7 +91,7 @@ class RestrictedSubjectFilterField extends SubjectCondition
         $result = array();
         // Get degrees for user.
         $stmt = DBManager::get()->prepare(
-            "SELECT DISTINCT `studiengang_id` ".
+            "SELECT DISTINCT `fach_id` ".
             "FROM `user_studiengang` ".
             "WHERE `user_id`=?");
         $stmt->execute(array($userId));
