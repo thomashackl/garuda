@@ -23,7 +23,7 @@ foreach ($data as $row) {
 }
 $data = DBManager::get()->fetchAll("SELECT `fach_id`, `name` FROM `fach` WHERE `name`!='' ORDER BY `name` ASC");
 foreach ($data as $row) {
-    $subjects[$row['name']] = $row['studiengang_id'];
+    $subjects[$row['name']] = $row['fach_id'];
 }
 
 // Create faculty configuration if necessary.

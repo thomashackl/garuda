@@ -200,7 +200,7 @@ class GarudaModel {
                         if ($where) {
                             $where .= " OR ";
                         }
-                        $where .=  "(`abschluss_id`=? AND `studiengang_id`=?)";
+                        $where .=  "(`abschluss_id`=? AND `fach_id`=?)";
                         $parameters[] = $degree;
                         $parameters[] = $studycourse;
                     }
@@ -210,7 +210,7 @@ class GarudaModel {
             return DBManager::get()->fetchFirst($query, $parameters);
         } else if ($GLOBALS['perm']->have_perm('root', $userId)) {
             return DBManager::get()->fetchFirst(
-                "SELECT DISTINCT `user_id` FROM `user_studiengang` WHERE `studiengang_id`!='21979dd6cc8bcb2138f333506dc30ffb'");
+                "SELECT DISTINCT `user_id` FROM `user_studiengang` WHERE `fach_id`!='21979dd6cc8bcb2138f333506dc30ffb'");
         }
     }
 
