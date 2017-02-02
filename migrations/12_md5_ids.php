@@ -62,5 +62,7 @@ class MD5IDs extends Migration
 
         DBManager::get()->exec("UPDATE `garuda_filters` SET `type` = 'template'
             WHERE `message_id` IN (SELECT `template_id` FROM `garuda_templates`)");
+
+        SimpleORMap::expireTableScheme();
     }
 }

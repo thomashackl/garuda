@@ -14,15 +14,15 @@ class ExcludeUsers extends Migration
           ADD `exclude_users` LONGTEXT NULL DEFAULT NULL AFTER `recipients`");
         DBManager::get()->exec("ALTER TABLE `garuda_templates`
           ADD `exclude_users` LONGTEXT NULL DEFAULT NULL AFTER `recipients`");
-        GarudaMessage::expireTableScheme();
-        GarudaTemplate::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `exclude_users`");
         DBManager::get()->exec("ALTER TABLE `garuda_templates` DROP `exclude_users`");
-        GarudaMessage::expireTableScheme();
-        GarudaTemplate::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }

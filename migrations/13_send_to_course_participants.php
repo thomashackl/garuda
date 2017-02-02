@@ -20,8 +20,7 @@ class SendToCourseParticipants extends Migration
         DBManager::get()->exec("ALTER TABLE `garuda_templates` CHANGE `target`
             `target` ENUM ('all', 'students', 'employees', 'courses', 'usernames') NULL DEFAULT NULL");
 
-        GarudaMessage::expireTableScheme();
-        GarudaTemplate::expireTableScheme();
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
@@ -32,6 +31,6 @@ class SendToCourseParticipants extends Migration
         DBManager::get()->exec("ALTER TABLE `garuda_messages` CHANGE `target`
             `target` ENUM ('all', 'students', 'employees', 'usernames') NULL DEFAULT NULL");
 
-        GarudaMessage::expireTableScheme();
+        SimpleORMap::expireTableScheme();
     }
 }
