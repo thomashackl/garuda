@@ -30,12 +30,13 @@ class MarkerSorting extends Migration
             $stmt->execute(array('pos' => $pos, 'marker' => $marker));
         }
 
-        GarudaMarker::expireTableScheme();
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_markers` DROP `position`");
-        GarudaMarker::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }
