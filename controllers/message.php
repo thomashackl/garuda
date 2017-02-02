@@ -313,6 +313,13 @@ class MessageController extends AuthenticatedController {
                 $this->flash['users'] = $users;
             }
 
+            if ($this->flash['sender'] == 'person' && !$this->flash['senderid']) {
+                $error[] = dgettext('garudaplugin',
+                    'Sie haben angegeben, dass die Nachricht einen '.
+                    'alternativen Absender haben soll, haben aber keine '.
+                    'Person als Absender ausgewählt.');
+            }
+
             // Errors found, show corresponding messages.
             if (count($error) > 0) {
                 PageLayout::postError(implode('<br>', $error));
