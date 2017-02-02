@@ -27,13 +27,15 @@ class MessageTemplates extends Migration
          */
         DBManager::get()->exec("ALTER TABLE `garuda_filters`
           ADD `type` ENUM ('message', 'template') NOT NULL DEFAULT 'message' AFTER `filter_id`");
-        GarudaFilter::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_templates`");
         DBManager::get()->exec("ALTER TABLE `garuda_filters` DROP `type`");
-        GarudaFilter::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }

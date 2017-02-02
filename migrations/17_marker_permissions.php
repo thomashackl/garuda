@@ -17,12 +17,14 @@ class MarkerPermissions extends Migration
         DBManager::get()->exec("UPDATE `garuda_markers` SET `permission` = 'root' WHERE `marker` = 'TOKEN'");
         // All other markers are available for everyone.
         DBManager::get()->exec("UPDATE `garuda_markers` SET `permission` = 'tutor' WHERE `marker` != 'TOKEN'");
-        GarudaMarker::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_markers` DROP `permission`");
-        GarudaMarker::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }

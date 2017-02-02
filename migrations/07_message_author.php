@@ -10,12 +10,14 @@ class MessageAuthor extends Migration
         DBManager::get()->exec("ALTER TABLE `garuda_messages` ADD `author_id` CHAR(32) NOT NULL AFTER `sender_id`");
         // ... and synchronize all found entries.
         DBManager::get()->exec("UPDATE `garuda_messages` SET `author_id` = `sender_id`");
-        GarudaMessage::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `author_id`");
-        GarudaMessage::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }
