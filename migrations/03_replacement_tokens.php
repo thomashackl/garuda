@@ -1,5 +1,5 @@
 <?php
-class ReplacementTokens extends DBMigration
+class ReplacementTokens extends Migration
 {
     public function up(){
         DBManager::get()->exec("CREATE TABLE `garuda_tokens` (

@@ -4,4 +4,4 @@ origin=intelec
 version=2.0
 description=Allows mail sending to selectable target audiences.
 studipMinVersion=3.4
-studipMaxVersion=3.9.99
+studipMaxVersion=3.4.99
