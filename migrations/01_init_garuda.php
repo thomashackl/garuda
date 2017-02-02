@@ -1,5 +1,5 @@
 <?php
-class InitGaruda extends DBMigration
+class InitGaruda extends Migration
 {
     public function up(){
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_config` (
