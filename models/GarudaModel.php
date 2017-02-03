@@ -39,10 +39,10 @@ class GarudaModel {
                     INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
                     INNER JOIN `fach` f ON (gis.`studiengang_id`=f.`fach_id`)
                 WHERE gis.`institute_id`=:id
-                ORDER BY a.`name` ASC, s.`name` ASC");
+                ORDER BY a.`name` ASC, f.`name` ASC");
             $stmt->execute(array('id' => $entry['institute_id']));
             while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['fach_id']] = true;
+                $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['studiengang_id']] = true;
             }
             $stmt = $db->prepare("SELECT gi.*
                 FROM `garuda_inst_inst` gi
@@ -178,7 +178,7 @@ class GarudaModel {
 
     public static function getAllUsers($userId, $config=array())
     {
-    	return array_merge(self::getAllStudents($userId), self::getAllEmployees($userId));
+    	return array_merge(self::getAllStudents($userId, $config), self::getAllEmployees($userId, $config));
     }
 
     public static function getAllStudents($userId, $config=array())

@@ -22,7 +22,7 @@
                 <ul>
                     <?php foreach ($degreedata['subjects'] as $subject) : ?>
                     <li>
-                        <input type="checkbox" class="selector" name="studycourses[]" value="<?= $degree.'|'.$subject->fach_id ?>"<?= ($config['studycourses'][$degree][$subject->fach_id]) ? ' checked="checked"' : '' ?> data-degree-id="<?= $degree ?>"/>
+                        <input type="checkbox" class="selector" name="studycourses[]" value="<?= $degree.'|'.$subject->id ?>"<?= ($config['studycourses'][$degree][$subject->id]) ? ' checked' : '' ?> data-degree-id="<?= $degree ?>"/>
                         <?= htmlReady($subject->name) ?>
                     </li>
                     <?php endforeach ?>
