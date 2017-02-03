@@ -36,6 +36,9 @@ class RestrictedDegreeFilterField extends DegreeCondition
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
         }
+
+        $this->validValues = array();
+
         foreach($this->config['studycourses'] as $entry) {
             if (!$restriction['value'] || ($restriction && eval("return ('".$entry['studiengang_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
                 $d = new Degree($entry['abschluss_id']);
