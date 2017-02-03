@@ -31,15 +31,12 @@ class RestrictedSubjectFilterField extends SubjectCondition
         // ... and load Garuda config for this user.
         $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
 
-        foreach ($this->validValues as $id => $name) {
-            if (!in_array($id, array_keys($this->config['subjects']))) {
-                unset($this->validValues[$id]);
-            }
-        }
-
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
         }
+
+        $this->validValues = array();
+
         foreach($this->config['studycourses'] as $entry) {
             if (!$restriction['value'] || ($restriction && eval("return ('".$entry['abschluss_id']."'".$restriction['compare']."'".$restriction['value']."');"))) {
                 $s = new StudyCourse($entry['fach_id']);
