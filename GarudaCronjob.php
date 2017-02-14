@@ -49,6 +49,8 @@ class GarudaCronjob extends CronJob {
             echo 'ERROR: Could not clean up!';
         }
 
+        ini_set('memory_limit', '500M');
+
         StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
         StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
         StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
@@ -79,8 +81,9 @@ class GarudaCronjob extends CronJob {
 
                 } else {
 
-                    $usernames = array_map(function ($r) { return $r->username; },
-                        array_filter(User::findMany($recipients)));
+                    $usernames = DBManager::get()->fetchFirst(
+                        "SELECT `username` FROM `auth_user_md5` WHERE `user_id` IN (?)",
+                        array($recipients));
 
                     // Send one Stud.IP message to all recipients at once.
                     $message = $this->send($job->sender_id, $usernames, $job->subject, $job->message,
