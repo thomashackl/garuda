@@ -37,9 +37,9 @@ class GarudaModel {
             $stmt = $db->prepare("SELECT gis.*
                 FROM `garuda_inst_stg` gis
                     INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
-                    INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=s.`studiengang_id`)
+                    INNER JOIN `studiengaenge` f ON (gis.`studiengang_id`=f.`studiengang_id`)
                 WHERE gis.`institute_id`=:id
-                ORDER BY a.`name` ASC, s.`name` ASC");
+                ORDER BY a.`name` ASC, f.`name` ASC");
             $stmt->execute(array('id' => $entry['institute_id']));
             while ($current = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $config[$entry['institute_id']]['studycourses'][$current['abschluss_id']][$current['studiengang_id']] = true;
@@ -74,7 +74,10 @@ class GarudaModel {
             'studycourses' => array(),
             'institutes' => array()
         );
-        $userInsts = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId));
+        $userInsts = DBManager::get()->fetchFirst(
+            "SELECT DISTINCT `Institut_id` FROM `user_inst`
+            WHERE `user_id` = ? AND `inst_perms` NOT IN ('user', 'autor')",
+            array($userId));
         $config = self::getConfiguration($userInsts);
         foreach ($userInsts as $i) {
             if (!$GLOBALS['perm']->have_studip_perm($config[$i]['min_perm'], $i, $userId)) {
@@ -82,12 +85,12 @@ class GarudaModel {
             }
         }
         // Get allowed study courses.
-        $userConfig['studycourses'] = DBManager::get()->fetchAll("SELECT a.`abschluss_id`, a.`name` AS degree, s.`studiengang_id`, s.`name` AS subject
+        $userConfig['studycourses'] = DBManager::get()->fetchAll("SELECT a.`abschluss_id`, a.`name` AS degree, f.`studiengang_id`, f.`name` AS subject
             FROM `garuda_inst_stg` gis
                 INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
-                INNER JOIN `studiengaenge` s ON (gis.`studiengang_id`=s.`studiengang_id`)
+                INNER JOIN `studiengaenge` f ON (gis.`studiengang_id`=f.`studiengang_id`)
             WHERE (gis.`institute_id` IN (:ids))
-            ORDER BY degree ASC, subject ASC", array('ids' => $userInsts));
+            ORDER BY degree ASC, subject ASC", array('ids' => array_keys($config)));
         // Get allowed institutes (user's own institutes are always allowed).
         $institutes = DBManager::get()->fetchAll("SELECT i.`Institut_id`
             FROM `Institute` i
@@ -103,7 +106,6 @@ class GarudaModel {
                 OR i.`Institut_id` IN (:ids))
                 AND i.`fakultaets_id` != ''
             ORDER BY f.`Name` ASC, i.`Name` ASC", array('ids' => array_keys($config)));
-        $allowed = array();
         foreach ($institutes as $inst) {
             $i = new Institute($inst['Institut_id']);
             $userConfig['institutes'][$inst['Institut_id']] = array(
@@ -164,7 +166,7 @@ class GarudaModel {
         return $success;
     }
 
-    public static function calculateUsers($userId, $target, $config = array())
+    public static function calculateUsers($userId, $target, $config)
     {
         switch ($target) {
             case 'all':
@@ -176,65 +178,56 @@ class GarudaModel {
         }
     }
 
-    public static function getAllUsers($userId, $config=array())
+    public static function getAllUsers($userId, $config)
     {
-    	return array_merge(self::getAllStudents($userId), self::getAllEmployees($userId));
+    	return array_merge(self::getAllStudents($userId, $config), self::getAllEmployees($userId, $config));
     }
 
-    public static function getAllStudents($userId, $config=array())
+    public static function getAllStudents($userId, $config)
     {
-        if ($config) {
-            $query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
-            $parameters = array();
-            $where = "";
-            $studycourses = array();
-            foreach ($config as $inst) {
-                if ($inst['studycourses']) {
-                    $studycourses = array_merge($studycourses, $inst['studycourses']);
-                }
-            }
-            if ($studycourses) {
-                $query .= " WHERE ";
-                foreach ($studycourses as $degree => $sub) {
-                    foreach ($sub as $studycourse => $assigned) {
-                        if ($where) {
-                            $where .= " OR ";
-                        }
-                        $where .=  "(`abschluss_id`=? AND `studiengang_id`=?)";
-                        $parameters[] = $degree;
-                        $parameters[] = $studycourse;
-                    }
-                }
-                $query .= $where;
-            }
-            return DBManager::get()->fetchFirst($query, $parameters);
-        } else if ($GLOBALS['perm']->have_perm('root', $userId)) {
+        if ($GLOBALS['perm']->have_perm('root', $userId)) {
             return DBManager::get()->fetchFirst(
                 "SELECT DISTINCT `user_id` FROM `user_studiengang` WHERE `studiengang_id`!='21979dd6cc8bcb2138f333506dc30ffb'");
+        } else {
+            if ($config['studycourses']) {
+                $query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
+                $parameters = array();
+                $where = "";
+                $query .= " WHERE ";
+                foreach ($config['studycourses'] as $entry) {
+                    if ($where) {
+                        $where .= " OR ";
+                    }
+                    $where .=  "(`abschluss_id`=? AND `studiengang_id`=?)";
+                    $parameters[] = $entry['abschluss_id'];
+                    $parameters[] = $entry['studiengang_id'];
+                }
+                $query .= $where;
+                return DBManager::get()->fetchFirst($query, $parameters);
+            }
         }
+        return array();
     }
 
-    public static function getAllEmployees($userId, $config=array())
+    public static function getAllEmployees($userId, $config)
     {
-        if ($config) {
+        if ($GLOBALS['perm']->have_perm('root', $userId)) {
+            return DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` " .
+                "FROM `user_inst` WHERE `inst_perms` IN ('autor', 'tutor', 'dozent')");
+        } else {
             $query = "SELECT DISTINCT `user_id` FROM `user_inst` ".
                 "WHERE `inst_perms` IN ('autor', 'tutor', 'dozent')";
             $parameters = array();
             // Add own institutes first.
             $institutes = array_flip(array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes($userId)));
-            foreach ($config as $inst) {
-                if ($inst['institutes']) {
-                    $institutes = array_merge($institutes, $inst['institutes']);
-                }
+            if ($config['institutes']) {
+                $institutes = array_merge($institutes, $config['institutes']);
             }
             if ($institutes) {
                 $query .= " AND `Institut_id` IN (?)";
                 $parameters[] = array_keys($institutes);
             }
             return DBManager::get()->fetchFirst($query, $parameters);
-        } else if ($GLOBALS['perm']->have_perm('root', $userId)) {
-            return DBManager::get()->fetchFirst("SELECT DISTINCT `user_id` ".
-                "FROM `user_inst` WHERE `inst_perms` IN ('autor', 'tutor', 'dozent')");
         }
     }
 

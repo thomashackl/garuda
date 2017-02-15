@@ -36,7 +36,7 @@ class RestrictedSelfAssignInstUserFilterField extends SelfAssignInstUserFilterFi
         // Find out which user this filter belongs to...
         $filter = GarudaFilter::findByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
-        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
         foreach ($this->validValues as $id => $name) {
             if (strpos($id, '_children') !== false) {
