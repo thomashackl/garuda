@@ -32,7 +32,7 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
         // Find out which user this filter belongs to...
         $filter = GarudaFilter::findByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
-        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
         $this->validValues = array();
         // Initialize to some value in case there are no semester numbers.

@@ -90,7 +90,7 @@ class GarudaModel {
                 INNER JOIN `abschluss` a ON (gis.`abschluss_id`=a.`abschluss_id`)
                 INNER JOIN `fach` f ON (gis.`studiengang_id`=f.`fach_id`)
             WHERE (gis.`institute_id` IN (:ids))
-            ORDER BY degree ASC, subject ASC", array('ids' => $userInsts));
+            ORDER BY degree ASC, subject ASC", array('ids' => array_keys($config)));
         // Get allowed institutes (user's own institutes are always allowed).
         $institutes = DBManager::get()->fetchAll("SELECT i.`Institut_id`
             FROM `Institute` i
@@ -106,7 +106,6 @@ class GarudaModel {
                 OR i.`Institut_id` IN (:ids))
                 AND i.`fakultaets_id` != ''
             ORDER BY f.`Name` ASC, i.`Name` ASC", array('ids' => array_keys($config)));
-        $allowed = array();
         foreach ($institutes as $inst) {
             $i = new Institute($inst['Institut_id']);
             $userConfig['institutes'][$inst['Institut_id']] = array(
@@ -207,6 +206,7 @@ class GarudaModel {
             }
             return DBManager::get()->fetchFirst($query, $parameters);
         }
+        return array();
     }
 
     public static function getAllEmployees($userId, $config)

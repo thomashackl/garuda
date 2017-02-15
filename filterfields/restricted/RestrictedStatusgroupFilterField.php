@@ -56,7 +56,7 @@ class RestrictedStatusgroupFilterField extends StatusgroupFilterField
         // Find out which user this filter belongs to...
         $filter = GarudaFilter::findByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
-        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
         $groups = DBManager::get()->fetchAll("SELECT DISTINCT `name`, `range_id` FROM `statusgruppen` WHERE `range_id` IN (?)", array(array_keys($this->config['institutes'])));
         // Check if faculty level with sub institutes has been selected.

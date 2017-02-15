@@ -289,7 +289,7 @@ class MessageController extends AuthenticatedController {
                 if ($this->i_am_root) {
                     $config = array();
                 } else {
-                    $config = $this->config;
+                    $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
                 }
                 $users = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->flash['sendto'], $config);
             }
@@ -430,6 +430,7 @@ class MessageController extends AuthenticatedController {
         // Create a new message object with user settings.
         $m = new GarudaMessage();
         $m->target = $this->flash['sendto'];
+        $m->author_id = $GLOBALS['user']->id;
         if (count($this->flash['filters']) > 0) {
             $m->filters = SimpleORMapCollection::createFromArray(
                 array_map(function ($f) { return unserialize($f); },

@@ -37,7 +37,7 @@ class RestrictedInstituteFilterField extends InstituteFilterField
         // Find out which user this filter belongs to...
         $filter = GarudaFilter::findByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
-        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
         // Get legal values for institutes according to statusgroup name restriction.
         $groupRanges = array();

@@ -31,7 +31,7 @@ class RestrictedDegreeFilterField extends DegreeCondition
         // Find out which user this filter belongs to...
         $filter = GarudaFilter::findOneByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
-        $this->config = GarudaModel::getConfigurationForUser($filter->user_id);
+        $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
         if ($restriction['compare'] == '=') {
             $restriction['compare'] = '==';
