@@ -84,10 +84,10 @@ class GarudaTemplate extends SimpleORMap
     {
         $recipients = array();
 
-        if ($this->target == 'list' && $this->recipients) {
+        if ($this->target == 'usernames' && count($this->recipients) > 0) {
             $recipients = $this->recipients->pluck('user_id');
         } else if ($this->target != 'list') {
-            if ($this->filters) {
+            if (count($this->filters) > 0) {
 
                 UserFilterField::getAvailableFilterFields();
 
@@ -99,12 +99,13 @@ class GarudaTemplate extends SimpleORMap
                 $recipients = array_unique($recipients);
 
             } else {
-                $recipients = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->target);
+                $recipients = GarudaModel::calculateUsers(
+                    $this->author_id, $this->target, GarudaModel::getConfigurationForUser($this->author_id));
             }
         }
 
         // If there are users to be excluded, remove them now.
-        if ($this->exclude_users) {
+        if (count($this->exclude_users) > 0) {
             $recipients = array_diff($recipients, array_map(function($u) {
                 return $u->id;
             }, User::findMany($this->exclude_users)));
@@ -135,7 +136,7 @@ class GarudaTemplate extends SimpleORMap
 
     protected function cbCleanupFilters($event)
     {
-        if ($this->filters) {
+        if (count($this->filters) > 0) {
             UserFilterField::getAvailableFilterFields();
             foreach ($this->filters as $filter) {
                 $f = new UserFilter($filter->filter_id);

@@ -14,8 +14,6 @@
  * @category    Garuda
  */
 
-require_once('app/models/studycourse.php');
-
 class PermissionsController extends AuthenticatedController {
 
     protected $utf8decode_xhr = true;
@@ -78,7 +76,18 @@ class PermissionsController extends AuthenticatedController {
         //CSRFProtection::verifyUnsafeRequest();
         $config = GarudaModel::getConfiguration(array($instituteId));
         $this->config = $config[$instituteId];
-        $this->degrees = StudycourseModel::getStudyDegrees();
+        $this->studycourses = array();
+        foreach (Degree::findBySQL("1 ORDER BY `name`") as $degree) {
+            $assigned = DBManager::get()->fetchFirst(
+                "SELECT DISTINCT `fach_id` FROM `user_studiengang` WHERE `abschluss_id` = ?",
+                array($degree->id));
+            $subjects = SimpleORMapCollection::createFromArray(StudyCourse::findMany($assigned))->orderBy('name');
+            $this->studycourses[$degree->id] = array(
+                'name' => $degree->name,
+                'subjects' => $subjects
+            );
+        }
+
         $this->institutes = Institute::getInstitutes();
     }
 
@@ -94,7 +103,7 @@ class PermissionsController extends AuthenticatedController {
             PageLayout::postError(dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.'));
         }
         $this->flash['institute_id'] = Request::option('institute');
-        $this->relocate('configuration');
+        $this->relocate('permissions');
     }
 
     // customized #url_for for plugins

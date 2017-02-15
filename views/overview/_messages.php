@@ -62,14 +62,14 @@
                 <?php elseif ($m->target == 'list') : ?>
                     <?= dgettext('garudaplugin', 'Liste von Nutzern') ?>
                 <?php endif ?>
-                <?php if ($m->filters) : ?>
+                <?php if (count($m->filters) > 0) : ?>
                     <ul>
                     <?php foreach ($m->filters as $filter) : $f = new UserFilter($filter->filter_id); $f->show_user_count = true; ?>
                         <li><?= $f ?></li>
                     <?php endforeach ?>
                     </ul>
                 <?php endif ?>
-                <?php if ($m->courses) : ?>
+                <?php if (count($m->courses) > 0) : ?>
                     <ul>
                     <?php foreach ($m->courses as $course) : ?>
                         <li><?= $course->getFullname() ?></li>

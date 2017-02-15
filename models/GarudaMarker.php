@@ -15,6 +15,7 @@
  * @property string marker_id database column
  * @property string id alias column for marker_id
  * @property string marker database column
+ * @property string name database column
  * @property string type database column
  * @property string description database column
  * @property string permission database column

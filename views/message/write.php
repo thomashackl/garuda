@@ -225,7 +225,7 @@
                     <option value="" data-description="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
                     <?php foreach ($markers as $marker) : ?>
                         <?php if ($GLOBALS['perm']->have_perm($marker->permission)) : ?>
-                            <option value="###<?= $marker->marker ?>###" data-description="<?= htmlReady(nl2br($marker->description)) ?>"><?= htmlReady($marker->marker) ?></option>
+                            <option value="###<?= $marker->marker ?>###" data-description="<?= htmlReady(nl2br($marker->description)) ?>"><?= htmlReady($marker->name) ?></option>
                         <?php endif ?>
                     <?php endforeach ?>
                 </select>
