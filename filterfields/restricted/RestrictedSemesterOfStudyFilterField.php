@@ -43,9 +43,9 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
             if ($where) {
                 $where .= " OR ";
             }
-            $where .= "(`abschluss_id`=? AND `fach_id`=?)";
+            $where .= "(`abschluss_id`=? AND `studiengang_id`=?)";
             $parameters[] = $entry['abschluss_id'];
-            $parameters[] = $entry['fach_id'];
+            $parameters[] = $entry['studiengang_id'];
         }
         if ($where) {
             $where = "AND (".$where.")";
@@ -91,9 +91,9 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
             if ($allowed) {
                 $allowed .= " OR ";
             }
-            $allowed .= "(`abschluss_id`=? AND `fach_id`=?)";
+            $allowed .= "(`abschluss_id`=? AND `studiengang_id`=?)";
             $parameters[] = $entry['abschluss_id'];
-            $parameters[] = $entry['fach_id'];
+            $parameters[] = $entry['studiengang_id'];
         }
         $where .= " AND (".$allowed.")";
         // Check if there are restrictions given.
