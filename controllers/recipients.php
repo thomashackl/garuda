@@ -55,11 +55,11 @@ class RecipientsController extends AuthenticatedController {
             $this->studycourses = array();
             foreach ($this->config['studycourses'] as $s) {
                 if ($this->studycourses[$s['abschluss_id']]) {
-                    $this->studycourses[$s['abschluss_id']]['subjects'][$s['studiengang_id']] = $s['subject'];
+                    $this->studycourses[$s['abschluss_id']]['subjects'][$s['fach_id']] = $s['subject'];
                 } else {
                     $this->studycourses[$s['abschluss_id']] = array(
                         'name' => $s['degree'],
-                        'subjects' => array($s['studiengang_id'] => $s['subject'])
+                        'subjects' => array($s['fach_id'] => $s['subject'])
                     );
                 }
             }

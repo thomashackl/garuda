@@ -11,12 +11,14 @@ class SendAtDate extends Migration
          */
         DBManager::get()->exec("ALTER TABLE `garuda_messages`
           ADD `send_date` INT NULL DEFAULT NULL AFTER `author_id`");
-        GarudaMessage::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `send_date`");
-        GarudaMessage::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }

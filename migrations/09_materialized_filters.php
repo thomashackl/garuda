@@ -19,13 +19,15 @@ class MaterializedFilters extends Migration
         DBManager::get()->exec("ALTER TABLE `garuda_messages`
           ADD `target` ENUM ('all', 'students', 'employees', 'usernames') NOT NULL AFTER `author_id`,
           CHANGE `recipients` `recipients` LONGTEXT NULL");
-        GarudaMessage::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()
     {
         DBManager::get()->exec("DROP TABLE IF EXISTS `garuda_filters`");
         DBManager::get()->exec("ALTER TABLE `garuda_messages` DROP `target`, CHANGE `recipients` `recipients` LONGTEXT NOT NULL");
-        GarudaMessage::expireTableScheme();
+
+        SimpleORMap::expireTableScheme();
     }
 }

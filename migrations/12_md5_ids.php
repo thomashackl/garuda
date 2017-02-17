@@ -51,7 +51,7 @@ class MD5IDs extends Migration
         // As we have unique IDs now, we don't need the type distinction in garuda_filters table anymore.
         DBManager::get()->exec("ALTER TABLE `garuda_filters` DROP `type`");
 
-        GarudaMessage::expireTableScheme();
+        SimpleORMap::expireTableScheme();
     }
 
     public function down()

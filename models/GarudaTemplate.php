@@ -99,7 +99,8 @@ class GarudaTemplate extends SimpleORMap
                 $recipients = array_unique($recipients);
 
             } else {
-                $recipients = GarudaModel::calculateUsers($GLOBALS['user']->id, $this->target);
+                $recipients = GarudaModel::calculateUsers(
+                    $this->author_id, $this->target, GarudaModel::getConfigurationForUser($this->author_id));
             }
         }
 
