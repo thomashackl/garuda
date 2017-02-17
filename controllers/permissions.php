@@ -79,7 +79,7 @@ class PermissionsController extends AuthenticatedController {
         $this->studycourses = array();
         foreach (Degree::findBySQL("1 ORDER BY `name`") as $degree) {
             $assigned = DBManager::get()->fetchFirst(
-                "SELECT DISTINCT `fach_id` FROM `user_studiengang` WHERE `abschluss_id` = ?",
+                "SELECT DISTINCT `studiengang_id` FROM `user_studiengang` WHERE `abschluss_id` = ?",
                 array($degree->id));
             $subjects = SimpleORMapCollection::createFromArray(StudyCourse::findMany($assigned))->orderBy('name');
             $this->studycourses[$degree->id] = array(
