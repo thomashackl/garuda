@@ -45,15 +45,15 @@ class GarudaCronjob extends CronJob {
      * Send all prepared messages.
      */
     public function execute($last_result, $parameters = array()) {
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
+
         if (!GarudaCronFunctions::cleanup()) {
             echo 'ERROR: Could not clean up!';
         }
 
         ini_set('memory_limit', '500M');
-
-        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
-        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
-        StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
 
         $jobs = GarudaCronFunctions::getCronEntries();
         foreach ($jobs as $job) {
