@@ -12,7 +12,7 @@ class InitGaruda extends Migration
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_inst_stg` (
             `institute_id` VARCHAR(32) REFERENCES `Institute`.`Institut_id`,
             `abschluss_id` VARCHAR(32) REFERENCES `abschluss`.`abschluss_id`,
-            `studiengang_id` VARCHAR(32) REFERENCES `studiengaenge`.`studiengang_id`,
+            `studiengang_id` VARCHAR(32) REFERENCES `fach`.`fach_id`,
             `mkdate` INT NOT NULL DEFAULT 0,
             PRIMARY KEY (`institute_id`, `abschluss_id`, `studiengang_id`),
             INDEX `institute_id` (`institute_id`),
