@@ -3,7 +3,7 @@
     <section id="filterfields">
         <div class="filterfield">
             <select name="field[]" data-config-url="<?= $controller->url_for('userfilter/field_config') ?>" onchange="STUDIP.Garuda.getFilterConfig(this)">
-                <option value="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
+                <option value="">-- <?= dgettext('garudaplugin', 'bitte auswÃ¤hlen') ?> --</option>
         <?php foreach ($filterfields as $className => $displayName) : ?>
                 <option value="<?= $className ?>"><?= htmlReady($displayName) ?></option>
         <?php endforeach ?>
@@ -12,7 +12,7 @@
         </div>
     </section>
     <section class="filter_action">
-        <?= Studip\Button::create(dgettext('garudaplugin', 'Bedingung hinzufügen'), array('id' => 'add_field')) ?>
+        <?= Studip\Button::create(dgettext('garudaplugin', 'Bedingung hinzufÃ¼gen'), array('id' => 'add_field')) ?>
     </section>
     <section>
         <?php foreach ($flash->flash as $key => $value) : ?>
@@ -27,7 +27,7 @@
     </section>
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
-        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'),
+        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter Ã¼bernehmen'),
             'submit') ?>
         <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'),
             $controller->url_for('message/write')) ?>

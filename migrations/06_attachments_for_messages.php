@@ -3,7 +3,7 @@ class AttachmentsForMessages extends Migration
 {
     public function up()
     {
-        DBManager::get()->exec('ALTER TABLE `garuda_messages` ADD `attachment_id` VARCHAR(32) AFTER `message`');
+        DBManager::get()->exec('ALTER TABLE `garuda_messages` ADD `attachment_id` VARCHAR(32)  COLLATE latin1_bin AFTER `message`');
 
         SimpleORMap::expireTableScheme();
     }

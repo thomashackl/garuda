@@ -9,8 +9,8 @@ class SendToCourseParticipants extends Migration
     {
         // Create new table for linking courses as message target.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_courses` (
-            `message_id` CHAR(32) NOT NULL,
-            `course_id` CHAR(32) NOT NULL REFERENCES `seminare`.`Seminar_id`,
+            `message_id` CHAR(32) NOT NULL COLLATE latin1_bin,
+            `course_id` CHAR(32) NOT NULL REFERENCES `seminare`.`Seminar_id` COLLATE latin1_bin,
             PRIMARY KEY (`message_id`, `course_id`)
         )");
 

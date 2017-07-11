@@ -8,14 +8,14 @@ class MessageTemplates extends Migration
     {
         // Create new table for message templates.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_templates` (
-            `template_id` INT NOT NULL AUTO_INCREMENT,
-            `name` VARCHAR(255) NOT NULL,
-            `sender_id` CHAR(32) NOT NULL REFERENCES `auth_user_md5`.`user_id`,
-            `author_id` CHAR(32) NOT NULL,
+            `template_id` INT NOT NULL AUTO_INCREMENT COLLATE latin1_bin,
+            `name` VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci,
+            `sender_id` CHAR(32) NOT NULL REFERENCES `auth_user_md5`.`user_id` COLLATE latin1_bin,
+            `author_id` CHAR(32) NOT NULL COLLATE latin1_bin,
             `target` ENUM ('all', 'students', 'employees', 'usernames') DEFAULT 'all',
-            `recipients` LONGTEXT NULL DEFAULT NULL,
-            `subject` VARCHAR(255) NOT NULL DEFAULT '',
-            `message` TEXT NOT NULL DEFAULT '',
+            `recipients` LONGTEXT NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci,
+            `subject` VARCHAR(255) NOT NULL DEFAULT '' COLLATE utf8mb4_unicode_ci,
+            `message` TEXT NOT NULL DEFAULT '' COLLATE utf8mb4_unicode_ci,
             `mkdate` INT NOT NULL DEFAULT 0,
             `chdate` INT NOT NULL DEFAULT 0,
             PRIMARY KEY (`template_id`)

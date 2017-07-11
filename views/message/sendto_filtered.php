@@ -1,13 +1,13 @@
 <?php if ($i_am_root) { ?>
     <?php if ($one) { ?>
-<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen gesendet, die die folgende Bedingung erfüllen:') ?>
+<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen gesendet, die die folgende Bedingung erfÃ¼llen:') ?>
     <?php } else { ?>
-<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen gesendet, die einer der folgenden Bedingungen erfüllen:') ?>
+<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen gesendet, die einer der folgenden Bedingungen erfÃ¼llen:') ?>
     <?php } ?>
 <?php } else { ?>
     <?php if ($one) { ?>
-<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studiengänge gesendet, die die folgende Bedingung erfüllen:') ?>
+<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und StudiengÃ¤nge gesendet, die die folgende Bedingung erfÃ¼llen:') ?>
     <?php } else { ?>
-<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studiengänge gesendet, die eine der folgenden Bedingungen erfüllen:') ?>
+<?= dgettext('garudaplugin', 'Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und StudiengÃ¤nge gesendet, die eine der folgenden Bedingungen erfÃ¼llen:') ?>
     <?php } ?>
 <?php } ?>

@@ -1,5 +1,5 @@
 <?php if ($i_am_root) { ?>
-<?= dgettext('garudaplugin', 'Alle oben gewählten Personen erhalten diese Nachricht.') ?>
+<?= dgettext('garudaplugin', 'Alle oben gewÃ¤hlten Personen erhalten diese Nachricht.') ?>
 <?php } else { ?>
-<?= dgettext('garudaplugin', 'Alle oben gewählten Personen innerhalb der für Sie freigegebenen Studiengänge und Einrichtungen erhalten diese Nachricht.') ?>
+<?= dgettext('garudaplugin', 'Alle oben gewÃ¤hlten Personen innerhalb der fÃ¼r Sie freigegebenen StudiengÃ¤nge und Einrichtungen erhalten diese Nachricht.') ?>
 <?php } ?>

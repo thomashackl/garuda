@@ -7,10 +7,10 @@ class MD5IDs extends Migration
     public function up()
     {
         // Change datatype of ID columns.
-        DBManager::get()->exec("ALTER TABLE `garuda_messages` CHANGE `job_id` `job_id` CHAR(32) NOT NULL");
-        DBManager::get()->exec("ALTER TABLE `garuda_templates` CHANGE `template_id` `template_id` CHAR(32) NOT NULL");
-        DBManager::get()->exec("ALTER TABLE `garuda_tokens` CHANGE `job_id` `job_id` CHAR(32) NOT NULL");
-        DBManager::get()->exec("ALTER TABLE `garuda_filters` CHANGE `message_id` `message_id` CHAR(32) NOT NULL");
+        DBManager::get()->exec("ALTER TABLE `garuda_messages` CHANGE `job_id` `job_id` CHAR(32) NOT NULL COLLATE latin1_bin");
+        DBManager::get()->exec("ALTER TABLE `garuda_templates` CHANGE `template_id` `template_id` CHAR(32) NOT NULL COLLATE latin1_bin");
+        DBManager::get()->exec("ALTER TABLE `garuda_tokens` CHANGE `job_id` `job_id` CHAR(32) NOT NULL COLLATE latin1_bin");
+        DBManager::get()->exec("ALTER TABLE `garuda_filters` CHANGE `message_id` `message_id` CHAR(32) NOT NULL COLLATE latin1_bin");
 
         // Generate new md5-IDs for all entries, first we get the messages to send.
         $messages = DBManager::get()->fetchAll("SELECT `job_id` FROM `garuda_messages`");

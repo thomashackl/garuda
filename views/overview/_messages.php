@@ -56,7 +56,7 @@
                 <?php elseif ($m->target == 'students') : ?>
                     <?= dgettext('garudaplugin', 'Studierende') ?>
                 <?php elseif ($m->target == 'employees') : ?>
-                    <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+                    <?= dgettext('garudaplugin', 'BeschÃ¤ftigte') ?>
                 <?php elseif ($m->target == 'courses') : ?>
                     <?= dgettext('garudaplugin', 'Teilnehmende von Veranstaltungen') ?>
                 <?php elseif ($m->target == 'list') : ?>
@@ -86,8 +86,8 @@
                 </a>
                 <a href="<?= $controller->url_for('overview/delete_message', $type, $m->id) ?>" data-confirm="<?=
                     $type == 'message' ?
-                    dgettext('garudaplugin', 'Wollen Sie die Nachricht wirklich löschen?') :
-                    dgettext('garudaplugin', 'Wollen Sie die Vorlage wirklich löschen?')?>">
+                    dgettext('garudaplugin', 'Wollen Sie die Nachricht wirklich lÃ¶schen?') :
+                    dgettext('garudaplugin', 'Wollen Sie die Vorlage wirklich lÃ¶schen?')?>">
                     <?= Icon::create('trash', 'clickable')->asImg() ?>
                 </a>
             </td>

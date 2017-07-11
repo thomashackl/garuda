@@ -26,16 +26,11 @@ class MessageController extends AuthenticatedController {
         // Check for AJAX.
         if (Request::isXhr()) {
             $this->set_layout(null);
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.typing-0.2.0.min.js');
             PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.insert-at-caret.min.js');
         }
-        $this->set_content_type('text/html;charset=windows-1252');
 
         // Navigation handling.
         Navigation::activateItem('/messaging/garuda/message');
@@ -304,9 +299,9 @@ class MessageController extends AuthenticatedController {
 
             if (count($users) < 1) {
                 $error[] = dgettext('garudaplugin',
-                    'Ihre Nachricht hat aktuell keine Empfänger '.
+                    'Ihre Nachricht hat aktuell keine EmpfÃ¤nger '.
                     'und kann daher nicht verschickt werden. '.
-                    'Bitte verändern Sie die Einstellungen oder '.
+                    'Bitte verÃ¤ndern Sie die Einstellungen oder '.
                     'speichern Sie die Nachricht als Vorlage ab.');
 
             } else {
@@ -317,7 +312,7 @@ class MessageController extends AuthenticatedController {
                 $error[] = dgettext('garudaplugin',
                     'Sie haben angegeben, dass die Nachricht einen '.
                     'alternativen Absender haben soll, haben aber keine '.
-                    'Person als Absender ausgewählt.');
+                    'Person als Absender ausgewÃ¤hlt.');
             }
 
             // Errors found, show corresponding messages.
@@ -332,9 +327,9 @@ class MessageController extends AuthenticatedController {
         } else {
 
             Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Zielgruppen'),
-                dgettext('garudaplugin', "Sie können alle Studiengänge und alle ".
-                    "Beschäftigten auswählen, die den ".
-                    "Einrichtungen angehören, auf die Sie Zugriff ".
+                dgettext('garudaplugin', "Sie kÃ¶nnen alle StudiengÃ¤nge und alle ".
+                    "BeschÃ¤ftigten auswÃ¤hlen, die den ".
+                    "Einrichtungen angehÃ¶ren, auf die Sie Zugriff ".
                     "haben."),
                 'icons/16/white/group2.png');
             Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
@@ -392,9 +387,6 @@ class MessageController extends AuthenticatedController {
 
                 if ($this->flash['filters']) {
                     foreach ($this->flash['filters'] as $filter) {
-                        if (preg_match('!!u', $filter)) {
-                            $filter = studip_utf8decode($filter);
-                        }
                         $current = unserialize($filter);
                         $current->show_user_count = true;
                         $this->filters[] = $current;
@@ -459,7 +451,7 @@ class MessageController extends AuthenticatedController {
                 }
                 break;
             case 'employees':
-                $data[] = array(dgettext('garudaplugin', 'Beschäftigte'));
+                $data[] = array(dgettext('garudaplugin', 'BeschÃ¤ftigte'));
                 if (count($m->filters) > 0) {
                     foreach ($m->filters as $f) {
                         $data[] = array($f->toString());
@@ -529,7 +521,7 @@ class MessageController extends AuthenticatedController {
                 unlink($this->flash['token_file']);
                 if (sizeof($tokens) < sizeof($users)) {
                     PageLayout::postError(dgettext('garudaplugin',
-                        'Es gibt weniger Tokens als Personen für den ' .
+                        'Es gibt weniger Tokens als Personen fÃ¼r den ' .
                         'Nachrichtenempfang!'));
                 } else {
                     array_walk($tokens, function ($value, $key) use ($message) {
@@ -586,7 +578,7 @@ class MessageController extends AuthenticatedController {
      */
     public function preview_action()
     {
-        $this->text = studip_utf8decode(urldecode(Request::get('text')));
+        $this->text = urldecode(Request::get('text'));
     }
 
     public function marker_info_action($marker_id)

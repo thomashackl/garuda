@@ -30,7 +30,7 @@ class GarudaCronjob extends CronJob {
     }
 
     public static function getDescription() {
-        return dgettext('garudaplugin', 'Verschickt Nachrichten an gew‰hlte Empf‰ngerkreise.');
+        return dgettext('garudaplugin', 'Verschickt Nachrichten an gew√§hlte Empf√§ngerkreise.');
     }
 
     public static function getParameters() {

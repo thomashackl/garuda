@@ -10,7 +10,7 @@ class ConfigEnableExport extends Migration
                 'type' => 'boolean',
                 'range' => 'global',
                 'section' => 'garudaplugin',
-                'description' => 'D¸rfen die Daten der der Empf‰nger einer Nachricht (inkl. E-Mailadresse) als CSV exportiert werden?'
+                'description' => 'D√ºrfen die Daten der der Empf√§nger einer Nachricht (inkl. E-Mailadresse) als CSV exportiert werden?'
             ));
         } catch (InvalidArgumentException $e) {}
     }

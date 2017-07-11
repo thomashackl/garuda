@@ -1,5 +1,5 @@
     <label for="institutes[]">
-        <?= dgettext('garudaplugin', 'An welche Einrichtungen (außer der/den eigenen) soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
+        <?= dgettext('garudaplugin', 'An welche Einrichtungen (auÃŸer der/den eigenen) soll die gewÃ¤hlte Einrichtung Nachrichten schreiben dÃ¼rfen?') ?>
     </label>
     <ul class="collapsable css-tree">
         <?php $first = true; ?>

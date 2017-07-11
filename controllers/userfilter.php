@@ -17,27 +17,19 @@
 
 class UserfilterController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     public function before_filter(&$action, &$args) {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
         if (Request::isXhr()) {
             $this->set_layout(null);
-            /*$request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }*/
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        $this->set_content_type('text/html;charset=windows-1252');
 
         Navigation::activateItem('/messaging/garuda/message');
 
         $this->filterfields = UserFilterField::getAvailableFilterFields();
-        $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
 

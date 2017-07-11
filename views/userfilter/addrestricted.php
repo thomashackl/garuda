@@ -30,7 +30,7 @@
     </section>
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
-        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
+        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter Ã¼bernehmen'), 'submit') ?>
         <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message/write'), array('data-dialog-button' => true, 'data-dialog="close"')) ?>
     </footer>
 </form>

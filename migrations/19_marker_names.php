@@ -11,7 +11,7 @@ class MarkerNames extends Migration
          * position field.
          */
         DBManager::get()->exec("ALTER TABLE `garuda_markers` ADD `name` VARCHAR(255)
-            NOT NULL DEFAULT '' AFTER `marker`;");
+            NOT NULL DEFAULT '' COLLATE utf8mb4_unicode_ci AFTER `marker`;");
 
         $names = array(
             'DEARSIRMADAM' => 'Anrede (englisch)',
@@ -19,7 +19,7 @@ class MarkerNames extends Migration
             'FULLNAME' => 'Voller Name',
             'LASTNAME' => 'Nachname',
             'SEHRGEEHRTE' => 'Anrede',
-            'TOKEN' => 'Personalisierter Code o.ä.',
+            'TOKEN' => 'Personalisierter Code o.Ã¤.',
             'USERNAME' => 'Nutzername'
         );
 

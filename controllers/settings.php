@@ -17,8 +17,6 @@
 
 class SettingsController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     /**
      * Actions and settings taking place before every page call.
      */
@@ -29,14 +27,9 @@ class SettingsController extends AuthenticatedController {
 
         if (Request::isXhr()) {
             $this->set_layout(null);
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        $this->set_content_type('text/html;charset=windows-1252');
 
         // Navigation handling.
         Navigation::activateItem('/messaging/garuda/settings');

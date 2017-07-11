@@ -26,15 +26,10 @@ class OverviewController extends AuthenticatedController {
 
         if (Request::isXhr()) {
             $this->set_layout(null);
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
             PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.typing-0.2.0.min.js');
         }
-        $this->set_content_type('text/html;charset=windows-1252');
 
         // Navigation handling.
         Navigation::activateItem('/messaging/garuda/overview');
@@ -50,9 +45,9 @@ class OverviewController extends AuthenticatedController {
         $vw = new ViewsWidget();
         $vw->addLink(dgettext('garudaplugin', 'Vorlagen'), $this->url_for('overview/templates'))
             ->setActive($action == 'templates');
-        $vw->addLink(dgettext('garudaplugin', 'Demnächst zu verschicken'), $this->url_for('overview/to_send'))
+        $vw->addLink(dgettext('garudaplugin', 'DemnÃ¤chst zu verschicken'), $this->url_for('overview/to_send'))
             ->setActive($action == 'to_send');
-        $vw->addLink(dgettext('garudaplugin', 'Geschützt'), $this->url_for('overview/protected'))
+        $vw->addLink(dgettext('garudaplugin', 'GeschÃ¼tzt'), $this->url_for('overview/protected'))
             ->setActive($action == 'protected');
         $this->sidebar->addWidget($vw);
 
@@ -77,7 +72,7 @@ class OverviewController extends AuthenticatedController {
     public function to_send_action()
     {
         PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Demnächst zu verschickende Nachrichten'));
+            ' - ' . dgettext('garudaplugin', 'DemnÃ¤chst zu verschickende Nachrichten'));
 
         // Root sees all messages...
         if ($this->i_am_root) {
@@ -106,7 +101,7 @@ class OverviewController extends AuthenticatedController {
     public function protected_action()
     {
         PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Geschützte Nachrichten'));
+            ' - ' . dgettext('garudaplugin', 'GeschÃ¼tzte Nachrichten'));
 
         // Root sees all messages...
         if ($this->i_am_root) {
@@ -155,19 +150,19 @@ class OverviewController extends AuthenticatedController {
         if (in_array($GLOBALS['user']->id, array($m->author_id, $m->sender_id)) || $GLOBALS['perm']->have_perm('root')) {
             if ($m->delete()) {
                 PageLayout::postSuccess($type == 'message' ?
-                    dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.') :
-                    dgettext('garudaplugin', 'Die Vorlage wurde gelöscht.'));
+                    dgettext('garudaplugin', 'Die Nachricht wurde gelÃ¶scht.') :
+                    dgettext('garudaplugin', 'Die Vorlage wurde gelÃ¶scht.'));
             } else {
                 PageLayout::postError($type == 'message' ?
-                    dgettext('garudaplugin', 'Die Nachricht konnte nicht gelöscht werden.') :
-                    dgettext('garudaplugin', 'Die Vorlage konnte nicht gelöscht werden.'));
+                    dgettext('garudaplugin', 'Die Nachricht konnte nicht gelÃ¶scht werden.') :
+                    dgettext('garudaplugin', 'Die Vorlage konnte nicht gelÃ¶scht werden.'));
             }
         } else {
             PageLayout::postError($type == 'message' ?
                 dgettext('garudaplugin', 'Zugriff verweigert. '.
-                    'Sie haben nicht die nötigen Rechte, um diese Nachricht zu löschen.') :
+                    'Sie haben nicht die nÃ¶tigen Rechte, um diese Nachricht zu lÃ¶schen.') :
                 dgettext('garudaplugin', 'Zugriff verweigert. '.
-                    'Sie haben nicht die nötigen Rechte, um diese Vorlage zu löschen.'));
+                    'Sie haben nicht die nÃ¶tigen Rechte, um diese Vorlage zu lÃ¶schen.'));
         }
         $this->relocate($target);
     }

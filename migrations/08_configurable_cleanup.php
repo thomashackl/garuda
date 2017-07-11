@@ -10,7 +10,7 @@ class ConfigurableCleanup extends Migration
                 'type' => 'integer',
                 'range' => 'global',
                 'section' => 'garudaplugin',
-                'description' => 'Wie oft (in Tagen) sollen bereits verschickte Nachrichtenauftr‰ge aus der Datenbank gelˆscht werden?'
+                'description' => 'Wie oft (in Tagen) sollen bereits verschickte Nachrichtenauftr√§ge aus der Datenbank gel√∂scht werden?'
             ));
         } catch (InvalidArgumentException $e) {}
     }

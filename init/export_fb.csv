@@ -69,11 +69,11 @@ Bachelor Realschule,Ethik,PH
 Bachelor Realschule,Ethik,PH
 Bachelor Realschule,Ethik,PH
 Bachelor Realschule,Ethik,PH
-Bachelor Realschule,Französisch,PH
-Bachelor Realschule,Französisch,PH
-Bachelor Realschule,Französisch,PH
-Bachelor Realschule,Französisch,PH
-Bachelor Realschule,Französisch,PH
+Bachelor Realschule,FranzÃ¶sisch,PH
+Bachelor Realschule,FranzÃ¶sisch,PH
+Bachelor Realschule,FranzÃ¶sisch,PH
+Bachelor Realschule,FranzÃ¶sisch,PH
+Bachelor Realschule,FranzÃ¶sisch,PH
 Bachelor Realschule,Geographie,PH
 Bachelor Realschule,Geographie,PH
 Bachelor Realschule,Geographie,PH
@@ -119,7 +119,7 @@ Bachelor Realschule,Wirtschaftswissenschaften,WW
 Bachelor Realschule,Wirtschaftswissenschaften,WW
 Bachelor Realschule,Wirtschaftswissenschaften,WW
 Bachelor Realschule,Wirtschaftswissenschaften,WW
-DSH Prüfung,Deutsch Vorbereitung,PH
+DSH PrÃ¼fung,Deutsch Vorbereitung,PH
 Diplom,Angewandte Fremdsprachen,PH
 Diplom,Angewandte Fremdsprachen,PH
 Diplom,Betriebswirtschaftslehre,WW
@@ -143,13 +143,13 @@ Diplom,Philosophie,PH
 Diplom,Philosophie,PH
 Diplom,Psychologie,PH
 Diplom,Psychologie,PH
-Diplom,Pädagogik,PH
+Diplom,PÃ¤dagogik,PH
 Diplom,Rechtswissenschaft,JU
 Diplom,Rechtswissenschaft,JU
 Diplom,"Sprachen,Wirtschaft und Kulturraumwissenschaften",PH
 Diplom,Statistik,WW
 Diplom,Statistik,WW
-Diplom,Südostasienkunde,PH
+Diplom,SÃ¼dostasienkunde,PH
 Diplom,Volkswirtschaftslehre,WW
 Diplom,Wirtschaftswissenschaften,WW
 Diplom,Wirtschaftswissenschaften,WW
@@ -203,7 +203,7 @@ Lehramt Grundschule,Ethik,PH
 Lehramt Grundschule,Ethik,PH
 Lehramt Grundschule,Evangelische Theologie,PH
 Lehramt Grundschule,Evangelische Theologie,PH
-Lehramt Grundschule,Flöte,PH
+Lehramt Grundschule,FlÃ¶te,PH
 Lehramt Grundschule,Geige,PH
 Lehramt Grundschule,Geographie,PH
 Lehramt Grundschule,Geographie,PH
@@ -306,12 +306,12 @@ Lehramt Gymnasium,Erdkunde,PH
 Lehramt Gymnasium,Erdkunde,PH
 Lehramt Gymnasium,Erdkunde,PH
 Lehramt Gymnasium,Erdkunde,PH
-Lehramt Gymnasium,Französisch,PH
-Lehramt Gymnasium,Französisch,PH
-Lehramt Gymnasium,Französisch,PH
-Lehramt Gymnasium,Französisch,PH
-Lehramt Gymnasium,Französisch,PH
-Lehramt Gymnasium,Französisch,PH
+Lehramt Gymnasium,FranzÃ¶sisch,PH
+Lehramt Gymnasium,FranzÃ¶sisch,PH
+Lehramt Gymnasium,FranzÃ¶sisch,PH
+Lehramt Gymnasium,FranzÃ¶sisch,PH
+Lehramt Gymnasium,FranzÃ¶sisch,PH
+Lehramt Gymnasium,FranzÃ¶sisch,PH
 Lehramt Gymnasium,Geographie,PH
 Lehramt Gymnasium,Geographie,PH
 Lehramt Gymnasium,Geographie,PH
@@ -419,7 +419,7 @@ Lehramt Hauptschule,Ethik,PH
 Lehramt Hauptschule,Ethik,PH
 Lehramt Hauptschule,Evangelische Theologie,PH
 Lehramt Hauptschule,Evangelische Theologie,PH
-Lehramt Hauptschule,Flöte,PH
+Lehramt Hauptschule,FlÃ¶te,PH
 Lehramt Hauptschule,Geige,PH
 Lehramt Hauptschule,Geographie,PH
 Lehramt Hauptschule,Geographie,PH
@@ -529,12 +529,12 @@ Lehramt Realschule,Ethik,PH
 Lehramt Realschule,Ethik,PH
 Lehramt Realschule,Ethik,PH
 Lehramt Realschule,Ethik,PH
-Lehramt Realschule,Französisch,PH
-Lehramt Realschule,Französisch,PH
-Lehramt Realschule,Französisch,PH
-Lehramt Realschule,Französisch,PH
-Lehramt Realschule,Französisch,PH
-Lehramt Realschule,Französisch,PH
+Lehramt Realschule,FranzÃ¶sisch,PH
+Lehramt Realschule,FranzÃ¶sisch,PH
+Lehramt Realschule,FranzÃ¶sisch,PH
+Lehramt Realschule,FranzÃ¶sisch,PH
+Lehramt Realschule,FranzÃ¶sisch,PH
+Lehramt Realschule,FranzÃ¶sisch,PH
 Lehramt Realschule,Geographie,PH
 Lehramt Realschule,Geographie,PH
 Lehramt Realschule,Geographie,PH
@@ -646,9 +646,9 @@ Magister,Anglistik/Literaturwissenschaft,PH
 Magister,Anglistik/Sprachwissenschaft,PH
 Magister,Anglistik/Sprachwissenschaft,PH
 Magister,Anglistik/Sprachwissenschaft,PH
-Magister,Archäologie der römischen Provinzen,PH
-Magister,Archäologie der römischen Provinzen,PH
-Magister,Archäologie der römischen Provinzen,PH
+Magister,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
+Magister,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
+Magister,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
 Magister,Bayerische Landesgeschichte,PH
 Magister,Bayerische Landesgeschichte,PH
 Magister,Bayerische Landesgeschichte,PH
@@ -674,7 +674,7 @@ Magister,Englische Kulturwissenschaft,PH
 Magister,Englische Kulturwissenschaft,PH
 Magister,Englische Kulturwissenschaft,PH
 Magister,Evangelische Theologie,PH
-Magister,Flöte,PH
+Magister,FlÃ¶te,PH
 Magister,Geographie,PH
 Magister,Geographie,PH
 Magister,Geographie,PH
@@ -701,9 +701,9 @@ Magister,Mathematik,MI
 Magister,Mittlere u. neuere Geschichte,PH
 Magister,Mittlere u. neuere Geschichte,PH
 Magister,Mittlere u. neuere Geschichte,PH
-Magister,Musikpädagogik,PH
-Magister,Musikpädagogik,PH
-Magister,Musikpädagogik,PH
+Magister,MusikpÃ¤dagogik,PH
+Magister,MusikpÃ¤dagogik,PH
+Magister,MusikpÃ¤dagogik,PH
 Magister,Philosophie,PH
 Magister,Philosophie,PH
 Magister,Philosophie,PH
@@ -713,14 +713,14 @@ Magister,Politische Wissenschaften,PH
 Magister,Psychologie,PH
 Magister,Psychologie,PH
 Magister,Psychologie,PH
-Magister,Pädagogik,PH
-Magister,Pädagogik,PH
-Magister,Pädagogik,PH
+Magister,PÃ¤dagogik,PH
+Magister,PÃ¤dagogik,PH
+Magister,PÃ¤dagogik,PH
 Magister,Rechtswissenschaft,JU
 Magister,Rechtswissenschaft,JU
-Magister,Romanische Kulturwissenschaft Französisch,PH
-Magister,Romanische Kulturwissenschaft Französisch,PH
-Magister,Romanische Kulturwissenschaft Französisch,PH
+Magister,Romanische Kulturwissenschaft FranzÃ¶sisch,PH
+Magister,Romanische Kulturwissenschaft FranzÃ¶sisch,PH
+Magister,Romanische Kulturwissenschaft FranzÃ¶sisch,PH
 Magister,Romanische Kulturwissenschaft Italienisch,PH
 Magister,Romanische Kulturwissenschaft Italienisch,PH
 Magister,Romanische Kulturwissenschaft Italienisch,PH
@@ -730,9 +730,9 @@ Magister,Romanische Kulturwissenschaft Spanisch,PH
 Magister,Romanische Literaturwissenschaft,PH
 Magister,Romanische Literaturwissenschaft,PH
 Magister,Romanische Literaturwissenschaft,PH
-Magister,Romanische Literaturwissenschaft Französisch,PH
-Magister,Romanische Literaturwissenschaft Französisch,PH
-Magister,Romanische Literaturwissenschaft Französisch,PH
+Magister,Romanische Literaturwissenschaft FranzÃ¶sisch,PH
+Magister,Romanische Literaturwissenschaft FranzÃ¶sisch,PH
+Magister,Romanische Literaturwissenschaft FranzÃ¶sisch,PH
 Magister,Romanische Literaturwissenschaft Italienisch,PH
 Magister,Romanische Literaturwissenschaft Italienisch,PH
 Magister,Romanische Literaturwissenschaft Italienisch,PH
@@ -748,22 +748,22 @@ Magister,Romanische Sprachwissenschaft Italienisch,PH
 Magister,Romanische Sprachwissenschaft Spanisch,PH
 Magister,Romanische Sprachwissenschaft Spanisch,PH
 Magister,Romanische Sprachwissenschaft Spanisch,PH
-Magister,Romansiche Sprachwissenschaft Französisch,PH
-Magister,Romansiche Sprachwissenschaft Französisch,PH
-Magister,Romansiche Sprachwissenschaft Französisch,PH
-Magister,Schul-/Musikpädagogik,PH
-Magister,Schul-/Musikpädagogik,PH
-Magister,Schul-/Musikpädagogik,PH
-Magister,Schulpädagogik,PH
-Magister,Schulpädagogik,PH
-Magister,Schulpädagogik,PH
+Magister,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Magister,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Magister,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Magister,Schul-/MusikpÃ¤dagogik,PH
+Magister,Schul-/MusikpÃ¤dagogik,PH
+Magister,Schul-/MusikpÃ¤dagogik,PH
+Magister,SchulpÃ¤dagogik,PH
+Magister,SchulpÃ¤dagogik,PH
+Magister,SchulpÃ¤dagogik,PH
 Magister,Soziologie,PH
 Magister,Soziologie,PH
 Magister,Soziologie,PH
 Magister,Statistik,WW
-Magister,Südostasienkunde,PH
-Magister,Südostasienkunde,PH
-Magister,Südostasienkunde,PH
+Magister,SÃ¼dostasienkunde,PH
+Magister,SÃ¼dostasienkunde,PH
+Magister,SÃ¼dostasienkunde,PH
 Magister,Volkskunde,PH
 Magister,Volkskunde,PH
 Magister,Volkskunde,PH
@@ -774,14 +774,14 @@ Master,Business Administration,WW
 Master,Caritaswissenschaften,KT
 Master,Caritaswissenschaften,KT
 Master,Caritaswissenschaften,KT
-Master,Deutsches Recht für ausländische Studierende,JU
-Master,Deutsches Recht für ausländische Studierende,JU
+Master,Deutsches Recht fÃ¼r auslÃ¤ndische Studierende,JU
+Master,Deutsches Recht fÃ¼r auslÃ¤ndische Studierende,JU
 Master,Europarecht,JU
 Master,European Studies,PH
 Master,European Studies,PH
 Master,European Studies,PH
-Master,Europäisches Recht,JU
-Master,Europäisches Wirtschafts- und Regulierungsrecht,JU
+Master,EuropÃ¤isches Recht,JU
+Master,EuropÃ¤isches Wirtschafts- und Regulierungsrecht,JU
 Master,"Geographie: Kultur, Umwelt und Tourismus",PH
 Master,Geschichte,PH
 Master,IT-Sicherheit,MI
@@ -800,7 +800,7 @@ Master,Schulische Bildungs- und Erziehungsprozesse,PH
 Master,Staatswissenschaft,PH
 Master,Staatswissenschaft,PH
 Master,Staatswissenschaft,PH
-Master,Südostasienkunde,PH
+Master,SÃ¼dostasienkunde,PH
 Master,Text- und Kultursemiotik,PH
 Master,Text- und Kultursemiotik,PH
 Master,Wirtschaftsinformatik,WW
@@ -814,10 +814,10 @@ Master of Education,Englisch,PH
 Master of Education,Englisch,PH
 Master of Education,Erdkunde,PH
 Master of Education,Erdkunde,PH
-Master of Education,Französisch,PH
-Master of Education,Französisch,PH
-Master of Education,Französisch,PH
-Master of Education,Französisch,PH
+Master of Education,FranzÃ¶sisch,PH
+Master of Education,FranzÃ¶sisch,PH
+Master of Education,FranzÃ¶sisch,PH
+Master of Education,FranzÃ¶sisch,PH
 Master of Education,Geographie,PH
 Master of Education,Geographie,PH
 Master of Education,Geographie,PH
@@ -856,7 +856,7 @@ Promotion Grad.kolleg,Alte Geschichte,PH
 Promotion Grad.kolleg,Amerikanistik,PH
 Promotion Grad.kolleg,Anglistik/Literaturwissenschaft,PH
 Promotion Grad.kolleg,Anglistik/Sprachwissenschaft,PH
-Promotion Grad.kolleg,Archäologie der römischen Provinzen,PH
+Promotion Grad.kolleg,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
 Promotion Grad.kolleg,Bayerische Landesgeschichte,PH
 Promotion Grad.kolleg,Betriebswirtschaftslehre,WW
 Promotion Grad.kolleg,Bildungswissenschaften,PH
@@ -888,7 +888,7 @@ Promotion Grad.kolleg,Katholische Theologie: Dogmatik und Dogmengeschichte,KT
 Promotion Grad.kolleg,Katholische Theologie: Exegese und Biblische Theologie,KT
 Promotion Grad.kolleg,Katholische Theologie: Fundamentaltheologie,KT
 Promotion Grad.kolleg,Katholische Theologie: Kirchengeschichte,KT
-Promotion Grad.kolleg,Katholische Theologie: Religionspädagogik u. Didaktik d. Religionsunterrichts,KT
+Promotion Grad.kolleg,Katholische Theologie: ReligionspÃ¤dagogik u. Didaktik d. Religionsunterrichts,KT
 Promotion Grad.kolleg,Katholische Theologie: Theologische Ethik,KT
 Promotion Grad.kolleg,Kommunikationswissenschaft,PH
 Promotion Grad.kolleg,Kunsterziehung,PH
@@ -896,13 +896,13 @@ Promotion Grad.kolleg,Kunstgeschichte,PH
 Promotion Grad.kolleg,Mathematik,MI
 Promotion Grad.kolleg,Medienwissenschaft,PH
 Promotion Grad.kolleg,Mittlere u. neuere Geschichte,PH
-Promotion Grad.kolleg,Musikpädagogik,PH
-Promotion Grad.kolleg,Osteuropäische Geschichte,PH
+Promotion Grad.kolleg,MusikpÃ¤dagogik,PH
+Promotion Grad.kolleg,OsteuropÃ¤ische Geschichte,PH
 Promotion Grad.kolleg,Philosophie,PH
 Promotion Grad.kolleg,Politikwissenschaft,PH
 Promotion Grad.kolleg,Politische Wissenschaften,PH
 Promotion Grad.kolleg,Psychologie,PH
-Promotion Grad.kolleg,Pädagogik,PH
+Promotion Grad.kolleg,PÃ¤dagogik,PH
 Promotion Grad.kolleg,Rechtswissenschaft,JU
 Promotion Grad.kolleg,Romanische Kulturwissenschaft,PH
 Promotion Grad.kolleg,Romanische Literatur- und Kulturwissenschaft,PH
@@ -910,14 +910,14 @@ Promotion Grad.kolleg,Romanische Literaturwissenschaft,PH
 Promotion Grad.kolleg,Romanische Sprachwissenschaft,PH
 Promotion Grad.kolleg,Romanische Sprachwissenschaft Italienisch,PH
 Promotion Grad.kolleg,Romanische Sprachwissenschaft Spanisch,PH
-Promotion Grad.kolleg,Romansiche Sprachwissenschaft Französisch,PH
-Promotion Grad.kolleg,Schulpädagogik,PH
+Promotion Grad.kolleg,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Promotion Grad.kolleg,SchulpÃ¤dagogik,PH
 Promotion Grad.kolleg,Slavische Kulturwissenschaft,PH
 Promotion Grad.kolleg,Slavische Literaturwissenschaft,PH
 Promotion Grad.kolleg,Soziologie,PH
 Promotion Grad.kolleg,Sport,PH
-Promotion Grad.kolleg,Südostasienforschung,PH
-Promotion Grad.kolleg,Südostasienkunde,PH
+Promotion Grad.kolleg,SÃ¼dostasienforschung,PH
+Promotion Grad.kolleg,SÃ¼dostasienkunde,PH
 Promotion Grad.kolleg,Volkskunde,PH
 Promotion Grad.kolleg,Volkswirtschaftslehre,WW
 Promotion Grad.kolleg,Wirtschaftsinformatik,WW
@@ -938,9 +938,9 @@ Promotion mit Abschluss,Anglistik/Literaturwissenschaft,PH
 Promotion mit Abschluss,Anglistik/Sprachwissenschaft,PH
 Promotion mit Abschluss,Anglistik/Sprachwissenschaft,PH
 Promotion mit Abschluss,Anglistik/Sprachwissenschaft,PH
-Promotion mit Abschluss,Archäologie der römischen Provinzen,PH
-Promotion mit Abschluss,Archäologie der römischen Provinzen,PH
-Promotion mit Abschluss,Archäologie der römischen Provinzen,PH
+Promotion mit Abschluss,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
+Promotion mit Abschluss,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
+Promotion mit Abschluss,ArchÃ¤ologie der rÃ¶mischen Provinzen,PH
 Promotion mit Abschluss,Bayerische Landesgeschichte,PH
 Promotion mit Abschluss,Bayerische Landesgeschichte,PH
 Promotion mit Abschluss,Bayerische Landesgeschichte,PH
@@ -1003,7 +1003,7 @@ Promotion mit Abschluss,Katholische Theologie: Dogmatik und Dogmengeschichte,KT
 Promotion mit Abschluss,Katholische Theologie: Exegese und Biblische Theologie,KT
 Promotion mit Abschluss,Katholische Theologie: Fundamentaltheologie,KT
 Promotion mit Abschluss,Katholische Theologie: Kirchengeschichte,KT
-Promotion mit Abschluss,Katholische Theologie: Religionspädagogik u. Didaktik d. Religionsunterrichts,KT
+Promotion mit Abschluss,Katholische Theologie: ReligionspÃ¤dagogik u. Didaktik d. Religionsunterrichts,KT
 Promotion mit Abschluss,Katholische Theologie: Theologische Ethik,KT
 Promotion mit Abschluss,Kommunikationswissenschaft,PH
 Promotion mit Abschluss,Kunsterziehung,PH
@@ -1023,10 +1023,10 @@ Promotion mit Abschluss,Medizinische Informatik,MI
 Promotion mit Abschluss,Mittlere u. neuere Geschichte,PH
 Promotion mit Abschluss,Mittlere u. neuere Geschichte,PH
 Promotion mit Abschluss,Mittlere u. neuere Geschichte,PH
-Promotion mit Abschluss,Musikpädagogik,PH
-Promotion mit Abschluss,Musikpädagogik,PH
-Promotion mit Abschluss,Musikpädagogik,PH
-Promotion mit Abschluss,Osteuropäische Geschichte,PH
+Promotion mit Abschluss,MusikpÃ¤dagogik,PH
+Promotion mit Abschluss,MusikpÃ¤dagogik,PH
+Promotion mit Abschluss,MusikpÃ¤dagogik,PH
+Promotion mit Abschluss,OsteuropÃ¤ische Geschichte,PH
 Promotion mit Abschluss,Philosophie,PH
 Promotion mit Abschluss,Philosophie,PH
 Promotion mit Abschluss,Philosophie,PH
@@ -1037,15 +1037,15 @@ Promotion mit Abschluss,Politische Wissenschaften,PH
 Promotion mit Abschluss,Psychologie,PH
 Promotion mit Abschluss,Psychologie,PH
 Promotion mit Abschluss,Psychologie,PH
-Promotion mit Abschluss,Pädagogik,PH
-Promotion mit Abschluss,Pädagogik,PH
-Promotion mit Abschluss,Pädagogik,PH
+Promotion mit Abschluss,PÃ¤dagogik,PH
+Promotion mit Abschluss,PÃ¤dagogik,PH
+Promotion mit Abschluss,PÃ¤dagogik,PH
 Promotion mit Abschluss,Rechtswissenschaft,JU
 Promotion mit Abschluss,Rechtswissenschaft,JU
 Promotion mit Abschluss,Romanische Kulturwissenschaft,PH
-Promotion mit Abschluss,Romanische Kulturwissenschaft Französisch,PH
-Promotion mit Abschluss,Romanische Kulturwissenschaft Französisch,PH
-Promotion mit Abschluss,Romanische Kulturwissenschaft Französisch,PH
+Promotion mit Abschluss,Romanische Kulturwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Romanische Kulturwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Romanische Kulturwissenschaft FranzÃ¶sisch,PH
 Promotion mit Abschluss,Romanische Kulturwissenschaft Italienisch,PH
 Promotion mit Abschluss,Romanische Kulturwissenschaft Italienisch,PH
 Promotion mit Abschluss,Romanische Kulturwissenschaft Italienisch,PH
@@ -1054,9 +1054,9 @@ Promotion mit Abschluss,Romanische Kulturwissenschaft Spanisch,PH
 Promotion mit Abschluss,Romanische Kulturwissenschaft Spanisch,PH
 Promotion mit Abschluss,Romanische Literatur- und Kulturwissenschaft,PH
 Promotion mit Abschluss,Romanische Literaturwissenschaft,PH
-Promotion mit Abschluss,Romanische Literaturwissenschaft Französisch,PH
-Promotion mit Abschluss,Romanische Literaturwissenschaft Französisch,PH
-Promotion mit Abschluss,Romanische Literaturwissenschaft Französisch,PH
+Promotion mit Abschluss,Romanische Literaturwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Romanische Literaturwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Romanische Literaturwissenschaft FranzÃ¶sisch,PH
 Promotion mit Abschluss,Romanische Literaturwissenschaft Italienisch,PH
 Promotion mit Abschluss,Romanische Literaturwissenschaft Italienisch,PH
 Promotion mit Abschluss,Romanische Literaturwissenschaft Italienisch,PH
@@ -1070,15 +1070,15 @@ Promotion mit Abschluss,Romanische Sprachwissenschaft Italienisch,PH
 Promotion mit Abschluss,Romanische Sprachwissenschaft Spanisch,PH
 Promotion mit Abschluss,Romanische Sprachwissenschaft Spanisch,PH
 Promotion mit Abschluss,Romanische Sprachwissenschaft Spanisch,PH
-Promotion mit Abschluss,Romansiche Sprachwissenschaft Französisch,PH
-Promotion mit Abschluss,Romansiche Sprachwissenschaft Französisch,PH
-Promotion mit Abschluss,Romansiche Sprachwissenschaft Französisch,PH
-Promotion mit Abschluss,Schul-/Musikpädagogik,PH
-Promotion mit Abschluss,Schul-/Musikpädagogik,PH
-Promotion mit Abschluss,Schul-/Musikpädagogik,PH
-Promotion mit Abschluss,Schulpädagogik,PH
-Promotion mit Abschluss,Schulpädagogik,PH
-Promotion mit Abschluss,Schulpädagogik,PH
+Promotion mit Abschluss,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Romansiche Sprachwissenschaft FranzÃ¶sisch,PH
+Promotion mit Abschluss,Schul-/MusikpÃ¤dagogik,PH
+Promotion mit Abschluss,Schul-/MusikpÃ¤dagogik,PH
+Promotion mit Abschluss,Schul-/MusikpÃ¤dagogik,PH
+Promotion mit Abschluss,SchulpÃ¤dagogik,PH
+Promotion mit Abschluss,SchulpÃ¤dagogik,PH
+Promotion mit Abschluss,SchulpÃ¤dagogik,PH
 Promotion mit Abschluss,Slavische Kulturwissenschaft,PH
 Promotion mit Abschluss,Slavische Literaturwissenschaft,PH
 Promotion mit Abschluss,Soziologie,PH
@@ -1088,10 +1088,10 @@ Promotion mit Abschluss,Sport,PH
 Promotion mit Abschluss,"Sprachen,Wirtschaft und Kulturraumwissenschaften",PH
 Promotion mit Abschluss,Statistik,WW
 Promotion mit Abschluss,Statistik,WW
-Promotion mit Abschluss,Südostasienforschung,PH
-Promotion mit Abschluss,Südostasienkunde,PH
-Promotion mit Abschluss,Südostasienkunde,PH
-Promotion mit Abschluss,Südostasienkunde,PH
+Promotion mit Abschluss,SÃ¼dostasienforschung,PH
+Promotion mit Abschluss,SÃ¼dostasienkunde,PH
+Promotion mit Abschluss,SÃ¼dostasienkunde,PH
+Promotion mit Abschluss,SÃ¼dostasienkunde,PH
 Promotion mit Abschluss,Volkskunde,PH
 Promotion mit Abschluss,Volkskunde,PH
 Promotion mit Abschluss,Volkskunde,PH
@@ -1101,4 +1101,4 @@ Promotion mit Abschluss,Wirtschaftswissenschaften,WW
 Promotion mit Abschluss,Wirtschaftswissenschaften,WW
 Promotion mit Abschluss,Wirtschaftswissenschaften,WW
 Staatsexamen,Rechtswissenschaft,JU
-Überbrückungsangebot G9,Überbrückungsangebot Jura,JU
+ÃœberbrÃ¼ckungsangebot G9,ÃœberbrÃ¼ckungsangebot Jura,JU

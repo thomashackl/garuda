@@ -11,9 +11,9 @@ class ExcludeUsers extends Migration
          * Add new column to filters table for specifying excluded users.
          */
         DBManager::get()->exec("ALTER TABLE `garuda_messages`
-          ADD `exclude_users` LONGTEXT NULL DEFAULT NULL AFTER `recipients`");
+          ADD `exclude_users` LONGTEXT NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci AFTER `recipients`");
         DBManager::get()->exec("ALTER TABLE `garuda_templates`
-          ADD `exclude_users` LONGTEXT NULL DEFAULT NULL AFTER `recipients`");
+          ADD `exclude_users` LONGTEXT NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci AFTER `recipients`");
 
         SimpleORMap::expireTableScheme();
     }

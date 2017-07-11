@@ -16,22 +16,15 @@
 
 class RecipientsController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     public function before_filter(&$action, &$args) {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
         if (Request::isXhr()) {
             $this->set_layout(null);
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        $this->set_content_type('text/html;charset=windows-1252');
 
         Navigation::activateItem('/messaging/garuda/recipients');
         $this->config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
@@ -39,7 +32,6 @@ class RecipientsController extends AuthenticatedController {
         if ($GLOBALS['perm']->have_perm('root')) {
             $this->i_am_root = true;
         }
-        $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
@@ -49,7 +41,7 @@ class RecipientsController extends AuthenticatedController {
             ' - ' . dgettext('garudaplugin', 'Meine Berechtigungen'));
 
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Erlaubte Zielgruppen'),
-            dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."),
+            dgettext('garudaplugin', "Hier sehen Sie, an welche EmpfÃ¤ngerkreise Sie Nachrichten verschicken kÃ¶nnen."),
             'icons/16/white/mail.png');
         if (!$this->i_am_root) {
             $this->studycourses = array();

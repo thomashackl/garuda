@@ -14,7 +14,7 @@ class GenderFilterField extends UserFilterField
  
         $this->validValues = array(
             0 => _('unbekannt'),
-            1 => _('männlich'),
+            1 => _('mÃ¤nnlich'),
             2 => _('weiblich'),
         );
  

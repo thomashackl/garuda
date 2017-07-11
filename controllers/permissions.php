@@ -16,8 +16,6 @@
 
 class PermissionsController extends AuthenticatedController {
 
-    protected $utf8decode_xhr = true;
-
     public function before_filter(&$action, &$args) {
         $GLOBALS['perm']->check('root');
 
@@ -27,17 +25,11 @@ class PermissionsController extends AuthenticatedController {
         $this->flash = Trails_Flash::instance();
         if (Request::isXhr()) {
             $this->set_layout(null);
-            $request = Request::getInstance();
-            foreach ($request as $key => $value) {
-                $request[$key] = studip_utf8decode($value);
-            }
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
         }
-        $this->set_content_type('text/html;charset=windows-1252');
 
         Navigation::activateItem('/messaging/garuda/permissions');
-        $this->set_content_type('text/html;charset=windows-1252');
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
     }
@@ -58,12 +50,12 @@ class PermissionsController extends AuthenticatedController {
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Berechtigung'),
             dgettext('garudaplugin', "Pro Einrichtung kann festgelegt werden, ob ".
                 "Personen die Berechtigung 'dozent' oder ".
-                "'admin' haben müssen, um diese Funktion zu ".
+                "'admin' haben mÃ¼ssen, um diese Funktion zu ".
                 "nutzen."),
             'icons/16/white/lock-locked.png');
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Konfiguration'),
-                            dgettext('garudaplugin', "Hier können Sie pro Einrichtung einstellen, ".
-                                "welche Studiengänge als Zielgruppe für ".
+                            dgettext('garudaplugin', "Hier kÃ¶nnen Sie pro Einrichtung einstellen, ".
+                                "welche StudiengÃ¤nge als Zielgruppe fÃ¼r ".
                                 "Nachrichten erlaubt sind."),
                             'icons/16/white/doctoral_cap.png');
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Einrichtungen'),
@@ -98,9 +90,9 @@ class PermissionsController extends AuthenticatedController {
                 return array('degree' => $data[0], 'subject' => $data[1]);
             }, Request::getArray('studycourses'));
         if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
-            PageLayout::postSuccess(dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.'));
+            PageLayout::postSuccess(dgettext('garudaplugin', 'Die Ã„nderungen wurden gespeichert.'));
         } else {
-            PageLayout::postError(dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.'));
+            PageLayout::postError(dgettext('garudaplugin', 'Die Ã„nderungen konnten nicht gespeichert werden.'));
         }
         $this->flash['institute_id'] = Request::option('institute');
         $this->relocate('permissions');
