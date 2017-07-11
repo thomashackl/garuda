@@ -151,7 +151,7 @@
                             <span class="icon"></span>
                             <span class="name"></span>
                             <span class="size"></span>
-                            <a class="remove_attachment"><?= Assets::img("icons/16/blue/trash", array('class' => "text-bottom")) ?></a>
+                            <a class="remove_attachment"><?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?></a>
                         </li>
                     </ul>
                     <div id="statusbar_container">
@@ -162,7 +162,7 @@
                     </div>
                     <label style="cursor: pointer;">
                         <input type="file" id="fileupload" multiple onChange="STUDIP.Messages.upload_from_input(this);" style="display: none;">
-                        <?= Assets::img("icons/20/blue/upload", array('title' => _("Datei hochladen"), 'class' => "text-bottom")) ?>
+                        <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
                         <?= _("Datei hochladen") ?>
                     </label>
 
