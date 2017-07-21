@@ -424,16 +424,15 @@ class MessageController extends AuthenticatedController {
         $m->target = $this->flash['sendto'];
         $m->author_id = $GLOBALS['user']->id;
         if (count($this->flash['filters']) > 0) {
-            $m->filters = SimpleORMapCollection::createFromArray(
+            $m->filters = SimpleCollection::createFromArray(
                 array_map(function ($f) { return unserialize($f); },
                     $this->flash['filters']));
         }
         if (count($this->flash['courses']) > 0) {
-            $m->courses = SimpleORMapCollection::createFromArray(Course::findMany($this->flash['courses']));
+            $m->courses = SimpleCollection::createFromArray(Course::findMany($this->flash['courses']));
         }
         // Fetch message recipients...
-        $recipients = SimpleORMapCollection::createFromArray(
-            User::findMany($m->getMessageRecipients()))->orderBy('nachname, vorname, username');
+        $recipients = User::findMany($m->getMessageRecipients(), "ORDER BY `nachname`, `vorname`, `username`");
 
         // ... and create a corresponding csv.
         $data = array();
