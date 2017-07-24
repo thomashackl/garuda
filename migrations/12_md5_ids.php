@@ -63,6 +63,39 @@ class MD5IDs extends Migration
         DBManager::get()->exec("UPDATE `garuda_filters` SET `type` = 'template'
             WHERE `message_id` IN (SELECT `template_id` FROM `garuda_templates`)");
 
+        DBManager::get()->exec("ALTER TABLE `garuda_messages` CHANGE `job_id` `job_id` VARCHAR(32) NOT NULL COLLATE latin1_bin");
+        DBManager::get()->exec("ALTER TABLE `garuda_templates` CHANGE `template_id` `template_id` VARCHAR(32) NOT NULL COLLATE latin1_bin");
+        DBManager::get()->exec("ALTER TABLE `garuda_tokens` CHANGE `job_id` `job_id` VARCHAR(32) NOT NULL COLLATE latin1_bin");
+        DBManager::get()->exec("ALTER TABLE `garuda_filters` CHANGE `message_id` `message_id` VARCHAR(32) NOT NULL COLLATE latin1_bin");
+
+        // Generate new int IDs for all entries, first we get the messages to send.
+        $messages = DBManager::get()->fetchAll("SELECT `job_id` FROM `garuda_messages`");
+        $id = 1;
+        foreach ($messages as $m) {
+            // ... and update all relevant tables.
+            DBManager::get()->execute("UPDATE `garuda_messages` SET `job_id` = :newid WHERE `job_id` = :oldid",
+                array('newid' => $id, 'oldid' => $m['job_id']));
+            DBManager::get()->execute("UPDATE `garuda_tokens` SET `job_id` = :newid WHERE `job_id` = :oldid",
+                array('newid' => $id, 'oldid' => $m['job_id']));
+            DBManager::get()->execute("UPDATE `garuda_filters` SET `message_id` = :newid
+                WHERE `message_id` = :oldid AND `type` = 'message'",
+                array('newid' => $id, 'oldid' => $m['job_id']));
+            $id += 2;
+        }
+
+        // Now process the stored templates
+        $messages = DBManager::get()->fetchAll("SELECT `template_id` FROM `garuda_templates`");
+        $id = 2;
+        foreach ($messages as $m) {
+            // ... and update all relevant tables.
+            DBManager::get()->execute("UPDATE `garuda_templates` SET `template_id` = :newid WHERE `template_id` = :oldid",
+                array('newid' => $id, 'oldid' => $m['job_id']));
+            DBManager::get()->execute("UPDATE `garuda_filters` SET `message_id` = :newid
+                WHERE `message_id` = :oldid AND `type` = 'template'",
+                array('newid' => $id, 'oldid' => $m['job_id']));
+            $id += 2;
+        }
+
         SimpleORMap::expireTableScheme();
     }
 }
