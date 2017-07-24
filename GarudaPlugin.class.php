@@ -47,7 +47,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
             $garuda = Navigation::getItem('/messaging/garuda');
             require_once(realpath(dirname(__FILE__).'/models/GarudaModel.php'));
             $config = GarudaModel::getConfigurationForUser($GLOBALS['user']->id);
-            if ($config['studycourses'] || $config['institutes'] || $GLOBALS['perm']->have_perm('root')) {
+            if ($config['studycourses'] || $config['institutes'] ||
+                    $GLOBALS['perm']->have_perm('root')) {
                 Navigation::getItem('/messaging')->addSubNavigation('garuda', $garuda);
             } else {
                 Navigation::getItem('/')->removeItem('/messaging/garuda');

@@ -43,9 +43,9 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
             if ($where) {
                 $where .= " OR ";
             }
-            $where .= "(`abschluss_id`=? AND `studiengang_id`=?)";
+            $where .= "(`abschluss_id`=? AND `fach_id`=?)";
             $parameters[] = $entry['abschluss_id'];
-            $parameters[] = $entry['studiengang_id'];
+            $parameters[] = $entry['fach_id'];
         }
         if ($where) {
             $where = "AND (".$where.")";
@@ -86,15 +86,18 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
             $this->userDataDbTable => true
         );
         // Join in allowed values from Garuda config.
-        $allowed .= "";
+        $allowed = "";
+        $allowed2 = "";
         foreach ($this->config['studycourses'] as $entry) {
             if ($allowed) {
                 $allowed .= " OR ";
             }
-            $allowed .= "(`abschluss_id`=? AND `studiengang_id`=?)";
+            $allowed .= "(`abschluss_id`=? AND `fach_id`=?)";
             $parameters[] = $entry['abschluss_id'];
             $parameters[] = $entry['studiengang_id'];
+            $allowed2 .= "(`abschluss_id`='".$entry['abschluss_id']."' AND `fach_id`='".$entry['studiengang_id']."')";
         }
+        $where2 = $where . " AND (".$allowed2.")";
         $where .= " AND (".$allowed.")";
         // Check if there are restrictions given.
         foreach ($restrictions as $otherField => $restriction) {
@@ -115,6 +118,7 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
                 $parameters[] = $restriction['value'];
             }
         }
+        PageLayout::postInfo($select.$from.$where2);
         // Get all the users that fulfill the condition.
         $stmt = $db->prepare($select.$from.$where);
         $stmt->execute($parameters);

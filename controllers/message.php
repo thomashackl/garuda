@@ -429,7 +429,7 @@ class MessageController extends AuthenticatedController {
                     $this->flash['filters']));
         }
         if (count($this->flash['courses']) > 0) {
-            $m->courses = SimpleCollection::createFromArray(Course::findMany($this->flash['courses']));
+            $m->courses = Course::findMany($this->flash['courses']);
         }
         // Fetch message recipients...
         $recipients = User::findMany($m->getMessageRecipients(), "ORDER BY `nachname`, `vorname`, `username`");

@@ -1,6 +1,6 @@
 <h1><?= dgettext('garudaplugin', 'An welche Empfängerkreise darf ich schreiben?') ?></h1>
 <?php if ($i_am_root) { ?>
-<?= formatReady(dgettext('garudaplugin', 'Mit Ihren Root-Rechten dürfen Sie an alle schreiben!').' :thumb:') ?>
+<?= formatReady(dgettext('garudaplugin', 'Mit Ihren Rechten dürfen Sie an alle schreiben!').' :thumb:') ?>
 <?php } else { ?>
 <h2><?= dgettext('garudaplugin', 'Studiengänge') ?></h2>
     <?php if ($studycourses) { ?>

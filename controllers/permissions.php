@@ -65,15 +65,14 @@ class PermissionsController extends AuthenticatedController {
     }
 
     public function get_action($instituteId) {
-        //CSRFProtection::verifyUnsafeRequest();
         $config = GarudaModel::getConfiguration(array($instituteId));
         $this->config = $config[$instituteId];
         $this->studycourses = array();
         foreach (Degree::findBySQL("1 ORDER BY `name`") as $degree) {
             $assigned = DBManager::get()->fetchFirst(
-                "SELECT DISTINCT `studiengang_id` FROM `user_studiengang` WHERE `abschluss_id` = ?",
+                "SELECT DISTINCT `fach_id` FROM `user_studiengang` WHERE `abschluss_id` = ?",
                 array($degree->id));
-            $subjects = SimpleORMapCollection::createFromArray(StudyCourse::findMany($assigned))->orderBy('name');
+            $subjects = StudyCourse::findMany($assigned, "ORDER BY `name`");
             $this->studycourses[$degree->id] = array(
                 'name' => $degree->name,
                 'subjects' => $subjects
