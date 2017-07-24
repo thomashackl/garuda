@@ -96,6 +96,11 @@ class MD5IDs extends Migration
             $id += 2;
         }
 
+        DBManager::get()->exec("ALTER TABLE `garuda_messages` CHANGE `job_id` `job_id` INT NOT NULL AUTO_INCREMENT");
+        DBManager::get()->exec("ALTER TABLE `garuda_templates` CHANGE `template_id` `template_id` INT NOT NULL AUTO_INCREMENT");
+        DBManager::get()->exec("ALTER TABLE `garuda_tokens` CHANGE `job_id` `job_id` INT NOT NULL");
+        DBManager::get()->exec("ALTER TABLE `garuda_filters` CHANGE `message_id` `message_id` INT NOT NULL");
+
         SimpleORMap::expireTableScheme();
     }
 }
