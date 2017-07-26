@@ -3,6 +3,9 @@
         <?= $title ?>
     </caption>
     <colgroup>
+        <?php if ($type == 'template') : ?>
+        <col>
+        <?php endif ?>
         <col width="150">
         <col width="150">
         <col width="15%">
@@ -13,6 +16,9 @@
     </colgroup>
     <thead>
     <tr>
+        <?php if ($type == 'template') : ?>
+            <th><?= dgettext('garudaplugin', 'Name') ?></th>
+        <?php endif ?>
         <th><?= dgettext('garudaplugin', 'Autor') ?></th>
         <th><?= dgettext('garudaplugin', 'Absender') ?></th>
         <th><?= dgettext('garudaplugin', 'Betreff') ?></th>
@@ -25,6 +31,11 @@
     <tbody>
     <?php foreach ($messages as $m) : ?>
         <tr>
+            <?php if ($type == 'template') : ?>
+                <td>
+                    <?= htmlReady($m->name) ?>
+                </td>
+            <?php endif ?>
             <td>
                 <?= htmlReady($m->author->getFullname()) ?> (<?= $m->author->username?>)
             </td>
