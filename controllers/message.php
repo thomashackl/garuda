@@ -65,6 +65,8 @@ class MessageController extends AuthenticatedController {
         PageLayout::setTitle($this->plugin->getDisplayName() .
             ' - ' . dgettext('garudaplugin', 'Nachricht schreiben'));
 
+        $this->type = $type;
+
         // Set values from Request:
         // Message target.
         if (Request::option('sendto')) {
@@ -163,6 +165,13 @@ class MessageController extends AuthenticatedController {
             if ($send_date >= time()) {
                 $this->flash['send_date'] = $send_date;
             }
+        }
+
+        if (Request::option('type')) {
+            $this->flash['type'] = Request::option('type');
+        }
+        if (Request::option('id')) {
+            $this->flash['id'] = Request::option('id');
         }
 
         if ($this->i_am_root) {
@@ -355,7 +364,7 @@ class MessageController extends AuthenticatedController {
                     $this->flash['list'] = implode("\n", array_map(function($u) {
                         return $u->username;
                     }, User::findMany($this->message->recipients)));
-                } else {
+                } else if (!$this->flash['sendto']) {
                     $this->flash['sendto'] = $this->message->target;
                 }
 
@@ -366,8 +375,9 @@ class MessageController extends AuthenticatedController {
                 }
 
                 $this->courses = $this->message->courses;
-                $this->filters = array_map(function ($f) { return new UserFilter($f['filter_id']); },
-                    $this->message->filters->toArray());
+                $this->filters = $this->flash['filters'] ?
+                    array_map(function ($f) { return unserialize($f); }, $this->flash['filters']) :
+                    array_map(function ($f) { return new UserFilter($f['filter_id']); }, $this->message->filters->toArray());
                 array_walk($this->filters, function ($f) { $f->show_user_count = true; });
                 // Get alternative sender if applicable.
                 if ($this->message->sender_id == '____%system%____') {

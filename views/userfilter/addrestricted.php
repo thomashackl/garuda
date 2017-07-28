@@ -1,4 +1,4 @@
-<form class="default" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
+<form class="default" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= Request::isXhr() ? ' data-dialog="size=auto"' : '' ?>>
     <header>
         <h2>
             <?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?>
@@ -21,10 +21,10 @@
         <?php foreach ($flash->flash as $key => $value) : ?>
             <?php if (is_array($value)) : ?>
                 <?php foreach ($value as $entry) : ?>
-                    <input type="hidden" name="<?= htmlReady($key) ?>[]" value="<?= htmlReady($entry) ?>"/>
+                    <input type="hidden" name="<?= htmlReady($key) ?>[]" value="<?= htmlReady($entry) ?>">
                 <?php endforeach ?>
             <?php else : ?>
-                <input type="hidden" name="<?= htmlReady($key) ?>" value="<?= htmlReady($value) ?>"/>
+                <input type="hidden" name="<?= htmlReady($key) ?>" value="<?= htmlReady($value) ?>">
             <?php endif ?>
         <?php endforeach ?>
     </section>

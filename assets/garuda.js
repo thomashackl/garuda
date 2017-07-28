@@ -304,7 +304,7 @@
             STUDIP.Garuda.init();
         }
     });
-    $(document).on('dialog-open', function(event) {
+    $(document).on('dialog-update', function(event) {
         if ($('form.garuda-js-init').length > 0) {
             STUDIP.Garuda.init();
         }

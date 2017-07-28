@@ -1,6 +1,14 @@
 <form class="default garuda-js-init" enctype="multipart/form-data" action="<?= $controller->url_for('message/write') ?>" method="post">
     <header>
-        <h1><?= dgettext('garudaplugin', 'Nachricht schreiben') ?></h1>
+        <h1>
+            <?php if ($type == 'template') : ?>
+                <?= sprintf(dgettext('garudaplugin', 'Vorlage "%s" bearbeiten'), $message->name) ?>
+            <?php elseif ($message->id) : ?>
+                <?= dgettext('garudaplugin', 'Nachricht bearbeiten') ?>
+            <?php else : ?>
+                <?= dgettext('garudaplugin', 'Nachricht schreiben') ?>
+            <?php endif ?>
+        </h1>
     </header>
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
@@ -210,6 +218,24 @@
             </section>
         </fieldset>
     <?php } ?>
+    <footer data-dialog-button>
+        <?php if ($message) : ?>
+            <input type="hidden" name="id" value="<?= $message->id ?>">
+        <?php endif ?>
+        <input type="hidden" name="type" value="<?= $type ?>">
+        <?php if ($message && Request::isXhr()) : ?>
+            <input type="hidden" name="landingpoint" value="<?= $controller->url_for($type == 'template' ? 'overview/templates' : 'overview/to_send') ?>">
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'store') ?>
+            <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
+        <?php else : ?>
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
+            <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
+                'save_template', array('data-dialog' => 'size=auto')) ?>
+            <?php if (Config::get()->GARUDA_ENABLE_EXPORT) : ?>
+                <?= Studip\Button::create(dgettext('garudaplugin', 'Empfängerliste exportieren'), 'export') ?>
+            <?php endif ?>
+        <?php endif ?>
+    </footer>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <section id="message">
@@ -254,6 +280,7 @@
             </section>
         <?php } ?>
     </fieldset>
+    <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend>
             <?= dgettext('garudaplugin', 'Versandzeitpunkt') ?>
@@ -272,21 +299,4 @@
             </label>
         </section>
     </fieldset>
-    <?= CSRFProtection::tokenTag() ?>
-    <footer data-dialog-button>
-        <?php if ($message && Request::isXhr()) : ?>
-            <input type="hidden" name="id" value="<?= $message->id ?>">
-            <input type="hidden" name="type" value="<?= $message instanceof GarudaTemplate ? 'template' : 'message' ?>">
-            <input type="hidden" name="landingpoint" value="<?= $controller->url_for($message instanceof GarudaTemplate ? 'overview/templates' : 'overview/to_send') ?>">
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'store') ?>
-            <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
-        <?php else : ?>
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
-            <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
-                'save_template', array('data-dialog' => 'size=auto')) ?>
-            <?php if (Config::get()->GARUDA_ENABLE_EXPORT) : ?>
-                <?= Studip\Button::create(dgettext('garudaplugin', 'Empfängerliste exportieren'), 'export') ?>
-            <?php endif ?>
-        <?php endif ?>
-    </footer>
 </form>
