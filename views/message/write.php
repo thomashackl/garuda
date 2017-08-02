@@ -218,24 +218,6 @@
             </section>
         </fieldset>
     <?php } ?>
-    <footer data-dialog-button>
-        <?php if ($message) : ?>
-            <input type="hidden" name="id" value="<?= $message->id ?>">
-        <?php endif ?>
-        <input type="hidden" name="type" value="<?= $type ?>">
-        <?php if ($message && Request::isXhr()) : ?>
-            <input type="hidden" name="landingpoint" value="<?= $controller->url_for($type == 'template' ? 'overview/templates' : 'overview/to_send') ?>">
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'store') ?>
-            <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
-        <?php else : ?>
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
-            <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
-                'save_template', array('data-dialog' => 'size=auto')) ?>
-            <?php if (Config::get()->GARUDA_ENABLE_EXPORT) : ?>
-                <?= Studip\Button::create(dgettext('garudaplugin', 'Empfängerliste exportieren'), 'export') ?>
-            <?php endif ?>
-        <?php endif ?>
-    </footer>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
         <section id="message">
@@ -299,4 +281,22 @@
             </label>
         </section>
     </fieldset>
+    <footer data-dialog-button>
+        <?php if ($message) : ?>
+            <input type="hidden" name="id" value="<?= $message->id ?>">
+        <?php endif ?>
+        <input type="hidden" name="type" value="<?= $type ?>">
+        <?php if ($message && Request::isXhr()) : ?>
+            <input type="hidden" name="landingpoint" value="<?= $controller->url_for($type == 'template' ? 'overview/templates' : 'overview/to_send') ?>">
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'store') ?>
+            <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
+        <?php else : ?>
+            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
+            <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
+                'save_template', array('data-dialog' => 'size=auto')) ?>
+            <?php if (Config::get()->GARUDA_ENABLE_EXPORT) : ?>
+                <?= Studip\Button::create(dgettext('garudaplugin', 'Empfängerliste exportieren'), 'export') ?>
+            <?php endif ?>
+        <?php endif ?>
+    </footer>
 </form>

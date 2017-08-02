@@ -17,7 +17,7 @@
 /**
  * Cron job for refreshing permissions.
  */
-class GarudaPermissionsCronjob extends CronJob {
+class GarudaGetPermissionsCronjob extends CronJob {
 
     public static function getName() {
         return dgettext('garudaplugin', 'Nachrichtenversand an Zielgruppen - Rechteaktualisierung');
@@ -41,8 +41,7 @@ class GarudaPermissionsCronjob extends CronJob {
      * accordingly.
      */
     public function execute($last_result, $parameters = array()) {
-        $config = Config::get('GARUDA_PERMISSIONS_EXTERNAL_DB');
-        if (count($config) > 0) {
+        if (Config::get()->GARUDA_PERMISSIONS_EXTERNAL_DB_ENABLE) {
 
         }
     }

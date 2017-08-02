@@ -283,4 +283,90 @@ class GarudaModel {
             ORDER BY m.`mkdate` DESC");
     }
 
+    public static function getInstitutesFromExternalDB()
+    {
+        $config = Config::get()->GARUDA_PERMISSIONS_EXTERNAL_DB_SETTINGS;
+
+        if ($db = self::connectExternalDB($config)) {
+            $result = $db->query("SELECT DISTINCT `" . PDO::quote($config['institutes']) .
+                "` FROM `" . PDO::quote($config['table']) .
+                "` ORDER BY `" . PDO::quote($config['institutes']) . "`");
+            return array_map(
+                function ($e) use ($config) { return $e[PDO::quote($config['institutes'])]; },
+                $result->fetchAll(PDO::FETCH_ASSOC));
+        }
+        return [];
+    }
+
+    /**
+     * Imports studycourse assignments to institutes, thus allowing matched
+     * institutes to write messages to people studying the assigned entries.
+     */
+    public static function importPermissions()
+    {
+        $config = Config::get()->GARUDA_PERMISSIONS_EXTERNAL_DB_SETTINGS;
+
+        if ($db = self::connectExternalDB($config)) {
+            $sql = "SELECT `" . PDO::quote($config['degrees']) .
+                    "`, `" . PDO::quote($config['subjects']) .
+                    "`, `" . PDO::quote($config['institutes']) .
+                    "` FROM `" . PDO::quote($config['table']) .
+                    "` ORDER BY `" . PDO::quote($config['degrees']) .
+                    "`, `" . PDO::quote($config['subjects']) .
+                    "`, `" . PDO::quote($config['institutes']) . "`";
+            $result = $db->query($sql);
+
+            $degrees = [];
+            $subjects = [];
+
+            DBManager::get()->execute("DELETE FROM `garuda_inst_stg` WHERE `institute_id` = ?", []);
+
+            $stmt = DBManager::get()->prepare("INSERT IGNORE INTO `garuda_inst_stg` VALUES ()");
+
+            foreach ($result->fetchAll(PDO::FETCH_ASSOC) as $entry) {
+                // Match degree name to Stud.IP abschluss_id
+                if (!$degrees[$entry[$config['degrees']]]) {
+                    $d = DBManager::get()->fetchOne("SELECT `abschluss_id` FROM `abschluss` WHERE `name` = ?",
+                        $entry[$config['degrees']]);
+                    $degrees[$entry[$config['degrees']]] = $d['abschluss_id'];
+                }
+
+                // Match subject name to Stud.IP fach_id
+                if (!$subjects[$entry[$config['subjects']]]) {
+                    $d = DBManager::get()->fetchOne("SELECT `fach_id` FROM `fach` WHERE `name` = ?",
+                        $entry[$config['subjects']]);
+                    $degrees[$entry[$config['subjects']]] = $d['fach_id'];
+                }
+
+
+            }
+
+        } else {
+            return false;
+        }
+    }
+
+    private static function connectExternalDB($config)
+    {
+        // Check if all necessary entries are set.
+        $valid = $config['hostname'] && $config['database'] &&
+            $config['username'] && $config['password'] && $config['table'] &&
+            $config['degrees'] && $config['subjects'] && $config['institutes'];
+
+        if ($valid) {
+            // Construct DSN for connection.
+            $dsn = $config['dbtype'] . ':' . 'host=' . $config['hostname'] . ';database=' . $config['database'];
+            if ($config['dbtype'] == 'informix') {
+                $dsn = ';EnableScrollableCursors=1';
+                foreach (words('service server protocol client_locale db_locale') as $entry) {
+                    if ($config[$entry]) {
+                        $dsn .= ';' . $entry . '=' . $config['entry'];
+                    }
+                }
+            }
+            return new PDO($dsn, $config['username'], $config['password']);
+        }
+        return false;
+    }
+
 }

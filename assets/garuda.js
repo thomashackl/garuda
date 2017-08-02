@@ -303,6 +303,28 @@
         if ($('form.garuda-js-init').length > 0) {
             STUDIP.Garuda.init();
         }
+        if ($('fieldset[name="database"]').length > 0) {
+            $('input[name="enable"]').on('click', function(event) {
+                if ($('input[name="enable"]').is(':checked')) {
+                    $('fieldset[name="database"]').removeClass('hidden-js');
+                    $('fieldset[name="tableinfo"]').removeClass('hidden-js');
+                    if ($('select[name="dbtype"]').children('option:selected').val() == 'informix') {
+                        $('fieldset[name="additional"]').removeClass('hidden-js');
+                    }
+                } else {
+                    $('fieldset[name="database"]').addClass('hidden-js');
+                    $('fieldset[name="tableinfo"]').addClass('hidden-js');
+                    $('fieldset[name="additional"]').addClass('hidden-js');
+                }
+            });
+            $('select[name="dbtype"]').on('change', function(event) {
+                if ($(this).children('option:selected').val() == 'informix') {
+                    $('fieldset[name="additional"]').removeClass('hidden-js');
+                } else {
+                    $('fieldset[name="additional"]').addClass('hidden-js');
+                }
+            });
+        }
     });
     $(document).on('dialog-update', function(event) {
         if ($('form.garuda-js-init').length > 0) {
