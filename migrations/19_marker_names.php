@@ -10,7 +10,7 @@ class MarkerNames extends Migration
          * Add new column to markers table for specifying a custom sorting
          * position field.
          */
-        DBManager::get()->exec("ALTER TABLE `garuda_markers` ADD `name` VARCHAR(255)
+        DBManager::get()->exec("ALTER TABLE `garuda_markers` ADD `name` VARCHAR(150)
             NOT NULL DEFAULT '' COLLATE utf8mb4_unicode_ci AFTER `marker`;");
 
         $names = array(

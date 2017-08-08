@@ -15,7 +15,7 @@ class PermissionsFromExternalDB extends Migration
         ));
 
         Config::get()->create('GARUDA_PERMISSIONS_EXTERNAL_DB_SETTINGS', array(
-            'value' => studip_json_encode([]),
+            'value' => '[]',
             'type' => 'array',
             'range' => 'global',
             'section' => 'garudaplugin',
@@ -23,7 +23,7 @@ class PermissionsFromExternalDB extends Migration
         ));
 
         Config::get()->create('GARUDA_PERMISSIONS_EXTERNAL_DB_INSTITUTES', array(
-            'value' => studip_json_encode([]),
+            'value' => '[]',
             'type' => 'array',
             'range' => 'global',
             'section' => 'garudaplugin',
