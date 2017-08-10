@@ -10,7 +10,7 @@ class MessageTemplates extends Migration
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_templates` (
             `template_id` INT NOT NULL AUTO_INCREMENT COLLATE latin1_bin,
             `name` VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci,
-            `sender_id` CHAR(32) NOT NULL REFERENCES `auth_user_md5`.`user_id` COLLATE latin1_bin,
+            `sender_id` CHAR(32) NOT NULL COLLATE latin1_bin REFERENCES `auth_user_md5`.`user_id`,
             `author_id` CHAR(32) NOT NULL COLLATE latin1_bin,
             `target` ENUM ('all', 'students', 'employees', 'usernames') DEFAULT 'all',
             `recipients` LONGTEXT NULL DEFAULT NULL COLLATE utf8mb4_unicode_ci,

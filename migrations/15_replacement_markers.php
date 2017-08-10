@@ -9,7 +9,7 @@ class ReplacementMarkers extends Migration
         // Create new table for replacement markers.
         DBManager::get()->exec("CREATE TABLE IF NOT EXISTS `garuda_markers` (
             `marker_id` CHAR(32) NOT NULL COLLATE latin1_bin,
-            `marker` VARCHAR(255) UNIQUE NOT NULL COLLATE utf8mb4_unicode_ci,
+            `marker` VARCHAR(150) UNIQUE NOT NULL COLLATE utf8mb4_unicode_ci,
             `type` ENUM ('text', 'database', 'function', 'token') NOT NULL DEFAULT 'text',
             `description` TEXT NOT NULL COLLATE utf8mb4_unicode_ci,
             `replacement` TEXT NOT NULL COLLATE utf8mb4_unicode_ci,
@@ -17,8 +17,9 @@ class ReplacementMarkers extends Migration
             `replacement_unknown` TEXT NULL COLLATE utf8mb4_unicode_ci,
             `mkdate` INT NOT NULL DEFAULT 0,
             `chdate` INT NOT NULL DEFAULT 0,
-            PRIMARY KEY (`marker_id`)
-        )");
+            PRIMARY KEY (`marker_id`))
+            ENGINE=InnoDB ROW_FORMAT=DYNAMIC
+        ");
 
         // Fill with available entries.
         $markers = array(
