@@ -33,8 +33,7 @@ class UserfilterController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
 
-        PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Personen filtern'));
+        PageLayout::setTitle(dgettext('garudaplugin', 'Personen filtern'));
     }
 
     public function add_action($type, $xhr = false) {

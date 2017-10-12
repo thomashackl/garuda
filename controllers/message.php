@@ -62,9 +62,6 @@ class MessageController extends AuthenticatedController {
 
     public function write_action($type = 'message', $id = '')
     {
-        PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Nachricht schreiben'));
-
         $this->type = $type;
 
         // Set values from Request:
@@ -362,6 +359,16 @@ class MessageController extends AuthenticatedController {
                     $this->message = GarudaTemplate::find($id ?: Request::option('template'));
                 }
 
+                if ($type == 'template') {
+                    $title = sprintf(
+                        dgettext('garudaplugin', 'Vorlage "%s" bearbeiten'),
+                        $this->message->name
+                    );
+                } else {
+                    $title = dgettext('garudaplugin', 'Nachricht bearbeiten');
+                }
+                PageLayout::setTitle($title);
+
                 if ($this->message->target == 'usernames') {
                     $this->flash['sendto'] = 'list';
                     $this->flash['list'] = implode("\n", array_map(function($u) {
@@ -397,6 +404,8 @@ class MessageController extends AuthenticatedController {
                 $this->flash['message'] = $this->message->message;
 
             } else {
+
+                PageLayout::setTitle(dgettext('garudaplugin', 'Nachricht schreiben'));
 
                 if ($this->flash['filters']) {
                     foreach ($this->flash['filters'] as $filter) {

@@ -2,8 +2,6 @@
     <?= $this->render_partial('overview/_messages.php',
         array(
             'messages' => $templates,
-            'title' => dgettext('garudaplugin',
-                'Meine Vorlagen'),
             'type' => 'template')
     ) ?>
 <?php else : ?>

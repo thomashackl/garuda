@@ -61,8 +61,7 @@ class OverviewController extends AuthenticatedController {
 
     public function templates_action()
     {
-        PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Vorlagen verwalten'));
+        PageLayout::setTitle(dgettext('garudaplugin', 'Vorlagen verwalten'));
 
         $this->templates = GarudaTemplate::findMine();
     }
@@ -72,8 +71,7 @@ class OverviewController extends AuthenticatedController {
      */
     public function to_send_action()
     {
-        PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Demnächst zu verschickende Nachrichten'));
+        PageLayout::setTitle(dgettext('garudaplugin', 'Demnächst zu verschickende Nachrichten'));
 
         // Root sees all messages...
         if ($this->i_am_root) {
@@ -101,8 +99,7 @@ class OverviewController extends AuthenticatedController {
      */
     public function protected_action()
     {
-        PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Geschützte Nachrichten'));
+        PageLayout::setTitle(dgettext('garudaplugin', 'Geschützte Nachrichten'));
 
         // Root sees all messages...
         if ($this->i_am_root) {

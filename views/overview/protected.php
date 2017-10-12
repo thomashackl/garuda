@@ -2,8 +2,6 @@
     <?= $this->render_partial('overview/_messages.php',
         array(
             'messages' => $messages,
-            'title' => dgettext('garudaplugin',
-                'Geschützte Nachrichten, die nach erfolgreichem Versand nicht gelöscht werden dürfen'),
             'type' => 'message')
     ) ?>
 <?php else : ?>

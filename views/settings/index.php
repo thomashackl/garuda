@@ -1,7 +1,4 @@
 <form class="default" action="<?= $controller->url_for('settings/save') ?>" method="post">
-    <header>
-        <h1><?= dgettext('garudaplugin', 'Einstellungen für den Nachrichtenversand') ?></h1>
-    </header>
     <section>
         <div>
             <?php if ($schedule->hour === null) : ?>

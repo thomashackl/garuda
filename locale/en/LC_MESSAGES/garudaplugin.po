@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-02 16:32+0200\n"
+"POT-Creation-Date: 2017-10-12 14:03+0200\n"
 "PO-Revision-Date: 2015-04-21 13:44+0200\n"
 "Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <http://example.com/weblate/projects/studip/garuda/en/"
@@ -19,252 +19,293 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.6-dev\n"
 
-#: controllers/message.php:70 GarudaPlugin.class.php:29
-#: views/message/write.php:3
-msgid "Nachricht schreiben"
-msgstr "Write message"
-
-#: controllers/message.php:171
+#: controllers/message.php:182
 msgid "Absender suchen"
 msgstr ""
 
-#: controllers/message.php:232
+#: controllers/message.php:243
 #, fuzzy
 msgid "Bitte geben Sie einen Betreff an."
 msgstr "Enter the message subject here."
 
-#: controllers/message.php:235
+#: controllers/message.php:246
 #, fuzzy
 msgid "Bitte geben Sie eine Nachricht an."
 msgstr "Enter the message text here."
 
-#: controllers/message.php:238
+#: controllers/message.php:249
 msgid "Bitte geben Sie mindestens einen Nutzernamen an."
 msgstr ""
 
-#: controllers/message.php:242
+#: controllers/message.php:253
 msgid ""
 "Bitte geben Sie mindestens eine Veranstaltung an, deren Teilnehmende die "
 "Nachricht erhalten sollen."
 msgstr ""
 
-#: controllers/message.php:292
+#: controllers/message.php:311
 msgid ""
-"Ihre Nachricht hat aktuell keine Empfänger und kann daher nicht verschickt "
-"werden. Bitte verändern Sie die Einstellungen oder speichern Sie die "
+"Ihre Nachricht hat aktuell keine EmpfÃ¤nger und kann daher nicht verschickt "
+"werden. Bitte verÃ¤ndern Sie die Einstellungen oder speichern Sie die "
 "Nachricht als Vorlage ab."
 msgstr ""
 
-#: controllers/message.php:312
+#: controllers/message.php:322
+msgid ""
+"Sie haben angegeben, dass die Nachricht einen alternativen Absender haben "
+"soll, haben aber keine Person als Absender ausgewÃ¤hlt."
+msgstr ""
+
+#: controllers/message.php:338
 msgid "Zielgruppen"
 msgstr "Target audiences"
 
-#: controllers/message.php:313
+#: controllers/message.php:339
+#, fuzzy
 msgid ""
-"Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
-"Einrichtungen angehören, auf die Sie Zugriff haben."
+"Sie kÃ¶nnen alle StudiengÃ¤nge und alle BeschÃ¤ftigten auswÃ¤hlen, die den "
+"Einrichtungen angehÃ¶ren, auf die Sie Zugriff haben."
 msgstr ""
 "You can select all studycourses and employees at the institutes you have "
 "access to."
 
-#: controllers/message.php:318 views/message/write.php:201
+#: controllers/message.php:344 views/message/write.php:211
 msgid "Nachrichteninhalt"
 msgstr "Message content"
 
-#: controllers/message.php:319
+#: controllers/message.php:345
 #, php-format
 msgid "Verwenden Sie [Stud.IP-Textformatierungen]%s im Nachrichteninhalt."
 msgstr "Use [Stud.IP text formatting]%s in your message."
 
-#: controllers/message.php:373
+#: controllers/message.php:364
+#, php-format
+msgid "Vorlage \"%s\" bearbeiten"
+msgstr ""
+
+#: controllers/message.php:368 views/overview/_messages.php:91
+#, fuzzy
+msgid "Nachricht bearbeiten"
+msgstr "Write message"
+
+#: controllers/message.php:408 GarudaPlugin.class.php:29
+msgid "Nachricht schreiben"
+msgstr "Write message"
+
+#: controllers/message.php:424
 msgid "Aus Vorlage laden"
 msgstr ""
 
-#: controllers/message.php:380
-msgid "Verfügbare Textersetzungen"
-msgstr ""
-
-#: controllers/message.php:419
+#: controllers/message.php:464
 msgid "Alle Personen"
 msgstr ""
 
-#: controllers/message.php:422 views/message/write.php:19
-#: views/overview/_messages.php:57
+#: controllers/message.php:467 views/message/write.php:16
+#: views/overview/_messages.php:65
 msgid "Studierende"
 msgstr "Students"
 
-#: controllers/message.php:430 views/message/write.php:26
-#: views/overview/_messages.php:59
-msgid "Beschäftigte"
+#: controllers/message.php:475 views/message/write.php:23
+#: views/overview/_messages.php:67
+#, fuzzy
+msgid "BeschÃ¤ftigte"
 msgstr "Employees"
 
-#: controllers/message.php:438 views/overview/_messages.php:61
+#: controllers/message.php:483 views/overview/_messages.php:69
 msgid "Teilnehmende von Veranstaltungen"
 msgstr ""
 
-#: controllers/message.php:446
+#: controllers/message.php:491
 #, fuzzy
 msgid "Manuell erstellte Liste von Personen"
 msgstr "Manual list of usernames"
 
-#: controllers/message.php:450
+#: controllers/message.php:495
 #, php-format
 msgid "Daten vom %s"
 msgstr ""
 
-#: controllers/message.php:500
-msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
+#: controllers/message.php:545
+#, fuzzy
+msgid "Es gibt weniger Tokens als Personen fÃ¼r den Nachrichtenempfang!"
 msgstr "There are less tokens than message recipients!"
 
-#: controllers/message.php:539
+#: controllers/message.php:584
 #, fuzzy, php-format
 msgid "Ihre Nachricht an %u Personen wurde gespeichert."
 msgstr "Your message to %s persons could not be saved."
 
-#: controllers/message.php:543
+#: controllers/message.php:588
 #, fuzzy, php-format
 msgid "Ihre Nachricht an %u Personen konnte nicht gespeichert werden."
 msgstr "Your message to %s persons could not be saved."
 
-#: controllers/message.php:564
+#: controllers/message.php:609
 #, php-format
 msgid "Textersetzung %s"
 msgstr ""
 
-#: controllers/overview.php:51
+#: controllers/overview.php:47
 msgid "Vorlagen"
 msgstr ""
 
-#: controllers/overview.php:53
+#: controllers/overview.php:49
 #, fuzzy
-msgid "Demnächst zu verschicken"
+msgid "DemnÃ¤chst zu verschicken"
 msgstr "Send message"
 
-#: controllers/overview.php:55
-msgid "Geschützt"
+#: controllers/overview.php:51
+msgid "GeschÃ¼tzt"
 msgstr ""
 
-#: controllers/overview.php:69
+#: controllers/overview.php:64
 msgid "Vorlagen verwalten"
 msgstr ""
 
-#: controllers/overview.php:80
-msgid "Demnächst zu verschickende Nachrichten"
-msgstr ""
-
-#: controllers/overview.php:109
+#: controllers/overview.php:74
 #, fuzzy
-msgid "Geschützte Nachrichten"
+msgid "DemnÃ¤chst zu verschickende Nachrichten"
+msgstr "Send message"
+
+#: controllers/overview.php:102
+#, fuzzy
+msgid "GeschÃ¼tzte Nachrichten"
 msgstr "Message preview"
 
-#: controllers/overview.php:158
+#: controllers/overview.php:151
 #, fuzzy
-msgid "Die Nachricht wurde gelöscht."
+msgid "Die Nachricht wurde gelÃ¶scht."
 msgstr "Your changes have been saved."
 
-#: controllers/overview.php:159
+#: controllers/overview.php:152
 #, fuzzy
-msgid "Die Vorlage wurde gelöscht."
+msgid "Die Vorlage wurde gelÃ¶scht."
 msgstr "Your changes have been saved."
 
-#: controllers/overview.php:162
+#: controllers/overview.php:155
 #, fuzzy
-msgid "Die Nachricht konnte nicht gelöscht werden."
+msgid "Die Nachricht konnte nicht gelÃ¶scht werden."
 msgstr "Your message to %s persons could not be saved."
 
-#: controllers/overview.php:163
+#: controllers/overview.php:156
 #, fuzzy
-msgid "Die Vorlage konnte nicht gelöscht werden."
+msgid "Die Vorlage konnte nicht gelÃ¶scht werden."
 msgstr "The changes could not be saved."
 
-#: controllers/overview.php:167
+#: controllers/overview.php:160
 msgid ""
-"Zugriff verweigert. Sie haben nicht die nötigen Rechte, um diese Nachricht "
-"zu löschen."
+"Zugriff verweigert. Sie haben nicht die nÃ¶tigen Rechte, um diese Nachricht "
+"zu lÃ¶schen."
 msgstr ""
 
-#: controllers/overview.php:169
+#: controllers/overview.php:162
 msgid ""
-"Zugriff verweigert. Sie haben nicht die nötigen Rechte, um diese Vorlage zu "
-"löschen."
+"Zugriff verweigert. Sie haben nicht die nÃ¶tigen Rechte, um diese Vorlage zu "
+"lÃ¶schen."
 msgstr ""
 
-#: controllers/overview.php:237
+#: controllers/overview.php:248
 #, fuzzy, php-format
 msgid "Die Vorlage \"%s\" wurde gespeichert."
 msgstr "Your changes have been saved."
 
-#: controllers/overview.php:242
+#: controllers/overview.php:253
 #, fuzzy, php-format
 msgid "Die Vorlage \"%s\" konnte nicht gespeichert werden."
 msgstr "The changes could not be saved."
 
-#: controllers/permissions.php:49 GarudaPlugin.class.php:33
+#: controllers/permissions.php:38 GarudaPlugin.class.php:33
 #, fuzzy
 msgid "Berechtigungen"
 msgstr "Permission"
 
-#: controllers/permissions.php:60
+#: controllers/permissions.php:49
 msgid "Berechtigung"
 msgstr "Permission"
 
-#: controllers/permissions.php:61
+#: controllers/permissions.php:50
+#, fuzzy
 msgid ""
 "Pro Einrichtung kann festgelegt werden, ob Personen die Berechtigung "
-"'dozent' oder 'admin' haben müssen, um diese Funktion zu nutzen."
+"'dozent' oder 'admin' haben mÃ¼ssen, um diese Funktion zu nutzen."
 msgstr ""
 "You can configure per institute if a person needs to be 'dozent' or 'admin' "
 "in order to use this function."
 
-#: controllers/permissions.php:66 views/permissions/index.php:1
+#: controllers/permissions.php:55
 msgid "Konfiguration"
 msgstr "Configuration"
 
-#: controllers/permissions.php:67
+#: controllers/permissions.php:56
+#, fuzzy
 msgid ""
-"Hier können Sie pro Einrichtung einstellen, welche Studiengänge als "
-"Zielgruppe für Nachrichten erlaubt sind."
+"Hier kÃ¶nnen Sie pro Einrichtung einstellen, welche StudiengÃ¤nge als "
+"Zielgruppe fÃ¼r Nachrichten erlaubt sind."
 msgstr ""
 "For each institute you can configure here which courses of study are allowed "
 "as target recipients for messages."
 
-#: controllers/permissions.php:71 views/recipients/index.php:11
+#: controllers/permissions.php:60 views/recipients/index.php:10
 msgid "Einrichtungen"
 msgstr "Institutes"
 
-#: controllers/permissions.php:72
+#: controllers/permissions.php:61
 msgid "Welche Einrichtungen sind neben den eigenen als Zielgruppe erlaubt?"
 msgstr "Which institutes aside from the own ones are allowed as recipients?"
 
-#: controllers/permissions.php:92
-msgid "Die Änderungen wurden gespeichert."
+#: controllers/permissions.php:91
+#, fuzzy
+msgid "Die Ã„nderungen wurden gespeichert."
 msgstr "Your changes have been saved."
 
-#: controllers/permissions.php:94
-msgid "Die Änderungen konnten nicht gespeichert werden."
+#: controllers/permissions.php:93
+#, fuzzy
+msgid "Die Ã„nderungen konnten nicht gespeichert werden."
 msgstr "The changes could not be saved."
 
-#: controllers/recipients.php:49
+#: controllers/permissions.php:146
 #, fuzzy
-msgid "Meine Berechtigungen"
-msgstr "Permission"
+msgid "Die Einstellungen wurden gespeichert."
+msgstr "Your changes have been saved."
 
-#: controllers/recipients.php:51
+#: controllers/permissions.php:149
+#, fuzzy
+msgid "Die Einstellungen konnten nicht gespeichert werden."
+msgstr "The changes could not be saved."
+
+#: controllers/permissions.php:165
+#, fuzzy
+msgid "Die Einrichtungen wurden gespeichert."
+msgstr "Your changes have been saved."
+
+#: controllers/permissions.php:167
+#, fuzzy
+msgid "Die Einrichtungen konnten nicht gespeichert werden."
+msgstr "The changes could not be saved."
+
+#: controllers/recipients.php:40
+#, fuzzy
+msgid "An welche EmpfÃ¤ngerkreise darf ich schreiben?"
+msgstr "Which target audiences am I allowed to send messages to?"
+
+#: controllers/recipients.php:42
 msgid "Erlaubte Zielgruppen"
 msgstr "Allowed target audiences"
 
-#: controllers/recipients.php:52
+#: controllers/recipients.php:43
+#, fuzzy
 msgid ""
-"Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."
+"Hier sehen Sie, an welche EmpfÃ¤ngerkreise Sie Nachrichten verschicken "
+"kÃ¶nnen."
 msgstr ""
 "Here you can see which target audiences you can select for your messages."
 
-#: controllers/settings.php:56 GarudaPlugin.class.php:34
+#: controllers/settings.php:48 GarudaPlugin.class.php:34
 #, fuzzy
 msgid "Einstellungen"
 msgstr "Institutes"
 
-#: controllers/userfilter.php:45
+#: controllers/userfilter.php:36
 msgid "Personen filtern"
 msgstr "filter persons"
 
@@ -292,7 +333,7 @@ msgstr "Institute"
 msgid "Statusgruppe"
 msgstr "Status group"
 
-#: filterfields/restricted/RestrictedSubjectFilterField.php:58
+#: filterfields/restricted/RestrictedSubjectFilterField.php:55
 msgid "Studienfach"
 msgstr "Subject"
 
@@ -301,7 +342,7 @@ msgid "unbekannt"
 msgstr ""
 
 #: filterfields/unrestricted/GenderFilterField.php:17
-msgid "männlich"
+msgid "mÃ¤nnlich"
 msgstr ""
 
 #: filterfields/unrestricted/GenderFilterField.php:18
@@ -352,21 +393,48 @@ msgid "Nachrichtenversand an Zielgruppen"
 msgstr "Messages for target audiences"
 
 #: GarudaCronjob.php:33
-msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
+#, fuzzy
+msgid "Verschickt Nachrichten an gewÃ¤hlte EmpfÃ¤ngerkreise."
 msgstr "Sends messages to chosen target audiences."
+
+#: GarudaGetPermissionsCronjob.php:23
+#, fuzzy
+msgid "Nachrichtenversand an Zielgruppen - Rechteaktualisierung"
+msgstr "Messages for target audiences"
+
+#: GarudaGetPermissionsCronjob.php:27
+msgid "Aktualisiert die Rechte zum Versand aus einer externen Datenbank."
+msgstr ""
 
 #: GarudaPlugin.class.php:30
 #, fuzzy
-msgid "Nachrichtenübersicht"
+msgid "NachrichtenÃ¼bersicht"
 msgstr "Message content"
 
 #: GarudaPlugin.class.php:31
 msgid "An wen darf ich schreiben?"
 msgstr "To whom may I write?"
 
-#: GarudaPlugin.class.php:64
+#: GarudaPlugin.class.php:65
 msgid "Nachrichten an Zielgruppen"
 msgstr "Messages for target audiences"
+
+#: migrations/20_permissions_from_external_db.php:14
+msgid ""
+"Soll eine externe Datenbank benutzt werden, um die Zuordnungen von StudiengÃ"
+"¤ngen zu Einrichtungen auszulesen?"
+msgstr ""
+
+#: migrations/20_permissions_from_external_db.php:22
+msgid ""
+"Externe Datenbank mit Informationen zur ZugehÃ¶rigkeit von StudiengÃ¤ngen zu "
+"Einrichtungen"
+msgstr ""
+
+#: migrations/20_permissions_from_external_db.php:30
+msgid ""
+"Zuordnungen von Einrichtungen der externen Datenbank zu Stud.IP-Einrichtungen"
+msgstr ""
 
 #: views/message/load_template.php:4
 msgid "Vorhandene Vorlagen"
@@ -376,20 +444,22 @@ msgstr ""
 msgid "Laden"
 msgstr ""
 
-#: views/message/load_template.php:14 views/message/write.php:248
-#: views/overview/edit_message.php:57 views/settings/index.php:44
+#: views/message/load_template.php:14 views/message/write.php:281
+#: views/overview/edit_message.php:63 views/settings/index.php:41
 #: views/userfilter/add.php:32 views/userfilter/addrestricted.php:34
 msgid "Abbrechen"
 msgstr "Cancel"
 
 #: views/message/sendto_all.php:2
-msgid "Alle oben gewählten Personen erhalten diese Nachricht."
+#, fuzzy
+msgid "Alle oben gewÃ¤hlten Personen erhalten diese Nachricht."
 msgstr "All persons selected above will get this message."
 
 #: views/message/sendto_all.php:4
+#, fuzzy
 msgid ""
-"Alle oben gewählten Personen innerhalb der für Sie freigegebenen "
-"Studiengänge und Einrichtungen erhalten diese Nachricht."
+"Alle oben gewÃ¤hlten Personen innerhalb der fÃ¼r Sie freigegebenen StudiengÃ"
+"¤nge und Einrichtungen erhalten diese Nachricht."
 msgstr ""
 "All selected studycourse and institute members you may send to will get this "
 "message."
@@ -397,96 +467,107 @@ msgstr ""
 #: views/message/sendto_courses.php:2
 #, fuzzy
 msgid ""
-"Die Personen, die an allen der oben gewählten Veranstaltungen teilnehmen, "
+"Die Personen, die an allen der oben gewÃ¤hlten Veranstaltungen teilnehmen, "
 "erhalten diese Nachricht."
 msgstr "All persons selected above will get this message."
 
 #: views/message/sendto_courses.php:5
 #, fuzzy
 msgid ""
-"Alle Personen, die an einer der oben gewählten Veranstaltungen teilnehmen, "
+"Alle Personen, die an einer der oben gewÃ¤hlten Veranstaltungen teilnehmen, "
 "erhalten diese Nachricht."
 msgstr "All persons selected above will get this message."
 
 #: views/message/sendto_filtered.php:3
+#, fuzzy
 msgid ""
 "Diese Nachricht wird an Personen gesendet, die die folgende Bedingung "
-"erfüllen:"
+"erfÃ¼llen:"
 msgstr ""
 "This message will be sent to persons fulfilling the following condition:"
 
 #: views/message/sendto_filtered.php:5
+#, fuzzy
 msgid ""
 "Diese Nachricht wird an Personen gesendet, die einer der folgenden "
-"Bedingungen erfüllen:"
+"Bedingungen erfÃ¼llen:"
 msgstr ""
 "This message will be sent to persons fulfilling one of the following "
 "conditions:"
 
 #: views/message/sendto_filtered.php:9
+#, fuzzy
 msgid ""
-"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
-"Studiengänge gesendet, die die folgende Bedingung erfüllen:"
+"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und StudiengÃ"
+"¤nge gesendet, die die folgende Bedingung erfÃ¼llen:"
 msgstr ""
 "This message will be sent to persons fulfilling the following condition and "
 "belonging to the studycourses and institutes you may send to:"
 
 #: views/message/sendto_filtered.php:11
+#, fuzzy
 msgid ""
-"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
-"Studiengänge gesendet, die eine der folgenden Bedingungen erfüllen:"
+"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und StudiengÃ"
+"¤nge gesendet, die eine der folgenden Bedingungen erfÃ¼llen:"
 msgstr ""
 "This message will be sent to persons fulfilling one of the following "
 "conditions and belonging to the studycourses and institutes you may send to:"
 
-#: views/message/write.php:7
-msgid "Empfängerkreis"
+#: views/message/write.php:4
+#, fuzzy
+msgid "EmpfÃ¤ngerkreis"
 msgstr "Target audience"
 
-#: views/message/write.php:11
+#: views/message/write.php:8
 msgid "An wen soll die Nachricht gesendet werden?"
 msgstr "Who should the message be sent to?"
 
-#: views/message/write.php:15 views/permissions/_institutes.php:25
-#: views/permissions/_studycourses.php:15
+#: views/message/write.php:12 views/permissions/_institutes.php:25
+#: views/permissions/_studycourses.php:16
 #: views/userfilter/restricted_field_config.php:8
 msgid "alle"
 msgstr "all"
 
-#: views/message/write.php:21
+#: views/message/write.php:18
 #, fuzzy
 msgid ""
-"Hierüber werden alle Personen gefunden, die einem oder mehreren "
-"Studiengängen zugeordnet sind."
+"HierÃ¼ber werden alle Personen gefunden, die einem oder mehreren StudiengÃ"
+"¤ngen zugeordnet sind."
 msgstr ""
 "This message will be sent to persons fulfilling one of the following "
 "conditions:"
 
-#: views/message/write.php:28
+#: views/message/write.php:25
+#, fuzzy
 msgid ""
-"Hierüber werden alle Personen gefunden, die mindestens einer Einrichtung "
+"HierÃ¼ber werden alle Personen gefunden, die mindestens einer Einrichtung "
 "zugeordnet sind."
 msgstr ""
+"This message will be sent to persons fulfilling one of the following "
+"conditions:"
 
-#: views/message/write.php:33
+#: views/message/write.php:30
 msgid "Veranstaltungsteilnehmende"
 msgstr ""
 
-#: views/message/write.php:35
+#: views/message/write.php:32
+#, fuzzy
 msgid ""
-"Hierüber werden alle Personen gefunden, die als Teilnehmende in eine der "
-"gewählten Veranstaltungen eingetragen sind."
+"HierÃ¼ber werden alle Personen gefunden, die als Teilnehmende in eine der "
+"gewÃ¤hlten Veranstaltungen eingetragen sind."
+msgstr ""
+"This message will be sent to persons fulfilling one of the following "
+"conditions:"
+
+#: views/message/write.php:38
+msgid "Suchen und HinzufÃ¼gen der gewÃ¼nschten Veranstaltungen"
 msgstr ""
 
-#: views/message/write.php:41
-msgid "Suchen und Hinzufügen der gewünschten Veranstaltungen"
-msgstr ""
-
-#: views/message/write.php:58
+#: views/message/write.php:55
 msgid "Manuelle Liste von Nutzernamen"
 msgstr "Manual list of usernames"
 
-#: views/message/write.php:62
+#: views/message/write.php:59
 msgid ""
 "Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen "
 "(getrennt durch Zeilenumbruch oder Komma)"
@@ -494,254 +575,378 @@ msgstr ""
 "Enter the usernames that shall receive your message (separated by line break "
 "or comma)"
 
-#: views/message/write.php:87
-msgid "Filter hinzufügen"
+#: views/message/write.php:84
+#, fuzzy
+msgid "Filter hinzufÃ¼gen"
 msgstr "Add filter"
 
-#: views/message/write.php:92
+#: views/message/write.php:89
+#, fuzzy
+msgid "Personen ausschlieÃŸen"
+msgstr "filter persons"
+
+#: views/message/write.php:93
+#, fuzzy
+msgid ""
+"Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht NICHT empfangen "
+"sollen (getrennt durch Zeilenumbruch oder Komma)"
+msgstr ""
+"Enter the usernames that shall receive your message (separated by line break "
+"or comma)"
+
+#: views/message/write.php:102
 msgid "Personalisierte Teilnahmecodes"
 msgstr ""
 
-#: views/message/write.php:96
-msgid "Personalisierte Teilnahmecodes o.ä. verwenden"
+#: views/message/write.php:106
+msgid "Personalisierte Teilnahmecodes o.Ã¤. verwenden"
 msgstr ""
 
-#: views/message/write.php:101
+#: views/message/write.php:111
+#, fuzzy
 msgid ""
-"Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in der "
-"Nachricht an jeden einzelnen Empfänger personalisiert verschickt werden "
+"Laden Sie hier eine Textdatei hoch, die die Texte enthÃ¤lt, die in der "
+"Nachricht an jeden einzelnen EmpfÃ¤nger personalisiert verschickt werden "
 "sollen (Teilnahmecodes/Links etc.)"
 msgstr ""
 "You can upload a text file containing the texts that will be sent to each "
 "recipient (Codes/links etc.)"
 
-#: views/message/write.php:109
+#: views/message/write.php:119
 msgid "oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:"
 msgstr "or use tokens from an already sent message:"
 
-#: views/message/write.php:113 views/permissions/index.php:9
-#: views/userfilter/add.php:6
-msgid "bitte auswählen"
+#: views/message/write.php:123 views/message/write.php:222
+#: views/permissions/index.php:8 views/userfilter/add.php:6
+#, fuzzy
+msgid "bitte auswÃ¤hlen"
 msgstr "please select"
 
-#: views/message/write.php:129 views/message/write.php:134
-msgid "Anhänge"
+#: views/message/write.php:139 views/message/write.php:144
+msgid "AnhÃ¤nge"
 msgstr ""
 
-#: views/message/write.php:132
-msgid "Laden Sie hier Dateianhänge hoch."
+#: views/message/write.php:142
+msgid "Laden Sie hier DateianhÃ¤nge hoch."
 msgstr ""
 
-#: views/message/write.php:152 views/message/write.php:153
+#: views/message/write.php:162 views/message/write.php:163
 msgid "Datei hochladen"
 msgstr ""
 
-#: views/message/write.php:156
+#: views/message/write.php:166
 msgid "wird verarbeitet"
 msgstr ""
 
-#: views/message/write.php:157
+#: views/message/write.php:167
 msgid "gespeichert"
 msgstr ""
 
-#: views/message/write.php:165 views/overview/_messages.php:17
+#: views/message/write.php:175 views/overview/_messages.php:20
 msgid "Absender"
 msgstr ""
 
-#: views/message/write.php:170
+#: views/message/write.php:180
 #, fuzzy
 msgid "Die Nachricht von meiner Kennung verschicken"
 msgstr "Send message"
 
-#: views/message/write.php:177
+#: views/message/write.php:187
 msgid "Eine andere Person als Absender eintragen"
 msgstr ""
 
-#: views/message/write.php:180
+#: views/message/write.php:190
 msgid "niemand"
 msgstr ""
 
-#: views/message/write.php:185
+#: views/message/write.php:195
 msgid "Alternativen Absender suchen"
 msgstr ""
 
-#: views/message/write.php:195
+#: views/message/write.php:205
 msgid "Anonym, mit \"Stud.IP\" als Absender verschicken"
 msgstr ""
 
-#: views/message/write.php:203 views/overview/_messages.php:18
-#: views/overview/edit_message.php:36
+#: views/message/write.php:215 views/overview/_messages.php:21
+#: views/overview/edit_message.php:42
 msgid "Betreff"
 msgstr "Subject"
 
-#: views/message/write.php:204 views/overview/edit_message.php:39
+#: views/message/write.php:217 views/overview/edit_message.php:45
 msgid "Geben Sie hier den Betreff Ihrer Nachricht ein."
 msgstr "Enter the message subject here."
 
-#: views/message/write.php:205 views/overview/edit_message.php:44
+#: views/message/write.php:220
+msgid "Feld fÃ¼r Serienmail einfÃ¼gen"
+msgstr ""
+
+#: views/message/write.php:229
+#, fuzzy
+msgid "Einsetzen"
+msgstr "Institutes"
+
+#: views/message/write.php:234 views/overview/edit_message.php:50
 msgid "Nachrichtentext"
 msgstr "Message text"
 
-#: views/message/write.php:206 views/overview/edit_message.php:47
+#: views/message/write.php:236 views/overview/edit_message.php:53
 msgid "Geben Sie hier den Inhalt Ihrer Nachricht ein."
 msgstr "Enter the message text here."
 
-#: views/message/write.php:210
+#: views/message/write.php:241
 msgid "Vorschau der Nachricht"
 msgstr "Message preview"
 
-#: views/message/write.php:218
+#: views/message/write.php:249
 msgid ""
 "Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden"
 msgstr "Don't delete this message on automatic cleanup"
 
-#: views/message/write.php:225
+#: views/message/write.php:257
 msgid "Versandzeitpunkt"
 msgstr ""
 
-#: views/message/write.php:230
-msgid "Nachricht erst zu einem späteren Zeitpunkt verschicken"
-msgstr ""
+#: views/message/write.php:262
+#, fuzzy
+msgid "Nachricht erst zu einem spÃ¤teren Zeitpunkt verschicken"
+msgstr "Send message"
 
-#: views/message/write.php:235
+#: views/message/write.php:267
 #, fuzzy
 msgid "Wann soll die Nachricht verschickt werden?"
 msgstr "Who should the message be sent to?"
 
-#: views/message/write.php:247
+#: views/message/write.php:280
 #, fuzzy
-msgid "Änderungen speichern"
+msgid "Ã„nderungen speichern"
 msgstr "Your changes have been saved."
 
-#: views/message/write.php:250
+#: views/message/write.php:283
 msgid "Nachricht verschicken"
 msgstr "Send message"
 
-#: views/message/write.php:251
+#: views/message/write.php:284
 msgid "Als Vorlage speichern"
 msgstr ""
 
-#: views/message/write.php:254
-msgid "Empfängerliste exportieren"
+#: views/message/write.php:287
+msgid "EmpfÃ¤ngerliste exportieren"
 msgstr ""
 
-#: views/overview/_messages.php:16
-msgid "Autor"
+#: views/overview/_messages.php:17
+msgid "Name"
 msgstr ""
 
 #: views/overview/_messages.php:19
+msgid "Autor"
+msgstr ""
+
+#: views/overview/_messages.php:22
 #, fuzzy
 msgid "Nachricht"
 msgstr "Message text"
 
-#: views/overview/_messages.php:20
+#: views/overview/_messages.php:23
 #, fuzzy
 msgid "Zielgruppe"
 msgstr "Target audiences"
 
-#: views/overview/_messages.php:21
+#: views/overview/_messages.php:24
 msgid "Erstellt am"
 msgstr ""
 
-#: views/overview/_messages.php:22
+#: views/overview/_messages.php:25
 msgid "Aktion"
 msgstr ""
 
-#: views/overview/_messages.php:41
+#: views/overview/_messages.php:49
 msgid "(mehr)"
 msgstr ""
 
-#: views/overview/_messages.php:48
+#: views/overview/_messages.php:56
 msgid "(weniger anzeigen)"
 msgstr ""
 
-#: views/overview/_messages.php:55
+#: views/overview/_messages.php:63
 msgid "Alle"
 msgstr ""
 
-#: views/overview/_messages.php:63
+#: views/overview/_messages.php:71
 #, fuzzy
 msgid "Liste von Nutzern"
 msgstr "Token list"
 
-#: views/overview/_messages.php:83
+#: views/overview/_messages.php:97
 #, fuzzy
-msgid "Nachricht bearbeiten"
-msgstr "Write message"
+msgid "Wollen Sie die Nachricht wirklich lÃ¶schen?"
+msgstr "Who should the message be sent to?"
 
-#: views/overview/_messages.php:89
-msgid "Wollen Sie die Nachricht wirklich löschen?"
-msgstr ""
-
-#: views/overview/_messages.php:90
-msgid "Wollen Sie die Vorlage wirklich löschen?"
+#: views/overview/_messages.php:98
+msgid "Wollen Sie die Vorlage wirklich lÃ¶schen?"
 msgstr ""
 
 #: views/overview/edit_message.php:6
 msgid "Name der Vorlage"
 msgstr ""
 
-#: views/overview/edit_message.php:56 views/settings/index.php:43
+#: views/overview/edit_message.php:62 views/permissions/external_db.php:111
+#: views/settings/index.php:40
 msgid "Speichern"
 msgstr ""
 
-#: views/overview/protected.php:6
-msgid ""
-"Geschützte Nachrichten, die nach erfolgreichem Versand nicht gelöscht werden "
-"dürfen"
-msgstr ""
-
-#: views/overview/protected.php:10
+#: views/overview/protected.php:8
 #, fuzzy
-msgid "Es sind keine geschützten Nachrichten vorhanden."
+msgid "Es sind keine geschÃ¼tzten Nachrichten vorhanden."
 msgstr "There are too few unassigned tokens!"
 
-#: views/overview/templates.php:6
-msgid "Meine Vorlagen"
-msgstr ""
-
-#: views/overview/templates.php:10
+#: views/overview/templates.php:8
 #, fuzzy
 msgid "Es sind keine Nachrichtenvorlagen vorhanden."
 msgstr "There are too few unassigned tokens!"
 
-#: views/overview/to_send.php:5
-#, fuzzy
-msgid "Zum Versand anstehende, aber noch nicht verschickte Nachrichten"
-msgstr "or use tokens from an already sent message:"
-
-#: views/overview/to_send.php:9
+#: views/overview/to_send.php:8
 msgid "Es stehen keine Nachrichten zum Versand an."
 msgstr ""
 
 #: views/permissions/_institutes.php:2
+#, fuzzy
 msgid ""
-"An welche Einrichtungen (außer der/den eigenen) soll die gewählte "
-"Einrichtung Nachrichten schreiben dürfen?"
+"An welche Einrichtungen (auÃŸer der/den eigenen) soll die gewÃ¤hlte "
+"Einrichtung Nachrichten schreiben dÃ¼rfen?"
 msgstr ""
 "Which institutes (except the own ones) should be allowed as message target "
 "for the chosen institute?"
 
-#: views/permissions/_institutes.php:24 views/permissions/_studycourses.php:14
+#: views/permissions/_institutes.php:24 views/permissions/_studycourses.php:15
 msgid "markieren:"
 msgstr "mark:"
 
-#: views/permissions/_institutes.php:27 views/permissions/_studycourses.php:17
+#: views/permissions/_institutes.php:27 views/permissions/_studycourses.php:18
 msgid "keine"
 msgstr "none"
 
 #: views/permissions/_studycourses.php:2
+#, fuzzy
 msgid ""
-"An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
-"dürfen?"
+"An welche StudiengÃ¤nge soll die gewÃ¤hlte Einrichtung Nachrichten schreiben "
+"dÃ¼rfen?"
 msgstr ""
 "Which studycourses should be allowed as message target for the selected "
 "institute?"
 
-#: views/permissions/get.php:7
+#: views/permissions/external_db.php:6
+#, fuzzy
+msgid "Importeinstellungen"
+msgstr "Institutes"
+
+#: views/permissions/external_db.php:14
+msgid "Import von Zuordnungen"
+msgstr ""
+
+#: views/permissions/external_db.php:17
+msgid "aktiviert"
+msgstr ""
+
+#: views/permissions/external_db.php:21
+msgid "Datenbankverbindung"
+msgstr ""
+
+#: views/permissions/external_db.php:24
+msgid "Typ"
+msgstr ""
+
+#: views/permissions/external_db.php:31
+msgid "Server"
+msgstr ""
+
+#: views/permissions/external_db.php:35
+msgid "Name der Datenbank"
+msgstr ""
+
+#: views/permissions/external_db.php:39
+#, fuzzy
+msgid "Benutzername"
+msgstr "Usernames"
+
+#: views/permissions/external_db.php:43
+msgid "Passwort"
+msgstr ""
+
+#: views/permissions/external_db.php:49
+#, fuzzy
+msgid "Datenabgleich"
+msgstr "not equal"
+
+#: views/permissions/external_db.php:52
+msgid "Tabellenname"
+msgstr ""
+
+#: views/permissions/external_db.php:56
+msgid "Spalte fÃ¼r Abschlussnamen"
+msgstr ""
+
+#: views/permissions/external_db.php:60
+msgid "Spalte fÃ¼r FÃ¤chernamen"
+msgstr ""
+
+#: views/permissions/external_db.php:64
+#, fuzzy
+msgid "Spalte fÃ¼r Einrichtungen"
+msgstr "Institutes"
+
+#: views/permissions/external_db.php:70
+#, fuzzy
+msgid "Weitere Einstellungen"
+msgstr "Institutes"
+
+#: views/permissions/external_db.php:73
+msgid "Informixclient-Verzeichnis"
+msgstr ""
+
+#: views/permissions/external_db.php:77
+msgid "Protokoll"
+msgstr ""
+
+#: views/permissions/external_db.php:85
+msgid "Servicename"
+msgstr ""
+
+#: views/permissions/external_db.php:89
+msgid "Informixservername"
+msgstr ""
+
+#: views/permissions/external_db.php:93
+msgid "Clientlocale"
+msgstr ""
+
+#: views/permissions/external_db.php:97
+msgid "Datenbanklocale"
+msgstr ""
+
+#: views/permissions/external_db.php:103
+msgid "VerknÃ¼pfung der Einrichtungs-IDs"
+msgstr ""
+
+#: views/permissions/external_db.php:106
+#, fuzzy
+msgid "Einrichtungen zuordnen"
+msgstr "Institutes"
+
+#: views/permissions/external_db.php:120
 msgid ""
-"Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den "
-"Nachrichtenversand nutzen zu dürfen?"
+"Wenn Sie die Zuordnungen importieren, werden alle bestehenden Zuordnungen zu "
+"den gefundenen Einrichtungen Ã¼berschrieben!"
+msgstr ""
+
+#: views/permissions/external_db.php:126
+msgid "Zuordnungen importieren"
+msgstr ""
+
+#: views/permissions/get.php:7
+#, fuzzy
+msgid ""
+"Welche Rechte werden mindestens an dieser Einrichtung benÃ¶tigt, um den "
+"Nachrichtenversand nutzen zu dÃ¼rfen?"
 msgstr ""
 "What are the minimum permissions needed at this institute in order to be "
 "allowed to send messages?"
@@ -759,82 +964,85 @@ msgid "tutor"
 msgstr ""
 
 #: views/permissions/get.php:21
-msgid "Einstellungen für die aktuell gewählte Einrichtung speichern"
+#, fuzzy
+msgid "Einstellungen fÃ¼r die aktuell gewÃ¤hlte Einrichtung speichern"
 msgstr "Save settings for currently selected institute"
 
-#: views/permissions/index.php:6
-msgid "Einrichtung wählen, für die Einstellungen gesetzt werden sollen:"
+#: views/permissions/index.php:5
+#, fuzzy
+msgid "Einrichtung wÃ¤hlen, fÃ¼r die Einstellungen gesetzt werden sollen:"
 msgstr "Choose institute to configure settings for:"
 
-#: views/recipients/index.php:1
-msgid "An welche Empfängerkreise darf ich schreiben?"
-msgstr "Which target audiences am I allowed to send messages to?"
+#: views/permissions/match_institutes.php:5
+#, php-format
+msgid "\"%s\" zuordnen zu:"
+msgstr ""
 
-#: views/recipients/index.php:3
-msgid "Mit Ihren Root-Rechten dürfen Sie an alle schreiben!"
+#: views/recipients/index.php:2
+#, fuzzy
+msgid "Mit Ihren Rechten dÃ¼rfen Sie an alle schreiben!"
 msgstr "You are root and may write to all!"
 
-#: views/recipients/index.php:5
-msgid "Studiengänge"
+#: views/recipients/index.php:4
+#, fuzzy
+msgid "StudiengÃ¤nge"
 msgstr "Courses of study"
 
-#: views/recipients/index.php:9
+#: views/recipients/index.php:8
+#, fuzzy
 msgid ""
-"Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben."
+"Leider wurden keine StudiengÃ¤nge als EmpfÃ¤ngerkreise fÃ¼r Sie freigegeben."
 msgstr "No studycourses have been assigned to you as target audiences."
 
-#: views/recipients/index.php:15
+#: views/recipients/index.php:14
+#, fuzzy
 msgid ""
-"Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben."
+"Leider wurden keine Einrichtungen als EmpfÃ¤ngerkreise fÃ¼r Sie freigegeben."
 msgstr "No institutes have been assigned to you as target audiences."
 
-#: views/settings/index.php:3
-#, fuzzy
-msgid "Einstellungen für den Nachrichtenversand"
-msgstr "Save settings for currently selected institute"
+#: views/settings/index.php:6
+msgid "minÃ¼tlich"
+msgstr ""
 
 #: views/settings/index.php:9
-msgid "minütlich"
-msgstr ""
-
-#: views/settings/index.php:12
 #, php-format
-msgid "Anstehende Nachrichten werden stündlich, zur %d. Minute, verschickt."
+msgid "Anstehende Nachrichten werden stÃ¼ndlich, zur %d. Minute, verschickt."
 msgstr ""
 
-#: views/settings/index.php:16
+#: views/settings/index.php:13
 #, php-format
 msgid "Anstehende Nachrichten werden alle %d Minuten verschickt."
 msgstr ""
 
-#: views/settings/index.php:21
+#: views/settings/index.php:18
 #, php-format
-msgid "Anstehende Nachrichten werden täglich um %d:%d Uhr verschickt."
+msgid "Anstehende Nachrichten werden tÃ¤glich um %d:%d Uhr verschickt."
 msgstr ""
 
-#: views/settings/index.php:25
+#: views/settings/index.php:22
 #, php-format
 msgid ""
 "Anstehende Nachrichten werden alle %d Stunden, zur %d. Minute, verschickt."
 msgstr ""
 
-#: views/settings/index.php:28
+#: views/settings/index.php:25
 #, php-format
-msgid "Nächste Ausführung: %s"
+msgid "NÃ¤chste AusfÃ¼hrung: %s"
 msgstr ""
 
-#: views/settings/index.php:31
+#: views/settings/index.php:28
 msgid "Cronjob-Einstellungen bearbeiten"
 msgstr ""
 
-#: views/settings/index.php:36
+#: views/settings/index.php:33
 msgid ""
 "Wie oft (in Tagen) sollen bereits komplett abgeschlossene "
-"Nachrichtenversandaufträge gelöscht werden?"
+"NachrichtenversandauftrÃ¤ge gelÃ¶scht werden?"
 msgstr ""
 
-#: views/userfilter/_show.php:5
-msgid "löschen"
+#: views/userfilter/_show.php:7
+#, fuzzy
+msgid "lÃ¶schen"
 msgstr "delete"
 
 #: views/userfilter/add.php:2 views/userfilter/addrestricted.php:4
@@ -842,12 +1050,26 @@ msgid "Welche Personen sollen erfasst werden?"
 msgstr "Which persons should be included?"
 
 #: views/userfilter/add.php:15
-msgid "Bedingung hinzufügen"
+#, fuzzy
+msgid "Bedingung hinzufÃ¼gen"
 msgstr "Add condition."
 
 #: views/userfilter/add.php:30 views/userfilter/addrestricted.php:33
-msgid "Filter übernehmen"
+#, fuzzy
+msgid "Filter Ã¼bernehmen"
 msgstr "Save filter"
+
+#, fuzzy
+#~ msgid "Meine Berechtigungen"
+#~ msgstr "Permission"
+
+#, fuzzy
+#~ msgid "Zum Versand anstehende, aber noch nicht verschickte Nachrichten"
+#~ msgstr "or use tokens from an already sent message:"
+
+#, fuzzy
+#~ msgid "Einstellungen für den Nachrichtenversand"
+#~ msgstr "Save settings for currently selected institute"
 
 #~ msgid ""
 #~ "Ihre Nachricht an %s Personen wurde an das System zum Versand übergeben."
@@ -856,17 +1078,11 @@ msgstr "Save filter"
 #~ msgid "gleich"
 #~ msgstr "equal"
 
-#~ msgid "ungleich"
-#~ msgstr "not equal"
-
 #~ msgid "Abschluss"
 #~ msgstr "Degree"
 
 #~ msgid "Manuell gesetzte Empfänger"
 #~ msgstr "Manually added recipients"
-
-#~ msgid "Nutzernamen"
-#~ msgstr "Usernames"
 
 #~ msgid "Informationen"
 #~ msgstr "Information"

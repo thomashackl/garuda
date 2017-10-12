@@ -1,15 +1,4 @@
 <form class="default garuda-js-init" enctype="multipart/form-data" action="<?= $controller->url_for('message/write') ?>" method="post">
-    <header>
-        <h1>
-            <?php if ($type == 'template') : ?>
-                <?= sprintf(dgettext('garudaplugin', 'Vorlage "%s" bearbeiten'), $message->name) ?>
-            <?php elseif ($message->id) : ?>
-                <?= dgettext('garudaplugin', 'Nachricht bearbeiten') ?>
-            <?php else : ?>
-                <?= dgettext('garudaplugin', 'Nachricht schreiben') ?>
-            <?php endif ?>
-        </h1>
-    </header>
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>

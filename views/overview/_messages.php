@@ -1,7 +1,4 @@
 <table class="default garuda-messages">
-    <caption>
-        <?= $title ?>
-    </caption>
     <colgroup>
         <?php if ($type == 'template') : ?>
         <col>

@@ -37,12 +37,11 @@ class RecipientsController extends AuthenticatedController {
     }
 
     public function index_action() {
-        PageLayout::setTitle($this->plugin->getDisplayName() .
-            ' - ' . dgettext('garudaplugin', 'Meine Berechtigungen'));
+        PageLayout::setTitle(dgettext('garudaplugin', 'An welche Empfängerkreise darf ich schreiben?'));
 
         Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Erlaubte Zielgruppen'),
             dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."),
-            'icons/16/white/mail.png');
+            Icon::create('mail', 'navigation'));
         if (!$this->i_am_root) {
             $this->studycourses = array();
             foreach ($this->config['studycourses'] as $s) {

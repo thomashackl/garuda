@@ -1,4 +1,3 @@
-<h1><?= dgettext('garudaplugin', 'Konfiguration') ?></h1>
 <form class="default" action="<?= $controller->url_for('permissions/save') ?>" method="post">
     <section>
         <?= CSRFProtection::tokenTag() ?>
