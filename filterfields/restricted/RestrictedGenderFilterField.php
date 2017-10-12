@@ -14,7 +14,7 @@ class RestrictedGenderFilterField extends GenderFilterField
     {
         // Get Garuda configuration:
         // Find out which user this filter belongs to...
-        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        $filter = GarudaFilter::findOneByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
         $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
@@ -30,7 +30,7 @@ class RestrictedGenderFilterField extends GenderFilterField
             "AND (`user_studiengang`.`user_id` IS NOT NULL OR `user_inst`.`user_id` IS NOT NULL)",
             array(
                 'value' => $this->value,
-                'stg' => array_map(function ($s) { return $s['studiengang_id']; }, $this->config['studycourses']),
+                'stg' => array_map(function ($s) { return $s['fach_id']; }, $this->config['studycourses']),
                 'degree' => array_map(function ($s) { return $s['abschluss_id']; }, $this->config['studycourses']),
                 'inst' => $this->config['institutes'],
             ));

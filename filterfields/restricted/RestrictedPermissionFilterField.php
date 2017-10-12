@@ -14,7 +14,7 @@ class RestrictedPermissionFilterField extends PermissionFilterField
     {
         // Get Garuda configuration:
         // Find out which user this filter belongs to...
-        $filter = GarudaFilter::findByFilter_id($this->conditionId);
+        $filter = GarudaFilter::findOneByFilter_id($this->conditionId);
         // ... and load Garuda config for this user.
         $this->config = GarudaModel::getConfigurationForUser($filter->user_id ?: $GLOBALS['user']->id);
 
