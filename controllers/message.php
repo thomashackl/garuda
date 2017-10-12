@@ -600,7 +600,7 @@ class MessageController extends AuthenticatedController {
     }
 
     // customized #url_for for plugins
-    public function url_for($to) {
+    public function url_for($to = '') {
         $args = func_get_args();
 
         # find params
