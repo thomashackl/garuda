@@ -77,7 +77,8 @@ class MessageController extends AuthenticatedController {
         if ($GLOBALS['perm']->have_perm('root')) {
             $parameters = array(
                 'semtypes' => studygroup_sem_types() ?: array(),
-                'exclude' => array()
+                'exclude' => array(),
+                'semesters' => array_map(function ($s) { return $s->semester_id; }, Semester::getAll())
             );
         } else if ($GLOBALS['perm']->have_perm('admin')) {
             $parameters = array(
@@ -85,14 +86,16 @@ class MessageController extends AuthenticatedController {
                 'institutes' => array_map(function ($i) {
                     return $i['Institut_id'];
                 }, Institute::getMyInstitutes()),
-                'exclude' => array()
+                'exclude' => array(),
+                'semesters' => array_map(function ($s) { return $s->semester_id; }, Semester::getAll())
             );
 
         } else {
             $parameters = array(
                 'userid' => $GLOBALS['user']->id,
                 'semtypes' => studygroup_sem_types() ?: array(),
-                'exclude' => array()
+                'exclude' => array(),
+                'semesters' => array_map(function ($s) { return $s->semester_id; }, Semester::getAll())
             );
         }
         $coursesearch = MyCoursesSearch::get('Seminar_id', $GLOBALS['perm']->get_perm(), $parameters);
