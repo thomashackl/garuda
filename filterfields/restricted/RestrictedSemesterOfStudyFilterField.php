@@ -48,7 +48,7 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
             $parameters[] = $entry['fach_id'];
         }
         if ($where) {
-            $where = "AND (".$where.")";
+            $where = " AND (".$where.")";
         }
         // Calculate the maximal available semester.
         $data = DBManager::get()->fetchFirst("SELECT MAX(".$this->valuesDbIdField.") AS maxsem ".
@@ -96,7 +96,7 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
             $parameters[] = $entry['fach_id'];
         }
         if ($allowed) {
-            $where .= "AND (".$allowed.")";
+            $where .= " AND (".$allowed.")";
         }
         // Check if there are restrictions given.
         foreach ($restrictions as $otherField => $restriction) {
@@ -117,6 +117,7 @@ class RestrictedSemesterOfStudyFilterField extends SemesterOfStudyCondition
                 $parameters[] = $restriction['value'];
             }
         }
+
         // Get all the users that fulfill the condition.
         $stmt = $db->prepare($select.$from.$where);
         $stmt->execute($parameters);
