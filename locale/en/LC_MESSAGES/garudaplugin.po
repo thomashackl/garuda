@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-12 14:03+0200\n"
+"POT-Creation-Date: 2017-10-12 14:12+0200\n"
 "PO-Revision-Date: 2015-04-21 13:44+0200\n"
 "Last-Translator: Thomas <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <http://example.com/weblate/projects/studip/garuda/en/"
 ">\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.6-dev\n"
@@ -295,8 +295,7 @@ msgstr "Allowed target audiences"
 #: controllers/recipients.php:43
 #, fuzzy
 msgid ""
-"Hier sehen Sie, an welche Empf√§ngerkreise Sie Nachrichten verschicken "
-"k√∂nnen."
+"Hier sehen Sie, an welche Empf√§ngerkreise Sie Nachrichten verschicken k√∂nnen."
 msgstr ""
 "Here you can see which target audiences you can select for your messages."
 
@@ -421,8 +420,8 @@ msgstr "Messages for target audiences"
 
 #: migrations/20_permissions_from_external_db.php:14
 msgid ""
-"Soll eine externe Datenbank benutzt werden, um die Zuordnungen von Studieng√"
-"§ngen zu Einrichtungen auszulesen?"
+"Soll eine externe Datenbank benutzt werden, um die Zuordnungen von "
+"Studieng√§ngen zu Einrichtungen auszulesen?"
 msgstr ""
 
 #: migrations/20_permissions_from_external_db.php:22
@@ -458,8 +457,8 @@ msgstr "All persons selected above will get this message."
 #: views/message/sendto_all.php:4
 #, fuzzy
 msgid ""
-"Alle oben gew√§hlten Personen innerhalb der f√ºr Sie freigegebenen Studieng√"
-"§nge und Einrichtungen erhalten diese Nachricht."
+"Alle oben gew√§hlten Personen innerhalb der f√ºr Sie freigegebenen "
+"Studieng√§nge und Einrichtungen erhalten diese Nachricht."
 msgstr ""
 "All selected studycourse and institute members you may send to will get this "
 "message."
@@ -498,8 +497,8 @@ msgstr ""
 #: views/message/sendto_filtered.php:9
 #, fuzzy
 msgid ""
-"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studieng√"
-"§nge gesendet, die die folgende Bedingung erf√ºllen:"
+"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
+"Studieng√§nge gesendet, die die folgende Bedingung erf√ºllen:"
 msgstr ""
 "This message will be sent to persons fulfilling the following condition and "
 "belonging to the studycourses and institutes you may send to:"
@@ -507,8 +506,8 @@ msgstr ""
 #: views/message/sendto_filtered.php:11
 #, fuzzy
 msgid ""
-"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und Studieng√"
-"§nge gesendet, die eine der folgenden Bedingungen erf√ºllen:"
+"Diese Nachricht wird an Personen innerhalb Ihrer Einrichtungen und "
+"Studieng√§nge gesendet, die eine der folgenden Bedingungen erf√ºllen:"
 msgstr ""
 "This message will be sent to persons fulfilling one of the following "
 "conditions and belonging to the studycourses and institutes you may send to:"
@@ -531,8 +530,8 @@ msgstr "all"
 #: views/message/write.php:18
 #, fuzzy
 msgid ""
-"Hier√ºber werden alle Personen gefunden, die einem oder mehreren Studieng√"
-"§ngen zugeordnet sind."
+"Hier√ºber werden alle Personen gefunden, die einem oder mehreren "
+"Studieng√§ngen zugeordnet sind."
 msgstr ""
 "This message will be sent to persons fulfilling one of the following "
 "conditions:"
@@ -782,8 +781,9 @@ msgid "Wollen Sie die Nachricht wirklich l√∂schen?"
 msgstr "Who should the message be sent to?"
 
 #: views/overview/_messages.php:98
+#, fuzzy
 msgid "Wollen Sie die Vorlage wirklich l√∂schen?"
-msgstr ""
+msgstr "Who should the message be sent to?"
 
 #: views/overview/edit_message.php:6
 msgid "Name der Vorlage"
@@ -882,12 +882,14 @@ msgid "Tabellenname"
 msgstr ""
 
 #: views/permissions/external_db.php:56
+#, fuzzy
 msgid "Spalte f√ºr Abschlussnamen"
-msgstr ""
+msgstr "Institutes"
 
 #: views/permissions/external_db.php:60
+#, fuzzy
 msgid "Spalte f√ºr F√§chernamen"
-msgstr ""
+msgstr "Institutes"
 
 #: views/permissions/external_db.php:64
 #, fuzzy
@@ -1068,11 +1070,11 @@ msgstr "Save filter"
 #~ msgstr "or use tokens from an already sent message:"
 
 #, fuzzy
-#~ msgid "Einstellungen f¸r den Nachrichtenversand"
+#~ msgid "Einstellungen f√ºr den Nachrichtenversand"
 #~ msgstr "Save settings for currently selected institute"
 
 #~ msgid ""
-#~ "Ihre Nachricht an %s Personen wurde an das System zum Versand ¸bergeben."
+#~ "Ihre Nachricht an %s Personen wurde an das System zum Versand √ºbergeben."
 #~ msgstr "Your message to %s persons was assigned for sending."
 
 #~ msgid "gleich"
@@ -1081,14 +1083,14 @@ msgstr "Save filter"
 #~ msgid "Abschluss"
 #~ msgstr "Degree"
 
-#~ msgid "Manuell gesetzte Empf‰nger"
+#~ msgid "Manuell gesetzte Empf√§nger"
 #~ msgstr "Manually added recipients"
 
 #~ msgid "Informationen"
 #~ msgstr "Information"
 
 #~ msgid ""
-#~ "Schreiben Sie hier Nachrichten an ausgew‰hlte Empf‰ngerkreise in Stud.IP."
+#~ "Schreiben Sie hier Nachrichten an ausgew√§hlte Empf√§ngerkreise in Stud.IP."
 #~ msgstr "Here you can write Stud.IP messages to selected target audiences."
 
 #~ msgid "Verwenden Sie im Nachrichteninhalt %sTextformatierungen%s."
