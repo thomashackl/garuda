@@ -1,4 +1,4 @@
-<form class="default" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= Request::isXhr() ? ' data-dialog="size=auto"' : '' ?>>
+<form class="default" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= $xhr ? ' data-dialog="size=auto"' : '' ?>>
     <header>
         <h2>
             <?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?>

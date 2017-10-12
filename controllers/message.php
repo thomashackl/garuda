@@ -214,9 +214,9 @@ class MessageController extends AuthenticatedController {
 
             // Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
-                $this->redirect($this->url_for('userfilter/add', Request::option('sendto')));
+                $this->redirect($this->url_for('userfilter/add', Request::option('sendto'), Request::option('id') ? true : null));
             } else {
-                $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto')));
+                $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto'), Request::option('id') ? true : null));
             }
 
         // Save the current settings as new template.
@@ -670,8 +670,8 @@ class MessageController extends AuthenticatedController {
 
         $message->target = $this->flash['sendto'] == 'list' ? 'usernames' : $this->flash['sendto'];
 
-        $message->subject = $this->flash['subject'];
-        $message->message = $this->flash['message'];
+        $message->subject = $this->flash['subject'] ?: '';
+        $message->message = $this->flash['message'] ?: '';
 
         if ($type == 'message') {
             $message->send_date = $this->flash['send_date'] ?: time();
@@ -684,7 +684,7 @@ class MessageController extends AuthenticatedController {
                 Course::findMany($this->flash['courses']));
         }
 
-        if ($message->store()) {
+        if ($message->store() || $message->id) {
             $mfilters = GarudaFilter::findByMessage_id($message->id);
             $mfilterIds = array_map(function($f) { return $f->id; }, $mfilters);
             $newFilters = array();

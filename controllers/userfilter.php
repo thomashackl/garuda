@@ -37,7 +37,7 @@ class UserfilterController extends AuthenticatedController {
             ' - ' . dgettext('garudaplugin', 'Personen filtern'));
     }
 
-    public function add_action($type) {
+    public function add_action($type, $xhr = false) {
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
@@ -53,9 +53,12 @@ class UserfilterController extends AuthenticatedController {
             default:
                 break;
         }
+        if ($xhr) {
+            $this->xhr = true;
+        }
     }
 
-    public function addrestricted_action($type) {
+    public function addrestricted_action($type, $xhr = false) {
         switch($type) {
             case 'employees':
                 $this->filterfields = array(
@@ -101,6 +104,10 @@ class UserfilterController extends AuthenticatedController {
                         'relation' => ''
                     )
                 );
+        }
+
+        if ($xhr) {
+            $this->xhr = true;
         }
     }
 

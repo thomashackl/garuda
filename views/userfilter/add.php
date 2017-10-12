@@ -1,4 +1,4 @@
-<form id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post">
+<form id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= $xhr ? ' data-dialog="size=auto"' : '' ?>>
     <h2><?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?></h2>
     <section id="filterfields">
         <div class="filterfield">
