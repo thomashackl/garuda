@@ -115,7 +115,11 @@ class GarudaMessage extends SimpleORMap
                     $recipients = array_merge($recipients, $f->getUsers());
                 }
 
-                $recipients = array_unique($recipients);
+                $recipients = array_intersect(
+                    array_unique($recipients),
+                    GarudaModel::calculateUsers(
+                        $this->author_id, $this->target, GarudaModel::getConfigurationForUser($this->author_id))
+                );
 
             } else {
                 $recipients = GarudaModel::calculateUsers(
