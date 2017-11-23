@@ -50,6 +50,8 @@ class MessageController extends AuthenticatedController {
 
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
+
+        UserFilterField::getAvailableFilterFields();
     }
 
     /**
@@ -261,12 +263,10 @@ class MessageController extends AuthenticatedController {
              */
             // Message will be sent to people defined by given filters.
             if ($this->flash['filters']) {
-                UserFilterField::getAvailableFilterFields();
 
                 // Get configured filters and their corresponding users.
-                foreach ($this->flash['filters'] as $filter) {
-                    $f = unserialize($filter);
-                    $users = array_merge($users, $f->getUsers());
+                foreach (ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') as $filter) {
+                    $users = array_merge($users, $filter->getUsers());
                 }
                 $users = array_unique($users);
 
@@ -347,8 +347,6 @@ class MessageController extends AuthenticatedController {
                     format_help_url('Basis/VerschiedenesFormat')),
                 'icons/16/white/edit.png');
 
-            UserFilterField::getAvailableFilterFields();
-
             $this->filters = array();
 
             if ($id || $type == 'load') {
@@ -386,7 +384,7 @@ class MessageController extends AuthenticatedController {
 
                 $this->courses = $this->message->courses;
                 $this->filters = $this->flash['filters'] ?
-                    array_map(function ($f) { return unserialize($f); }, $this->flash['filters']) :
+                    ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') :
                     array_map(function ($f) { return new UserFilter($f['filter_id']); }, $this->message->filters->toArray());
                 array_walk($this->filters, function ($f) { $f->show_user_count = true; });
                 // Get alternative sender if applicable.
@@ -408,10 +406,9 @@ class MessageController extends AuthenticatedController {
                 PageLayout::setTitle(dgettext('garudaplugin', 'Nachricht schreiben'));
 
                 if ($this->flash['filters']) {
-                    foreach ($this->flash['filters'] as $filter) {
-                        $current = unserialize($filter);
-                        $current->show_user_count = true;
-                        $this->filters[] = $current;
+                    foreach (ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') as $filter) {
+                        $filter->show_user_count = true;
+                        $this->filters[] = $filter;
                     }
                 }
 
@@ -447,8 +444,7 @@ class MessageController extends AuthenticatedController {
         $m->author_id = $GLOBALS['user']->id;
         if (count($this->flash['filters']) > 0) {
             $m->filters = SimpleCollection::createFromArray(
-                array_map(function ($f) { return unserialize($f); },
-                    $this->flash['filters']));
+                ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter'));
         }
         if (count($this->flash['courses']) > 0) {
             $m->courses = Course::findMany($this->flash['courses']);
@@ -630,8 +626,6 @@ class MessageController extends AuthenticatedController {
 
     private function storeMessage($id = '', $type = 'message')
     {
-        UserFilterField::getAvailableFilterFields();
-
         if ($type == 'template') {
             $message = $id ? GarudaTemplate::find($id) : new GarudaTemplate();
         } else {
@@ -701,13 +695,12 @@ class MessageController extends AuthenticatedController {
             // Process user filters and save them to database.
             if ($this->flash['filters']) {
 
-                foreach ($this->flash['filters'] as $filter) {
-                    $f = unserialize($filter);
-                    $f->store();
+                foreach (ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') as $filter) {
+                    $filter->store();
 
-                    $newFilters[] = $f->id;
+                    $newFilters[] = $filter->id;
 
-                    $gf = new GarudaFilter(array($message->id, $f->id));
+                    $gf = new GarudaFilter(array($message->id, $filter->id));
                     $gf->user_id = $message->author_id;
                     $gf->store();
                 }

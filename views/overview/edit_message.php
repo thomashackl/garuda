@@ -19,7 +19,7 @@
         <?php endif ?>
         <?php if ($flash['filters']) : ?>
             <?php foreach ($flash['filters'] as $filter) : ?>
-                <input type="hidden" name="filters[]" value="<?= urlencode($filter) ?>">
+                <input type="hidden" name="filters[]" value="<?= htmlReady($filter) ?>">
             <?php endforeach ?>
         <?php endif ?>
         <?php if ($flash['sendto'] == 'courses' && $flash['courses']) : ?>

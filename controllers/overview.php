@@ -234,11 +234,10 @@ class OverviewController extends AuthenticatedController {
                 if ($t->store()) {
 
                     UserFilterField::getAvailableFilterFields();
-                    foreach (Request::getArray('filters') as $filter) {
-                        $f = unserialize(urldecode($filter));
-                        $f->store();
+                    foreach (ObjectBuilder::buildMany(Request::getArray('filters'), 'UserFilter') as $filter) {
+                        $filter->store();
                         $gf = new GarudaFilter();
-                        $gf->filter_id = $f->id;
+                        $gf->filter_id = $filter->id;
                         $gf->message_id = $t->id;
                         $gf->user_id = $t->author_id;
                         $gf->store();

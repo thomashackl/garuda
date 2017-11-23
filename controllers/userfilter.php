@@ -159,7 +159,7 @@ class UserfilterController extends AuthenticatedController {
             $filters = array();
         }
         if ($filter->getFields()) {
-            array_push($filters, serialize($filter));
+            array_push($filters, ObjectBuilder::exportAsJSON($filter));
         }
         $this->flash['filters'] = $filters;
 
