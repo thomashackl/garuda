@@ -687,6 +687,8 @@ class MessageController extends AuthenticatedController {
                 Course::findMany($this->flash['courses']));
         }
 
+        PageLayout::postInfo('Message:<pre>'.print_r($message->toArray(), 1).'</pre>');
+
         if ($message->store() || $message->id) {
             $mfilters = GarudaFilter::findByMessage_id($message->id);
             $mfilterIds = array_map(function($f) { return $f->id; }, $mfilters);

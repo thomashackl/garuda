@@ -63,15 +63,12 @@ class GarudaTemplate extends SimpleORMap
             'on_store' => 'store'
         );
 
+        $config['registered_callbacks']['before_store'][] = 'cbJsonifyRecipients';
+        $config['registered_callbacks']['after_store'][] = 'cbJsonifyRecipients';
+        $config['registered_callbacks']['after_initialize'][] = 'cbJsonifyRecipients';
+        $config['registered_callbacks']['before_delete'][] = 'cbCleanupFilters';
+
         parent::configure($config);
-    }
-
-    public function __construct($id = null)
-    {
-        $this->registerCallback('before_store after_store after_initialize', 'cbJsonifyRecipients');
-        $this->registerCallback('before_delete', 'cbCleanupFilters');
-
-        parent::__construct($id);
     }
 
     public static function findMine()
