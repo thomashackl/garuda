@@ -13,7 +13,7 @@
                     <?= dgettext('garudaplugin', 'alle') ?>
                 </label>
             <?php endif ?>
-            <?php if ($allowStudycourses > 0) : ?>
+            <?php if ($allowStudycourses) : ?>
                 <label>
                     <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked' : '') ?>/>
                     <?= dgettext('garudaplugin', 'Studierende') ?>
