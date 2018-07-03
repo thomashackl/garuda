@@ -7,24 +7,30 @@
             <header>
                 <?= dgettext('garudaplugin', 'An wen soll die Nachricht gesendet werden?') ?>
             </header>
-            <label>
-                <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked' : '') ?>/>
-                <?= dgettext('garudaplugin', 'alle') ?>
-            </label>
-            <label>
-                <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked' : '') ?>/>
-                <?= dgettext('garudaplugin', 'Studierende') ?>
-                <?= tooltipIcon(dgettext('garudaplugin',
-                        'Hierüber werden alle Personen gefunden, die einem '.
-                        'oder mehreren Studiengängen zugeordnet sind.')) ?>
-            </label>
-            <label>
-                <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked' : '') ?>/>
-                <?= dgettext('garudaplugin', 'Beschäftigte') ?>
-                <?= tooltipIcon(dgettext('garudaplugin',
-                    'Hierüber werden alle Personen gefunden, die mindestens '.
-                    'einer Einrichtung zugeordnet sind.')) ?>
-            </label>
+            <?php if ($allowStudycourses || count($institutes) > 0) : ?>
+                <label>
+                    <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked' : '') ?>/>
+                    <?= dgettext('garudaplugin', 'alle') ?>
+                </label>
+            <?php endif ?>
+            <?php if ($allowStudycourses > 0) : ?>
+                <label>
+                    <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked' : '') ?>/>
+                    <?= dgettext('garudaplugin', 'Studierende') ?>
+                    <?= tooltipIcon(dgettext('garudaplugin',
+                            'Hierüber werden alle Personen gefunden, die einem '.
+                            'oder mehreren Studiengängen zugeordnet sind.')) ?>
+                </label>
+            <?php endif ?>
+            <?php if (count($institutes) > 0) : ?>
+                <label>
+                    <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked' : '') ?>/>
+                    <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+                    <?= tooltipIcon(dgettext('garudaplugin',
+                        'Hierüber werden alle Personen gefunden, die mindestens '.
+                        'einer Einrichtung zugeordnet sind.')) ?>
+                </label>
+            <?php endif ?>
             <label>
                 <input type="radio" name="sendto" value="courses" <?= ($flash['sendto'] == 'courses' ? ' checked' : '') ?>/>
                 <?= dgettext('garudaplugin', 'Veranstaltungsteilnehmende') ?>

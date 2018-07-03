@@ -37,15 +37,23 @@ class MessageController extends AuthenticatedController {
         // Get Garuda configuration for my own institutes.
         $institutes = array_map(function($i) { return $i['Institut_id']; }, Institute::getMyInstitutes());
         $this->config = GarudaModel::getConfiguration($institutes);
+
+        // Is the current user allowed to contact selected studycourses?
+        $this->allowStudycourses = false;
+
         foreach ($institutes as $i) {
             if ($GLOBALS['perm']->have_studip_perm($this->config[$i]['min_perm'], $i)) {
                 $this->institutes[] = $i;
+                if (count($this->config[$i]['studycourses']) > 0) {
+                    $this->allowStudycourses = true;
+                }
             }
         }
         // Root can do everything.
         $this->i_am_root = false;
         if ($GLOBALS['perm']->have_perm('root')) {
             $this->i_am_root = true;
+            $this->allowStudycourses = true;
         }
 
         $this->sidebar = Sidebar::get();
