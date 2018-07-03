@@ -115,6 +115,7 @@ class GarudaModel {
                 'is_fak' => $i->is_fak
             );
         }
+
         return $userConfig;
     }
 
@@ -187,7 +188,11 @@ class GarudaModel {
     {
         if ($GLOBALS['perm']->have_perm('root', $userId)) {
             return DBManager::get()->fetchFirst(
-                "SELECT DISTINCT `user_id` FROM `user_studiengang` WHERE `fach_id`!='21979dd6cc8bcb2138f333506dc30ffb'");
+                "SELECT DISTINCT s.`user_id`
+                    FROM `user_studiengang` s
+                        JOIN `auth_user_md5` a USING (`user_id`)
+                    WHERE s.`fach_id`!='21979dd6cc8bcb2138f333506dc30ffb'
+                        AND a.`visible` != 'never'");
         } else {
             $query = "SELECT DISTINCT `user_id` FROM `user_studiengang`";
             $parameters = array();
@@ -204,6 +209,8 @@ class GarudaModel {
                 }
                 $query .= $where;
                 return DBManager::get()->fetchFirst($query, $parameters);
+            } else {
+                return [];
             }
             return DBManager::get()->fetchFirst($query, $parameters);
         }
@@ -227,6 +234,8 @@ class GarudaModel {
             if ($institutes) {
                 $query .= " AND `Institut_id` IN (?)";
                 $parameters[] = array_keys($institutes);
+            } else {
+                return [];
             }
             return DBManager::get()->fetchFirst($query, $parameters);
         }
