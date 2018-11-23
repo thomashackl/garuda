@@ -30,12 +30,13 @@ class PermissionsFromExternalDB extends Migration
             'description' => _('Zuordnungen von Einrichtungen der externen Datenbank zu Stud.IP-Einrichtungen')
         ));
 
-        GarudaGetPermissionsCronjob::register()->schedulePeriodic(23, 59)->activate();
+        GarudaGetPermissionsCronjob::register()->schedulePeriodic(59, 23);
     }
 
     public function down()
     {
         GarudaGetPermissionsCronjob::unregister();
+        Config::get()->delete('GARUDA_PERMISSIONS_EXTERNAL_DB_INSTITUTES');
         Config::get()->delete('GARUDA_PERMISSIONS_EXTERNAL_DB_SETTINGS');
         Config::get()->delete('GARUDA_PERMISSIONS_EXTERNAL_DB_ENABLE');
     }
