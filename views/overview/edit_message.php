@@ -27,6 +27,11 @@
                 <input type="hidden" name="courses[]" value="<?= $course ?>">
             <?php endforeach ?>
         <?php endif ?>
+        <?php if ($flash['cc']) : ?>
+            <?php foreach ($flash['cc'] as $cc) : ?>
+                <input type="hidden" name="cc[]" value="<?= htmlReady($cc) ?>">
+            <?php endforeach ?>
+        <?php endif ?>
         <?php if ($flash['sender']) : ?>
             <input type="hidden" name="sender" value="<?= $flash['sender'] ?>">
             <?php if ($flash['senderid']) : ?>

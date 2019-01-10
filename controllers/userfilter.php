@@ -141,26 +141,50 @@ class UserfilterController extends AuthenticatedController {
             }
         }
         $this->flash['sendto'] = Request::option('sendto');
+
+        if (Request::option('exclude')) {
+            $this->flash['exclude'] = 'on';
+            $this->flash['excludelist'] = Request::get('excludelist');
+        }
+
+        if (count(Request::getArray('cc')) > 0) {
+            $this->flash['cc'] = Request::getArray('cc');
+        }
+
         if (Request::option('sender')) {
             $this->flash['sender'] = Request::option('sender');
             if (Request::option('senderid')) {
                 $this->flash['senderid'] = Request::option('senderid');
             }
         }
+
         if (Request::get('subject')) {
             $this->flash['subject'] = Request::get('subject');
         }
+
         if (Request::get('message')) {
             $this->flash['message'] = Request::get('message');
         }
+
+        if (Request::option('protected')) {
+            $this->flash['protected'] = 'on';
+        }
+
+        if (Request::option('send_at_date')) {
+            $this->flash['send_at_date'] = 'on';
+            $this->flash['send_date'] = Request::get('send_date');
+        }
+
         if (Request::getArray('filters')) {
             $filters = Request::getArray('filters');
         } else {
             $filters = array();
         }
+
         if ($filter->getFields()) {
             array_push($filters, ObjectBuilder::exportAsJSON($filter));
         }
+
         $this->flash['filters'] = $filters;
 
         $this->redirect($this->url_for('message/write', Request::option('type', 'message'), Request::option('id')));

@@ -53,6 +53,29 @@ class SettingsController extends AuthenticatedController {
         $this->cleanup = Config::get()->GARUDA_CLEANUP_INTERVAL;
     }
 
+    /**
+     * Saves the settings.
+     */
+    public function save_action()
+    {
+        CSRFProtection::verifyUnsafeRequest();
+
+        $success = true;
+
+        if (Request::int('cleanup') != Config::get()->GARUDA_CLEANUP_INTERVAL) {
+            $success = $success && Config::get()->store('GARUDA_CLEANUP_INTERVAL', Request::int('cleanup'));
+        }
+
+        if ($success) {
+            PageLayout::postSuccess(dgettext('garudaplugin',
+                'Die Einstellungen wurden gespeichert.'));
+        } else {
+            PageLayout::postError(dgettext('garudaplugin',
+                'Die Einstellungen konnten nicht gespeichert werden.'));
+        }
+        $this->relocate('settings');
+    }
+
     // customized #url_for for plugins
     public function url_for($to = '') {
         $args = func_get_args();

@@ -96,7 +96,6 @@ class MessageController extends AuthenticatedController {
                 'exclude' => array(),
                 'semesters' => array_map(function ($s) { return $s->semester_id; }, Semester::getAll())
             );
-
         } else {
             $parameters = array(
                 'userid' => $GLOBALS['user']->id,
@@ -139,8 +138,20 @@ class MessageController extends AuthenticatedController {
         }
 
         // Exclude users from recipient list.
-        if (Request::get('excludelist')) {
+        if (Request::option('exclude')) {
+            $this->flash['exclude'] = 'on';
             $this->flash['excludelist'] = Request::get('excludelist');
+        }
+
+        // Add other people in CC
+        $search = new StandardSearch('user_id');
+        $this->ccsearch = QuickSearch::get('cc_user', $search)
+            ->setInputStyle('width:100%')
+            ->fireJSFunctionOnSelect('STUDIP.Garuda.addCC')
+            ->render();
+
+        if (count(Request::getArray('cc')) > 0) {
+            $this->flash['cc'] = Request::getArray('cc');
         }
 
         // Get alternative sender if applicable.
@@ -204,7 +215,7 @@ class MessageController extends AuthenticatedController {
                 $this->sender = $this->flash['sender'];
 
                 if ($this->flash['senderid']) {
-                    $this->senderid = $this->flash['senderid'];
+                    $this->senderid = $this->flash-['senderid'];
                     $this->user = User::find($this->senderid);
                 }
             }
@@ -348,12 +359,12 @@ class MessageController extends AuthenticatedController {
                     "Beschäftigten auswählen, die den ".
                     "Einrichtungen angehören, auf die Sie Zugriff ".
                     "haben."),
-                'icons/16/white/group2.png');
+                Icon::create('group2'));
             Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
                 sprintf(dgettext('garudaplugin', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im '.
                     'Nachrichteninhalt.'),
                     format_help_url('Basis/VerschiedenesFormat')),
-                'icons/16/white/edit.png');
+                Icon::create('edit'));
 
             $this->filters = array();
 
@@ -384,10 +395,14 @@ class MessageController extends AuthenticatedController {
                     $this->flash['sendto'] = $this->message->target;
                 }
 
-                if (count($this->message->exclude_users) > 0) {
+                if (is_array($this->message->exclude_users) && count($this->message->exclude_users) > 0) {
                     $this->flash['excludelist'] = implode("\n", array_map(function($u) {
                         return $u->username;
                     }, User::findMany($this->message->exclude_users)));
+                }
+
+                if ($this->message->cc !== null) {
+                    $this->flash['cc'] = json_decode($this->message->cc);
                 }
 
                 $this->courses = $this->message->courses;
@@ -420,6 +435,10 @@ class MessageController extends AuthenticatedController {
                     }
                 }
 
+            }
+
+            if ($this->flash['cc']) {
+                $this->cc = User::findMany($this->flash['cc'], "ORDER BY `Nachname`, `Vorname`, `username`");
             }
 
             // Show action for loading a message template if applicable.
@@ -680,6 +699,10 @@ class MessageController extends AuthenticatedController {
         }
 
         $message->target = $this->flash['sendto'] == 'list' ? 'usernames' : $this->flash['sendto'];
+
+        if ($this->flash['cc']) {
+            $message->cc = json_encode($this->flash['cc']);
+        }
 
         $message->subject = $this->flash['subject'] ?: '';
         $message->message = $this->flash['message'] ?: '';

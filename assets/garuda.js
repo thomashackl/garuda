@@ -282,6 +282,23 @@
                 child.append(input);
                 list.append(child);
             }
+        },
+
+        addCC: function(id, name) {
+            // Remove all formatting from name.
+            var cleaned = $('<div>').html(name).text();
+            var list = $('ul#garuda-cc');
+            if (list.children('li.' + id).length == 0) {
+                var child = $('<li>').
+                    addClass(id).
+                    html(cleaned);
+                var input = $('<input>').
+                    attr('type', 'hidden').
+                    attr('name', 'cc[]').
+                    attr('value', id);
+                child.append(input);
+                list.append(child);
+            }
         }
 
     };

@@ -20,6 +20,7 @@
  * @property string target database column
  * @property string recipients database column
  * @property string exclude_users database column
+ * @property string cc database column
  * @property string subject database column
  * @property string message database column
  * @property string attachment_id database column
@@ -125,7 +126,7 @@ class GarudaMessage extends SimpleORMap
         }
 
         // If there are users to be excluded, remove them now.
-        if (count($this->exclude_users) > 0) {
+        if (is_array($this->exclude_users) && count($this->exclude_users) > 0) {
             $recipients = array_diff($recipients, $this->exclude_users);
         }
 

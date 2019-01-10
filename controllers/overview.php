@@ -219,6 +219,11 @@ class OverviewController extends AuthenticatedController {
                         Request::get('excludelist'), -1, PREG_SPLIT_NO_EMPTY))));
                 }
 
+                // Add people getting the message in CC
+                if (count(Request::getArray('cc')) > 0) {
+                    $t->cc = json_encode(Request::getArray('cc'));
+                }
+
                 // Set another sender if root and alternative sender is set, set myself otherwise.
                 if ($this->i_am_root) {
                     if (Request::option('sender', 'me') == 'person') {

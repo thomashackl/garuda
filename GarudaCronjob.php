@@ -89,8 +89,18 @@ class GarudaCronjob extends CronJob {
                     $message = $this->send($job->sender_id, $usernames, $job->subject, $job->message,
                         $job->attachment_id);
                 }
+
                 // Write status to cron log.
                 if ($message) {
+
+                    // Finally send message to CC recipients if necessary.
+                    if ($job->cc !== null) {
+                        $usernames = DBManager::get()->fetchFirst(
+                            "SELECT `username` FROM `auth_user_md5` WHERE `user_id` IN (?)",
+                            array(json_decode($job->cc)));
+                        $this->send($job->sender_id, $usernames, $job->subject, $job->message, $job->attachment_id);
+                    }
+
                     if ($job->author_id == $job->sender_id) {
                         echo sprintf("\nINFO: Message from %s to %s recipients was sent:\n%s\n\n%s\n",
                             $job->author->getFullname(), $numRec, $job->subject, $job->message);
@@ -105,6 +115,11 @@ class GarudaCronjob extends CronJob {
                     }
 					GarudaCronFunctions::cronEntryDone($job->id);
                 } else {
+                    if ($job->sender_id == '____%system%____') {
+                        $senderName = 'Stud.IP';
+                    } else {
+                        $senderName = $job->sender->getFullname();
+                    }
                     echo sprintf("\nERROR: Message from %s to %s recipients could not be sent:\n%s\n\n%s\n",
                         $senderName, $numRec, $job->subject, $job->message);
                     GarudaCronFunctions::unlockCronEntry($job->id);

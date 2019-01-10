@@ -103,6 +103,24 @@
             </label>
         </section>
     </fieldset>
+    <fieldset>
+        <legend>
+            <?= dgettext('garudaplugin', 'In Kopie an') ?>
+        </legend>
+        <section id="cc">
+            <?= $ccsearch ?>
+            <ul id="garuda-cc">
+            <?php if (is_array($cc) && count($cc) > 0) : ?>
+                <?php foreach ($cc as $one) : ?>
+                <li class="garuda-cc-user">
+                    <?= $one->getFullname() ?> (<?= $one->username ?>)
+                    <input type="hidden" name="cc[]" value="<?= $one->id ?>">
+                </li>
+                <?php endforeach ?>
+            <?php endif ?>
+            </ul>
+        </section>
+    </fieldset>
     <?php if ($i_am_root && !$message) { ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes') ?></legend>
@@ -264,7 +282,7 @@
         </legend>
         <section>
             <label>
-                <input type="checkbox" name="send_at_date">
+                <input type="checkbox" name="send_at_date"<?= $flash['send_at_date'] ? ' checked' : '' ?>>
                 <?= dgettext('garudaplugin', 'Nachricht erst zu einem späteren Zeitpunkt verschicken') ?>
             </label>
         </section>

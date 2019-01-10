@@ -20,6 +20,7 @@
  * @property string target database column
  * @property string recipients database column
  * @property string exclude_users database column
+ * @property string cc database column
  * @property string subject database column
  * @property string message database column
  * @property string mkdate database column
