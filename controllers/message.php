@@ -469,15 +469,22 @@ class MessageController extends AuthenticatedController {
         $m = new GarudaMessage();
         $m->target = $this->flash['sendto'];
         $m->author_id = $GLOBALS['user']->id;
-        if (count($this->flash['filters']) > 0) {
-            $m->filters = SimpleCollection::createFromArray(
-                ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter'));
+        if (is_array($this->flash['filters']) && count($this->flash['filters']) > 0) {
+            $filters = ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter');
+
+            $recipients = [];
+            foreach ($filters as $f) {
+                $recipients = array_merge($recipients, $f->getUsers());
+            }
+
+            $recipients = User::findMany($recipients, "ORDER BY `Nachname`, `Vorname`, `username");
+        } else {
+            if (is_array($this->flash['courses']) && count($this->flash['courses']) > 0) {
+                $m->courses = Course::findMany($this->flash['courses']);
+            }
+            // Fetch message recipients...
+            $recipients = User::findMany($m->getMessageRecipients(), "ORDER BY `nachname`, `vorname`, `username`");
         }
-        if (count($this->flash['courses']) > 0) {
-            $m->courses = Course::findMany($this->flash['courses']);
-        }
-        // Fetch message recipients...
-        $recipients = User::findMany($m->getMessageRecipients(), "ORDER BY `nachname`, `vorname`, `username`");
 
         // ... and create a corresponding csv.
         $data = array();
@@ -488,8 +495,8 @@ class MessageController extends AuthenticatedController {
                 break;
             case 'students':
                 $data[] = array(dgettext('garudaplugin', 'Studierende'));
-                if (count($m->filters) > 0) {
-                    foreach ($m->filters as $f) {
+                if (is_array($this->flash['filters']) && count($this->flash['filters']) > 0) {
+                    foreach ($filters as $f) {
                         $data[] = array($f->toString());
                     }
                 }
