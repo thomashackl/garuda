@@ -286,7 +286,7 @@
                 <?= dgettext('garudaplugin', 'Nachricht erst zu einem späteren Zeitpunkt verschicken') ?>
             </label>
         </section>
-        <section class="send_date hidden-js">
+        <section class="send_date<?= $flash['send_at_date'] ? '' : ' hidden-js' ?>">
             <label>
                 <?= dgettext('garudaplugin', 'Wann soll die Nachricht verschickt werden?') ?>
                 <input type="text" name="send_date" size="25" value="<?= $flash['send_date'] ?

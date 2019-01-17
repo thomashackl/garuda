@@ -182,6 +182,7 @@ class MessageController extends AuthenticatedController {
         // Alternative date for sending.
         $this->flash['send_date'] = time();
         if (Request::option('send_at_date')) {
+            $this->flash['send_at_date'] = true;
             $send_date = strtotime(Request::get('send_date', 'now'));
             if ($send_date >= time()) {
                 $this->flash['send_date'] = $send_date;
@@ -346,6 +347,21 @@ class MessageController extends AuthenticatedController {
             // Errors found, show corresponding messages.
             if (count($error) > 0) {
                 PageLayout::postError(implode('<br>', $error));
+
+                /*
+                 * Fill some values as they are needed.
+                 */
+                $this->filters = $this->flash['filters'] ?
+                    ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') :
+                    ($this->message->filters ?
+                        array_map(function ($f) { return new UserFilter($f['filter_id']); }, $this->message->filters->toArray()) :
+                        []);
+                array_walk($this->filters, function ($f) { $f->show_user_count = true; });
+
+                if ($this->flash['cc']) {
+                    $this->cc = User::findMany($this->flash['cc'], "ORDER BY `Nachname`, `Vorname`, `username`");
+                }
+
             // All okay, continue with message processing.
             } else {
                 $this->relocate('message/send');
@@ -366,7 +382,7 @@ class MessageController extends AuthenticatedController {
                     format_help_url('Basis/VerschiedenesFormat')),
                 Icon::create('edit'));
 
-            $this->filters = array();
+            $this->filters = [];
 
             if ($id || $type == 'load') {
 
