@@ -216,7 +216,7 @@ class MessageController extends AuthenticatedController {
                 $this->sender = $this->flash['sender'];
 
                 if ($this->flash['senderid']) {
-                    $this->senderid = $this->flash-['senderid'];
+                    $this->senderid = $this->flash['senderid'];
                     $this->user = User::find($this->senderid);
                 }
             }
