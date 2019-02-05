@@ -40,6 +40,9 @@
         <?php endif ?>
         <input type="hidden" name="subject" value="<?= $flash['subject'] ?>">
         <input type="hidden" name="message" value="<?= $flash['message'] ?>">
+        <?php foreach ($folders as $folder) : ?>
+            <input type="hidden" name="folders[]" value="<?= $folder ?>">
+        <?php endforeach ?>
     <?php else : ?>
         <section id="message">
             <label>
@@ -48,7 +51,7 @@
                 </span>
                 <input type="text" name="subject" value="<?= htmlReady($message->subject) ?>"
                        placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>"
-                       size="75" maxlength="255"/>
+                       size="75" maxlength="255">
             </label>
             <label>
                 <span class="required">

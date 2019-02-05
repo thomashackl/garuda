@@ -1,3 +1,9 @@
+/* This code calculates another activity color in case you dont wanna stick with red
+
+@active-color: hsv((hsvhue(@red) - hsvhue(@base-color) + hsvhue(@origin-base-color)),
+hsvsaturation(@red),
+hsvvalue(@red));
+*/
 #config li.faculty {
   padding-left: 22px;
 }
@@ -26,6 +32,34 @@ form section#exclude {
 }
 form section#exclude #excludelist {
   margin-left: 30px;
+}
+form #attachments-statusbar-container > .statusbar,
+form #tokens-statusbar-container > .statusbar {
+  border: thin solid lightgrey;
+  min-width: 100%;
+  max-width: 100%;
+  background-color: #d0d7e3;
+}
+form #attachments-statusbar-container > .statusbar > .progress,
+form #tokens-statusbar-container > .statusbar > .progress {
+  background-color: #899ab9;
+  width: 100%;
+  min-width: 0%;
+  max-width: 0%;
+  height: 20px;
+  line-height: 20px;
+}
+form #attachments-statusbar-container > .statusbar > .progress.progress-error,
+form #tokens-statusbar-container > .statusbar > .progress.progress-error {
+  background-color: #d60000;
+}
+form #attachments-statusbar-container > .statusbar > .progresstext,
+form #tokens-statusbar-container > .statusbar > .progresstext {
+  margin-top: -20px;
+  text-align: center;
+  color: white;
+  height: 20px;
+  line-height: 20px;
 }
 form #message label#garuda-markers {
   background: #e2e3e5;

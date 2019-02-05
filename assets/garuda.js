@@ -33,6 +33,96 @@
             $('#config').load(url);
         },
 
+        uploadFromInput: function (input, type) {
+            STUDIP.Garuda.uploadFiles(input.files, type);
+            jQuery(input).val('');
+        },
+
+        fileIDQueue: 1,
+
+        uploadFiles: function (files, type) {
+            for (var i = 0; i < files.length; i++) {
+                var fd = new FormData();
+                fd.append('file', files[i], files[i].name);
+                var statusbar = $('#' + type + '-statusbar-container .statusbar').first().clone().show();
+                statusbar.appendTo('#' + type + '-statusbar-container');
+                fd.append('message_id', $('#provisional-id').val());
+                STUDIP.Garuda.uploadFile(fd, statusbar, type);
+            }
+        },
+
+        uploadFile: function (formdata, statusbar, type) {
+            $.ajax({
+                xhr: function() {
+                    var xhrobj = $.ajaxSettings.xhr();
+                    if (xhrobj.upload) {
+                        xhrobj.upload.addEventListener('progress', function(event) {
+                            var percent = 0;
+                            var position = event.loaded || event.position;
+                            var total = event.total;
+                            if (event.lengthComputable) {
+                                percent = Math.ceil(position / total * 100);
+                            }
+                            //Set progress
+                            statusbar.find('.progress')
+                                .css({'min-width': percent + '%', 'max-width': percent + '%'});
+                            statusbar.find('.progresstext')
+                                .text(percent === 100 ? $('#' + type + '-upload-finished').text() : percent + '%');
+                        }, false);
+                    }
+                    return xhrobj;
+                },
+                url: STUDIP.ABSOLUTE_URI_STUDIP + 'plugins.php/garudaplugin/message/upload/' + type,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                cache: false,
+                data: formdata,
+                dataType: 'json'
+            }).done(function(data) {
+                statusbar.find('.progress').css({'min-width': '100%', 'max-width': '100%'});
+                var file = $('#' + type + ' .files > .file').first().clone();
+                file.on('click', function() { STUDIP.Garuda.removeFile(file); });
+                file.find('.name').text(data.name);
+                if (data.size < 1024) {
+                    file.find('.size').text(data.size + 'B');
+                }
+                if (data.size > 1024 && data.size < 1024 * 1024) {
+                    file.find('.size').text(Math.floor(data.size / 1024) + 'KB');
+                }
+                if (data.size > 1024 * 1024 && data.size < 1024 * 1024 * 1024) {
+                    file.find('.size').text(Math.floor(data.size / 1024 / 1024) + 'MB');
+                }
+                if (data.size > 1024 * 1024 * 1024) {
+                    file.find('.size').text(Math.floor(data.size / 1024 / 1024 / 1024) + 'GB');
+                }
+                file.find('.icon').html(data.icon);
+                file.data('document-id', data.document_id);
+                file.appendTo('#' + type + ' .files');
+                file.fadeIn(300);
+                statusbar.find('.progresstext').text($('#' + type + '-upload-received-data').text());
+                statusbar.delay(1000).fadeOut(300, function () { $(this).remove(); });
+            }).fail(function(jqxhr, status, errorThrown) {
+                var error = jqxhr.responseJSON.error;
+
+                statusbar.find('.progress').addClass('progress-error').attr('title', error);
+                statusbar.find('.progresstext').html(error);
+                statusbar.on('click', function() { $(this).fadeOut(300, function () { $(this).remove(); })});
+            });
+        },
+
+        removeFile: function(target) {
+            $.ajax({
+                url: STUDIP.ABSOLUTE_URI_STUDIP + 'plugins.php/garudaplugin/message/delete_file',
+                data: {
+                    'document_id' : target.closest('li').data('document-id'),
+                    'message_id' : target.closest('form').find('input[name=message_id]').val()
+                },
+                type: 'POST'
+            });
+            target.closest("li").fadeOut(300, function() { target.remove(); });
+        },
+
         init: function() {
             if ($('input[name="sendto"]:checked').val() == 'all' ||
                     $('input[name="sendto"]:checked').val() == 'courses' ||
@@ -86,7 +176,14 @@
             });
 
             $('input[name="use_tokens"]').on('click', function(event) {
-                $('section.use_tokens').toggleClass('hidden-js');
+                $('section.use-tokens').toggleClass('hidden-js');
+                $('#tokens li.file:not(:first)').each(function() {
+                    STUDIP.Garuda.removeFile($(this));
+                });
+            });
+
+            $('a.remove-file').on('click', function(e) {
+                STUDIP.Garuda.removeFile($(e.target));
             });
 
             var markers = $('label#garuda-markers');

@@ -175,6 +175,39 @@ class OverviewController extends AuthenticatedController {
     {
         $this->type = $type;
         $this->message = ($type == 'message') ? new GarudaMessage($id) : new GarudaTemplate($id);
+
+        // Process token files if necessary.
+        $this->folders = array_map(function ($f) {
+                return $f->id;
+            },
+            Folder::findBySQL("`range_id` = ? AND `folder_type` = 'GarudaTokenFolder'",
+                [$id !== '' ? $id : $this->flash['provisional_id']]));
+
+        // Process attachments if necessary.
+        if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) {
+            $folders = Folder::findBySQL("`range_id` = ? AND `folder_type` = 'GarudaFolder'",
+                    [$id !== '' ? $id : $this->flash['provisional_id']]);
+
+            // There are more than one folders -> consolidate.
+            $first = null;
+            if (count($folders) > 0) {
+                foreach ($folders as $folder) {
+                    if ($first == null) {
+                        $first = $folder;
+                    } else {
+                        $folder->file_refs->each(function ($f) use ($first) {
+                            $f->folder_id = $first->id;
+                            $f->store();
+                        });
+                        $folder->file_refs = [];
+                        $folder->delete();
+                    }
+                }
+
+                $this->message->folders = SimpleCollection::createFromArray([$first]);
+                $this->folders[] = $first->id;
+            }
+        }
     }
 
     /**
@@ -246,6 +279,13 @@ class OverviewController extends AuthenticatedController {
                         $gf->message_id = $t->id;
                         $gf->user_id = $t->author_id;
                         $gf->store();
+                    }
+
+                    if (count(Request::getArray('folders', [])) > 0) {
+                        foreach (Folder::findMany(Request::getArray('folders', [])) as $f) {
+                            $f->range_id = $t->id;
+                            $f->store();
+                        }
                     }
 
                     PageLayout::postSuccess(sprintf(

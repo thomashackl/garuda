@@ -1,3 +1,5 @@
+@import (less) url('../../studip-passau/resources/assets/stylesheets/mixins/colors.less');
+
 #config {
   li.faculty {
     padding-left: 22px;
@@ -39,6 +41,33 @@ form {
 
     #excludelist {
       margin-left: 30px;
+    }
+  }
+
+  #attachments-statusbar-container, #tokens-statusbar-container {
+    > .statusbar {
+      border: thin solid lightgrey;
+      min-width: 100%;
+      max-width: 100%;
+      background-color: @content-color-40;
+      > .progress {
+        background-color: @content-color;
+        width: 100%;
+        min-width: 0%;
+        max-width: 0%;
+        height: 20px;
+        line-height: 20px;
+        &.progress-error {
+          background-color: @red;
+        }
+      }
+      > .progresstext {
+        margin-top: -20px;
+        text-align: center;
+        color: white;
+        height: 20px;
+        line-height: 20px;
+      }
     }
   }
 

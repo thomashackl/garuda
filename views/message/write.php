@@ -121,24 +121,59 @@
             </ul>
         </section>
     </fieldset>
-    <?php if ($i_am_root && !$message) { ?>
+    <?php if ($i_am_root) { ?>
     <fieldset>
         <legend><?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes') ?></legend>
         <section>
             <label>
-                <input type="checkbox" name="use_tokens">
+                <input type="checkbox" name="use_tokens" value="1"<?= $flash['use_tokens'] ? ' checked' : '' ?>>
                 <?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes o.ä. verwenden') ?>
             </label>
         </section>
-        <section class="use_tokens hidden-js">
-            <label for="tokens"><?= dgettext('garudaplugin',
+        <section class="use-tokens<?= $flash['use_tokens'] ? '' : ' hidden-js' ?>">
+            <label for="token-file"><?= dgettext('garudaplugin',
                 'Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in '.
                 'der Nachricht an jeden einzelnen Empfänger personalisiert '.
                 'verschickt werden sollen (Teilnahmecodes/Links etc.)') ?></label>
-            <input name="tokens" type="file" size="40">
+            <div id="tokens">
+                <div>
+                    <ul class="files">
+                        <li style="display: none;" class="file">
+                            <span class="icon"></span>
+                            <span class="name"></span>
+                            <span class="size"></span>
+                            <a class="remove-file"><?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?></a>
+                        </li>
+                        <?php if (is_array($tokens)) : ?>
+                            <?php foreach ($tokens as $t) : ?>
+                                <li class="file" data-document-id="<?= $t['document_id'] ?>">
+                                    <span class="icon"><?= $t['icon'] ?></span>
+                                    <span class="name"><?= $t['name'] ?></span>
+                                    <span class="size"><?= $t['size'] ?></span>
+                                    <a class="remove-file"><?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?></a>
+                                </li>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                    </ul>
+                    <div id="tokens-statusbar-container">
+                        <div class="statusbar" style="display: none;">
+                            <div class="progress"></div>
+                            <div class="progresstext">0%</div>
+                        </div>
+                    </div>
+                    <label style="cursor: pointer;">
+                        <input type="file" id="tokens-fileupload" onChange="STUDIP.Garuda.uploadFromInput(this, 'tokens');" style="display: none;">
+                        <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
+                        <?= _("Datei hochladen") ?>
+                    </label>
+
+                    <div id="tokens-upload-finished" style="display: none"><?= _("wird verarbeitet") ?></div>
+                    <div id="tokens-upload-received-data" style="display: none"><?= _("gespeichert") ?></div>
+                </div>
+            </div>
         </section>
         <?php if ($messages) { ?>
-            <section class="use_tokens hidden-js">
+            <section class="use-tokens hidden-js">
                 <label for="message_tokens">
                     <?= dgettext('garudaplugin', 'oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:') ?>
                 </label>
@@ -156,44 +191,51 @@
         <?php } ?>
     </fieldset>
     <?php } ?>
-    <?php if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) { ?>
-        <?php // message_id wird zum Upload benötigt damit die Dateien eine Zuordnung haben (siehe die upload klasse!) ?>
-        <?php $attachment_token = md5(uniqid("neWAtTaChMeNt")) ?>
-    <fieldset id="attachments">
-        <legend><?= _('Anhänge') ?></legend>
-        <section>
-            <input type="hidden" name="message_id" id="message_id" value="<?= htmlReady($attachment_token) ?>">
-            <label for="attachments"><?= _('Laden Sie hier Dateianhänge hoch.') ?></label>
-            <div id="attachments">
-                <h4><?= _('Anhänge') ?></h4>
-                <div>
-                    <ul class="files">
-                        <li style="display: none;" class="file">
-                            <span class="icon"></span>
-                            <span class="name"></span>
-                            <span class="size"></span>
-                            <a class="remove_attachment"><?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?></a>
-                        </li>
-                    </ul>
-                    <div id="statusbar_container">
-                        <div class="statusbar" style="display: none;">
-                            <div class="progress"></div>
-                            <div class="progresstext">0%</div>
+    <?php if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) : ?>
+        <fieldset id="attachments">
+            <legend><?= _('Anhänge') ?></legend>
+            <section>
+                <label for="attachments"><?= _('Laden Sie hier Dateianhänge hoch.') ?></label>
+                <div id="attachments">
+                    <h4><?= _('Anhänge') ?></h4>
+                    <div>
+                        <ul class="files">
+                            <li style="display: none;" class="file">
+                                <span class="icon"></span>
+                                <span class="name"></span>
+                                <span class="size"></span>
+                                <a class="remove-file"><?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?></a>
+                            </li>
+                            <?php if (is_array($default_attachments)) : ?>
+                                <?php foreach ($default_attachments as $a) : ?>
+                                    <li class="file" data-document-id="<?=$a['document_id']?>">
+                                        <span class="icon"><?=$a['icon']?></span>
+                                        <span class="name"><?=$a['name']?></span>
+                                        <span class="size"><?=$a['size']?></span>
+                                        <a class="remove-file"><?= Icon::create('trash', 'clickable', ['class' => 'text-bottom']) ?></a>
+                                    </li>
+                                <?php endforeach ?>
+                            <?php endif ?>
+                        </ul>
+                        <div id="attachments-statusbar-container">
+                            <div class="statusbar" style="display: none;">
+                                <div class="progress"></div>
+                                <div class="progresstext">0%</div>
+                            </div>
                         </div>
-                    </div>
-                    <label style="cursor: pointer;">
-                        <input type="file" id="fileupload" multiple onChange="STUDIP.Messages.upload_from_input(this);" style="display: none;">
-                        <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
-                        <?= _("Datei hochladen") ?>
-                    </label>
+                        <label style="cursor: pointer;">
+                            <input type="file" id="attachments-fileupload" multiple onChange="STUDIP.Garuda.uploadFromInput(this, 'attachments');" style="display: none;">
+                            <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
+                            <?= _("Datei hochladen") ?>
+                        </label>
 
-                    <div id="upload_finished" style="display: none"><?= _("wird verarbeitet") ?></div>
-                    <div id="upload_received_data" style="display: none"><?= _("gespeichert") ?></div>
+                        <div id="attachments-upload-finished" style="display: none"><?= _("wird verarbeitet") ?></div>
+                        <div id="attachments-upload-received-data" style="display: none"><?= _("gespeichert") ?></div>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </fieldset>
-    <?php } ?>
+            </section>
+        </fieldset>
+    <?php endif ?>
     <?php if ($i_am_root) { ?>
         <fieldset>
             <legend><?= dgettext('garudaplugin', 'Absender') ?></legend>
@@ -295,9 +337,8 @@
         </section>
     </fieldset>
     <footer data-dialog-button>
-        <?php if ($message) : ?>
-            <input type="hidden" name="id" value="<?= $message->id ?>">
-        <?php endif ?>
+        <input type="hidden" name="message_id" id="message-id" value="<?= $message ? $message->id : '' ?>">
+        <input type="hidden" name="provisional_id" id="provisional-id" value="<?= $provisional_id ?>">
         <input type="hidden" name="type" value="<?= $type ?>">
         <?php if ($message && Request::isXhr()) : ?>
             <input type="hidden" name="landingpoint" value="<?= $controller->url_for($type == 'template' ? 'overview/templates' : 'overview/to_send') ?>">

@@ -74,7 +74,20 @@ class MessageController extends AuthenticatedController {
     {
         $this->type = $type;
 
+        // Generate (or keep) the provisional ID of an unsaved message.
+        // The provisional ID of an opened message is the real message ID.
+        $this->provisional_id = $id !== '' ?
+            $id :
+            (Request::option('provisional_id', '') !== '' ?
+                Request::option('provisional_id') :
+                md5(uniqid('', true)));
+        $this->flash['provisional_id'] = $this->provisional_id;
+
         // Set values from Request:
+        if (Request::option('message_id')) {
+            $this->flash['message_id'] = Request::option('message_id');
+        }
+
         // Message target.
         if (Request::option('sendto')) {
             $this->flash['sendto'] = Request::option('sendto');
@@ -122,11 +135,9 @@ class MessageController extends AuthenticatedController {
             $this->flash['filters'] = Request::getArray('filters');
         }
 
-        // Uploaded token file.
-        if ($_FILES['tokens']['tmp_name']) {
-            $filename = $GLOBALS['TMP_PATH'] . '/' . uniqid('', true);
-            move_uploaded_file($_FILES['tokens']['tmp_name'], $filename);
-            $this->flash['token_file'] = $filename;
+        // Use a token file.
+        if (Request::int('use_tokens') === 1) {
+            $this->flash['use_tokens'] = true;
         }
         if (Request::option('message_tokens')) {
             $this->flash['message_tokens'] = Request::option('message_tokens');
@@ -192,9 +203,6 @@ class MessageController extends AuthenticatedController {
         if (Request::option('type')) {
             $this->flash['type'] = Request::option('type');
         }
-        if (Request::option('id')) {
-            $this->flash['id'] = Request::option('id');
-        }
 
         if ($this->i_am_root) {
             $this->messages = GarudaModel::getMessagesWithTokens();
@@ -220,7 +228,6 @@ class MessageController extends AuthenticatedController {
                     $this->user = User::find($this->senderid);
                 }
             }
-
         }
 
         /*
@@ -233,9 +240,11 @@ class MessageController extends AuthenticatedController {
 
             // Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
-                $this->redirect($this->url_for('userfilter/add', Request::option('sendto'), Request::option('id') ? true : null));
+                $this->redirect($this->url_for('userfilter/add',
+                    Request::option('sendto'), Request::option('id') ? true : null));
             } else {
-                $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto'), Request::option('id') ? true : null));
+                $this->redirect($this->url_for('userfilter/addrestricted',
+                    Request::option('sendto'), Request::option('id') ? true : null));
             }
 
         // Save the current settings as new template.
@@ -247,7 +256,7 @@ class MessageController extends AuthenticatedController {
         // Save changes on an existing message or template.
         } else if (Request::submitted('store')) {
 
-            $this->storeMessage(Request::option('id'), Request::option('type'));
+            $this->storeMessage(Request::option('message_id'), Request::option('type'));
 
             $this->relocate(Request::get('landingpoint'));
 
@@ -362,6 +371,11 @@ class MessageController extends AuthenticatedController {
                     $this->cc = User::findMany($this->flash['cc'], "ORDER BY `Nachname`, `Vorname`, `username`");
                 }
 
+                // Get or cleanup message tokens.
+                $this->tokens = $this->getMessageFiles('tokens');
+
+                $this->default_attachments = $this->getMessageFiles('attachments');
+
             // All okay, continue with message processing.
             } else {
                 $this->relocate('message/send');
@@ -376,11 +390,14 @@ class MessageController extends AuthenticatedController {
                     "Einrichtungen angehören, auf die Sie Zugriff ".
                     "haben."),
                 Icon::create('group2'));
-            Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
-                sprintf(dgettext('garudaplugin', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im '.
-                    'Nachrichteninhalt.'),
-                    format_help_url('Basis/VerschiedenesFormat')),
-                Icon::create('edit'));
+
+            if (!Config::get()->WYSIWYG) {
+                Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
+                    sprintf(dgettext('garudaplugin', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im ' .
+                        'Nachrichteninhalt.'),
+                        format_help_url('Basis/VerschiedenesFormat')),
+                    Icon::create('edit'));
+            }
 
             $this->filters = [];
 
@@ -402,6 +419,8 @@ class MessageController extends AuthenticatedController {
                 }
                 PageLayout::setTitle($title);
 
+                $this->flash['message_id'] = $this->message->id;
+
                 if ($this->message->target == 'usernames') {
                     $this->flash['sendto'] = 'list';
                     $this->flash['list'] = implode("\n", array_map(function($u) {
@@ -422,10 +441,13 @@ class MessageController extends AuthenticatedController {
                 }
 
                 $this->courses = $this->message->courses;
+
+                // Create filter objects
                 $this->filters = $this->flash['filters'] ?
                     ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') :
                     array_map(function ($f) { return new UserFilter($f['filter_id']); }, $this->message->filters->toArray());
                 array_walk($this->filters, function ($f) { $f->show_user_count = true; });
+
                 // Get alternative sender if applicable.
                 if ($this->message->sender_id == '____%system%____') {
                     $this->sender = 'system';
@@ -457,6 +479,11 @@ class MessageController extends AuthenticatedController {
                 $this->cc = User::findMany($this->flash['cc'], "ORDER BY `Nachname`, `Vorname`, `username`");
             }
 
+            // Get or cleanup message tokens.
+            $this->tokens = $this->getMessageFiles('tokens');
+
+            $this->default_attachments = $this->getMessageFiles('attachments');
+
             // Show action for loading a message template if applicable.
             if (GarudaTemplate::findByAuthor_id($GLOBALS['user']->id)) {
                 // Groups
@@ -469,6 +496,98 @@ class MessageController extends AuthenticatedController {
 
             $this->markers = GarudaMarker::findBySQL("1 ORDER BY `position`, `marker`");
         }
+    }
+
+    /**
+     * @param string $type 'attachment' or 'tokens': is the file to upload a
+     *                     message attachment or a file with participation tokens?
+     */
+    public function upload_action($type = 'attachments')
+    {
+        if ($GLOBALS['user']->id === 'nobody') {
+            throw new AccessDeniedException();
+        }
+        if ($type === 'attachments' && !$GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) {
+            throw new AccessDeniedException(_('Mailanhänge sind nicht erlaubt.'));
+        }
+        $file = $_FILES['file'];
+        $output = array(
+            'name' => $file['name'],
+            'size' => $file['size']
+        );
+
+        $message_id = Request::option('message_id');
+        $output['message_id'] = $message_id;
+
+        switch ($type) {
+            case 'tokens':
+                $class = 'GarudaTokenFolder';
+                break;
+            case 'attachments':
+            default:
+                $class = 'GarudaFolder';
+                break;
+        }
+
+        $topFolder = $class::findTopFolder($message_id);
+
+        $error = $topFolder->validateUpload($file, $GLOBALS['user']->id);
+        if ($error != null) {
+            $this->response->set_status(400);
+            $this->render_json(compact('error'));
+            return;
+        }
+
+        $user = User::findCurrent();
+
+        $file_object = new File();
+        $file_object->user_id = $user->id;
+        $file_object->mime_type = get_mime_type($output['name']);
+        $file_object->name = $output['name'];
+        $file_object->size = (int)$output['size'];
+        $file_object->storage = 'disk';
+        $file_object->author_name = $user->getFullName();
+
+        $file_ref = $topFolder->createFile($file);
+
+        if (!$file_ref instanceof FileRef) {
+            $error = _('Ein Systemfehler ist beim Upload aufgetreten.');
+
+            if ($file_ref instanceof MessageBox) {
+                $error .= ' ' . $file_ref->message;
+            }
+            $this->response->set_status(400);
+            $this->render_json(compact('error'));
+            return;
+        }
+
+        $output['document_id'] = $file_ref->id;
+
+        $output['icon'] = Icon::create(
+            FileManager::getIconNameForMimeType(
+                $file_ref->file->mime_type
+            ),
+            'clickable'
+        )->asImg(['class' => "text-bottom"]);
+
+        $this->render_json($output);
+    }
+
+    public function delete_file_action()
+    {
+        CSRFProtection::verifyUnsafeRequest();
+        $file = FileRef::find(Request::option('document_id'));
+        if ($file) {
+
+            $folder_id = $file->folder_id;
+            $file->delete();
+
+            // Check if corresponding folder is empty and delete it as well.
+            if (FileRef::countByFolder_id($folder_id) === 0) {
+                Folder::find($folder_id)->delete();
+            }
+        }
+        $this->render_nothing();
     }
 
     /**
@@ -582,48 +701,67 @@ class MessageController extends AuthenticatedController {
     {
         if ($message = $this->storeMessage()) {
 
-            // Read tokens from an uploaded file.
-            if ($this->flash['token_file']) {
-                $tokens = GarudaModel::extractTokens($this->flash['token_file']);
-                unlink($this->flash['token_file']);
-                if (sizeof($tokens) < sizeof($users)) {
-                    PageLayout::postError(dgettext('garudaplugin',
-                        'Es gibt weniger Tokens als Personen für den ' .
-                        'Nachrichtenempfang!'));
-                } else {
-                    array_walk($tokens, function ($value, $key) use ($message) {
-                        $t = new GarudaMessageToken();
-                        $t->job_id = $message->id;
-                        $t->token = $value;
-                        $t->store();
-                    });
-                }
-            }
+            if ($this->flash['use_tokens']) {
+                $this->flash['message_id'] = $message->id;
+                $this->flash['provisional_id'] = $message->id;
 
-            // Get tokens that were assigned to a previously sent message.
-            if ($this->flash['message_tokens']) {
+                /*
+                 * Read tokens from an uploaded file.
+                 * We could actually handle several uploaded token files here,
+                 * but the GUI allows only one file upload at the moment.
+                 */
+                $tokenFiles = $this->getMessageFiles('tokens');
 
-                // Copy tokens from old message.
-                GarudaMessageToken::copyTokens($this->flash['message_tokens'], $message->id);
+                if (count($tokenFiles) > 0) {
+                    $numRecipients = count($message->getMessageRecipients());
 
-                // Get all unassigned tokens so they can be distributed among newly added users.
-                $tokens = GarudaMessageToken::findUnassignedTokens($message->id);
+                    $tokens = [];
+                    foreach ($tokenFiles as $file) {
+                        $tokens = array_merge($tokens, GarudaModel::extractTokens($file['path']));
+                    }
 
-                // Find all user_ids who already have a token assigned to them.
-                $assigned_users = GarudaMessageToken::findAssignedUser_ids($message->id);
+                    $tokens = array_unique($tokens);
 
-                // Filter the assigned users from the recipients.
-                $unassigned_users = array_filter(function ($u) use ($assigned_users) {
-                    return in_array($u, $assigned_users);
-                }, $assigned_users);
-
-                // Now assign a new token to each of the unassigned users.
-                foreach ($unassigned_users as $u) {
-                    $token = array_shift($tokens);
-                    $token->user_id = $u;
-                    $token->store();
+                    // Assign tokens to job.
+                    if (sizeof($tokens) < $numRecipients) {
+                        PageLayout::postError(dgettext('garudaplugin',
+                            'Es gibt weniger Tokens als Personen für den ' .
+                            'Nachrichtenempfang!'));
+                    } else {
+                        array_walk($tokens, function ($value, $key) use ($message) {
+                            $t = new GarudaMessageToken();
+                            $t->job_id = $message->id;
+                            $t->token = $value;
+                            $t->store();
+                        });
+                    }
                 }
 
+                // Get tokens that were assigned to a previously sent message.
+                if ($this->flash['message_tokens']) {
+
+                    // Copy tokens from old message.
+                    GarudaMessageToken::copyTokens($this->flash['message_tokens'], $message->id);
+
+                    // Get all unassigned tokens so they can be distributed among newly added users.
+                    $tokens = GarudaMessageToken::findUnassignedTokens($message->id);
+
+                    // Find all user_ids who already have a token assigned to them.
+                    $assigned_users = GarudaMessageToken::findAssignedUser_ids($message->id);
+
+                    // Filter the assigned users from the recipients.
+                    $unassigned_users = array_filter(function ($u) use ($assigned_users) {
+                        return in_array($u, $assigned_users);
+                    }, $assigned_users);
+
+                    // Now assign a new token to each of the unassigned users.
+                    foreach ($unassigned_users as $u) {
+                        $token = array_shift($tokens);
+                        $token->user_id = $u;
+                        $token->store();
+                    }
+
+                }
             }
 
             PageLayout::postSuccess(sprintf(
@@ -769,10 +907,146 @@ class MessageController extends AuthenticatedController {
                 }
             }
 
+            // Move folders from temporary message id to real ID.
+            foreach (Folder::findByRange_id($this->flash['provisional_id']) as $folder) {
+                $folder->range_id = $message->id;
+                $folder->store();
+            }
+
             return $message;
         } else {
             return null;
         }
+    }
+
+    private function getMessageFiles($type = 'attachments')
+    {
+        $files = [];
+
+        if (($type == 'attachments' && $GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) || $type == 'tokens') {
+
+            // Check if we have loaded a template, then we must get the template files and copy them.
+            if ($this->flash['message_id'] != '' && $this->flash['message_id'] != $this->flash['provisional_id']) {
+                $id = $this->flash['message_id'];
+            } else {
+                $id = $this->flash['provisional_id'];
+            }
+
+            if ($type == 'attachments') {
+                $folderType = 'GarudaFolder';
+            } else {
+                $folderType = 'GarudaTokenFolder';
+            }
+
+            /*
+             * Find all files that are in folders that belong to the current message or template.
+             * As long as the message is not saved, the ID used here is provisional
+             * and does not exist in the database.
+             */
+            $message_folders = Folder::findBySql(
+                "`folder_type` = :type
+                        AND `range_type` = 'garuda'
+                        AND `user_id` = :user_id
+                        AND `range_id` = :range",
+                [
+                    'type' => $folderType,
+                    'user_id' => $GLOBALS['user']->id,
+                    'range' => $id
+                ]
+            );
+
+            $message_files = [];
+
+            /*
+             * loop through all found folders, retrieve all file_refs,
+             * add them to the files array and store them in a
+             * new folder that gets the "provisional" range-ID of this message.
+             * After that, delete the old folders.
+             */
+            foreach ($message_folders as $message_folder) {
+
+                foreach ($message_folder->file_refs as $file_ref) {
+                    $message_files[] = $file_ref;
+
+                    if ($this->flash['message_id'] == '' || $this->flash['message_id'] == $this->flash['provisional_id']) {
+                        $files[] = [
+                            'icon' => Icon::create(
+                                FileManager::getIconNameForMimeType(
+                                    $file_ref->file->mime_type
+                                ),
+                                'clickable'
+                            )->asImg(['class' => "text-bottom"]),
+                            'name' => $file_ref->name,
+                            'document_id' => $file_ref->id,
+                            'size' => relsize($file_ref->file->size, false),
+                            'path' => $file_ref->file->getPath()
+                        ];
+                    }
+                }
+
+            }
+
+            if (count($message_files) > 0) {
+
+                // Create an attachment folder for the new message:
+                $new_attachment_folder = $folderType::findTopFolder($id);
+
+                // "bend" the folder-ID of each file to the new attachment folder's ID:
+                foreach ($message_files as $file) {
+                    $file->folder_id = $new_attachment_folder->getId();
+                    $file->store();
+                }
+
+                // If we have loaded a template, we need to copy the template folder to the new message.
+                if ($this->flash['message_id'] != '' && $this->flash['message_id'] != $this->flash['provisional_id']) {
+                    $topFolder = $folderType::findTopFolder($this->flash['provisional_id']);
+
+                    // Copy all files.
+                    foreach ($new_attachment_folder->file_refs as $file) {
+                        $newRef = FileManager::copyFileRef($file,
+                            $topFolder,
+                            User::findCurrent());
+
+                        $files[] = [
+                            'icon' => Icon::create(
+                                FileManager::getIconNameForMimeType(
+                                    $newRef->file->mime_type
+                                ),
+                                'clickable'
+                            )->asImg(['class' => "text-bottom"]),
+                            'name' => $newRef->name,
+                            'document_id' => $newRef->id,
+                            'size' => relsize($newRef->file->size, false),
+                            'path' => $newRef->file->getPath()
+                        ];
+                    }
+                }
+            }
+
+            // Finally cleanup empty or unattached folders.
+            $unattached_folders = Folder::findBySql("`folder_type` = :type
+                AND `range_type` = 'garuda'
+                AND `user_id` = :user_id
+                AND `range_id` NOT IN (
+                    SELECT `job_id` FROM `garuda_messages` WHERE `user_id` = :user_id
+                )
+                AND `range_id` NOT IN (
+                    SELECT `template_id` FROM `garuda_templates` WHERE `user_id` = :user_id
+                )",
+                [
+                    'type' => $folderType,
+                    'user_id' => $GLOBALS['user']->id
+                ]
+            );
+
+            foreach ($unattached_folders as $unattached_folder) {
+                if ($unattached_folder->range_id != $this->flash['provisional_id'] || count($unattached_folder->file_refs) === 0) {
+                    $unattached_folder->delete();
+                }
+            }
+        }
+
+        return $files;
     }
 
 }

@@ -28,6 +28,7 @@
  * @property User author has_one User
  * @property User sender has_one User
  * @property GarudaFilter filter has_many GarudaFilter
+ * @property Folder folders has_many Folder
  */
 class GarudaTemplate extends SimpleORMap
 {
@@ -63,11 +64,18 @@ class GarudaTemplate extends SimpleORMap
             'on_delete' => 'delete',
             'on_store' => 'store'
         );
+        $config['has_many']['folders'] = array(
+            'class_name' => 'Folder',
+            'foreign_key' => 'template_id',
+            'assoc_foreign_key' => 'range_id',
+            'on_store' => 'store',
+            'on_delete' => 'delete'
+        );
 
         $config['registered_callbacks']['before_store'][] = 'cbJsonifyRecipients';
         $config['registered_callbacks']['after_store'][] = 'cbJsonifyRecipients';
         $config['registered_callbacks']['after_initialize'][] = 'cbJsonifyRecipients';
-        $config['registered_callbacks']['before_delete'][] = 'cbCleanupFilters';
+        $config['registered_callbacks']['before_delete'][] = 'cbCleanup';
 
         parent::configure($config);
     }
@@ -132,7 +140,7 @@ class GarudaTemplate extends SimpleORMap
         }
     }
 
-    protected function cbCleanupFilters($event)
+    protected function cbCleanup($event)
     {
         if (count($this->filters) > 0) {
             UserFilterField::getAvailableFilterFields();
