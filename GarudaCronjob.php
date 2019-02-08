@@ -135,15 +135,9 @@ class GarudaCronjob extends CronJob {
     private function send($sender, $recipients, $subject, $message, $job_id) {
         $message = Message::send($sender, $recipients, $subject, $message);
 
-        $log = fopen('/Users/thomashackl/Downloads/garuda.log', 'w');
-        fwrite($log, sprintf("Created system message %s.\n", $message->id));
-
         // Add attachments if necessary
         if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS'] && $message != null) {
-            fwrite($log, "Attachments enabled and message created.\n");
             $folders = Folder::findByRange_id($job_id);
-
-            fwrite($log, sprintf("Found %u attachment folders.\n", count($folders)));
 
             if (count($folders) > 0) {
 
@@ -151,12 +145,9 @@ class GarudaCronjob extends CronJob {
 
                 // Use or create a message top folder...
                 $topFolder = MessageFolder::findTopFolder($message->id) ?: MessageFolder::createTopFolder($message->id);
-                fwrite($log, sprintf("Message top folder is %s.\n", $topFolder->id));
 
                 // ... and add attachments from Garuda job.
                 foreach ($folders as $folder) {
-                    fwrite($log, sprintf("Processing garuda job folder %s.\n", $folder->id));
-
                     $folder->file_refs->each(function ($f) use ($senderUser, $topFolder, $log) {
                         $newRef = new FileRef();
                         $newRef->file_id = $f->file_id;
@@ -164,8 +155,6 @@ class GarudaCronjob extends CronJob {
                         $newRef->user_id = $senderUser->id;
                         $newRef->name = $f->name;
                         $newRef->store();
-                        fwrite($log, sprintf("Copied fileref %s to %s.\n", $f->id, $newRef->id));
-                        fwrite($log, print_r($newRef, 1) . "\n");
                     });
                 }
             }
