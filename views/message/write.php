@@ -299,15 +299,20 @@
                 <span class="required">
                     <?= dgettext('garudaplugin', 'Nachrichtentext') ?>
                 </span>
-                <textarea name="message" class="add_toolbar" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>" data-preview-url="<?= $controller->url_for('message/preview') ?>" cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
             </label>
+            <textarea name="message" class="add_toolbar wysiwyg size-l" id="message"
+                      placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>"
+                      <?= !$wysiwyg ? 'data-preview-url="' . $controller->url_for('message/preview') . '"' : '' ?>"
+                      cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
         </section>
-        <section id="preview">
-            <label>
-                <?= dgettext('garudaplugin', 'Vorschau der Nachricht') ?>
-                <div id="message_preview_text"></div>
-            </label>
-        </section>
+        <?php if (!$wysiwyg) : ?>
+            <section id="preview">
+                <label>
+                    <?= dgettext('garudaplugin', 'Vorschau der Nachricht') ?>
+                    <div id="message_preview_text"></div>
+                </label>
+            </section>
+        <?php endif ?>
         <?php if ($i_am_root) { ?>
             <section>
                 <label style="clear:both">

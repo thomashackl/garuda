@@ -186,7 +186,7 @@
                 STUDIP.Garuda.removeFile($(e.target));
             });
 
-            var markers = $('label#garuda-markers');
+            var markers = $('#garuda-markers');
             var addMarker = $('#garuda-add-marker');
             markers.children('select').on('change', function() {
                 var selected = $(this).children('option:selected');
@@ -197,12 +197,28 @@
                     addMarker.addClass('hidden-js');
                 }
             });
-            markers.insertAfter('div.buttons');
-            addMarker.on('click', function() {
-                markers.parent().children('textarea').
-                insertAtCaret($('label#garuda-markers select option:selected').attr('value'));
-                return false;
-            });
+
+            // WYSIWYG enabled -> move markers field below editor toolbar.
+            // (some day perhaps a button for serial mail fields can be added to CKEditor here).
+            if (STUDIP.wysiwyg_enabled) {
+                var id = $('textarea[name="message"]').attr('id');
+                CKEDITOR.instances[id].on('instanceReady', function() {
+                    markers.insertAfter($('div.cktoolbar'));
+                });
+                addMarker.on('click', function() {
+                    CKEDITOR.instances[id].insertText($('#garuda-markers select option:selected').attr('value'));
+                    return false;
+                });
+            // No WYSIWYG -> normal toolbar.
+            } else {
+                markers.addClass('no-wysiwyg');
+                markers.insertAfter('div.buttons');
+                addMarker.on('click', function() {
+                    markers.parent().children('textarea').
+                    insertAtCaret($('#garuda-markers select option:selected').attr('value'));
+                    return false;
+                });
+            }
 
             $('input[name="send_at_date"]').on('click', function(event) {
                 $('section.send_date').toggleClass('hidden-js');
@@ -215,7 +231,6 @@
                 var father = $(this).parents('.userfilter');
                 var container = father.parent();
                 father.remove();
-                if (container)
                 if (container.children('.userfilter').length == 0) {
                     var textfield = container.children('.filtertext');
                     var textSrc = textfield.data('text-src').split('?');
@@ -240,22 +255,24 @@
             }
 
             // Use jQuery typing plugin for message preview.
-            $('textarea[name="message"]').typing({
-                stop: function() {
-                    var url = $('textarea[name="message"]').data('preview-url').split('?');
-                    url = url[0];
-                    $('#message_preview_text').load(url, {
-                        'text': encodeURIComponent($('textarea[name="message"]').val())
-                    });
-                },
-                delay: 500
-            });
-            var width = $('textarea[name="message"]').width();
-            $('#message_preview_text').width(width);
-            $('#message_preview_text').css('max-width', width);
-            var height = $('textarea[name="message"]').height();
-            //$('#message_preview_text').height(height);
-            $('#message_preview').css('left', width+30);
+            if (!STUDIP.wysiwyg_enabled) {
+                $('textarea[name="message"]').typing({
+                    stop: function () {
+                        var url = $('textarea[name="message"]').data('preview-url').split('?');
+                        url = url[0];
+                        $('#message_preview_text').load(url, {
+                            'text': encodeURIComponent($('textarea[name="message"]').val())
+                        });
+                    },
+                    delay: 500
+                });
+                var width = $('textarea[name="message"]').width();
+                $('#message_preview_text').width(width);
+                $('#message_preview_text').css('max-width', width);
+                var height = $('textarea[name="message"]').height();
+                //$('#message_preview_text').height(height);
+                $('#message_preview').css('left', width + 30);
+            }
         },
 
         initFilter: function() {

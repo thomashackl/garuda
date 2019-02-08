@@ -28,8 +28,12 @@ class OverviewController extends AuthenticatedController {
             $this->set_layout(null);
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
-            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.typing-0.2.0.min.js');
-            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.insert-at-caret.min.js');
+
+            // We only need these two scripts if there is no CKEditor
+            if (!Config::get()->WYSIWYG) {
+                PageLayout::addScript($this->plugin->getPluginURL() . '/assets/jquery.typing-0.2.0.min.js');
+                PageLayout::addScript($this->plugin->getPluginURL() . '/assets/jquery.insert-at-caret.min.js');
+            }
         }
 
         // Navigation handling.

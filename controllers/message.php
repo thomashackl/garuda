@@ -23,13 +23,19 @@ class MessageController extends AuthenticatedController {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
+        $this->wysiwyg = Config::get()->WYSIWYG;
+
         // Check for AJAX.
         if (Request::isXhr()) {
             $this->set_layout(null);
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
-            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.typing-0.2.0.min.js');
-            PageLayout::addScript($this->plugin->getPluginURL().'/assets/jquery.insert-at-caret.min.js');
+
+            // We only need these two scripts if there is no CKEditor
+            if (!$this->wysiwyg) {
+                PageLayout::addScript($this->plugin->getPluginURL() . '/assets/jquery.typing-0.2.0.min.js');
+                PageLayout::addScript($this->plugin->getPluginURL() . '/assets/jquery.insert-at-caret.min.js');
+            }
         }
 
         // Navigation handling.
@@ -181,7 +187,7 @@ class MessageController extends AuthenticatedController {
 
         // Message text.
         if (Request::get('message')) {
-            $this->flash['message'] = Request::get('message');
+            $this->flash['message'] = Studip\Markup::purifyHtml(Request::get('message'));
         }
 
         // Do not automatically delete message on cleanup run.
@@ -376,6 +382,8 @@ class MessageController extends AuthenticatedController {
 
                 $this->default_attachments = $this->getMessageFiles('attachments');
 
+                $this->markers = GarudaMarker::findBySQL("1 ORDER BY `position`, `marker`");
+
             // All okay, continue with message processing.
             } else {
                 $this->relocate('message/send');
@@ -391,7 +399,7 @@ class MessageController extends AuthenticatedController {
                     "haben."),
                 Icon::create('group2'));
 
-            if (!Config::get()->WYSIWYG) {
+            if (!$this->wysiwyg) {
                 Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
                     sprintf(dgettext('garudaplugin', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im ' .
                         'Nachrichteninhalt.'),

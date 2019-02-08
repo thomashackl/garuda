@@ -61,7 +61,13 @@ form #tokens-statusbar-container > .statusbar > .progresstext {
   height: 20px;
   line-height: 20px;
 }
-form #message label#garuda-markers {
+form #message #garuda-markers {
+  border: 1px solid black;
+  margin-bottom: -1px;
+  margin-top: -1px;
+  vertical-align: baseline;
+}
+form #message #garuda-markers.no-wysiwyg {
   background: #e2e3e5;
   border: 1px solid #d8dadc;
   left: 0;
@@ -69,13 +75,13 @@ form #message label#garuda-markers {
   margin-right: 1px;
   margin-top: 2px;
 }
-form #message label#garuda-markers select {
+form #message #garuda-markers select {
   display: inline-block;
   margin-bottom: 2px;
   vertical-align: inherit;
   width: auto !important;
 }
-form #message label#garuda-markers div#garuda-marker-description {
+form #message #garuda-markers div#garuda-marker-description {
   font-style: italic;
   padding-top: 2px;
 }

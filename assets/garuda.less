@@ -73,13 +73,22 @@ form {
 
   #message {
 
-    label#garuda-markers {
-      background: #e2e3e5;
-      border: 1px solid #d8dadc;
-      left: 0;
-      margin-left: 2px;
-      margin-right: 1px;
-      margin-top: 2px;
+    #garuda-markers {
+
+      border: 1px solid black;
+      margin-bottom: -1px;
+      margin-top: -1px;
+      vertical-align: baseline;
+
+      &.no-wysiwyg {
+        background: #e2e3e5;
+        border: 1px solid #d8dadc;
+        left: 0;
+        margin-left: 2px;
+        margin-right: 1px;
+        margin-top: 2px;
+
+      }
 
       select {
         display: inline-block;
