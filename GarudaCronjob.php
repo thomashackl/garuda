@@ -133,10 +133,11 @@ class GarudaCronjob extends CronJob {
      * Send a single message (optionally with attachment).
      */
     private function send($sender, $recipients, $subject, $message, $job_id) {
-        $message = Message::send($sender, $recipients, $subject, $message);
+        $mail = new Message();
+        $mail->setId($mail->getNewId());
 
         // Add attachments if necessary
-        if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS'] && $message != null) {
+        if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) {
             $folders = Folder::findByRange_id($job_id);
 
             if (count($folders) > 0) {
@@ -144,11 +145,11 @@ class GarudaCronjob extends CronJob {
                 $senderUser = User::find($sender) ?: User::findCurrent();
 
                 // Use or create a message top folder...
-                $topFolder = MessageFolder::findTopFolder($message->id) ?: MessageFolder::createTopFolder($message->id);
+                $topFolder = MessageFolder::findTopFolder($mail->id) ?: MessageFolder::createTopFolder($mail->id);
 
                 // ... and add attachments from Garuda job.
                 foreach ($folders as $folder) {
-                    $folder->file_refs->each(function ($f) use ($senderUser, $topFolder, $log) {
+                    $folder->file_refs->each(function ($f) use ($senderUser, $topFolder) {
                         $newRef = new FileRef();
                         $newRef->file_id = $f->file_id;
                         $newRef->folder_id = $topFolder->id;
@@ -160,7 +161,19 @@ class GarudaCronjob extends CronJob {
             }
         }
 
-        return $message;
+        $messaging = new messaging();
+        $result = $messaging->insert_message(
+            $message,
+            $recipients,
+            $sender,
+            '',
+            $mail->id,
+            '',
+            null,
+            $subject
+        );
+
+        return $result;
     }
     
     public function tearDown() {
