@@ -31,7 +31,7 @@
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
         <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'), 'submit') ?>
-        <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message/write'), array('data-dialog-button' => true, 'data-dialog="close"')) ?>
+        <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'), $controller->url_for('message/write')) ?>
     </footer>
 </form>
 <script type="text/javascript">

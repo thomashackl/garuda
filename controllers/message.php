@@ -23,7 +23,7 @@ class MessageController extends AuthenticatedController {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
-        $this->wysiwyg = Config::get()->WYSIWYG;
+        $this->wysiwyg = Config::get()->WYSIWYG && $GLOBALS['user']->cfg->WYSIWYG_DISABLED != 1;
 
         // Check for AJAX.
         if (Request::isXhr()) {
@@ -246,11 +246,11 @@ class MessageController extends AuthenticatedController {
 
             // Check where to redirect to (root has no restrictions in filters).
             if ($this->i_am_root) {
-                $this->redirect($this->url_for('userfilter/add',
-                    Request::option('sendto'), Request::option('id') ? true : null));
+                $this->redirect($this->url_for('userfilter/add', Request::option('sendto'),
+                    Request::option('message_id') == Request::option('provisional_id') ? true : null));
             } else {
-                $this->redirect($this->url_for('userfilter/addrestricted',
-                    Request::option('sendto'), Request::option('id') ? true : null));
+                $this->redirect($this->url_for('userfilter/addrestricted', Request::option('sendto'),
+                    Request::option('message_id') == Request::option('provisional_id') ? true : null));
             }
 
         // Save the current settings as new template.

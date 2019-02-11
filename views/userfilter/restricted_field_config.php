@@ -1,9 +1,9 @@
-<select name="compare_operator[]" size="1" class="conditionfield_compare_op">
+<select name="compare_operator[]" class="conditionfield_compare_op">
     <?php foreach ($field->getValidCompareOperators() as $op => $text) { ?>
     <option value="<?= $op ?>"<?= ($op == $field->getCompareOperator() ? ' selected' : '') ?>><?= htmlReady($text) ?></option>
     <?php } ?>
 </select>
-<select name="value[]" size="1" class="conditionfield_value" onchange="STUDIP.Garuda.getFieldConfig(this)">
+<select name="value[]" class="conditionfield_value" onchange="STUDIP.Garuda.getFieldConfig(this)">
     <option value="">
         <?= dgettext('garudaplugin', 'alle') ?>
     </option>

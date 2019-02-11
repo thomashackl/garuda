@@ -200,7 +200,7 @@
 
             // WYSIWYG enabled -> move markers field below editor toolbar.
             // (some day perhaps a button for serial mail fields can be added to CKEditor here).
-            if (STUDIP.wysiwyg_enabled) {
+            if (STUDIP.wysiwyg_enabled && CKEDITOR.instances.length > 0) {
                 var id = $('textarea[name="message"]').attr('id');
                 CKEDITOR.instances[id].on('instanceReady', function() {
                     markers.insertAfter($('div.cktoolbar'));
@@ -255,7 +255,7 @@
             }
 
             // Use jQuery typing plugin for message preview.
-            if (!STUDIP.wysiwyg_enabled) {
+            if (!STUDIP.wysiwyg_enabled || CKEDITOR.instances.length == 0) {
                 $('textarea[name="message"]').typing({
                     stop: function () {
                         var url = $('textarea[name="message"]').data('preview-url').split('?');

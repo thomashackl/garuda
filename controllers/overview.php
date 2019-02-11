@@ -24,13 +24,15 @@ class OverviewController extends AuthenticatedController {
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 
+        $this->wysiwyg = Config::get()->WYSIWYG && $GLOBALS['user']->cfg->WYSIWYG_DISABLED != 1;
+
         if (Request::isXhr()) {
             $this->set_layout(null);
         } else {
             $this->set_layout($GLOBALS['template_factory']->open('layouts/base'));
 
             // We only need these two scripts if there is no CKEditor
-            if (!Config::get()->WYSIWYG) {
+            if (!$this->wysiwyg) {
                 PageLayout::addScript($this->plugin->getPluginURL() . '/assets/jquery.typing-0.2.0.min.js');
                 PageLayout::addScript($this->plugin->getPluginURL() . '/assets/jquery.insert-at-caret.min.js');
             }

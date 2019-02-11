@@ -52,9 +52,7 @@ class UserfilterController extends AuthenticatedController {
             default:
                 break;
         }
-        if ($xhr) {
-            $this->xhr = true;
-        }
+        $this->xhr = $xhr;
     }
 
     public function addrestricted_action($type, $xhr = false) {
@@ -105,9 +103,7 @@ class UserfilterController extends AuthenticatedController {
                 );
         }
 
-        if ($xhr) {
-            $this->xhr = true;
-        }
+        $this->xhr = $xhr;
     }
 
     public function field_config_action($className) {
