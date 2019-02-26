@@ -1,14 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# Thomas Hackl <Thomas.Hackl@uni-passau.de>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-26 14:31+0100\n"
-"PO-Revision-Date: 2019-02-26 13:33+0000\n"
+"PO-Revision-Date: 2019-02-26 13:42+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
 "weblate/projects/studip/garuda/en/>\n"
@@ -587,7 +586,7 @@ msgstr ""
 
 #: views/message/write.php:108
 msgid "In Kopie an"
-msgstr "Send copy to"
+msgstr "Send a copy to"
 
 #: views/message/write.php:126
 msgid "Personalisierte Teilnahmecodes"
