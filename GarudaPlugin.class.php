@@ -22,6 +22,8 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
      * Create a new Garuda instance initializing navigation and needed scripts.
      */
     public function __construct() {
+        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
+
         if (GarudaModel::hasPermission($GLOBALS['user']->id)) {
             parent::__construct();
             // Localization
@@ -102,8 +104,6 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
 
     private function setupAutoload() {
         StudipAutoloader::addAutoloadPath($GLOBALS['STUDIP_BASE_PATH'].'/lib/classes/admission');
-        StudipAutoloader::addAutoloadPath(realpath(__DIR__.'/models'));
-
         StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/unrestricted'));
         StudipAutoloader::addAutoloadPath(realpath(__DIR__ . '/filterfields/restricted'));
     }
