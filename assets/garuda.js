@@ -200,13 +200,14 @@
 
             // WYSIWYG enabled -> move markers field below editor toolbar.
             // (some day perhaps a button for serial mail fields can be added to CKEditor here).
-            if (STUDIP.wysiwyg_enabled && CKEDITOR.instances.length > 0) {
+            var editorId = $('textarea[name="message"]').attr('id');
+            if (STUDIP.wysiwyg_enabled && CKEDITOR.instances[editorId] != null) {
                 var id = $('textarea[name="message"]').attr('id');
-                CKEDITOR.instances[id].on('instanceReady', function() {
+                CKEDITOR.instances[editorId].on('instanceReady', function() {
                     markers.insertAfter($('div.cktoolbar'));
                 });
                 addMarker.on('click', function() {
-                    CKEDITOR.instances[id].insertText($('#garuda-markers select option:selected').attr('value'));
+                    CKEDITOR.instances[editorId].insertText($('#garuda-markers select option:selected').attr('value'));
                     return false;
                 });
             // No WYSIWYG -> normal toolbar.
