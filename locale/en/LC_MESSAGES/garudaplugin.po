@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-12 14:12+0200\n"
+"POT-Creation-Date: 2019-02-26 14:31+0100\n"
 "PO-Revision-Date: 2017-10-12 14:19+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
-"Language-Team: English <https://develop.intelec.uni-"
-"passau.de/weblate/projects/studip/garuda/en/>\n"
+"Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
+"projects/studip/garuda/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,198 +19,132 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.16\n"
 
-#: controllers/message.php:182
-msgid "Absender suchen"
-msgstr "Search sender name"
+#: GarudaCronjob.php:29
+msgid "Nachrichtenversand an Zielgruppen"
+msgstr "Messages for target audiences"
 
-#: controllers/message.php:243
-msgid "Bitte geben Sie einen Betreff an."
-msgstr "Please enter a message subject."
+#: GarudaCronjob.php:33
+msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
+msgstr "Sends messages to chosen target audiences."
 
-#: controllers/message.php:246
-msgid "Bitte geben Sie eine Nachricht an."
-msgstr "Please enter a message text."
+#: filterfields/restricted/RestrictedStatusgroupFilterField.php:40
+#: filterfields/unrestricted/GenderFilterField.php:11
+#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:32
+#: filterfields/unrestricted/StatusgroupFilterField.php:38
+#: filterfields/unrestricted/PermissionFilterField.php:11
+#: filterfields/unrestricted/InstituteFilterField.php:38
+msgid "ist"
+msgstr "is"
 
-#: controllers/message.php:249
-msgid "Bitte geben Sie mindestens einen Nutzernamen an."
-msgstr "Please enter at least one username."
+#: filterfields/restricted/RestrictedStatusgroupFilterField.php:41
+#: filterfields/unrestricted/GenderFilterField.php:12
+#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:33
+#: filterfields/unrestricted/StatusgroupFilterField.php:39
+#: filterfields/unrestricted/PermissionFilterField.php:12
+#: filterfields/unrestricted/InstituteFilterField.php:39
+msgid "ist nicht"
+msgstr "is not"
 
-#: controllers/message.php:253
-msgid ""
-"Bitte geben Sie mindestens eine Veranstaltung an, deren Teilnehmende die "
-"Nachricht erhalten sollen."
-msgstr "Please enter at least one course to send the message to."
+#: filterfields/restricted/RestrictedStatusgroupFilterField.php:101
+#: filterfields/unrestricted/StatusgroupFilterField.php:67
+msgid "Statusgruppe"
+msgstr "Status group"
 
-#: controllers/message.php:311
-msgid ""
-"Ihre Nachricht hat aktuell keine Empfänger und kann daher nicht verschickt "
-"werden. Bitte verändern Sie die Einstellungen oder speichern Sie die "
-"Nachricht als Vorlage ab."
-msgstr ""
-"Your message cannot be sent because there are no recipients. Please change "
-"your settings or save the message as a template."
+#: filterfields/restricted/RestrictedSubjectFilterField.php:55
+msgid "Studienfach"
+msgstr "Subject"
 
-#: controllers/message.php:322
-msgid ""
-"Sie haben angegeben, dass die Nachricht einen alternativen Absender haben "
-"soll, haben aber keine Person als Absender ausgewählt."
-msgstr ""
-"You specified to send the message with an alternative sender name but "
-"haven't given one."
+#: filterfields/unrestricted/GenderFilterField.php:16
+msgid "unbekannt"
+msgstr "unknown"
 
-#: controllers/message.php:338
-msgid "Zielgruppen"
-msgstr "Target audiences"
+#: filterfields/unrestricted/GenderFilterField.php:17
+msgid "männlich"
+msgstr "male"
 
-#: controllers/message.php:339
-msgid ""
-"Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
-"Einrichtungen angehören, auf die Sie Zugriff haben."
-msgstr ""
-"You can select all studycourses and employees at the institutes you have "
-"access to."
+#: filterfields/unrestricted/GenderFilterField.php:18
+msgid "weiblich"
+msgstr "female"
 
-#: controllers/message.php:344 views/message/write.php:211
-msgid "Nachrichteninhalt"
-msgstr "Message content"
+#: filterfields/unrestricted/GenderFilterField.php:31
+msgid "Geschlecht"
+msgstr "Gender"
 
-#: controllers/message.php:345
+#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:42
+#: filterfields/unrestricted/InstituteFilterField.php:48
 #, php-format
-msgid "Verwenden Sie [Stud.IP-Textformatierungen]%s im Nachrichteninhalt."
-msgstr "Use [Stud.IP text formatting]%s in your message."
+msgid "%s und Untereinrichtungen"
+msgstr "%s and sub institutes"
 
-#: controllers/message.php:364
-#, php-format
-msgid "Vorlage \"%s\" bearbeiten"
-msgstr "Edit template \"%s\""
+#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:61
+msgid "Selbst zugeordnete Einrichtung"
+msgstr "Self-assigned institute"
 
-#: controllers/message.php:368 views/overview/_messages.php:91
-msgid "Nachricht bearbeiten"
-msgstr "Edit message"
+#: filterfields/unrestricted/PermissionFilterField.php:16
+msgid "Mitglied (Autor/in)"
+msgstr "Member (author)"
 
-#: controllers/message.php:408 GarudaPlugin.class.php:29
+#: filterfields/unrestricted/PermissionFilterField.php:17
+msgid "Tutor/in"
+msgstr "Tutor"
+
+#: filterfields/unrestricted/PermissionFilterField.php:18
+msgid "Lehrende/r"
+msgstr "Lecturer"
+
+#: filterfields/unrestricted/PermissionFilterField.php:19
+msgid "Administrator/in"
+msgstr "Administrator"
+
+#: filterfields/unrestricted/PermissionFilterField.php:32
+msgid "Rechtestufe"
+msgstr "Permission level"
+
+#: filterfields/unrestricted/InstituteFilterField.php:67
+msgid "Einrichtung"
+msgstr "Institution"
+
+#: GarudaPlugin.class.php:31 controllers/message.php:480
 msgid "Nachricht schreiben"
 msgstr "Write message"
 
-#: controllers/message.php:424
-msgid "Aus Vorlage laden"
-msgstr "Load from template"
+#: GarudaPlugin.class.php:34
+msgid "Nachrichtenübersicht"
+msgstr "Message overview"
 
-#: controllers/message.php:464
-msgid "Alle Personen"
-msgstr "All persons"
+#: GarudaPlugin.class.php:37
+msgid "An wen darf ich schreiben?"
+msgstr "To whom may I write?"
 
-#: controllers/message.php:467 views/message/write.php:16
-#: views/overview/_messages.php:65
-msgid "Studierende"
-msgstr "Students"
-
-#: controllers/message.php:475 views/message/write.php:23
-#: views/overview/_messages.php:67
-msgid "Beschäftigte"
-msgstr "Employees"
-
-#: controllers/message.php:483 views/overview/_messages.php:69
-msgid "Teilnehmende von Veranstaltungen"
-msgstr "Course participants"
-
-#: controllers/message.php:491
-msgid "Manuell erstellte Liste von Personen"
-msgstr "Manual list of usernames"
-
-#: controllers/message.php:495
-#, php-format
-msgid "Daten vom %s"
-msgstr "Issued: %s"
-
-#: controllers/message.php:545
-msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
-msgstr "There are less tokens than message recipients!"
-
-#: controllers/message.php:584
-#, php-format
-msgid "Ihre Nachricht an %u Personen wurde gespeichert."
-msgstr "Your message to %u persons has been saved."
-
-#: controllers/message.php:588
-#, php-format
-msgid "Ihre Nachricht an %u Personen konnte nicht gespeichert werden."
-msgstr "Your message to %u persons could not be saved."
-
-#: controllers/message.php:609
-#, php-format
-msgid "Textersetzung %s"
-msgstr "Text replacement %s"
-
-#: controllers/overview.php:47
-msgid "Vorlagen"
-msgstr "Templates"
-
-#: controllers/overview.php:49
-msgid "Demnächst zu verschicken"
-msgstr "Will be sent shortly"
-
-#: controllers/overview.php:51
-msgid "Geschützt"
-msgstr "Protected"
-
-#: controllers/overview.php:64
-msgid "Vorlagen verwalten"
-msgstr "Templates"
-
-#: controllers/overview.php:74
-msgid "Demnächst zu verschickende Nachrichten"
-msgstr "Messages that will be sent shortly"
-
-#: controllers/overview.php:102
-msgid "Geschützte Nachrichten"
-msgstr "Protected messages"
-
-#: controllers/overview.php:151
-msgid "Die Nachricht wurde gelöscht."
-msgstr "The message has been deleted."
-
-#: controllers/overview.php:152
-msgid "Die Vorlage wurde gelöscht."
-msgstr "The template has been deleted."
-
-#: controllers/overview.php:155
-msgid "Die Nachricht konnte nicht gelöscht werden."
-msgstr "Your message could not be deleted."
-
-#: controllers/overview.php:156
-msgid "Die Vorlage konnte nicht gelöscht werden."
-msgstr "The template could not be deleted."
-
-#: controllers/overview.php:160
-msgid ""
-"Zugriff verweigert. Sie haben nicht die nötigen Rechte, um diese Nachricht "
-"zu löschen."
-msgstr ""
-"Access denied. You don't have the necessary permission to delete this "
-"message."
-
-#: controllers/overview.php:162
-msgid ""
-"Zugriff verweigert. Sie haben nicht die nötigen Rechte, um diese Vorlage zu "
-"löschen."
-msgstr ""
-"Access denied. You don't have the necessary permission to delete this "
-"template."
-
-#: controllers/overview.php:248
-#, php-format
-msgid "Die Vorlage \"%s\" wurde gespeichert."
-msgstr "The template \"%s\" has been saved."
-
-#: controllers/overview.php:253
-#, php-format
-msgid "Die Vorlage \"%s\" konnte nicht gespeichert werden."
-msgstr "The template \"%s\" could not be saved."
-
-#: controllers/permissions.php:38 GarudaPlugin.class.php:33
+#: GarudaPlugin.class.php:41 controllers/permissions.php:38
 msgid "Berechtigungen"
 msgstr "Permissions"
+
+#: GarudaPlugin.class.php:44 controllers/settings.php:48
+msgid "Einstellungen"
+msgstr "Settings"
+
+#: GarudaPlugin.class.php:77
+msgid "Nachrichten an Zielgruppen"
+msgstr "Messages for target audiences"
+
+#: models/GarudaFolder.php:64
+#, fuzzy
+msgid "Ordner für Nachrichten an Zielgruppen"
+msgstr "Messages for target audiences"
+
+#: models/GarudaTokenFolder.php:64
+#, fuzzy
+msgid "Ordner für Teilnahmecodes in Nachrichten an Zielgruppen"
+msgstr "Messages for target audiences"
+
+#: controllers/settings.php:71
+msgid "Die Einstellungen wurden gespeichert."
+msgstr "The settings have been saved."
+
+#: controllers/settings.php:74
+msgid "Die Einstellungen konnten nicht gespeichert werden."
+msgstr "The settings could not be saved."
 
 #: controllers/permissions.php:49
 msgid "Berechtigung"
@@ -252,178 +186,269 @@ msgstr "Your changes have been saved."
 msgid "Die Änderungen konnten nicht gespeichert werden."
 msgstr "The changes could not be saved."
 
-#: controllers/permissions.php:146
-msgid "Die Einstellungen wurden gespeichert."
-msgstr "The settings have been saved."
+#: controllers/overview.php:26 controllers/recipients.php:22
+#: controllers/userfilter.php:23 controllers/message.php:25
+msgid "Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen."
+msgstr ""
 
-#: controllers/permissions.php:149
-msgid "Die Einstellungen konnten nicht gespeichert werden."
-msgstr "The settings could not be saved."
+#: controllers/overview.php:58
+msgid "Vorlagen"
+msgstr "Templates"
 
-#: controllers/permissions.php:165
-msgid "Die Einrichtungen wurden gespeichert."
-msgstr "The institutes have been saved."
+#: controllers/overview.php:60
+msgid "Demnächst zu verschicken"
+msgstr "Will be sent shortly"
 
-#: controllers/permissions.php:167
-msgid "Die Einrichtungen konnten nicht gespeichert werden."
-msgstr "The institutes could not be saved."
+#: controllers/overview.php:62
+msgid "Geschützt"
+msgstr "Protected"
 
-#: controllers/recipients.php:40
+#: controllers/overview.php:75
+msgid "Vorlagen verwalten"
+msgstr "Templates"
+
+#: controllers/overview.php:85
+msgid "Demnächst zu verschickende Nachrichten"
+msgstr "Messages that will be sent shortly"
+
+#: controllers/overview.php:113
+msgid "Geschützte Nachrichten"
+msgstr "Protected messages"
+
+#: controllers/overview.php:162
+msgid "Die Nachricht wurde gelöscht."
+msgstr "The message has been deleted."
+
+#: controllers/overview.php:163
+msgid "Die Vorlage wurde gelöscht."
+msgstr "The template has been deleted."
+
+#: controllers/overview.php:166
+msgid "Die Nachricht konnte nicht gelöscht werden."
+msgstr "Your message could not be deleted."
+
+#: controllers/overview.php:167
+msgid "Die Vorlage konnte nicht gelöscht werden."
+msgstr "The template could not be deleted."
+
+#: controllers/overview.php:171
+msgid ""
+"Zugriff verweigert. Sie haben nicht die nötigen Rechte, um diese Nachricht "
+"zu löschen."
+msgstr ""
+"Access denied. You don't have the necessary permission to delete this "
+"message."
+
+#: controllers/overview.php:173
+msgid ""
+"Zugriff verweigert. Sie haben nicht die nötigen Rechte, um diese Vorlage zu "
+"löschen."
+msgstr ""
+"Access denied. You don't have the necessary permission to delete this "
+"template."
+
+#: controllers/overview.php:303
+#, php-format
+msgid "Die Vorlage \"%s\" wurde gespeichert."
+msgstr "The template \"%s\" has been saved."
+
+#: controllers/overview.php:308
+#, php-format
+msgid "Die Vorlage \"%s\" konnte nicht gespeichert werden."
+msgstr "The template \"%s\" could not be saved."
+
+#: controllers/recipients.php:45
 msgid "An welche Empfängerkreise darf ich schreiben?"
 msgstr "Which target audiences am I allowed to send messages to?"
 
-#: controllers/recipients.php:42
+#: controllers/recipients.php:47
 msgid "Erlaubte Zielgruppen"
 msgstr "Allowed target audiences"
 
-#: controllers/recipients.php:43
+#: controllers/recipients.php:48
 msgid ""
 "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."
 msgstr ""
 "Here you can see which target audiences you can select for your messages."
 
-#: controllers/settings.php:48 GarudaPlugin.class.php:34
-msgid "Einstellungen"
-msgstr "Settings"
-
-#: controllers/userfilter.php:36
+#: controllers/userfilter.php:41
 msgid "Personen filtern"
 msgstr "filter persons"
 
-#: filterfields/restricted/RestrictedStatusgroupFilterField.php:40
-#: filterfields/unrestricted/GenderFilterField.php:11
-#: filterfields/unrestricted/InstituteFilterField.php:38
-#: filterfields/unrestricted/PermissionFilterField.php:11
-#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:32
-#: filterfields/unrestricted/StatusgroupFilterField.php:38
-msgid "ist"
-msgstr "is"
+#: controllers/message.php:223
+msgid "Absender suchen"
+msgstr "Search sender name"
 
-#: filterfields/restricted/RestrictedStatusgroupFilterField.php:41
-#: filterfields/unrestricted/GenderFilterField.php:12
-#: filterfields/unrestricted/InstituteFilterField.php:39
-#: filterfields/unrestricted/PermissionFilterField.php:12
-#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:33
-#: filterfields/unrestricted/StatusgroupFilterField.php:39
-msgid "ist nicht"
-msgstr "is not"
+#: controllers/message.php:285
+msgid "Bitte geben Sie einen Betreff an."
+msgstr "Please enter a message subject."
 
-#: filterfields/restricted/RestrictedStatusgroupFilterField.php:101
-#: filterfields/unrestricted/StatusgroupFilterField.php:67
-msgid "Statusgruppe"
-msgstr "Status group"
+#: controllers/message.php:288
+msgid "Bitte geben Sie eine Nachricht an."
+msgstr "Please enter a message text."
 
-#: filterfields/restricted/RestrictedSubjectFilterField.php:55
-msgid "Studienfach"
-msgstr "Subject"
+#: controllers/message.php:291
+msgid "Bitte geben Sie mindestens einen Nutzernamen an."
+msgstr "Please enter at least one username."
 
-#: filterfields/unrestricted/GenderFilterField.php:16
-msgid "unbekannt"
-msgstr "unknown"
+#: controllers/message.php:295
+msgid ""
+"Bitte geben Sie mindestens eine Veranstaltung an, deren Teilnehmende die "
+"Nachricht erhalten sollen."
+msgstr "Please enter at least one course to send the message to."
 
-#: filterfields/unrestricted/GenderFilterField.php:17
-msgid "männlich"
-msgstr "male"
-
-#: filterfields/unrestricted/GenderFilterField.php:18
-msgid "weiblich"
-msgstr "female"
-
-#: filterfields/unrestricted/GenderFilterField.php:31
-msgid "Geschlecht"
-msgstr "Gender"
-
-#: filterfields/unrestricted/InstituteFilterField.php:48
-#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:42
-#, php-format
-msgid "%s und Untereinrichtungen"
-msgstr "%s and sub institutes"
-
-#: filterfields/unrestricted/InstituteFilterField.php:67
-msgid "Einrichtung"
-msgstr "Institution"
-
-#: filterfields/unrestricted/PermissionFilterField.php:16
-msgid "Mitglied (Autor/in)"
-msgstr "Member (author)"
-
-#: filterfields/unrestricted/PermissionFilterField.php:17
-msgid "Tutor/in"
-msgstr "Tutor"
-
-#: filterfields/unrestricted/PermissionFilterField.php:18
-msgid "Lehrende/r"
-msgstr "Lecturer"
-
-#: filterfields/unrestricted/PermissionFilterField.php:19
-msgid "Administrator/in"
-msgstr "Administrator"
-
-#: filterfields/unrestricted/PermissionFilterField.php:32
-msgid "Rechtestufe"
-msgstr "Permission level"
-
-#: filterfields/unrestricted/SelfAssignInstUserFilterField.php:61
-msgid "Selbst zugeordnete Einrichtung"
-msgstr "Self-assigned institute"
-
-#: GarudaCronjob.php:29
-msgid "Nachrichtenversand an Zielgruppen"
-msgstr "Messages for target audiences"
-
-#: GarudaCronjob.php:33
-msgid "Verschickt Nachrichten an gewählte Empfängerkreise."
-msgstr "Sends messages to chosen target audiences."
-
-#: GarudaGetPermissionsCronjob.php:23
-msgid "Nachrichtenversand an Zielgruppen - Rechteaktualisierung"
-msgstr "Messages for target audiences - Refresh permissions"
-
-#: GarudaGetPermissionsCronjob.php:27
-msgid "Aktualisiert die Rechte zum Versand aus einer externen Datenbank."
+#: controllers/message.php:351
+msgid ""
+"Ihre Nachricht hat aktuell keine Empfänger und kann daher nicht verschickt "
+"werden. Bitte verändern Sie die Einstellungen oder speichern Sie die "
+"Nachricht als Vorlage ab."
 msgstr ""
-"Refreshes the permissions for message sending from an external database."
+"Your message cannot be sent because there are no recipients. Please change "
+"your settings or save the message as a template."
 
-#: GarudaPlugin.class.php:30
-msgid "Nachrichtenübersicht"
-msgstr "Message overview"
-
-#: GarudaPlugin.class.php:31
-msgid "An wen darf ich schreiben?"
-msgstr "To whom may I write?"
-
-#: GarudaPlugin.class.php:65
-msgid "Nachrichten an Zielgruppen"
-msgstr "Messages for target audiences"
-
-#: migrations/20_permissions_from_external_db.php:14
+#: controllers/message.php:362
 msgid ""
-"Soll eine externe Datenbank benutzt werden, um die Zuordnungen von "
-"Studiengängen zu Einrichtungen auszulesen?"
-msgstr "Get studycourse-institute assignments from an external database?"
+"Sie haben angegeben, dass die Nachricht einen alternativen Absender haben "
+"soll, haben aber keine Person als Absender ausgewählt."
+msgstr ""
+"You specified to send the message with an alternative sender name but "
+"haven't given one."
 
-#: migrations/20_permissions_from_external_db.php:22
+#: controllers/message.php:400
+msgid "Zielgruppen"
+msgstr "Target audiences"
+
+#: controllers/message.php:401
 msgid ""
-"Externe Datenbank mit Informationen zur Zugehörigkeit von Studiengängen zu "
-"Einrichtungen"
-msgstr "External database with studycourse-institute assignments"
+"Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
+"Einrichtungen angehören, auf die Sie Zugriff haben."
+msgstr ""
+"You can select all studycourses and employees at the institutes you have "
+"access to."
 
-#: migrations/20_permissions_from_external_db.php:30
+#: controllers/message.php:408 views/message/write.php:277
+msgid "Nachrichteninhalt"
+msgstr "Message content"
+
+#: controllers/message.php:409
+#, php-format
+msgid "Verwenden Sie [Stud.IP-Textformatierungen]%s im Nachrichteninhalt."
+msgstr "Use [Stud.IP text formatting]%s in your message."
+
+#: controllers/message.php:427
+#, php-format
+msgid "Vorlage \"%s\" bearbeiten"
+msgstr "Edit template \"%s\""
+
+#: controllers/message.php:431 views/overview/_messages.php:91
+msgid "Nachricht bearbeiten"
+msgstr "Edit message"
+
+#: controllers/message.php:504
+msgid "Aus Vorlage laden"
+msgstr "Load from template"
+
+#: controllers/message.php:524
+msgid "Mailanhänge sind nicht erlaubt."
+msgstr ""
+
+#: controllers/message.php:567
+msgid "Ein Systemfehler ist beim Upload aufgetreten."
+msgstr ""
+
+#: controllers/message.php:642
+msgid "Alle Personen"
+msgstr "All persons"
+
+#: controllers/message.php:645 views/message/write.php:19
+#: views/overview/_messages.php:65
+msgid "Studierende"
+msgstr "Students"
+
+#: controllers/message.php:653 views/message/write.php:28
+#: views/overview/_messages.php:67
+msgid "Beschäftigte"
+msgstr "Employees"
+
+#: controllers/message.php:661 views/overview/_messages.php:69
+msgid "Teilnehmende von Veranstaltungen"
+msgstr "Course participants"
+
+#: controllers/message.php:669
+msgid "Manuell erstellte Liste von Personen"
+msgstr "Manual list of usernames"
+
+#: controllers/message.php:673
+#, php-format
+msgid "Daten vom %s"
+msgstr "Issued: %s"
+
+#: controllers/message.php:741
+msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
+msgstr "There are less tokens than message recipients!"
+
+#: controllers/message.php:781
+#, php-format
+msgid "Ihre Nachricht an %u Personen wurde gespeichert."
+msgstr "Your message to %u persons has been saved."
+
+#: controllers/message.php:785
+#, php-format
+msgid "Ihre Nachricht an %u Personen konnte nicht gespeichert werden."
+msgstr "Your message to %u persons could not be saved."
+
+#: controllers/message.php:806
+#, php-format
+msgid "Textersetzung %s"
+msgstr "Text replacement %s"
+
+#: views/settings/index.php:6
+msgid "minütlich"
+msgstr "every minute"
+
+#: views/settings/index.php:9
+#, php-format
+msgid "Anstehende Nachrichten werden stündlich, zur %d. Minute, verschickt."
+msgstr "Messages are send hourly, at minute %d."
+
+#: views/settings/index.php:13
+#, php-format
+msgid "Anstehende Nachrichten werden alle %d Minuten verschickt."
+msgstr "Message are sent every %d minutes."
+
+#: views/settings/index.php:18
+#, php-format
+msgid "Anstehende Nachrichten werden täglich um %d:%d Uhr verschickt."
+msgstr "Messages are sent daily, at %d:%d."
+
+#: views/settings/index.php:22
+#, php-format
 msgid ""
-"Zuordnungen von Einrichtungen der externen Datenbank zu Stud.IP-Einrichtungen"
-msgstr "Matching of institutes from external database to Stud.IP institutes"
+"Anstehende Nachrichten werden alle %d Stunden, zur %d. Minute, verschickt."
+msgstr "Messages are sent every %d hours at minute %d."
 
-#: views/message/load_template.php:4
-msgid "Vorhandene Vorlagen"
-msgstr "Templates"
+#: views/settings/index.php:25
+#, php-format
+msgid "Nächste Ausführung: %s"
+msgstr "Next execution: %s"
 
-#: views/message/load_template.php:13
-msgid "Laden"
-msgstr "Load"
+#: views/settings/index.php:28
+msgid "Cronjob-Einstellungen bearbeiten"
+msgstr "Edit cronjob settings"
 
-#: views/message/load_template.php:14 views/message/write.php:281
-#: views/overview/edit_message.php:63 views/settings/index.php:41
-#: views/userfilter/add.php:32 views/userfilter/addrestricted.php:34
+#: views/settings/index.php:33
+msgid ""
+"Wie oft (in Tagen) sollen bereits komplett abgeschlossene "
+"Nachrichtenversandaufträge gelöscht werden?"
+msgstr "Delete completed message sending jobs every X days:"
+
+#: views/settings/index.php:40 views/overview/edit_message.php:70
+msgid "Speichern"
+msgstr "Save"
+
+#: views/settings/index.php:41 views/message/load_template.php:14
+#: views/message/write.php:351 views/userfilter/add.php:32
+#: views/userfilter/addrestricted.php:34 views/overview/edit_message.php:71
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -451,6 +476,14 @@ msgid ""
 "erhalten diese Nachricht."
 msgstr ""
 "All persons participanting in one of the above courses will get this message."
+
+#: views/message/load_template.php:4
+msgid "Vorhandene Vorlagen"
+msgstr "Templates"
+
+#: views/message/load_template.php:13
+msgid "Laden"
+msgstr "Load"
 
 #: views/message/sendto_filtered.php:3
 msgid ""
@@ -491,30 +524,30 @@ msgstr "Target audience"
 msgid "An wen soll die Nachricht gesendet werden?"
 msgstr "Who should the message be sent to?"
 
-#: views/message/write.php:12 views/permissions/_institutes.php:25
-#: views/permissions/_studycourses.php:16
+#: views/message/write.php:13 views/permissions/_studycourses.php:16
+#: views/permissions/_institutes.php:25
 #: views/userfilter/restricted_field_config.php:8
 msgid "alle"
 msgstr "all"
 
-#: views/message/write.php:18
+#: views/message/write.php:21
 msgid ""
 "Hierüber werden alle Personen gefunden, die einem oder mehreren "
 "Studiengängen zugeordnet sind."
 msgstr ""
 "This message will be sent to persons assigned to at least one studycourse."
 
-#: views/message/write.php:25
+#: views/message/write.php:30
 msgid ""
 "Hierüber werden alle Personen gefunden, die mindestens einer Einrichtung "
 "zugeordnet sind."
 msgstr "All persons assigned to at least one institute will be found here."
 
-#: views/message/write.php:30
+#: views/message/write.php:36
 msgid "Veranstaltungsteilnehmende"
 msgstr "Course participants"
 
-#: views/message/write.php:32
+#: views/message/write.php:38
 msgid ""
 "Hierüber werden alle Personen gefunden, die als Teilnehmende in eine der "
 "gewählten Veranstaltungen eingetragen sind."
@@ -522,15 +555,15 @@ msgstr ""
 "All persons participating in at least one of the selected courses will be "
 "found here."
 
-#: views/message/write.php:38
+#: views/message/write.php:44
 msgid "Suchen und Hinzufügen der gewünschten Veranstaltungen"
 msgstr "Search and add courses"
 
-#: views/message/write.php:55
+#: views/message/write.php:61
 msgid "Manuelle Liste von Nutzernamen"
 msgstr "Manual list of usernames"
 
-#: views/message/write.php:59
+#: views/message/write.php:65
 msgid ""
 "Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht empfangen sollen "
 "(getrennt durch Zeilenumbruch oder Komma)"
@@ -538,15 +571,15 @@ msgstr ""
 "Enter the usernames that shall receive your message (separated by line break "
 "or comma)"
 
-#: views/message/write.php:84
+#: views/message/write.php:90
 msgid "Filter hinzufügen"
 msgstr "Add filter"
 
-#: views/message/write.php:89
+#: views/message/write.php:95
 msgid "Personen ausschließen"
 msgstr "Exclude persons"
 
-#: views/message/write.php:93
+#: views/message/write.php:99
 msgid ""
 "Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht NICHT empfangen "
 "sollen (getrennt durch Zeilenumbruch oder Komma)"
@@ -554,15 +587,19 @@ msgstr ""
 "Enter the usernames that shall NOT receive your message (separated by line "
 "break or comma)"
 
-#: views/message/write.php:102
+#: views/message/write.php:108
+msgid "In Kopie an"
+msgstr ""
+
+#: views/message/write.php:126
 msgid "Personalisierte Teilnahmecodes"
 msgstr "Personalized tokens"
 
-#: views/message/write.php:106
+#: views/message/write.php:130
 msgid "Personalisierte Teilnahmecodes o.ä. verwenden"
 msgstr "Use personalized tokens or similar"
 
-#: views/message/write.php:111
+#: views/message/write.php:135
 msgid ""
 "Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in der "
 "Nachricht an jeden einzelnen Empfänger personalisiert verschickt werden "
@@ -571,120 +608,223 @@ msgstr ""
 "You can upload a text file containing the texts that will be sent to each "
 "recipient (Codes/links etc.)"
 
-#: views/message/write.php:119
+#: views/message/write.php:166 views/message/write.php:167
+#: views/message/write.php:228 views/message/write.php:229
+msgid "Datei hochladen"
+msgstr "Upload file"
+
+#: views/message/write.php:170 views/message/write.php:232
+msgid "wird verarbeitet"
+msgstr "processing"
+
+#: views/message/write.php:171 views/message/write.php:233
+msgid "gespeichert"
+msgstr "saved"
+
+#: views/message/write.php:178
 msgid "oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:"
 msgstr "or use tokens from an already sent message:"
 
-#: views/message/write.php:123 views/message/write.php:222
+#: views/message/write.php:182 views/message/write.php:288
 #: views/permissions/index.php:8 views/userfilter/add.php:6
 msgid "bitte auswählen"
 msgstr "please select"
 
-#: views/message/write.php:139 views/message/write.php:144
+#: views/message/write.php:196 views/message/write.php:200
 msgid "Anhänge"
 msgstr "Attachments"
 
-#: views/message/write.php:142
+#: views/message/write.php:198
 msgid "Laden Sie hier Dateianhänge hoch."
 msgstr "Upload file attachments here."
 
-#: views/message/write.php:162 views/message/write.php:163
-msgid "Datei hochladen"
-msgstr "Upload file"
-
-#: views/message/write.php:166
-msgid "wird verarbeitet"
-msgstr "processing"
-
-#: views/message/write.php:167
-msgid "gespeichert"
-msgstr "saved"
-
-#: views/message/write.php:175 views/overview/_messages.php:20
+#: views/message/write.php:241 views/overview/_messages.php:20
 msgid "Absender"
 msgstr "Sender"
 
-#: views/message/write.php:180
+#: views/message/write.php:246
 msgid "Die Nachricht von meiner Kennung verschicken"
 msgstr "Send message from my account"
 
-#: views/message/write.php:187
+#: views/message/write.php:253
 msgid "Eine andere Person als Absender eintragen"
 msgstr "Set another person as sender"
 
-#: views/message/write.php:190
+#: views/message/write.php:256
 msgid "niemand"
 msgstr "nobody"
 
-#: views/message/write.php:195
+#: views/message/write.php:261
 msgid "Alternativen Absender suchen"
 msgstr "Search for alternative sender"
 
-#: views/message/write.php:205
+#: views/message/write.php:271
 msgid "Anonym, mit \"Stud.IP\" als Absender verschicken"
 msgstr "Send anonymously, setting \"Stud.IP\" as sender name"
 
-#: views/message/write.php:215 views/overview/_messages.php:21
-#: views/overview/edit_message.php:42
+#: views/message/write.php:281 views/overview/edit_message.php:50
+#: views/overview/_messages.php:21
 msgid "Betreff"
 msgstr "Subject"
 
-#: views/message/write.php:217 views/overview/edit_message.php:45
+#: views/message/write.php:283 views/overview/edit_message.php:53
 msgid "Geben Sie hier den Betreff Ihrer Nachricht ein."
 msgstr "Enter the message subject here."
 
-#: views/message/write.php:220
+#: views/message/write.php:286
 msgid "Feld für Serienmail einfügen"
 msgstr "Insert serial mail field"
 
-#: views/message/write.php:229
+#: views/message/write.php:295
 msgid "Einsetzen"
 msgstr "Insert"
 
-#: views/message/write.php:234 views/overview/edit_message.php:50
+#: views/message/write.php:300 views/overview/edit_message.php:58
 msgid "Nachrichtentext"
 msgstr "Message text"
 
-#: views/message/write.php:236 views/overview/edit_message.php:53
+#: views/message/write.php:304 views/overview/edit_message.php:61
 msgid "Geben Sie hier den Inhalt Ihrer Nachricht ein."
 msgstr "Enter the message text here."
 
-#: views/message/write.php:241
+#: views/message/write.php:311
 msgid "Vorschau der Nachricht"
 msgstr "Message preview"
 
-#: views/message/write.php:249
+#: views/message/write.php:320
 msgid ""
 "Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden"
 msgstr "Don't delete this message on automatic cleanup"
 
-#: views/message/write.php:257
+#: views/message/write.php:328
 msgid "Versandzeitpunkt"
 msgstr "Send at time"
 
-#: views/message/write.php:262
+#: views/message/write.php:333
 msgid "Nachricht erst zu einem späteren Zeitpunkt verschicken"
 msgstr "Send message later"
 
-#: views/message/write.php:267
+#: views/message/write.php:338
 msgid "Wann soll die Nachricht verschickt werden?"
 msgstr "When should the message be sent?"
 
-#: views/message/write.php:280
+#: views/message/write.php:350
 msgid "Änderungen speichern"
 msgstr "Save changes"
 
-#: views/message/write.php:283
+#: views/message/write.php:353
 msgid "Nachricht verschicken"
 msgstr "Send message"
 
-#: views/message/write.php:284
+#: views/message/write.php:354
 msgid "Als Vorlage speichern"
 msgstr "Save as template"
 
-#: views/message/write.php:287
+#: views/message/write.php:357
 msgid "Empfängerliste exportieren"
 msgstr "Export recipient list"
+
+#: views/permissions/index.php:5
+msgid "Einrichtung wählen, für die Einstellungen gesetzt werden sollen:"
+msgstr "Choose institute to configure settings for:"
+
+#: views/permissions/get.php:7
+msgid ""
+"Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den "
+"Nachrichtenversand nutzen zu dürfen?"
+msgstr ""
+"What are the minimum permissions needed at this institute in order to be "
+"allowed to send messages?"
+
+#: views/permissions/get.php:10
+msgid "admin"
+msgstr "admin"
+
+#: views/permissions/get.php:11
+msgid "dozent"
+msgstr "dozent"
+
+#: views/permissions/get.php:12
+msgid "tutor"
+msgstr "tutor"
+
+#: views/permissions/get.php:21
+msgid "Einstellungen für die aktuell gewählte Einrichtung speichern"
+msgstr "Save settings for currently selected institute"
+
+#: views/permissions/_studycourses.php:2
+msgid ""
+"An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
+"dürfen?"
+msgstr ""
+"Which studycourses should be allowed as message target for the selected "
+"institute?"
+
+#: views/permissions/_studycourses.php:15 views/permissions/_institutes.php:24
+msgid "markieren:"
+msgstr "mark:"
+
+#: views/permissions/_studycourses.php:18 views/permissions/_institutes.php:27
+msgid "keine"
+msgstr "none"
+
+#: views/permissions/_institutes.php:2
+msgid ""
+"An welche Einrichtungen (außer der/den eigenen) soll die gewählte "
+"Einrichtung Nachrichten schreiben dürfen?"
+msgstr ""
+"Which institutes (except the own ones) should be allowed as message target "
+"for the chosen institute?"
+
+#: views/recipients/index.php:2
+msgid "Mit Ihren Rechten dürfen Sie an alle schreiben!"
+msgstr "You are root and may write to all!"
+
+#: views/recipients/index.php:4
+msgid "Studiengänge"
+msgstr "Courses of study"
+
+#: views/recipients/index.php:8
+msgid ""
+"Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben."
+msgstr "No studycourses have been assigned to you as target audiences."
+
+#: views/recipients/index.php:14
+msgid ""
+"Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben."
+msgstr "No institutes have been assigned to you as target audiences."
+
+#: views/userfilter/add.php:2 views/userfilter/addrestricted.php:4
+msgid "Welche Personen sollen erfasst werden?"
+msgstr "Which persons should be included?"
+
+#: views/userfilter/add.php:15
+msgid "Bedingung hinzufügen"
+msgstr "Add condition"
+
+#: views/userfilter/add.php:30 views/userfilter/addrestricted.php:33
+msgid "Filter übernehmen"
+msgstr "Save filter"
+
+#: views/userfilter/_show.php:7
+msgid "löschen"
+msgstr "delete"
+
+#: views/overview/edit_message.php:6
+msgid "Name der Vorlage"
+msgstr "Template name"
+
+#: views/overview/templates.php:8
+msgid "Es sind keine Nachrichtenvorlagen vorhanden."
+msgstr "No message templates found."
+
+#: views/overview/to_send.php:8
+msgid "Es stehen keine Nachrichten zum Versand an."
+msgstr "There are no messages to send shortly."
+
+#: views/overview/protected.php:8
+msgid "Es sind keine geschützten Nachrichten vorhanden."
+msgstr "No protected messages found."
 
 #: views/overview/_messages.php:17
 msgid "Name"
@@ -734,261 +874,115 @@ msgstr "Do you really want to delete the message?"
 msgid "Wollen Sie die Vorlage wirklich löschen?"
 msgstr "Do you really want to delete the template?"
 
-#: views/overview/edit_message.php:6
-msgid "Name der Vorlage"
-msgstr "Template name"
+#~ msgid "Die Einrichtungen wurden gespeichert."
+#~ msgstr "The institutes have been saved."
 
-#: views/overview/edit_message.php:62 views/permissions/external_db.php:111
-#: views/settings/index.php:40
-msgid "Speichern"
-msgstr "Save"
+#~ msgid "Die Einrichtungen konnten nicht gespeichert werden."
+#~ msgstr "The institutes could not be saved."
 
-#: views/overview/protected.php:8
-msgid "Es sind keine geschützten Nachrichten vorhanden."
-msgstr "No protected messages found."
+#~ msgid "Nachrichtenversand an Zielgruppen - Rechteaktualisierung"
+#~ msgstr "Messages for target audiences - Refresh permissions"
 
-#: views/overview/templates.php:8
-msgid "Es sind keine Nachrichtenvorlagen vorhanden."
-msgstr "No message templates found."
+#~ msgid "Aktualisiert die Rechte zum Versand aus einer externen Datenbank."
+#~ msgstr ""
+#~ "Refreshes the permissions for message sending from an external database."
 
-#: views/overview/to_send.php:8
-msgid "Es stehen keine Nachrichten zum Versand an."
-msgstr "There are no messages to send shortly."
+#~ msgid ""
+#~ "Soll eine externe Datenbank benutzt werden, um die Zuordnungen von "
+#~ "Studiengängen zu Einrichtungen auszulesen?"
+#~ msgstr "Get studycourse-institute assignments from an external database?"
 
-#: views/permissions/_institutes.php:2
-msgid ""
-"An welche Einrichtungen (außer der/den eigenen) soll die gewählte "
-"Einrichtung Nachrichten schreiben dürfen?"
-msgstr ""
-"Which institutes (except the own ones) should be allowed as message target "
-"for the chosen institute?"
+#~ msgid ""
+#~ "Externe Datenbank mit Informationen zur Zugehörigkeit von Studiengängen "
+#~ "zu Einrichtungen"
+#~ msgstr "External database with studycourse-institute assignments"
 
-#: views/permissions/_institutes.php:24 views/permissions/_studycourses.php:15
-msgid "markieren:"
-msgstr "mark:"
+#~ msgid ""
+#~ "Zuordnungen von Einrichtungen der externen Datenbank zu Stud.IP-"
+#~ "Einrichtungen"
+#~ msgstr "Matching of institutes from external database to Stud.IP institutes"
 
-#: views/permissions/_institutes.php:27 views/permissions/_studycourses.php:18
-msgid "keine"
-msgstr "none"
+#~ msgid "Importeinstellungen"
+#~ msgstr "Import settings"
 
-#: views/permissions/_studycourses.php:2
-msgid ""
-"An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben "
-"dürfen?"
-msgstr ""
-"Which studycourses should be allowed as message target for the selected "
-"institute?"
+#~ msgid "Import von Zuordnungen"
+#~ msgstr "Import assignments"
 
-#: views/permissions/external_db.php:6
-msgid "Importeinstellungen"
-msgstr "Import settings"
+#~ msgid "aktiviert"
+#~ msgstr "active"
 
-#: views/permissions/external_db.php:14
-msgid "Import von Zuordnungen"
-msgstr "Import assignments"
+#~ msgid "Datenbankverbindung"
+#~ msgstr "Database connection"
 
-#: views/permissions/external_db.php:17
-msgid "aktiviert"
-msgstr "active"
+#~ msgid "Typ"
+#~ msgstr "Type"
 
-#: views/permissions/external_db.php:21
-msgid "Datenbankverbindung"
-msgstr "Database connection"
+#~ msgid "Server"
+#~ msgstr "Server"
 
-#: views/permissions/external_db.php:24
-msgid "Typ"
-msgstr "Type"
+#~ msgid "Name der Datenbank"
+#~ msgstr "Database name"
 
-#: views/permissions/external_db.php:31
-msgid "Server"
-msgstr "Server"
+#~ msgid "Benutzername"
+#~ msgstr "Username"
 
-#: views/permissions/external_db.php:35
-msgid "Name der Datenbank"
-msgstr "Database name"
+#~ msgid "Passwort"
+#~ msgstr "Password"
 
-#: views/permissions/external_db.php:39
-msgid "Benutzername"
-msgstr "Username"
+#~ msgid "Datenabgleich"
+#~ msgstr "Data matching"
 
-#: views/permissions/external_db.php:43
-msgid "Passwort"
-msgstr "Password"
+#~ msgid "Tabellenname"
+#~ msgstr "Table name"
 
-#: views/permissions/external_db.php:49
-msgid "Datenabgleich"
-msgstr "Data matching"
+#~ msgid "Spalte für Abschlussnamen"
+#~ msgstr "Column with degrees"
 
-#: views/permissions/external_db.php:52
-msgid "Tabellenname"
-msgstr "Table name"
+#~ msgid "Spalte für Fächernamen"
+#~ msgstr "Column with subjects"
 
-#: views/permissions/external_db.php:56
-msgid "Spalte für Abschlussnamen"
-msgstr "Column with degrees"
+#~ msgid "Spalte für Einrichtungen"
+#~ msgstr "Column for institutes"
 
-#: views/permissions/external_db.php:60
-msgid "Spalte für Fächernamen"
-msgstr "Column with subjects"
+#~ msgid "Weitere Einstellungen"
+#~ msgstr "Other settings"
 
-#: views/permissions/external_db.php:64
-msgid "Spalte für Einrichtungen"
-msgstr "Column for institutes"
+#~ msgid "Informixclient-Verzeichnis"
+#~ msgstr "Directory of Informix client"
 
-#: views/permissions/external_db.php:70
-msgid "Weitere Einstellungen"
-msgstr "Other settings"
+#~ msgid "Protokoll"
+#~ msgstr "Protocol"
 
-#: views/permissions/external_db.php:73
-msgid "Informixclient-Verzeichnis"
-msgstr "Directory of Informix client"
+#~ msgid "Servicename"
+#~ msgstr "Service name"
 
-#: views/permissions/external_db.php:77
-msgid "Protokoll"
-msgstr "Protocol"
+#~ msgid "Informixservername"
+#~ msgstr "Informix server name"
 
-#: views/permissions/external_db.php:85
-msgid "Servicename"
-msgstr "Service name"
+#~ msgid "Clientlocale"
+#~ msgstr "Client locale"
 
-#: views/permissions/external_db.php:89
-msgid "Informixservername"
-msgstr "Informix server name"
+#~ msgid "Datenbanklocale"
+#~ msgstr "Database locale"
 
-#: views/permissions/external_db.php:93
-msgid "Clientlocale"
-msgstr "Client locale"
+#~ msgid "Verknüpfung der Einrichtungs-IDs"
+#~ msgstr "Link institute IDs"
 
-#: views/permissions/external_db.php:97
-msgid "Datenbanklocale"
-msgstr "Database locale"
+#~ msgid "Einrichtungen zuordnen"
+#~ msgstr "Assign institutes"
 
-#: views/permissions/external_db.php:103
-msgid "Verknüpfung der Einrichtungs-IDs"
-msgstr "Link institute IDs"
+#~ msgid ""
+#~ "Wenn Sie die Zuordnungen importieren, werden alle bestehenden Zuordnungen "
+#~ "zu den gefundenen Einrichtungen überschrieben!"
+#~ msgstr ""
+#~ "All existing assignments for the found institutes will be overwritten on "
+#~ "assignment import!"
 
-#: views/permissions/external_db.php:106
-msgid "Einrichtungen zuordnen"
-msgstr "Assign institutes"
+#~ msgid "Zuordnungen importieren"
+#~ msgstr "Import assignments"
 
-#: views/permissions/external_db.php:120
-msgid ""
-"Wenn Sie die Zuordnungen importieren, werden alle bestehenden Zuordnungen zu "
-"den gefundenen Einrichtungen überschrieben!"
-msgstr ""
-"All existing assignments for the found institutes will be overwritten on "
-"assignment import!"
-
-#: views/permissions/external_db.php:126
-msgid "Zuordnungen importieren"
-msgstr "Import assignments"
-
-#: views/permissions/get.php:7
-msgid ""
-"Welche Rechte werden mindestens an dieser Einrichtung benötigt, um den "
-"Nachrichtenversand nutzen zu dürfen?"
-msgstr ""
-"What are the minimum permissions needed at this institute in order to be "
-"allowed to send messages?"
-
-#: views/permissions/get.php:10
-msgid "admin"
-msgstr "admin"
-
-#: views/permissions/get.php:11
-msgid "dozent"
-msgstr "dozent"
-
-#: views/permissions/get.php:12
-msgid "tutor"
-msgstr "tutor"
-
-#: views/permissions/get.php:21
-msgid "Einstellungen für die aktuell gewählte Einrichtung speichern"
-msgstr "Save settings for currently selected institute"
-
-#: views/permissions/index.php:5
-msgid "Einrichtung wählen, für die Einstellungen gesetzt werden sollen:"
-msgstr "Choose institute to configure settings for:"
-
-#: views/permissions/match_institutes.php:5
-#, php-format
-msgid "\"%s\" zuordnen zu:"
-msgstr "Assign \"%s\" to:"
-
-#: views/recipients/index.php:2
-msgid "Mit Ihren Rechten dürfen Sie an alle schreiben!"
-msgstr "You are root and may write to all!"
-
-#: views/recipients/index.php:4
-msgid "Studiengänge"
-msgstr "Courses of study"
-
-#: views/recipients/index.php:8
-msgid ""
-"Leider wurden keine Studiengänge als Empfängerkreise für Sie freigegeben."
-msgstr "No studycourses have been assigned to you as target audiences."
-
-#: views/recipients/index.php:14
-msgid ""
-"Leider wurden keine Einrichtungen als Empfängerkreise für Sie freigegeben."
-msgstr "No institutes have been assigned to you as target audiences."
-
-#: views/settings/index.php:6
-msgid "minütlich"
-msgstr "every minute"
-
-#: views/settings/index.php:9
-#, php-format
-msgid "Anstehende Nachrichten werden stündlich, zur %d. Minute, verschickt."
-msgstr "Messages are send hourly, at minute %d."
-
-#: views/settings/index.php:13
-#, php-format
-msgid "Anstehende Nachrichten werden alle %d Minuten verschickt."
-msgstr "Message are sent every %d minutes."
-
-#: views/settings/index.php:18
-#, php-format
-msgid "Anstehende Nachrichten werden täglich um %d:%d Uhr verschickt."
-msgstr "Messages are sent daily, at %d:%d."
-
-#: views/settings/index.php:22
-#, php-format
-msgid ""
-"Anstehende Nachrichten werden alle %d Stunden, zur %d. Minute, verschickt."
-msgstr "Messages are sent every %d hours at minute %d."
-
-#: views/settings/index.php:25
-#, php-format
-msgid "Nächste Ausführung: %s"
-msgstr "Next execution: %s"
-
-#: views/settings/index.php:28
-msgid "Cronjob-Einstellungen bearbeiten"
-msgstr "Edit cronjob settings"
-
-#: views/settings/index.php:33
-msgid ""
-"Wie oft (in Tagen) sollen bereits komplett abgeschlossene "
-"Nachrichtenversandaufträge gelöscht werden?"
-msgstr "Delete completed message sending jobs every X days:"
-
-#: views/userfilter/_show.php:7
-msgid "löschen"
-msgstr "delete"
-
-#: views/userfilter/add.php:2 views/userfilter/addrestricted.php:4
-msgid "Welche Personen sollen erfasst werden?"
-msgstr "Which persons should be included?"
-
-#: views/userfilter/add.php:15
-msgid "Bedingung hinzufügen"
-msgstr "Add condition"
-
-#: views/userfilter/add.php:30 views/userfilter/addrestricted.php:33
-msgid "Filter übernehmen"
-msgstr "Save filter"
+#~ msgid "\"%s\" zuordnen zu:"
+#~ msgstr "Assign \"%s\" to:"
 
 #, fuzzy
 #~ msgid "Meine Berechtigungen"
