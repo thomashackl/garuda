@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-26 14:31+0100\n"
-"PO-Revision-Date: 2017-10-12 14:19+0000\n"
+"PO-Revision-Date: 2019-02-26 13:33+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
-"projects/studip/garuda/en/>\n"
+"weblate/projects/studip/garuda/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.16\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 #: GarudaCronjob.php:29
 msgid "Nachrichtenversand an Zielgruppen"
@@ -129,14 +129,12 @@ msgid "Nachrichten an Zielgruppen"
 msgstr "Messages for target audiences"
 
 #: models/GarudaFolder.php:64
-#, fuzzy
 msgid "Ordner für Nachrichten an Zielgruppen"
-msgstr "Messages for target audiences"
+msgstr "Message folders for target audiences"
 
 #: models/GarudaTokenFolder.php:64
-#, fuzzy
 msgid "Ordner für Teilnahmecodes in Nachrichten an Zielgruppen"
-msgstr "Messages for target audiences"
+msgstr "Folders for message tokens from target audiences"
 
 #: controllers/settings.php:71
 msgid "Die Einstellungen wurden gespeichert."
@@ -189,7 +187,7 @@ msgstr "The changes could not be saved."
 #: controllers/overview.php:26 controllers/recipients.php:22
 #: controllers/userfilter.php:23 controllers/message.php:25
 msgid "Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen."
-msgstr ""
+msgstr "You don't have the necessary permission to use this functionality."
 
 #: controllers/overview.php:58
 msgid "Vorlagen"
@@ -350,11 +348,11 @@ msgstr "Load from template"
 
 #: controllers/message.php:524
 msgid "Mailanhänge sind nicht erlaubt."
-msgstr ""
+msgstr "Mail attachments are not allowed."
 
 #: controllers/message.php:567
 msgid "Ein Systemfehler ist beim Upload aufgetreten."
-msgstr ""
+msgstr "A system error has occurred while uploading."
 
 #: controllers/message.php:642
 msgid "Alle Personen"
@@ -440,7 +438,7 @@ msgstr "Edit cronjob settings"
 msgid ""
 "Wie oft (in Tagen) sollen bereits komplett abgeschlossene "
 "Nachrichtenversandaufträge gelöscht werden?"
-msgstr "Delete completed message sending jobs every X days:"
+msgstr "Delete completed message sending jobs after how many days?"
 
 #: views/settings/index.php:40 views/overview/edit_message.php:70
 msgid "Speichern"
@@ -589,7 +587,7 @@ msgstr ""
 
 #: views/message/write.php:108
 msgid "In Kopie an"
-msgstr ""
+msgstr "Send copy to"
 
 #: views/message/write.php:126
 msgid "Personalisierte Teilnahmecodes"
