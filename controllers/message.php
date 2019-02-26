@@ -20,6 +20,11 @@ class MessageController extends AuthenticatedController {
      * Actions and settings taking place before every page call.
      */
     public function before_filter(&$action, &$args) {
+        if (!GarudaModel::hasPermission($GLOBALS['user']->id)) {
+            throw new AccessDeniedException(dgettext('garudaplugin',
+                'Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen.'));
+        }
+
         $this->plugin = $this->dispatcher->plugin;
         $this->flash = Trails_Flash::instance();
 

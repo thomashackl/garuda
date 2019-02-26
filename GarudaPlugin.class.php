@@ -22,19 +22,31 @@ class GarudaPlugin extends StudIPPlugin implements SystemPlugin {
      * Create a new Garuda instance initializing navigation and needed scripts.
      */
     public function __construct() {
-        parent::__construct();
-        // Localization
-        bindtextdomain('garudaplugin', realpath(dirname(__FILE__).'/locale'));
-        $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
-        $navigation->addSubNavigation('message', new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'), PluginEngine::getURL($this, array(), 'message/write')));
-        $navigation->addSubNavigation('overview', new Navigation(dgettext('garudaplugin', 'Nachrichtenübersicht'), PluginEngine::getURL($this, array(), 'overview')));
-        $navigation->addSubNavigation('recipients', new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'), PluginEngine::getURL($this, array(), 'recipients')));
-        if ($GLOBALS['perm']->have_perm('root')) {
-            $navigation->addSubNavigation('permissions', new Navigation(dgettext('garudaplugin', 'Berechtigungen'), PluginEngine::getURL($this, array(), 'permissions')));
-            $navigation->addSubNavigation('settings', new Navigation(dgettext('garudaplugin', 'Einstellungen'), PluginEngine::getURL($this, array(), 'settings')));
+        if (GarudaModel::hasPermission($GLOBALS['user']->id)) {
+            parent::__construct();
+            // Localization
+            bindtextdomain('garudaplugin', realpath(dirname(__FILE__) . '/locale'));
+            $navigation = new Navigation($this->getDisplayName(), PluginEngine::getURL($this, array(), 'message'));
+            $navigation->addSubNavigation('message',
+                new Navigation(dgettext('garudaplugin', 'Nachricht schreiben'),
+                    PluginEngine::getURL($this, array(), 'message/write')));
+            $navigation->addSubNavigation('overview',
+                new Navigation(dgettext('garudaplugin', 'Nachrichtenübersicht'),
+                    PluginEngine::getURL($this, array(), 'overview')));
+            $navigation->addSubNavigation('recipients',
+                new Navigation(dgettext('garudaplugin', 'An wen darf ich schreiben?'),
+                    PluginEngine::getURL($this, array(), 'recipients')));
+            if ($GLOBALS['perm']->have_perm('root')) {
+                $navigation->addSubNavigation('permissions',
+                    new Navigation(dgettext('garudaplugin', 'Berechtigungen'),
+                        PluginEngine::getURL($this, array(), 'permissions')));
+                $navigation->addSubNavigation('settings',
+                    new Navigation(dgettext('garudaplugin', 'Einstellungen'),
+                        PluginEngine::getURL($this, array(), 'settings')));
+            }
+            Navigation::addItem('/messaging/garuda', $navigation);
+            NotificationCenter::addObserver($this, 'createNavigation', 'NavigationDidActivateItem');
         }
-        Navigation::addItem('/messaging/garuda', $navigation);
-        NotificationCenter::addObserver($this, 'createNavigation', 'NavigationDidActivateItem');
     }
 
     public function createNavigation() {
