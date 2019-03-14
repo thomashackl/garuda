@@ -127,7 +127,9 @@
             if ($('input[name="sendto"]:checked').val() == 'all' ||
                     $('input[name="sendto"]:checked').val() == 'courses' ||
                     $('input[name="sendto"]:checked').val() == 'list') {
-                $('button[name="add_filter"]').addClass('hidden-js');
+                $('button[name="add_filter"]')
+                    .addClass('hidden-js')
+                    .attr('disabled', true);
             }
 
             $('input[name="sendto"]').on('click', function() {
@@ -145,9 +147,13 @@
                 if ($('input[name="sendto"]:checked').val() != 'all' &&
                     $('input[name="sendto"]:checked').val() != 'courses' &&
                         $('input[name="sendto"]:checked').val() != 'list') {
-                    $('button[name="add_filter"]').removeClass('hidden-js');
+                    $('button[name="add_filter"]')
+                        .removeClass('hidden-js')
+                        .attr('disabled', false);
                 } else {
-                    $('button[name="add_filter"]').addClass('hidden-js');
+                    $('button[name="add_filter"]')
+                        .addClass('hidden-js')
+                        .attr('disabled', true);
                 }
                 if ($('input[name="sendto"]:checked').val() == 'list') {
                     $('#reclist').css('display', 'block');
