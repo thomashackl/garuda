@@ -213,11 +213,8 @@
                     markers.insertAfter($('div.cktoolbar'));
                 });
 
-                var dt = new Date();
-
                 addMarker.unbind().on('click', function() {
                     CKEDITOR.instances[editorId].insertText($('#garuda-markers select option:selected').attr('value'));
-                    console.log($('#garuda-markers select option:selected').attr('value')+dt.getTime());
                     return false;
                 });
 
