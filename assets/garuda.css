@@ -136,6 +136,9 @@ form #preview #message_preview_text {
 .filterfield {
   margin-bottom: 10px;
 }
+.filterfield .fieldconfig select {
+  vertical-align: bottom;
+}
 .studip_form select {
   display: inline;
 }
@@ -152,3 +155,4 @@ form #preview #message_preview_text {
 table.garuda-messages tbody tr td {
   vertical-align: top;
 }
+/*# sourceMappingURL=garuda.css.map */
