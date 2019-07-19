@@ -212,10 +212,12 @@
                 CKEDITOR.instances[editorId].on('instanceReady', function() {
                     markers.insertAfter($('div.cktoolbar'));
                 });
-                addMarker.on('click', function() {
+
+                addMarker.unbind().on('click', function() {
                     CKEDITOR.instances[editorId].insertText($('#garuda-markers select option:selected').attr('value'));
                     return false;
                 });
+
             // No WYSIWYG -> normal toolbar.
             } else {
                 markers.addClass('no-wysiwyg');
