@@ -212,10 +212,15 @@
                 CKEDITOR.instances[editorId].on('instanceReady', function() {
                     markers.insertAfter($('div.cktoolbar'));
                 });
-                addMarker.on('click', function() {
+
+                var dt = new Date();
+
+                addMarker.unbind().on('click', function() {
                     CKEDITOR.instances[editorId].insertText($('#garuda-markers select option:selected').attr('value'));
+                    console.log($('#garuda-markers select option:selected').attr('value')+dt.getTime());
                     return false;
                 });
+
             // No WYSIWYG -> normal toolbar.
             } else {
                 markers.addClass('no-wysiwyg');
