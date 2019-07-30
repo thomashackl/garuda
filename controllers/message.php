@@ -170,6 +170,7 @@ class MessageController extends AuthenticatedController {
         $this->ccsearch = QuickSearch::get('cc_user', $search)
             ->setInputStyle('width:100%')
             ->fireJSFunctionOnSelect('STUDIP.Garuda.addCC')
+            ->withButton()
             ->render();
 
         if (count(Request::getArray('cc')) > 0) {

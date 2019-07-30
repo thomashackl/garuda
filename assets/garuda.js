@@ -212,17 +212,24 @@
                 CKEDITOR.instances[editorId].on('instanceReady', function() {
                     markers.insertAfter($('div.cktoolbar'));
                 });
-                addMarker.on('click', function() {
+
+                addMarker.unbind().on('click', function() {
                     CKEDITOR.instances[editorId].insertText($('#garuda-markers select option:selected').attr('value'));
                     return false;
                 });
+
             // No WYSIWYG -> normal toolbar.
             } else {
                 markers.addClass('no-wysiwyg');
                 markers.insertAfter('div.buttons');
                 addMarker.on('click', function() {
-                    markers.parent().children('textarea').
-                    insertAtCaret($('#garuda-markers select option:selected').attr('value'));
+                    if (STUDIP.editor_enabled) {
+                        CKEDITOR.instances[$('textarea[name="message"]').attr('id')].insertText(
+                            $('label#garuda-markers select option:selected').attr('value'));
+                    } else {
+                        markers.parent().children('textarea').
+                        insertAtCaret($('label#garuda-markers select option:selected').attr('value'));
+                    }
                     return false;
                 });
             }
