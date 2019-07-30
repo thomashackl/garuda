@@ -1,21 +1,22 @@
-<form class="default" id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= $xhr ? ' data-dialog="size=auto"' : '' ?>>
+<form id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= $xhr ? ' data-dialog="size=auto"' : '' ?>>
     <header>
         <h2>
             <?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?>
         </h2>
     </header>
     <section id="filterfields">
-        <?php foreach ($filterfields as $className => $data) { ?>
-        <div class="filterfield" id="<?= $className ?>" data-relation="<?= htmlReady($data['relation']) ?>">
-            <label for="field[]">
-                <?= htmlReady($data['name']) ?>
-            </label>
-            <input type="hidden" name="field[]" value="<?= $className ?>"/>
-            <span class="fieldconfig" data-update-url="<?= $controller->url_for('userfilter/restricted_field_config') ?>">
-                <?= $this->render_partial('userfilter/restricted_field_config', array('field' => new $className())) ?>
-            </span>
+        <div class="filterfield">
+            <select name="field[]" data-config-url="<?= $controller->url_for('userfilter/restricted_field_config') ?>" onchange="STUDIP.Garuda.getFilterConfig(this)">
+                <option value="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
+                <?php foreach ($filterfields as $className => $data) : ?>
+                    <option value="<?= $className ?>"><?= htmlReady($data['name']) ?></option>
+                <?php endforeach ?>
+            </select>
+            <span class="fieldconfig"></span>
         </div>
-        <?php } ?>
+    </section>
+    <section class="filter_action">
+        <?= Studip\Button::create(dgettext('garudaplugin', 'Bedingung hinzufügen'), array('id' => 'add_field')) ?>
     </section>
     <section>
         <?php foreach ($flash->flash as $key => $value) : ?>
