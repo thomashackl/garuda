@@ -35,7 +35,7 @@ class PermissionsController extends AuthenticatedController {
     }
 
     public function index_action() {
-        PageLayout::setTitle(dgettext('garudaplugin', 'Berechtigungen'));
+        PageLayout::setTitle(dgettext('garuda', 'Berechtigungen'));
 
         $this->faculties = Institute::findBySQL("`Institut_id`=`fakultaets_id`");
         usort($this->faculties,
@@ -46,19 +46,19 @@ class PermissionsController extends AuthenticatedController {
                 return strnatcasecmp($a->name, $b->name);
             }
         );
-        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Berechtigung'),
-            dgettext('garudaplugin', "Pro Einrichtung kann festgelegt werden, ob ".
+        Helpbar::get()->addPlainText(dgettext('garuda', 'Berechtigung'),
+            dgettext('garuda', "Pro Einrichtung kann festgelegt werden, ob ".
                 "Personen die Berechtigung 'dozent' oder ".
                 "'admin' haben müssen, um diese Funktion zu ".
                 "nutzen."),
             'icons/16/white/lock-locked.png');
-        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Konfiguration'),
-                            dgettext('garudaplugin', "Hier können Sie pro Einrichtung einstellen, ".
+        Helpbar::get()->addPlainText(dgettext('garuda', 'Konfiguration'),
+                            dgettext('garuda', "Hier können Sie pro Einrichtung einstellen, ".
                                 "welche Studiengänge als Zielgruppe für ".
                                 "Nachrichten erlaubt sind."),
                             'icons/16/white/doctoral_cap.png');
-        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Einrichtungen'),
-                            dgettext('garudaplugin', "Welche Einrichtungen sind neben den eigenen ".
+        Helpbar::get()->addPlainText(dgettext('garuda', 'Einrichtungen'),
+                            dgettext('garuda', "Welche Einrichtungen sind neben den eigenen ".
                                 "als Zielgruppe erlaubt?"),
                             'icons/16/white/institute.png');
     }
@@ -88,9 +88,9 @@ class PermissionsController extends AuthenticatedController {
                 return array('degree' => $data[0], 'subject' => $data[1]);
             }, Request::getArray('studycourses'));
         if (GarudaModel::saveConfiguration(Request::option('institute'), Request::option('perm'), $studycourses, Request::getArray('institutes'))) {
-            PageLayout::postSuccess(dgettext('garudaplugin', 'Die Änderungen wurden gespeichert.'));
+            PageLayout::postSuccess(dgettext('garuda', 'Die Änderungen wurden gespeichert.'));
         } else {
-            PageLayout::postError(dgettext('garudaplugin', 'Die Änderungen konnten nicht gespeichert werden.'));
+            PageLayout::postError(dgettext('garuda', 'Die Änderungen konnten nicht gespeichert werden.'));
         }
         $this->flash['institute_id'] = Request::option('institute');
         $this->relocate('permissions');

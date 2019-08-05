@@ -45,7 +45,7 @@ class SettingsController extends AuthenticatedController {
      */
     public function index_action()
     {
-        PageLayout::setTitle(dgettext('garudaplugin', 'Einstellungen'));
+        PageLayout::setTitle(dgettext('garuda', 'Einstellungen'));
 
         $task = CronjobTask::findOneByClass('GarudaCronjob');
         $this->schedule = CronjobSchedule::findOneByTask_id($task->id);
@@ -67,10 +67,10 @@ class SettingsController extends AuthenticatedController {
         }
 
         if ($success) {
-            PageLayout::postSuccess(dgettext('garudaplugin',
+            PageLayout::postSuccess(dgettext('garuda',
                 'Die Einstellungen wurden gespeichert.'));
         } else {
-            PageLayout::postError(dgettext('garudaplugin',
+            PageLayout::postError(dgettext('garuda',
                 'Die Einstellungen konnten nicht gespeichert werden.'));
         }
         $this->relocate('settings');

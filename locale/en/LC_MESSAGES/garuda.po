@@ -1,4 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
+ SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Thomas Hackl <Thomas.Hackl@uni-passau.de>, 2019.
@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-26 14:31+0100\n"
+"POT-Creation-Date: 2019-08-05 08:34+0200\n"
 "PO-Revision-Date: 2019-02-26 13:42+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
@@ -103,27 +103,27 @@ msgstr "Permission level"
 msgid "Einrichtung"
 msgstr "Institution"
 
-#: GarudaPlugin.class.php:31 controllers/message.php:480
+#: GarudaPlugin.class.php:33 controllers/message.php:481
 msgid "Nachricht schreiben"
 msgstr "Write message"
 
-#: GarudaPlugin.class.php:34
+#: GarudaPlugin.class.php:36
 msgid "Nachrichtenübersicht"
 msgstr "Message overview"
 
-#: GarudaPlugin.class.php:37
+#: GarudaPlugin.class.php:39
 msgid "An wen darf ich schreiben?"
 msgstr "To whom may I write?"
 
-#: GarudaPlugin.class.php:41 controllers/permissions.php:38
+#: GarudaPlugin.class.php:43 controllers/permissions.php:38
 msgid "Berechtigungen"
 msgstr "Permissions"
 
-#: GarudaPlugin.class.php:44 controllers/settings.php:48
+#: GarudaPlugin.class.php:46 controllers/settings.php:48
 msgid "Einstellungen"
 msgstr "Settings"
 
-#: GarudaPlugin.class.php:77
+#: GarudaPlugin.class.php:79
 msgid "Nachrichten an Zielgruppen"
 msgstr "Messages for target audiences"
 
@@ -272,29 +272,29 @@ msgstr ""
 msgid "Personen filtern"
 msgstr "filter persons"
 
-#: controllers/message.php:223
+#: controllers/message.php:224
 msgid "Absender suchen"
 msgstr "Search sender name"
 
-#: controllers/message.php:285
+#: controllers/message.php:286
 msgid "Bitte geben Sie einen Betreff an."
 msgstr "Please enter a message subject."
 
-#: controllers/message.php:288
+#: controllers/message.php:289
 msgid "Bitte geben Sie eine Nachricht an."
 msgstr "Please enter a message text."
 
-#: controllers/message.php:291
+#: controllers/message.php:292
 msgid "Bitte geben Sie mindestens einen Nutzernamen an."
 msgstr "Please enter at least one username."
 
-#: controllers/message.php:295
+#: controllers/message.php:296
 msgid ""
 "Bitte geben Sie mindestens eine Veranstaltung an, deren Teilnehmende die "
 "Nachricht erhalten sollen."
 msgstr "Please enter at least one course to send the message to."
 
-#: controllers/message.php:351
+#: controllers/message.php:352
 msgid ""
 "Ihre Nachricht hat aktuell keine Empfänger und kann daher nicht verschickt "
 "werden. Bitte verändern Sie die Einstellungen oder speichern Sie die "
@@ -303,7 +303,7 @@ msgstr ""
 "Your message cannot be sent because there are no recipients. Please change "
 "your settings or save the message as a template."
 
-#: controllers/message.php:362
+#: controllers/message.php:363
 msgid ""
 "Sie haben angegeben, dass die Nachricht einen alternativen Absender haben "
 "soll, haben aber keine Person als Absender ausgewählt."
@@ -311,11 +311,11 @@ msgstr ""
 "You specified to send the message with an alternative sender name but "
 "haven't given one."
 
-#: controllers/message.php:400
+#: controllers/message.php:401
 msgid "Zielgruppen"
 msgstr "Target audiences"
 
-#: controllers/message.php:401
+#: controllers/message.php:402
 msgid ""
 "Sie können alle Studiengänge und alle Beschäftigten auswählen, die den "
 "Einrichtungen angehören, auf die Sie Zugriff haben."
@@ -323,78 +323,78 @@ msgstr ""
 "You can select all studycourses and employees at the institutes you have "
 "access to."
 
-#: controllers/message.php:408 views/message/write.php:277
+#: controllers/message.php:409 views/message/write.php:277
 msgid "Nachrichteninhalt"
 msgstr "Message content"
 
-#: controllers/message.php:409
+#: controllers/message.php:410
 #, php-format
 msgid "Verwenden Sie [Stud.IP-Textformatierungen]%s im Nachrichteninhalt."
 msgstr "Use [Stud.IP text formatting]%s in your message."
 
-#: controllers/message.php:427
+#: controllers/message.php:428
 #, php-format
 msgid "Vorlage \"%s\" bearbeiten"
 msgstr "Edit template \"%s\""
 
-#: controllers/message.php:431 views/overview/_messages.php:91
+#: controllers/message.php:432 views/overview/_messages.php:91
 msgid "Nachricht bearbeiten"
 msgstr "Edit message"
 
-#: controllers/message.php:504
+#: controllers/message.php:505
 msgid "Aus Vorlage laden"
 msgstr "Load from template"
 
-#: controllers/message.php:524
+#: controllers/message.php:525
 msgid "Mailanhänge sind nicht erlaubt."
 msgstr "Mail attachments are not allowed."
 
-#: controllers/message.php:567
+#: controllers/message.php:568
 msgid "Ein Systemfehler ist beim Upload aufgetreten."
 msgstr "A system error has occurred while uploading."
 
-#: controllers/message.php:642
+#: controllers/message.php:643
 msgid "Alle Personen"
 msgstr "All persons"
 
-#: controllers/message.php:645 views/message/write.php:19
+#: controllers/message.php:646 views/message/write.php:19
 #: views/overview/_messages.php:65
 msgid "Studierende"
 msgstr "Students"
 
-#: controllers/message.php:653 views/message/write.php:28
+#: controllers/message.php:654 views/message/write.php:28
 #: views/overview/_messages.php:67
 msgid "Beschäftigte"
 msgstr "Employees"
 
-#: controllers/message.php:661 views/overview/_messages.php:69
+#: controllers/message.php:662 views/overview/_messages.php:69
 msgid "Teilnehmende von Veranstaltungen"
 msgstr "Course participants"
 
-#: controllers/message.php:669
+#: controllers/message.php:670
 msgid "Manuell erstellte Liste von Personen"
 msgstr "Manual list of usernames"
 
-#: controllers/message.php:673
+#: controllers/message.php:674
 #, php-format
 msgid "Daten vom %s"
 msgstr "Issued: %s"
 
-#: controllers/message.php:741
+#: controllers/message.php:742
 msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
 msgstr "There are less tokens than message recipients!"
 
-#: controllers/message.php:781
+#: controllers/message.php:782
 #, php-format
 msgid "Ihre Nachricht an %u Personen wurde gespeichert."
 msgstr "Your message to %u persons has been saved."
 
-#: controllers/message.php:785
+#: controllers/message.php:786
 #, php-format
 msgid "Ihre Nachricht an %u Personen konnte nicht gespeichert werden."
 msgstr "Your message to %u persons could not be saved."
 
-#: controllers/message.php:806
+#: controllers/message.php:807
 #, php-format
 msgid "Textersetzung %s"
 msgstr "Text replacement %s"
@@ -445,7 +445,7 @@ msgstr "Save"
 
 #: views/settings/index.php:41 views/message/load_template.php:14
 #: views/message/write.php:351 views/userfilter/add.php:32
-#: views/userfilter/addrestricted.php:34 views/overview/edit_message.php:71
+#: views/userfilter/addrestricted.php:35 views/overview/edit_message.php:71
 msgid "Abbrechen"
 msgstr "Cancel"
 
@@ -624,6 +624,7 @@ msgstr "or use tokens from an already sent message:"
 
 #: views/message/write.php:182 views/message/write.php:288
 #: views/permissions/index.php:8 views/userfilter/add.php:6
+#: views/userfilter/addrestricted.php:10
 msgid "bitte auswählen"
 msgstr "please select"
 
@@ -795,11 +796,11 @@ msgstr "No institutes have been assigned to you as target audiences."
 msgid "Welche Personen sollen erfasst werden?"
 msgstr "Which persons should be included?"
 
-#: views/userfilter/add.php:15
+#: views/userfilter/add.php:15 views/userfilter/addrestricted.php:19
 msgid "Bedingung hinzufügen"
 msgstr "Add condition"
 
-#: views/userfilter/add.php:30 views/userfilter/addrestricted.php:33
+#: views/userfilter/add.php:30 views/userfilter/addrestricted.php:34
 msgid "Filter übernehmen"
 msgstr "Save filter"
 

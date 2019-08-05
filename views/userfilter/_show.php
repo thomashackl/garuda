@@ -4,7 +4,7 @@
     <span class="actions">
         <a class="delete" href="<?= $controller->url_for('userfilter/delete', $filter->getId()) ?>"
                 onclick="return STUDIP.Garuda.removeFilter(this)"
-                title="<?= dgettext('garudaplugin', 'löschen') ?>">
+                title="<?= dgettext('garuda', 'löschen') ?>">
             <?= Icon::create('trash', 'clickable'); ?></a>
     </span>
 </div>

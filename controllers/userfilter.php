@@ -19,7 +19,7 @@ class UserfilterController extends AuthenticatedController {
 
     public function before_filter(&$action, &$args) {
         if (!GarudaModel::hasPermission($GLOBALS['user']->id)) {
-            throw new AccessDeniedException(dgettext('garudaplugin',
+            throw new AccessDeniedException(dgettext('garuda',
                 'Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen.'));
         }
 
@@ -38,7 +38,7 @@ class UserfilterController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
 
-        PageLayout::setTitle(dgettext('garudaplugin', 'Personen filtern'));
+        PageLayout::setTitle(dgettext('garuda', 'Personen filtern'));
     }
 
     public function add_action($type, $xhr = false) {

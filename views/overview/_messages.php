@@ -14,15 +14,15 @@
     <thead>
     <tr>
         <?php if ($type == 'template') : ?>
-            <th><?= dgettext('garudaplugin', 'Name') ?></th>
+            <th><?= dgettext('garuda', 'Name') ?></th>
         <?php endif ?>
-        <th><?= dgettext('garudaplugin', 'Autor') ?></th>
-        <th><?= dgettext('garudaplugin', 'Absender') ?></th>
-        <th><?= dgettext('garudaplugin', 'Betreff') ?></th>
-        <th><?= dgettext('garudaplugin', 'Nachricht') ?></th>
-        <th><?= dgettext('garudaplugin', 'Zielgruppe') ?></th>
-        <th><?= dgettext('garudaplugin', 'Erstellt am') ?></th>
-        <th><?= dgettext('garudaplugin', 'Aktion') ?></th>
+        <th><?= dgettext('garuda', 'Autor') ?></th>
+        <th><?= dgettext('garuda', 'Absender') ?></th>
+        <th><?= dgettext('garuda', 'Betreff') ?></th>
+        <th><?= dgettext('garuda', 'Nachricht') ?></th>
+        <th><?= dgettext('garuda', 'Zielgruppe') ?></th>
+        <th><?= dgettext('garuda', 'Erstellt am') ?></th>
+        <th><?= dgettext('garuda', 'Aktion') ?></th>
     </tr>
     </thead>
     <tbody>
@@ -60,15 +60,15 @@
             </td>
             <td>
                 <?php if ($m->target == 'all') : ?>
-                    <?= dgettext('garudaplugin', 'Alle') ?>
+                    <?= dgettext('garuda', 'Alle') ?>
                 <?php elseif ($m->target == 'students') : ?>
-                    <?= dgettext('garudaplugin', 'Studierende') ?>
+                    <?= dgettext('garuda', 'Studierende') ?>
                 <?php elseif ($m->target == 'employees') : ?>
-                    <?= dgettext('garudaplugin', 'Beschäftigte') ?>
+                    <?= dgettext('garuda', 'Beschäftigte') ?>
                 <?php elseif ($m->target == 'courses') : ?>
-                    <?= dgettext('garudaplugin', 'Teilnehmende von Veranstaltungen') ?>
+                    <?= dgettext('garuda', 'Teilnehmende von Veranstaltungen') ?>
                 <?php elseif ($m->target == 'list') : ?>
-                    <?= dgettext('garudaplugin', 'Liste von Nutzern') ?>
+                    <?= dgettext('garuda', 'Liste von Nutzern') ?>
                 <?php endif ?>
                 <?php if (count($m->filters) > 0) : ?>
                     <ul>
@@ -88,14 +88,14 @@
             <td><?= date('d.m.Y H:i', $m->mkdate) ?></td>
             <td>
                 <a href="<?= $controller->url_for('message/write', $type, $m->id)
-                   ?>" title="<?= dgettext('garudaplugin', 'Nachricht bearbeiten') ?>"
+                   ?>" title="<?= dgettext('garuda', 'Nachricht bearbeiten') ?>"
                    data-dialog="size='auto'">
                     <?= Icon::create('edit', 'clickable')->asImg() ?>
                 </a>
                 <a href="<?= $controller->url_for('overview/delete_message', $type, $m->id) ?>" data-confirm="<?=
                     $type == 'message' ?
-                    dgettext('garudaplugin', 'Wollen Sie die Nachricht wirklich löschen?') :
-                    dgettext('garudaplugin', 'Wollen Sie die Vorlage wirklich löschen?')?>">
+                    dgettext('garuda', 'Wollen Sie die Nachricht wirklich löschen?') :
+                    dgettext('garuda', 'Wollen Sie die Vorlage wirklich löschen?')?>">
                     <?= Icon::create('trash', 'clickable')->asImg() ?>
                 </a>
             </td>

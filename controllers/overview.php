@@ -22,7 +22,7 @@ class OverviewController extends AuthenticatedController {
      */
     public function before_filter(&$action, &$args) {
         if (!GarudaModel::hasPermission($GLOBALS['user']->id)) {
-            throw new AccessDeniedException(dgettext('garudaplugin',
+            throw new AccessDeniedException(dgettext('garuda',
                 'Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen.'));
         }
 
@@ -55,11 +55,11 @@ class OverviewController extends AuthenticatedController {
         $this->sidebar = Sidebar::get();
         $this->sidebar->setImage('sidebar/mail-sidebar.png');
         $vw = new ViewsWidget();
-        $vw->addLink(dgettext('garudaplugin', 'Vorlagen'), $this->url_for('overview/templates'))
+        $vw->addLink(dgettext('garuda', 'Vorlagen'), $this->url_for('overview/templates'))
             ->setActive($action == 'templates');
-        $vw->addLink(dgettext('garudaplugin', 'Demnächst zu verschicken'), $this->url_for('overview/to_send'))
+        $vw->addLink(dgettext('garuda', 'Demnächst zu verschicken'), $this->url_for('overview/to_send'))
             ->setActive($action == 'to_send');
-        $vw->addLink(dgettext('garudaplugin', 'Geschützt'), $this->url_for('overview/protected'))
+        $vw->addLink(dgettext('garuda', 'Geschützt'), $this->url_for('overview/protected'))
             ->setActive($action == 'protected');
         $this->sidebar->addWidget($vw);
 
@@ -72,7 +72,7 @@ class OverviewController extends AuthenticatedController {
 
     public function templates_action()
     {
-        PageLayout::setTitle(dgettext('garudaplugin', 'Vorlagen verwalten'));
+        PageLayout::setTitle(dgettext('garuda', 'Vorlagen verwalten'));
 
         $this->templates = GarudaTemplate::findMine();
     }
@@ -82,7 +82,7 @@ class OverviewController extends AuthenticatedController {
      */
     public function to_send_action()
     {
-        PageLayout::setTitle(dgettext('garudaplugin', 'Demnächst zu verschickende Nachrichten'));
+        PageLayout::setTitle(dgettext('garuda', 'Demnächst zu verschickende Nachrichten'));
 
         // Root sees all messages...
         if ($this->i_am_root) {
@@ -110,7 +110,7 @@ class OverviewController extends AuthenticatedController {
      */
     public function protected_action()
     {
-        PageLayout::setTitle(dgettext('garudaplugin', 'Geschützte Nachrichten'));
+        PageLayout::setTitle(dgettext('garuda', 'Geschützte Nachrichten'));
 
         // Root sees all messages...
         if ($this->i_am_root) {
@@ -159,18 +159,18 @@ class OverviewController extends AuthenticatedController {
         if (in_array($GLOBALS['user']->id, array($m->author_id, $m->sender_id)) || $GLOBALS['perm']->have_perm('root')) {
             if ($m->delete()) {
                 PageLayout::postSuccess($type == 'message' ?
-                    dgettext('garudaplugin', 'Die Nachricht wurde gelöscht.') :
-                    dgettext('garudaplugin', 'Die Vorlage wurde gelöscht.'));
+                    dgettext('garuda', 'Die Nachricht wurde gelöscht.') :
+                    dgettext('garuda', 'Die Vorlage wurde gelöscht.'));
             } else {
                 PageLayout::postError($type == 'message' ?
-                    dgettext('garudaplugin', 'Die Nachricht konnte nicht gelöscht werden.') :
-                    dgettext('garudaplugin', 'Die Vorlage konnte nicht gelöscht werden.'));
+                    dgettext('garuda', 'Die Nachricht konnte nicht gelöscht werden.') :
+                    dgettext('garuda', 'Die Vorlage konnte nicht gelöscht werden.'));
             }
         } else {
             PageLayout::postError($type == 'message' ?
-                dgettext('garudaplugin', 'Zugriff verweigert. '.
+                dgettext('garuda', 'Zugriff verweigert. '.
                     'Sie haben nicht die nötigen Rechte, um diese Nachricht zu löschen.') :
-                dgettext('garudaplugin', 'Zugriff verweigert. '.
+                dgettext('garuda', 'Zugriff verweigert. '.
                     'Sie haben nicht die nötigen Rechte, um diese Vorlage zu löschen.'));
         }
         $this->relocate($target);
@@ -300,12 +300,12 @@ class OverviewController extends AuthenticatedController {
                     }
 
                     PageLayout::postSuccess(sprintf(
-                        dgettext('garudaplugin', 'Die Vorlage "%s" wurde gespeichert.'),
+                        dgettext('garuda', 'Die Vorlage "%s" wurde gespeichert.'),
                         $t->name)
                     );
                 } else {
                     PageLayout::postError(sprintf(
-                            dgettext('garudaplugin', 'Die Vorlage "%s" konnte nicht gespeichert werden.'),
+                            dgettext('garuda', 'Die Vorlage "%s" konnte nicht gespeichert werden.'),
                             $t->name)
                     );
                 }

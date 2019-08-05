@@ -1,9 +1,9 @@
 <form id="filterform" action="<?= $controller->url_for('userfilter/save') ?>" method="post"<?= $xhr ? ' data-dialog="size=auto"' : '' ?>>
-    <h2><?= dgettext('garudaplugin', 'Welche Personen sollen erfasst werden?') ?></h2>
+    <h2><?= dgettext('garuda', 'Welche Personen sollen erfasst werden?') ?></h2>
     <section id="filterfields">
         <div class="filterfield">
             <select name="field[]" data-config-url="<?= $controller->url_for('userfilter/field_config') ?>" onchange="STUDIP.Garuda.getFilterConfig(this)">
-                <option value="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
+                <option value="">-- <?= dgettext('garuda', 'bitte auswählen') ?> --</option>
         <?php foreach ($filterfields as $className => $displayName) : ?>
                 <option value="<?= $className ?>"><?= htmlReady($displayName) ?></option>
         <?php endforeach ?>
@@ -12,7 +12,7 @@
         </div>
     </section>
     <section class="filter_action">
-        <?= Studip\Button::create(dgettext('garudaplugin', 'Bedingung hinzufügen'), array('id' => 'add_field')) ?>
+        <?= Studip\Button::create(dgettext('garuda', 'Bedingung hinzufügen'), array('id' => 'add_field')) ?>
     </section>
     <section>
         <?php foreach ($flash->flash as $key => $value) : ?>
@@ -27,9 +27,9 @@
     </section>
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
-        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Filter übernehmen'),
+        <?= Studip\Button::createAccept(dgettext('garuda', 'Filter übernehmen'),
             'submit') ?>
-        <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'),
+        <?= Studip\LinkButton::createCancel(dgettext('garuda', 'Abbrechen'),
             $controller->url_for('message/write')) ?>
     </footer>
 </form>

@@ -21,7 +21,7 @@ class MessageController extends AuthenticatedController {
      */
     public function before_filter(&$action, &$args) {
         if (!GarudaModel::hasPermission($GLOBALS['user']->id)) {
-            throw new AccessDeniedException(dgettext('garudaplugin',
+            throw new AccessDeniedException(dgettext('garuda',
                 'Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen.'));
         }
 
@@ -221,7 +221,7 @@ class MessageController extends AuthenticatedController {
 
             // Prepare search object for alternative message sender.
             $psearch = new PermissionSearch('user',
-                dgettext('garudaplugin', 'Absender suchen'),
+                dgettext('garuda', 'Absender suchen'),
                 'user_id',
                 array(
                     'permission' => array('autor', 'tutor', 'dozent', 'admin', 'root'),
@@ -283,16 +283,16 @@ class MessageController extends AuthenticatedController {
 
             $error = array();
             if (!Request::get('subject')) {
-                $error[] = dgettext('garudaplugin', 'Bitte geben Sie einen Betreff an.');
+                $error[] = dgettext('garuda', 'Bitte geben Sie einen Betreff an.');
             }
             if (!Request::get('message')) {
-                $error[] = dgettext('garudaplugin', 'Bitte geben Sie eine Nachricht an.');
+                $error[] = dgettext('garuda', 'Bitte geben Sie eine Nachricht an.');
             }
             if (Request::option('sendto') == 'list' && !Request::get('list')) {
-                $error[] = dgettext('garudaplugin', 'Bitte geben Sie mindestens einen Nutzernamen an.');
+                $error[] = dgettext('garuda', 'Bitte geben Sie mindestens einen Nutzernamen an.');
             }
             if (Request::option('sendto') == 'courses' && count(Request::getArray('courses')) == 0) {
-                $error[] = dgettext('garudaplugin',
+                $error[] = dgettext('garuda',
                     'Bitte geben Sie mindestens eine Veranstaltung an, '.
                     'deren Teilnehmende die Nachricht erhalten sollen.');
             }
@@ -348,7 +348,7 @@ class MessageController extends AuthenticatedController {
             }
 
             if (count($users) < 1) {
-                $error[] = dgettext('garudaplugin',
+                $error[] = dgettext('garuda',
                     'Ihre Nachricht hat aktuell keine Empfänger '.
                     'und kann daher nicht verschickt werden. '.
                     'Bitte verändern Sie die Einstellungen oder '.
@@ -359,7 +359,7 @@ class MessageController extends AuthenticatedController {
             }
 
             if ($this->flash['sender'] == 'person' && !$this->flash['senderid']) {
-                $error[] = dgettext('garudaplugin',
+                $error[] = dgettext('garuda',
                     'Sie haben angegeben, dass die Nachricht einen '.
                     'alternativen Absender haben soll, haben aber keine '.
                     'Person als Absender ausgewählt.');
@@ -398,16 +398,16 @@ class MessageController extends AuthenticatedController {
         // Show normal page.
         } else {
 
-            Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Zielgruppen'),
-                dgettext('garudaplugin', "Sie können alle Studiengänge und alle ".
+            Helpbar::get()->addPlainText(dgettext('garuda', 'Zielgruppen'),
+                dgettext('garuda', "Sie können alle Studiengänge und alle ".
                     "Beschäftigten auswählen, die den ".
                     "Einrichtungen angehören, auf die Sie Zugriff ".
                     "haben."),
                 Icon::create('group2'));
 
             if (!$this->wysiwyg) {
-                Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Nachrichteninhalt'),
-                    sprintf(dgettext('garudaplugin', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im ' .
+                Helpbar::get()->addPlainText(dgettext('garuda', 'Nachrichteninhalt'),
+                    sprintf(dgettext('garuda', 'Verwenden Sie [Stud.IP-Textformatierungen]%s im ' .
                         'Nachrichteninhalt.'),
                         format_help_url('Basis/VerschiedenesFormat')),
                     Icon::create('edit'));
@@ -425,11 +425,11 @@ class MessageController extends AuthenticatedController {
 
                 if ($type == 'template') {
                     $title = sprintf(
-                        dgettext('garudaplugin', 'Vorlage "%s" bearbeiten'),
+                        dgettext('garuda', 'Vorlage "%s" bearbeiten'),
                         $this->message->name
                     );
                 } else {
-                    $title = dgettext('garudaplugin', 'Nachricht bearbeiten');
+                    $title = dgettext('garuda', 'Nachricht bearbeiten');
                 }
                 PageLayout::setTitle($title);
 
@@ -478,7 +478,7 @@ class MessageController extends AuthenticatedController {
 
             } else {
 
-                PageLayout::setTitle(dgettext('garudaplugin', 'Nachricht schreiben'));
+                PageLayout::setTitle(dgettext('garuda', 'Nachricht schreiben'));
 
                 if ($this->flash['filters']) {
                     foreach (ObjectBuilder::buildMany($this->flash['filters'], 'UserFilter') as $filter) {
@@ -640,10 +640,10 @@ class MessageController extends AuthenticatedController {
 
         switch ($m->target) {
             case 'all':
-                $data[] = array(dgettext('garudaplugin', 'Alle Personen'));
+                $data[] = array(dgettext('garuda', 'Alle Personen'));
                 break;
             case 'students':
-                $data[] = array(dgettext('garudaplugin', 'Studierende'));
+                $data[] = array(dgettext('garuda', 'Studierende'));
                 if (is_array($this->flash['filters']) && count($this->flash['filters']) > 0) {
                     foreach ($filters as $f) {
                         $data[] = array($f->toString());
@@ -651,7 +651,7 @@ class MessageController extends AuthenticatedController {
                 }
                 break;
             case 'employees':
-                $data[] = array(dgettext('garudaplugin', 'Beschäftigte'));
+                $data[] = array(dgettext('garuda', 'Beschäftigte'));
                 if (count($m->filters) > 0) {
                     foreach ($m->filters as $f) {
                         $data[] = array($f->toString());
@@ -659,7 +659,7 @@ class MessageController extends AuthenticatedController {
                 }
                 break;
             case 'courses':
-                $data[] = array(dgettext('garudaplugin', 'Teilnehmende von Veranstaltungen'));
+                $data[] = array(dgettext('garuda', 'Teilnehmende von Veranstaltungen'));
                 if (count($m->courses) > 0) {
                     foreach ($m->courses as $c) {
                         $data[] = array($c->getFullname());
@@ -667,11 +667,11 @@ class MessageController extends AuthenticatedController {
                 }
                 break;
             case 'list':
-                $data[] = array(dgettext('garudaplugin', 'Manuell erstellte Liste von Personen'));
+                $data[] = array(dgettext('garuda', 'Manuell erstellte Liste von Personen'));
                 break;
         }
 
-        $data[] = array(sprintf(dgettext('garudaplugin', 'Daten vom %s'), date('d.m.Y H:i')));
+        $data[] = array(sprintf(dgettext('garuda', 'Daten vom %s'), date('d.m.Y H:i')));
         $data[] = array();
 
         foreach ($recipients as $r) {
@@ -738,7 +738,7 @@ class MessageController extends AuthenticatedController {
 
                     // Assign tokens to job.
                     if (sizeof($tokens) < $numRecipients) {
-                        PageLayout::postError(dgettext('garudaplugin',
+                        PageLayout::postError(dgettext('garuda',
                             'Es gibt weniger Tokens als Personen für den ' .
                             'Nachrichtenempfang!'));
                     } else {
@@ -779,11 +779,11 @@ class MessageController extends AuthenticatedController {
             }
 
             PageLayout::postSuccess(sprintf(
-                dgettext('garudaplugin', 'Ihre Nachricht an %u Personen wurde gespeichert.'),
+                dgettext('garuda', 'Ihre Nachricht an %u Personen wurde gespeichert.'),
                 count($this->flash['users'])));
         } else {
             PageLayout::postSuccess(sprintf(
-                dgettext('garudaplugin', 'Ihre Nachricht an %u Personen konnte nicht gespeichert werden.'),
+                dgettext('garuda', 'Ihre Nachricht an %u Personen konnte nicht gespeichert werden.'),
                 count($this->flash['users'])));
         }
 
@@ -804,7 +804,7 @@ class MessageController extends AuthenticatedController {
     {
         $marker = GarudaMarker::find($marker_id);
         PageLayout::setTitle(sprintf(
-            dgettext('garudaplugin', 'Textersetzung %s'),
+            dgettext('garuda', 'Textersetzung %s'),
             $marker->marker));
         $this->render_text($marker->description);
     }

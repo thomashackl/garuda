@@ -26,11 +26,11 @@ require_once(realpath(__DIR__.'/models/GarudaMessage.php'));
 class GarudaCronjob extends CronJob {
 
     public static function getName() {
-        return dgettext('garudaplugin', 'Nachrichtenversand an Zielgruppen');
+        return dgettext('garuda', 'Nachrichtenversand an Zielgruppen');
     }
 
     public static function getDescription() {
-        return dgettext('garudaplugin', 'Verschickt Nachrichten an gewählte Empfängerkreise.');
+        return dgettext('garuda', 'Verschickt Nachrichten an gewählte Empfängerkreise.');
     }
 
     public static function getParameters() {

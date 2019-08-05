@@ -5,5 +5,5 @@
             'type' => 'template')
     ) ?>
 <?php else : ?>
-    <?= MessageBox::info(dgettext('garudaplugin', 'Es sind keine Nachrichtenvorlagen vorhanden.')) ?>
+    <?= MessageBox::info(dgettext('garuda', 'Es sind keine Nachrichtenvorlagen vorhanden.')) ?>
 <?php endif ?>

@@ -1,5 +1,5 @@
     <label for="institutes[]">
-        <?= dgettext('garudaplugin', 'An welche Einrichtungen (außer der/den eigenen) soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
+        <?= dgettext('garuda', 'An welche Einrichtungen (außer der/den eigenen) soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
     </label>
     <ul class="collapsable css-tree">
         <?php $first = true; ?>
@@ -21,10 +21,10 @@
             </label>
             <span class="actions" id="actions_<?= $i['Institut_id'] ?>">
                 (
-                <?= dgettext('garudaplugin', 'markieren:') ?>
-                <a class="all"><?= dgettext('garudaplugin', 'alle') ?></a>
+                <?= dgettext('garuda', 'markieren:') ?>
+                <a class="all"><?= dgettext('garuda', 'alle') ?></a>
                 |
-                <a class="none"><?= dgettext('garudaplugin', 'keine') ?></a>
+                <a class="none"><?= dgettext('garuda', 'keine') ?></a>
                 )
             </span>
             <ul>

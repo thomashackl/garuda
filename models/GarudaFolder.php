@@ -61,7 +61,7 @@ class GarudaFolder extends MessageFolder {
      */
     public static function getTypeName()
     {
-        return dgettext('garudaplugin', 'Ordner für Nachrichten an Zielgruppen');
+        return dgettext('garuda', 'Ordner für Nachrichten an Zielgruppen');
     }
 
     /**

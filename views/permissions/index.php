@@ -2,10 +2,10 @@
     <section>
         <?= CSRFProtection::tokenTag() ?>
         <label>
-            <?= dgettext('garudaplugin', 'Einrichtung wählen, für die Einstellungen gesetzt werden sollen:') ?>
+            <?= dgettext('garuda', 'Einrichtung wählen, für die Einstellungen gesetzt werden sollen:') ?>
             <select name="institute" id="institute" onchange="STUDIP.Garuda.getConfig()" data-update-url="<?= $controller->url_for('permissions/get') ?>">
                 <option value="">
-                    -- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --
+                    -- <?= dgettext('garuda', 'bitte auswählen') ?> --
                 </option>
                 <?php foreach ($faculties as $faculty) { ?>
                     <option value="<?= $faculty->Institut_id ?>"<?= ($flash['institute_id'] == $faculty->Institut_id) ? ' selected' : '' ?>>

@@ -5,5 +5,5 @@
             'type' => 'message')
     ) ?>
 <?php else : ?>
-    <?= MessageBox::info(dgettext('garudaplugin', 'Es sind keine geschützten Nachrichten vorhanden.')) ?>
+    <?= MessageBox::info(dgettext('garuda', 'Es sind keine geschützten Nachrichten vorhanden.')) ?>
 <?php endif ?>

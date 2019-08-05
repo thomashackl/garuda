@@ -10,8 +10,8 @@ TRANSLATIONFILES_RELATIVE_PATHS="."
 
 for language in en
 do
-    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po" && mv "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po.old"
-    > "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po"
-    find $TRANSLATIONFILES_RELATIVE_PATHS \( -iname "*.php" \) | xargs xgettext --from-code=UTF-8 -j -n --language=PHP -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po"
-    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po.old" && msgmerge "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po.old" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po" --output-file="$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garudaplugin.po"
+    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po" && mv "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po.old"
+    > "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po"
+    find $TRANSLATIONFILES_RELATIVE_PATHS \( -iname "*.php" \) | xargs xgettext --from-code=UTF-8 -j -n --language=PHP -o "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po"
+    test -f "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po.old" && msgmerge "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po.old" "$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po" --output-file="$LOCALE_RELATIVE_PATH/$language/LC_MESSAGES/garuda.po"
 done

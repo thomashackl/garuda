@@ -52,7 +52,7 @@ class RestrictedSubjectFilterField extends SubjectCondition
      */
     public function getName()
     {
-        return dgettext('garudaplugin', "Studienfach");
+        return dgettext('garuda', "Studienfach");
     }
 
     /**

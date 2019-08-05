@@ -1,5 +1,5 @@
 <label for="studycourses[]">
-    <?= dgettext('garudaplugin', 'An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
+    <?= dgettext('garuda', 'An welche Studiengänge soll die gewählte Einrichtung Nachrichten schreiben dürfen?') ?>
 </label>
 <?php foreach ($studycourses as $degree => $degreedata) : ?>
     <?php
@@ -12,10 +12,10 @@
                 </label>
                 <span class="actions" id="actions_<?= $degree ?>">
                     (
-                    <?= dgettext('garudaplugin', 'markieren:') ?>
-                    <a class="all"><?= dgettext('garudaplugin', 'alle') ?></a>
+                    <?= dgettext('garuda', 'markieren:') ?>
+                    <a class="all"><?= dgettext('garuda', 'alle') ?></a>
                     |
-                    <a class="none"><?= dgettext('garudaplugin', 'keine') ?></a>
+                    <a class="none"><?= dgettext('garuda', 'keine') ?></a>
                     )
                 </span>
                 <?php if (count($degreedata['subjects']) > 0) : ?>

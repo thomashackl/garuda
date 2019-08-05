@@ -13,10 +13,10 @@ class PermissionFilterField extends UserFilterField
         );
 
         $this->validValues = array(
-            'autor' => dgettext('garudaplugin', 'Mitglied (Autor/in)'),
-            'tutor' => dgettext('garudaplugin', 'Tutor/in'),
-            'dozent' => dgettext('garudaplugin', 'Lehrende/r'),
-            'admin' => dgettext('garudaplugin', 'Administrator/in')
+            'autor' => dgettext('garuda', 'Mitglied (Autor/in)'),
+            'tutor' => dgettext('garuda', 'Tutor/in'),
+            'dozent' => dgettext('garuda', 'Lehrende/r'),
+            'admin' => dgettext('garuda', 'Administrator/in')
         );
 
         if ($fieldId) {

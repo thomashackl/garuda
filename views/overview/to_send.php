@@ -5,5 +5,5 @@
             'type' => 'message')
     ) ?>
 <?php else : ?>
-    <?= MessageBox::info(dgettext('garudaplugin', 'Es stehen keine Nachrichten zum Versand an.')) ?>
+    <?= MessageBox::info(dgettext('garuda', 'Es stehen keine Nachrichten zum Versand an.')) ?>
 <?php endif ?>

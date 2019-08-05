@@ -1,23 +1,23 @@
 <form class="default garuda-js-init" enctype="multipart/form-data" action="<?= $controller->url_for('message/write') ?>" method="post">
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
-        <legend><?= dgettext('garudaplugin', 'Empfängerkreis') ?></legend>
+        <legend><?= dgettext('garuda', 'Empfängerkreis') ?></legend>
         <label for="sendto"></label>
         <section>
             <header>
-                <?= dgettext('garudaplugin', 'An wen soll die Nachricht gesendet werden?') ?>
+                <?= dgettext('garuda', 'An wen soll die Nachricht gesendet werden?') ?>
             </header>
             <?php if ($allowStudycourses || count($institutes) > 0) : ?>
                 <label>
                     <input type="radio" name="sendto" value="all" <?= ((!$flash['sendto'] || $flash['sendto'] == 'all') ? ' checked' : '') ?>/>
-                    <?= dgettext('garudaplugin', 'alle') ?>
+                    <?= dgettext('garuda', 'alle') ?>
                 </label>
             <?php endif ?>
             <?php if ($allowStudycourses) : ?>
                 <label>
                     <input type="radio" name="sendto" value="students" <?= ($flash['sendto'] == 'students' ? ' checked' : '') ?>/>
-                    <?= dgettext('garudaplugin', 'Studierende') ?>
-                    <?= tooltipIcon(dgettext('garudaplugin',
+                    <?= dgettext('garuda', 'Studierende') ?>
+                    <?= tooltipIcon(dgettext('garuda',
                             'Hierüber werden alle Personen gefunden, die einem '.
                             'oder mehreren Studiengängen zugeordnet sind.')) ?>
                 </label>
@@ -25,23 +25,23 @@
             <?php if (count($institutes) > 0) : ?>
                 <label>
                     <input type="radio" name="sendto" value="employees" <?= ($flash['sendto'] == 'employees' ? ' checked' : '') ?>/>
-                    <?= dgettext('garudaplugin', 'Beschäftigte') ?>
-                    <?= tooltipIcon(dgettext('garudaplugin',
+                    <?= dgettext('garuda', 'Beschäftigte') ?>
+                    <?= tooltipIcon(dgettext('garuda',
                         'Hierüber werden alle Personen gefunden, die mindestens '.
                         'einer Einrichtung zugeordnet sind.')) ?>
                 </label>
             <?php endif ?>
             <label>
                 <input type="radio" name="sendto" value="courses" <?= ($flash['sendto'] == 'courses' ? ' checked' : '') ?>/>
-                <?= dgettext('garudaplugin', 'Veranstaltungsteilnehmende') ?>
-                <?= tooltipIcon(dgettext('garudaplugin',
+                <?= dgettext('garuda', 'Veranstaltungsteilnehmende') ?>
+                <?= tooltipIcon(dgettext('garuda',
                     'Hierüber werden alle Personen gefunden, die als '.
                     'Teilnehmende in eine der gewählten Veranstaltungen '.
                     'eingetragen sind.')) ?>
             </label>
             <div<?= $flash['sendto'] == 'courses' ? '' : ' class="hidden-js"' ?> id="garuda-coursesearch">
                 <label>
-                    <?= dgettext('garudaplugin', 'Suchen und Hinzufügen der gewünschten Veranstaltungen') ?>
+                    <?= dgettext('garuda', 'Suchen und Hinzufügen der gewünschten Veranstaltungen') ?>
                     <?= $coursesearch ?>
                 </label>
                 <ul id="garuda-courses">
@@ -58,10 +58,10 @@
             <label>
                 <?php if ($i_am_root) { ?>
                 <input type="radio" name="sendto" value="list" <?= ($flash['sendto'] == 'list' ? ' checked' : '') ?>/>
-                <?= dgettext('garudaplugin', 'Manuelle Liste von Nutzernamen') ?>
+                <?= dgettext('garuda', 'Manuelle Liste von Nutzernamen') ?>
             </label>
             <label id="reclist">
-                <textarea name="list" placeholder="<?= dgettext('garudaplugin',
+                <textarea name="list" placeholder="<?= dgettext('garuda',
                     'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht '.
                     'empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"
                           cols="80" rows="7"><?= htmlReady($flash['list']) ?></textarea>
@@ -87,15 +87,15 @@
                 <?= $this->render_partial('userfilter/_show', array('filter' => $filter)) ?>
             <?php endforeach ?>
             <br>
-            <?= Studip\Button::create(dgettext('garudaplugin', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
+            <?= Studip\Button::create(dgettext('garuda', 'Filter hinzufügen'), 'add_filter', array('data-dialog' => '')); ?>
         </section>
         <section id="exclude">
             <label>
                 <input type="checkbox" name="exclude"<?= $flash['excludelist'] ? ' checked' : ''?>>
-                <?= dgettext('garudaplugin', 'Personen ausschließen') ?>
+                <?= dgettext('garuda', 'Personen ausschließen') ?>
             </label>
             <label id="excludelist">
-                <textarea name="excludelist" placeholder="<?= dgettext('garudaplugin',
+                <textarea name="excludelist" placeholder="<?= dgettext('garuda',
                     'Tragen Sie hier die Nutzernamen ein, die Ihre Nachricht NICHT '.
                     'empfangen sollen (getrennt durch Zeilenumbruch oder Komma)') ?>"
                           cols="80" rows="7"><?= htmlReady($flash['excludelist']) ?></textarea>
@@ -105,7 +105,7 @@
     </fieldset>
     <fieldset>
         <legend>
-            <?= dgettext('garudaplugin', 'In Kopie an') ?>
+            <?= dgettext('garuda', 'In Kopie an') ?>
         </legend>
         <section id="cc">
             <?= $ccsearch ?>
@@ -123,15 +123,15 @@
     </fieldset>
     <?php if ($i_am_root) { ?>
     <fieldset>
-        <legend><?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes') ?></legend>
+        <legend><?= dgettext('garuda', 'Personalisierte Teilnahmecodes') ?></legend>
         <section>
             <label>
                 <input type="checkbox" name="use_tokens" value="1"<?= $flash['use_tokens'] ? ' checked' : '' ?>>
-                <?= dgettext('garudaplugin', 'Personalisierte Teilnahmecodes o.ä. verwenden') ?>
+                <?= dgettext('garuda', 'Personalisierte Teilnahmecodes o.ä. verwenden') ?>
             </label>
         </section>
         <section class="use-tokens<?= $flash['use_tokens'] ? '' : ' hidden-js' ?>">
-            <label for="token-file"><?= dgettext('garudaplugin',
+            <label for="token-file"><?= dgettext('garuda',
                 'Laden Sie hier eine Textdatei hoch, die die Texte enthält, die in '.
                 'der Nachricht an jeden einzelnen Empfänger personalisiert '.
                 'verschickt werden sollen (Teilnahmecodes/Links etc.)') ?></label>
@@ -175,11 +175,11 @@
         <?php if ($messages) { ?>
             <section class="use-tokens hidden-js">
                 <label for="message_tokens">
-                    <?= dgettext('garudaplugin', 'oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:') ?>
+                    <?= dgettext('garuda', 'oder verwenden Sie Tokens aus einer bereits verschickten Nachricht:') ?>
                 </label>
                 <select name="message_tokens">
                     <option value="">
-                        -- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --
+                        -- <?= dgettext('garuda', 'bitte auswählen') ?> --
                     </option>
                     <?php foreach ($messages as $m) { ?>
                     <option value="<?= $m['job_id'] ?>">
@@ -238,27 +238,27 @@
     <?php endif ?>
     <?php if ($i_am_root) { ?>
         <fieldset>
-            <legend><?= dgettext('garudaplugin', 'Absender') ?></legend>
+            <legend><?= dgettext('garuda', 'Absender') ?></legend>
             <section>
                 <label>
                     <input type="radio" name="sender" class="garuda-sender-config" value="me"<?=
                         (!$sender || $sender == 'me') ? 'checked' : '' ?>>
-                    <?= dgettext('garudaplugin', 'Die Nachricht von meiner Kennung verschicken') ?>
+                    <?= dgettext('garuda', 'Die Nachricht von meiner Kennung verschicken') ?>
                 </label>
             </section>
             <section>
                 <label>
                     <input type="radio" name="sender" class="garuda-sender-config" value="person"<?=
                         $sender == 'person' ? 'checked' : '' ?>>
-                    <?= dgettext('garudaplugin', 'Eine andere Person als Absender eintragen') ?>
+                    <?= dgettext('garuda', 'Eine andere Person als Absender eintragen') ?>
                     <span id="garuda-sendername"<?= ($sender == 'person' && $senderid) ? '' : ' class="hidden-js"' ?>>
                         (<?= $user ? htmlReady($user->getFullname()) . '(' .
-                            htmlReady($user->username) . ')' : dgettext('garudaplugin', 'niemand') ?>)
+                            htmlReady($user->username) . ')' : dgettext('garuda', 'niemand') ?>)
                     </span>
                 </label>
                 <div id="garuda-sender-choose-person"<?= $sender == 'person' ? '' : ' class="hidden-js"' ?>>
                     <label for="fromsearch_1">
-                        <?= dgettext('garudaplugin', 'Alternativen Absender suchen') ?>
+                        <?= dgettext('garuda', 'Alternativen Absender suchen') ?>
                         <?= $fromsearch ?>
                     </label>
                     <input type="hidden" name="senderid" id="garuda-senderid" value="<?= $senderid ?>">
@@ -268,24 +268,24 @@
                 <label>
                     <input type="radio" name="sender" class="garuda-sender-config" value="system"<?=
                         $sender == 'system' ? 'checked' : ''?>>
-                    <?= dgettext('garudaplugin', 'Anonym, mit "Stud.IP" als Absender verschicken') ?>
+                    <?= dgettext('garuda', 'Anonym, mit "Stud.IP" als Absender verschicken') ?>
                 </label>
             </section>
         </fieldset>
     <?php } ?>
     <fieldset>
-        <legend><?= dgettext('garudaplugin', 'Nachrichteninhalt') ?></legend>
+        <legend><?= dgettext('garuda', 'Nachrichteninhalt') ?></legend>
         <section id="message">
             <label for="subject">
                 <span class="required">
-                    <?= dgettext('garudaplugin', 'Betreff') ?>
+                    <?= dgettext('garuda', 'Betreff') ?>
                 </span>
-                <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="75" maxlength="255"/>
+                <input type="text" name="subject" value="<?= htmlReady($flash['subject']) ?>" placeholder="<?= dgettext('garuda', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>" size="75" maxlength="255"/>
             </label>
             <label id="garuda-markers">
-                <?= dgettext('garudaplugin', 'Feld für Serienmail einfügen') ?>
+                <?= dgettext('garuda', 'Feld für Serienmail einfügen') ?>
                 <select name="markers">
-                    <option value="" data-description="">-- <?= dgettext('garudaplugin', 'bitte auswählen') ?> --</option>
+                    <option value="" data-description="">-- <?= dgettext('garuda', 'bitte auswählen') ?> --</option>
                     <?php foreach ($markers as $marker) : ?>
                         <?php if ($GLOBALS['perm']->have_perm($marker->permission)) : ?>
                             <option value="###<?= $marker->marker ?>###" data-description="<?= htmlReady(nl2br($marker->description)) ?>"><?= htmlReady($marker->name) ?></option>
@@ -297,18 +297,18 @@
             </label>
             <label for="message">
                 <span class="required">
-                    <?= dgettext('garudaplugin', 'Nachrichtentext') ?>
+                    <?= dgettext('garuda', 'Nachrichtentext') ?>
                 </span>
             </label>
             <textarea name="message" class="add_toolbar wysiwyg size-l" id="message"
-                      placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>"
+                      placeholder="<?= dgettext('garuda', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>"
                       <?= !$wysiwyg ? 'data-preview-url="' . $controller->url_for('message/preview') . '"' : '' ?>"
                       cols="75" rows="20"><?= htmlReady($flash['message']) ?></textarea>
         </section>
         <?php if (!$wysiwyg) : ?>
             <section id="preview">
                 <label>
-                    <?= dgettext('garudaplugin', 'Vorschau der Nachricht') ?>
+                    <?= dgettext('garuda', 'Vorschau der Nachricht') ?>
                     <div id="message_preview_text"></div>
                 </label>
             </section>
@@ -317,7 +317,7 @@
             <section>
                 <label style="clear:both">
                     <input type="checkbox" name="protected"<?= $flash['protected'] ? ' checked' : '' ?>/>
-                    <?= dgettext('garudaplugin', 'Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden') ?>
+                    <?= dgettext('garuda', 'Beim automatischen Bereinigen soll diese Nachricht nicht entfernt werden') ?>
                 </label>
             </section>
         <?php } ?>
@@ -325,17 +325,17 @@
     <?= CSRFProtection::tokenTag() ?>
     <fieldset>
         <legend>
-            <?= dgettext('garudaplugin', 'Versandzeitpunkt') ?>
+            <?= dgettext('garuda', 'Versandzeitpunkt') ?>
         </legend>
         <section>
             <label>
                 <input type="checkbox" name="send_at_date"<?= $flash['send_at_date'] ? ' checked' : '' ?>>
-                <?= dgettext('garudaplugin', 'Nachricht erst zu einem späteren Zeitpunkt verschicken') ?>
+                <?= dgettext('garuda', 'Nachricht erst zu einem späteren Zeitpunkt verschicken') ?>
             </label>
         </section>
         <section class="send_date<?= $flash['send_at_date'] ? '' : ' hidden-js' ?>">
             <label>
-                <?= dgettext('garudaplugin', 'Wann soll die Nachricht verschickt werden?') ?>
+                <?= dgettext('garuda', 'Wann soll die Nachricht verschickt werden?') ?>
                 <input type="text" name="send_date" size="25" value="<?= $flash['send_date'] ?
                     date('d.m.Y H:i', $flash['send_date']) : date('d.m.Y H:i') ?>">
             </label>
@@ -347,14 +347,14 @@
         <input type="hidden" name="type" value="<?= $type ?>">
         <?php if ($message && Request::isXhr()) : ?>
             <input type="hidden" name="landingpoint" value="<?= $controller->url_for($type == 'template' ? 'overview/templates' : 'overview/to_send') ?>">
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Änderungen speichern'), 'store') ?>
+            <?= Studip\Button::createAccept(dgettext('garuda', 'Änderungen speichern'), 'store') ?>
             <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
         <?php else : ?>
-            <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Nachricht verschicken'), 'submit') ?>
-            <?= Studip\Button::create(dgettext('garudaplugin', 'Als Vorlage speichern'),
+            <?= Studip\Button::createAccept(dgettext('garuda', 'Nachricht verschicken'), 'submit') ?>
+            <?= Studip\Button::create(dgettext('garuda', 'Als Vorlage speichern'),
                 'save_template', array('data-dialog' => 'size=auto')) ?>
             <?php if (Config::get()->GARUDA_ENABLE_EXPORT) : ?>
-                <?= Studip\Button::create(dgettext('garudaplugin', 'Empfängerliste exportieren'), 'export') ?>
+                <?= Studip\Button::create(dgettext('garuda', 'Empfängerliste exportieren'), 'export') ?>
             <?php endif ?>
         <?php endif ?>
     </footer>

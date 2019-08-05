@@ -5,7 +5,7 @@
 </select>
 <select name="value[]" class="conditionfield_value" onchange="STUDIP.Garuda.getFieldConfig(this)">
     <option value="">
-        <?= dgettext('garudaplugin', 'alle') ?>
+        <?= dgettext('garuda', 'alle') ?>
     </option>
     <?php foreach ($field->getValidValues() as $id => $name) { ?>
     <option value="<?= $id ?>"<?= ($id === $field->getValue() ? ' selected' : '') ?>>

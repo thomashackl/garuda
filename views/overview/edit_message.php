@@ -3,7 +3,7 @@
         <section>
             <label>
                 <span class="required">
-                    <?= dgettext('garudaplugin', 'Name der Vorlage') ?>
+                    <?= dgettext('garuda', 'Name der Vorlage') ?>
                 </span>
                 <input type="text" name="name" maxlength="255" value="<?= $message->name ?>" required>
             </label>
@@ -47,18 +47,18 @@
         <section id="message">
             <label>
                 <span class="required">
-                    <?= dgettext('garudaplugin', 'Betreff') ?>
+                    <?= dgettext('garuda', 'Betreff') ?>
                 </span>
                 <input type="text" name="subject" value="<?= htmlReady($message->subject) ?>"
-                       placeholder="<?= dgettext('garudaplugin', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>"
+                       placeholder="<?= dgettext('garuda', 'Geben Sie hier den Betreff Ihrer Nachricht ein.') ?>"
                        size="75" maxlength="255">
             </label>
             <label>
                 <span class="required">
-                    <?= dgettext('garudaplugin', 'Nachrichtentext') ?>
+                    <?= dgettext('garuda', 'Nachrichtentext') ?>
                 </span>
                 <textarea name="message" placeholder="<?=
-                    dgettext('garudaplugin', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>"
+                    dgettext('garuda', 'Geben Sie hier den Inhalt Ihrer Nachricht ein.') ?>"
                           data-preview-url="<?= $controller->url_for('message/preview') ?>"
                           cols="75" rows="20"><?= htmlReady($message->message) ?></textarea>
             </label>
@@ -67,8 +67,8 @@
     <input type="hidden" name="type" value="<?= $type ?>">
     <?= CSRFProtection::tokenTag() ?>
     <footer data-dialog-button>
-        <?= Studip\Button::createAccept(dgettext('garudaplugin', 'Speichern'), 'submit') ?>
-        <?= Studip\LinkButton::createCancel(dgettext('garudaplugin', 'Abbrechen'),
+        <?= Studip\Button::createAccept(dgettext('garuda', 'Speichern'), 'submit') ?>
+        <?= Studip\LinkButton::createCancel(dgettext('garuda', 'Abbrechen'),
             $controller->url_for($type == 'template' ? 'message' : 'overview')) ?>
     </footer>
 </form>

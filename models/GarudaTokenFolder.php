@@ -61,7 +61,7 @@ class GarudaTokenFolder extends GarudaFolder {
      */
     public static function getTypeName()
     {
-        return dgettext('garudaplugin', 'Ordner für Teilnahmecodes in Nachrichten an Zielgruppen');
+        return dgettext('garuda', 'Ordner für Teilnahmecodes in Nachrichten an Zielgruppen');
     }
 
 }

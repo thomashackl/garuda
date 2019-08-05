@@ -35,8 +35,8 @@ class StatusgroupFilterField extends UserFilterField
             )
         );
         $this->validCompareOperators = array(
-            '=' => dgettext('garudaplugin', 'ist'),
-            '!=' => dgettext('garudaplugin', 'ist nicht')
+            '=' => dgettext('garuda', 'ist'),
+            '!=' => dgettext('garuda', 'ist nicht')
         );
         // Get all available institute statusgroups from database.
         $stmt = DBManager::get()->query(
@@ -64,7 +64,7 @@ class StatusgroupFilterField extends UserFilterField
      */
     public function getName()
     {
-        return dgettext('garudaplugin', "Statusgruppe");
+        return dgettext('garuda', "Statusgruppe");
     }
 
     /**

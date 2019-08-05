@@ -18,7 +18,7 @@ class RecipientsController extends AuthenticatedController {
 
     public function before_filter(&$action, &$args) {
         if (!GarudaModel::hasPermission($GLOBALS['user']->id)) {
-            throw new AccessDeniedException(dgettext('garudaplugin',
+            throw new AccessDeniedException(dgettext('garuda',
                 'Sie haben nicht die Berechtigung, diese Funktionalität zu nutzen.'));
         }
 
@@ -42,10 +42,10 @@ class RecipientsController extends AuthenticatedController {
     }
 
     public function index_action() {
-        PageLayout::setTitle(dgettext('garudaplugin', 'An welche Empfängerkreise darf ich schreiben?'));
+        PageLayout::setTitle(dgettext('garuda', 'An welche Empfängerkreise darf ich schreiben?'));
 
-        Helpbar::get()->addPlainText(dgettext('garudaplugin', 'Erlaubte Zielgruppen'),
-            dgettext('garudaplugin', "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."),
+        Helpbar::get()->addPlainText(dgettext('garuda', 'Erlaubte Zielgruppen'),
+            dgettext('garuda', "Hier sehen Sie, an welche Empfängerkreise Sie Nachrichten verschicken können."),
             Icon::create('mail', 'navigation'));
         if (!$this->i_am_root) {
             $this->studycourses = array();
