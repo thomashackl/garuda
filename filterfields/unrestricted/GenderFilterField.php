@@ -8,14 +8,14 @@ class GenderFilterField extends UserFilterField
     public function __construct($fieldId='')
     {
         $this->validCompareOperators = array(
-            '='   => _('ist'),
-            '!=' => _('ist nicht'),
+            '='   => dgettext('garuda', 'ist'),
+            '!=' => dgettext('garuda', 'ist nicht'),
         );
  
         $this->validValues = array(
-            0 => _('unbekannt'),
-            1 => _('männlich'),
-            2 => _('weiblich'),
+            0 => dgettext('garuda', 'unbekannt'),
+            1 => dgettext('garuda', 'männlich'),
+            2 => dgettext('garuda', 'weiblich'),
         );
  
         if ($fieldId) {
@@ -28,7 +28,7 @@ class GenderFilterField extends UserFilterField
  
     public function getName()
     {
-        return _('Geschlecht');
+        return dgettext('garuda', 'Geschlecht');
     }
  
     /**

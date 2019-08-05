@@ -163,12 +163,12 @@
                     </div>
                     <label style="cursor: pointer;">
                         <input type="file" id="tokens-fileupload" onChange="STUDIP.Garuda.uploadFromInput(this, 'tokens');" style="display: none;">
-                        <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
-                        <?= _("Datei hochladen") ?>
+                        <?= Icon::create('upload', 'clickable', ['title' => dgettext('garuda', 'Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
+                        <?= dgettext('garuda', "Datei hochladen") ?>
                     </label>
 
-                    <div id="tokens-upload-finished" style="display: none"><?= _("wird verarbeitet") ?></div>
-                    <div id="tokens-upload-received-data" style="display: none"><?= _("gespeichert") ?></div>
+                    <div id="tokens-upload-finished" style="display: none"><?= dgettext('garuda', "wird verarbeitet") ?></div>
+                    <div id="tokens-upload-received-data" style="display: none"><?= dgettext('garuda', "gespeichert") ?></div>
                 </div>
             </div>
         </section>
@@ -193,11 +193,11 @@
     <?php } ?>
     <?php if ($GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) : ?>
         <fieldset id="attachments">
-            <legend><?= _('Anhänge') ?></legend>
+            <legend><?= dgettext('garuda', 'Anhänge') ?></legend>
             <section>
-                <label for="attachments"><?= _('Laden Sie hier Dateianhänge hoch.') ?></label>
+                <label for="attachments"><?= dgettext('garuda', 'Laden Sie hier Dateianhänge hoch.') ?></label>
                 <div id="attachments">
-                    <h4><?= _('Anhänge') ?></h4>
+                    <h4><?= dgettext('garuda', 'Anhänge') ?></h4>
                     <div>
                         <ul class="files">
                             <li style="display: none;" class="file">
@@ -225,12 +225,12 @@
                         </div>
                         <label style="cursor: pointer;">
                             <input type="file" id="attachments-fileupload" multiple onChange="STUDIP.Garuda.uploadFromInput(this, 'attachments');" style="display: none;">
-                            <?= Icon::create('upload', 'clickable', ['title' => _('Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
-                            <?= _("Datei hochladen") ?>
+                            <?= Icon::create('upload', 'clickable', ['title' => dgettext('garuda', 'Datei hochladen'), 'class' => 'text-bottom'])->asImg(20) ?>
+                            <?= dgettext('garuda', "Datei hochladen") ?>
                         </label>
 
-                        <div id="attachments-upload-finished" style="display: none"><?= _("wird verarbeitet") ?></div>
-                        <div id="attachments-upload-received-data" style="display: none"><?= _("gespeichert") ?></div>
+                        <div id="attachments-upload-finished" style="display: none"><?= dgettext('garuda', "wird verarbeitet") ?></div>
+                        <div id="attachments-upload-received-data" style="display: none"><?= dgettext('garuda', "gespeichert") ?></div>
                     </div>
                 </div>
             </section>
@@ -292,7 +292,7 @@
                         <?php endif ?>
                     <?php endforeach ?>
                 </select>
-                <?= Studip\LinkButton::createAccept(_('Einsetzen'), '', array('id' => 'garuda-add-marker', 'class' => 'hidden-js')) ?>
+                <?= Studip\LinkButton::createAccept(dgettext('garuda', 'Einsetzen'), '', array('id' => 'garuda-add-marker', 'class' => 'hidden-js')) ?>
                 <div id="garuda-marker-description"></div>
             </label>
             <label for="message">
@@ -348,7 +348,7 @@
         <?php if ($message && Request::isXhr()) : ?>
             <input type="hidden" name="landingpoint" value="<?= $controller->url_for($type == 'template' ? 'overview/templates' : 'overview/to_send') ?>">
             <?= Studip\Button::createAccept(dgettext('garuda', 'Änderungen speichern'), 'store') ?>
-            <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('message/write')) ?>
+            <?= Studip\LinkButton::createCancel(dgettext('garuda', 'Abbrechen'), $controller->url_for('message/write')) ?>
         <?php else : ?>
             <?= Studip\Button::createAccept(dgettext('garuda', 'Nachricht verschicken'), 'submit') ?>
             <?= Studip\Button::create(dgettext('garuda', 'Als Vorlage speichern'),

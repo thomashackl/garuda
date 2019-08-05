@@ -502,7 +502,7 @@ class MessageController extends AuthenticatedController {
             if (GarudaTemplate::findByAuthor_id($GLOBALS['user']->id)) {
                 // Groups
                 $actions = new ActionsWidget();
-                $actions->addLink(_('Aus Vorlage laden'),
+                $actions->addLink(dgettext('garuda', 'Aus Vorlage laden'),
                     $this->url_for('message/load_template'),
                     Icon::create('mail+edit', 'clickable'))->asDialog('size=auto');
                 $this->sidebar->addWidget($actions);
@@ -522,7 +522,7 @@ class MessageController extends AuthenticatedController {
             throw new AccessDeniedException();
         }
         if ($type === 'attachments' && !$GLOBALS['ENABLE_EMAIL_ATTACHMENTS']) {
-            throw new AccessDeniedException(_('Mailanhänge sind nicht erlaubt.'));
+            throw new AccessDeniedException(dgettext('garuda', 'Mailanhänge sind nicht erlaubt.'));
         }
         $file = $_FILES['file'];
         $output = array(
@@ -565,7 +565,7 @@ class MessageController extends AuthenticatedController {
         $file_ref = $topFolder->createFile($file);
 
         if (!$file_ref instanceof FileRef) {
-            $error = _('Ein Systemfehler ist beim Upload aufgetreten.');
+            $error = dgettext('garuda', 'Ein Systemfehler ist beim Upload aufgetreten.');
 
             if ($file_ref instanceof MessageBox) {
                 $error .= ' ' . $file_ref->message;

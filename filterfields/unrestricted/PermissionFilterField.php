@@ -8,8 +8,8 @@ class PermissionFilterField extends UserFilterField
     public function __construct($fieldId='')
     {
         $this->validCompareOperators = array(
-            '='   => _('ist'),
-            '!=' => _('ist nicht'),
+            '='   => dgettext('garuda', 'ist'),
+            '!=' => dgettext('garuda', 'ist nicht'),
         );
 
         $this->validValues = array(
@@ -29,7 +29,7 @@ class PermissionFilterField extends UserFilterField
 
     public function getName()
     {
-        return _('Rechtestufe');
+        return dgettext('garuda', 'Rechtestufe');
     }
 
     /**
