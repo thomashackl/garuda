@@ -29,7 +29,6 @@ class DatafieldFilterField extends ValueInputFilterField
                 //set them up for each type.
                 $simplified_type = 'text';
                 $field_values = [];
-                var_dump($field->type);
                 if (in_array($field->type, ['selectbox', 'selectboxmultiple', 'radio'])) {
                     $simplified_type = 'select';
                     //Get the values by using DataFieldEntry etc.
@@ -60,5 +59,26 @@ class DatafieldFilterField extends ValueInputFilterField
     public function getName()
     {
         return dgettext('garuda', 'Datenfeld');
+    }
+
+
+    public function getUsers($restrictions = [])
+    {
+        $db = DBManager::get();
+        $stmt = $db->prepare(
+            "SELECT `user_id` FROM `auth_user_md5`
+            INNER JOIN `datafields_entries`
+            ON `auth_user_md5`.`user_id` = `datafields_entries`.`range_id`
+            INNER JOIN `datafields` USING (`datafield_id`)
+            WHERE `datafields`.`datafield_id` = :datafield_id
+            AND `datafields_entries`.`content` = :value"
+        );
+        $stmt->execute(
+            [
+                'datafield_id' => $this->value,
+                'value' => $this->second_input_value
+            ]
+        );
+        return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 }

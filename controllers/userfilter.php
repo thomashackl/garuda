@@ -142,6 +142,9 @@ class UserfilterController extends AuthenticatedController
                 $currentField = new $fieldType($param);
                 $currentField->setCompareOperator($compareOps[$i]);
                 $currentField->setValue($values[$i]);
+                if ($currentField instanceof ValueInputFilterField) {
+                    $currentField->setSecondInputValue($value_inputs[$values[$i]]);
+                }
                 $filter->addField($currentField);
             }
         }
