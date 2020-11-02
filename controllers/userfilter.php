@@ -48,7 +48,8 @@ class UserfilterController extends AuthenticatedController {
                     'InstituteFilterField' => InstituteFilterField::getName(),
                     'StatusgroupFilterField' => StatusgroupFilterField::getName(),
                     'GenderFilterField' => GenderFilterField::getName(),
-                    'PermissionFilterField' => PermissionFilterField::getName()
+                    'PermissionFilterField' => PermissionFilterField::getName(),
+                    'DatafieldFilterField' => DatafieldFilterField::getName()
                 );
                 break;
             case 'students':
