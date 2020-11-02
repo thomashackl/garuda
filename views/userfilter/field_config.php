@@ -18,7 +18,7 @@ $values = $field->getValidValues();
             <? if ($data['type'] == 'select') : ?>
                 <label>
                     <?= dgettext('garuda', 'mit Wert') ?>
-                    <select name="value_input_<?= htmlReady($id)?>">
+                    <select name="value_input[<?= htmlReady($id)?>]">
                         <option value="">(<?= dgettext('garuda', 'bitte wählen') ?>)</option>
                         <? foreach ($data['values'] as $value => $text) : ?>
                             <option value="<?= htmlReady($value)?>">
@@ -28,17 +28,17 @@ $values = $field->getValidValues();
                     </select>
                 </label>
             <? elseif ($data['type'] == 'bool') : ?>
-                <input type="hidden" name="value_input_<?= htmlReady($id)?>"
+                <input type="hidden" name="value_input[<?= htmlReady($id)?>]"
                        value="0">
                 <label>
-                    <input type="checkbox" name="value_input_<?= htmlReady($id)?>"
+                    <input type="checkbox" name="value_input[<?= htmlReady($id)?>]"
                            value="1">
                     <?= dgettext('garuda', 'Feld ist gesetzt') ?>
                 </label>
             <? else : ?>
                 <label>
                     <?= dgettext('garuda', 'mit Wert') ?>
-                    <input type="text" name="value_input_<?= htmlReady($id)?>">
+                    <input type="text" name="value_input[<?= htmlReady($id)?>]">
                 </label>
             <? endif ?>
         <? endforeach ?>

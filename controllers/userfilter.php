@@ -15,7 +15,8 @@
  * @category    Garuda
  */
 
-class UserfilterController extends AuthenticatedController {
+class UserfilterController extends AuthenticatedController
+{
 
     public function before_filter(&$action, &$args) {
         if (!GarudaModel::hasPermission($GLOBALS['user']->id)) {
@@ -125,12 +126,14 @@ class UserfilterController extends AuthenticatedController {
         $this->field = new $className('', array('compare' => $restrictionCompare, 'value' => $restrictionValue));
     }
 
-    public function save_action() {
+    public function save_action()
+    {
         CSRFProtection::verifyUnsafeRequest();
         $filter = new UserFilter();
         $fields = Request::getArray('field');
         $compareOps = Request::getArray('compare_operator');
         $values = Request::getArray('value');
+        $value_inputs = Request::getArray('value_input');
 
         for ($i=0 ; $i < sizeof($fields) ; $i++) {
             $className = $fields[$i];
@@ -188,6 +191,7 @@ class UserfilterController extends AuthenticatedController {
         }
 
         $this->flash['filters'] = $filters;
+        $this->flash['value_inputs'] = $value_inputs;
 
         $this->redirect($this->url_for('message/write', Request::option('type', 'message'), Request::option('id')));
     }
@@ -204,5 +208,5 @@ class UserfilterController extends AuthenticatedController {
         $args = array_map("urlencode", $args);
         $args[0] = $to;
         return PluginEngine::getURL($this->plugin, $params, join("/", $args));
-    } 
+    }
 }
