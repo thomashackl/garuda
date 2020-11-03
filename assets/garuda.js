@@ -362,6 +362,31 @@
             $(element).siblings('.fieldconfig').load(url);
         },
 
+        /**
+         * This method activates the correct second value field for
+         * filters that provide such fields.
+         */
+        showSecondValueField: function(element) {
+            var filter_value = jQuery(element).value();
+            var element_parent = jQuery(element).parent();
+            if (!element_parent) {
+                //Invalid DOM.
+                return;
+            }
+            //Hide all second value fields:
+            var second_value_labels = jQuery(element_parent).find('label.second_value');
+            jQuery(second_value_labels).addClass('invisible');
+            if (!filter_value) {
+                return;
+            }
+            for (label of second_value_labels) {
+                if (jQuery(label).data('id') == filter_value) {
+                    jQuery(label).removeClass('invisible');
+                    return;
+                }
+            }
+        },
+
         removeFilter: function(element) {
             $(element).parents('.userfilter').remove();
             var textfield = $('.filtertext');
