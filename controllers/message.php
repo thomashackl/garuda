@@ -626,7 +626,7 @@ class MessageController extends AuthenticatedController {
                 $recipients = array_merge($recipients, $f->getUsers());
             }
 
-            $recipients = User::findMany($recipients, "ORDER BY `Nachname`, `Vorname`, `username");
+            $recipients = User::findMany($recipients, "ORDER BY `Nachname`, `Vorname`, `username`");
         } else {
             if (is_array($this->flash['courses']) && count($this->flash['courses']) > 0) {
                 $m->courses = Course::findMany($this->flash['courses']);
