@@ -476,6 +476,11 @@ class MessageController extends AuthenticatedController {
                 $this->flash['subject'] = $this->message->subject;
                 $this->flash['message'] = $this->message->message;
 
+                if ($this->message->send_date > time()) {
+                    $this->flash['send_at_date'] = true;
+                    $this->flash['send_date'] = $this->message->send_date;
+                }
+
             } else {
 
                 PageLayout::setTitle(dgettext('garuda', 'Nachricht schreiben'));
