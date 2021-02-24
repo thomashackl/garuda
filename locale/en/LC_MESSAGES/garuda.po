@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-05 08:48+0200\n"
+"POT-Creation-Date: 2021-02-24 14:16+0100\n"
 "PO-Revision-Date: 2019-02-26 13:42+0000\n"
 "Last-Translator: Thomas Hackl <Thomas.Hackl@uni-passau.de>\n"
 "Language-Team: English <https://develop.intelec.uni-passau.de/weblate/"
@@ -102,7 +102,7 @@ msgstr "Permission level"
 msgid "Einrichtung"
 msgstr "Institution"
 
-#: GarudaPlugin.class.php:33 controllers/message.php:481
+#: GarudaPlugin.class.php:33 controllers/message.php:486
 msgid "Nachricht schreiben"
 msgstr "Write message"
 
@@ -340,60 +340,60 @@ msgstr "Edit template \"%s\""
 msgid "Nachricht bearbeiten"
 msgstr "Edit message"
 
-#: controllers/message.php:505
+#: controllers/message.php:510
 msgid "Aus Vorlage laden"
 msgstr "Load from template"
 
-#: controllers/message.php:525
+#: controllers/message.php:530
 msgid "Mailanhänge sind nicht erlaubt."
 msgstr "Mail attachments are not allowed."
 
-#: controllers/message.php:568
+#: controllers/message.php:573
 msgid "Ein Systemfehler ist beim Upload aufgetreten."
 msgstr "A system error has occurred while uploading."
 
-#: controllers/message.php:643
+#: controllers/message.php:648
 msgid "Alle Personen"
 msgstr "All persons"
 
-#: controllers/message.php:646 views/message/write.php:19
+#: controllers/message.php:651 views/message/write.php:19
 #: views/overview/_messages.php:65
 msgid "Studierende"
 msgstr "Students"
 
-#: controllers/message.php:654 views/message/write.php:28
+#: controllers/message.php:659 views/message/write.php:28
 #: views/overview/_messages.php:67
 msgid "Beschäftigte"
 msgstr "Employees"
 
-#: controllers/message.php:662 views/overview/_messages.php:69
+#: controllers/message.php:667 views/overview/_messages.php:69
 msgid "Teilnehmende von Veranstaltungen"
 msgstr "Course participants"
 
-#: controllers/message.php:670
+#: controllers/message.php:675
 msgid "Manuell erstellte Liste von Personen"
 msgstr "Manual list of usernames"
 
-#: controllers/message.php:674
+#: controllers/message.php:679
 #, php-format
 msgid "Daten vom %s"
 msgstr "Issued: %s"
 
-#: controllers/message.php:742
+#: controllers/message.php:747
 msgid "Es gibt weniger Tokens als Personen für den Nachrichtenempfang!"
 msgstr "There are less tokens than message recipients!"
 
-#: controllers/message.php:782
+#: controllers/message.php:787
 #, php-format
 msgid "Ihre Nachricht an %u Personen wurde gespeichert."
 msgstr "Your message to %u persons has been saved."
 
-#: controllers/message.php:786
+#: controllers/message.php:791
 #, php-format
 msgid "Ihre Nachricht an %u Personen konnte nicht gespeichert werden."
 msgstr "Your message to %u persons could not be saved."
 
-#: controllers/message.php:807
+#: controllers/message.php:812
 #, php-format
 msgid "Textersetzung %s"
 msgstr "Text replacement %s"
