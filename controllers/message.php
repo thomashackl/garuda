@@ -566,24 +566,22 @@ class MessageController extends AuthenticatedController {
         $file_object->size = (int)$output['size'];
         $file_object->author_name = $user->getFullName();
 
-        $file_ref = $topFolder->createFile($file);
-
-        if (!$file_ref instanceof FileRef) {
+        if (!$file instanceof FileRef) {
             $error = dgettext('garuda', 'Ein Systemfehler ist beim Upload aufgetreten.');
 
-            if ($file_ref instanceof MessageBox) {
-                $error .= ' ' . $file_ref->message;
+            if ($file instanceof MessageBox) {
+                $error .= ' ' . $file->message;
             }
             $this->response->set_status(400);
             $this->render_json(compact('error'));
             return;
         }
 
-        $output['document_id'] = $file_ref->id;
+        $output['document_id'] = $file->id;
 
         $output['icon'] = Icon::create(
             FileManager::getIconNameForMimeType(
-                $file_ref->file->mime_type
+                $file->file->mime_type
             ),
         )->asImg(['class' => "text-bottom"]);
 
