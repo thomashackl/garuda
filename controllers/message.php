@@ -534,7 +534,7 @@ class MessageController extends AuthenticatedController {
             'name' => $file['name'],
             'size' => $file['size']
         );
-
+        $file = StandardFile::create($_FILES['file']);
         $message_id = Request::option('message_id');
         $output['message_id'] = $message_id;
 
@@ -564,7 +564,6 @@ class MessageController extends AuthenticatedController {
         $file_object->mime_type = get_mime_type($output['name']);
         $file_object->name = $output['name'];
         $file_object->size = (int)$output['size'];
-        $file_object->storage = 'disk';
         $file_object->author_name = $user->getFullName();
 
         $file_ref = $topFolder->createFile($file);
@@ -586,7 +585,6 @@ class MessageController extends AuthenticatedController {
             FileManager::getIconNameForMimeType(
                 $file_ref->file->mime_type
             ),
-            'clickable'
         )->asImg(['class' => "text-bottom"]);
 
         $this->render_json($output);
