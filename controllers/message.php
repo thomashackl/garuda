@@ -549,7 +549,17 @@ class MessageController extends AuthenticatedController {
         }
 
         $topFolder = $class::findTopFolder($message_id);
-
+        $uploaded = FileManager::handleFileUpload(
+            [
+                'tmp_name' => [$file['tmp_name']],
+                'name' => [$file['name']],
+                'size' => [$file['size']],
+                'type' => [$file['type']],
+                'error' => [$file['error']]
+            ],
+            $topFolder,
+            $GLOBALS['user']->id
+        );
         $error = $topFolder->validateUpload($file, $GLOBALS['user']->id);
         if ($error != null) {
             $this->response->set_status(400);
@@ -566,24 +576,22 @@ class MessageController extends AuthenticatedController {
         $file_object->size = (int)$output['size'];
         $file_object->author_name = $user->getFullName();
 
-        if (!$file instanceof FileRef) {
-            $error = dgettext('garuda', 'Ein Systemfehler ist beim Upload aufgetreten.');
-
-            if ($file instanceof MessageBox) {
-                $error .= ' ' . $file->message;
-            }
+        if ($uploaded['error']) {
             $this->response->set_status(400);
+            $error = implode("\n", $uploaded['error']);
             $this->render_json(compact('error'));
             return;
         }
 
-        $output['document_id'] = $file->id;
+        if (!$uploaded['files'][0] instanceof FileType) {
+            $error = dgettext('garuda', 'Ein Systemfehler ist beim Upload aufgetreten.');
+            $this->response->set_status(400);
+            $this->render_json(compact('error'));
+            return;
+        }
+        $output['document_id'] = $uploaded['files'][0]->getId();
 
-        $output['icon'] = Icon::create(
-            FileManager::getIconNameForMimeType(
-                $file->file->mime_type
-            ),
-        )->asImg(['class' => "text-bottom"]);
+        $output['icon'] = $uploaded['files'][0]->getIcon(Icon::ROLE_CLICKABLE)->asImg(['class' => 'text-bottom']);
 
         $this->render_json($output);
     }
