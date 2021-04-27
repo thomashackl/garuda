@@ -53,7 +53,21 @@ class GarudaCronjob extends CronJob {
             echo 'ERROR: Could not clean up!';
         }
 
-        ini_set('memory_limit', '500M');
+        $memory_limit = trim(ini_get('memory_limit'));
+        $last = strtolower($memory_limit[strlen($memory_limit)-1]);
+        $memory_limit = substr($memory_limit, 0, -1);
+        switch($last) {
+            case 'g':
+                $memory_limit *= 1024;
+            case 'm':
+                $memory_limit *= 1024;
+            case 'k':
+                $memory_limit *= 1024;
+        }
+
+        if ($memory_limit < 524288000) {
+            ini_set('memory_limit', '500M');
+        }
 
         $jobs = GarudaCronFunctions::getCronEntries();
         foreach ($jobs as $job) {
@@ -175,7 +189,7 @@ class GarudaCronjob extends CronJob {
 
         return $result;
     }
-    
+
     public function tearDown() {
 
     }
